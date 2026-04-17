@@ -193,7 +193,7 @@ export const findSmeTestById = async (testId) => {
   if (toInt(test.subject_id)) {
     const [sectionRows] = await pool.query(
       `SELECT es.section_id, es.section_name, es.subject_name,
-         es.subject_id, es.global_subject_id, es.question_type, es.num_questions, es.marks_correct,
+         es.subject_id, es.subject_id, es.question_type, es.num_questions, es.marks_correct,
          es.marks_incorrect, es.paper_number,
          es.sort_order,
          (SELECT COUNT(*) FROM test_questions tq
@@ -562,54 +562,128 @@ export const addQbQuestions = async (connection, testId, sectionId, questionIds,
   );
   return newIds.length;
 };
-
-export const addManualQuestion = async (connection, testId, teacherUserId, {
-  globalSubjectId, questionText, questionType,
-  difficulty, options, correctAnswer, explanation, sectionData
-}) => {
+export const addManualQuestion = async (
+  connection,
+  testId,
+  teacherUserId,
+  {
+    subjectId,
+    questionText,
+    questionType,
+    difficulty,
+    options,
+    correctAnswer,
+    explanation,
+    sectionData
+  }
+) => {
   const typeMap = {
-    mcq_single: 'mcq', mcq_multi: 'mcq_multi',
-    nat: 'numerical', match_list: 'match_list'
+    mcq_single: 'mcq',
+    mcq_multi: 'mcq_multi',
+    nat: 'numerical',
+    match_list: 'match_list'
   };
+
   const dbType = typeMap[questionType] || questionType;
+
+  const [[moduleRow]] = await connection.query(
+    `SELECT module_id
+     FROM subject_modules
+     WHERE subject_id = ?
+       AND is_published = 1
+     ORDER BY module_id ASC
+     LIMIT 1`,
+    [parseInt(subjectId)]
+  );
+
+  if (!moduleRow) {
+    throw {
+      status: 400,
+      message: 'No module found for selected subject'
+    };
+  }
+
+  const moduleId = parseInt(moduleRow.module_id);
 
   const [qResult] = await connection.query(
     `INSERT INTO questions
-      (global_subject_id, module_id, difficulty, question_type,
-       question_text, marks, created_by, is_manual, is_active, correct_answer, explanation)
-     VALUES (?, NULL, ?, ?, ?, ?, ?, 1, 1, ?, ?)`,
+      (
+        module_id,
+        difficulty,
+        question_type,
+        question_text,
+        marks,
+        created_by,
+        is_manual,
+        is_active,
+        correct_answer,
+        explanation
+      )
+     VALUES (?, ?, ?, ?, ?, ?, 1, 1, ?, ?)`,
     [
-      parseInt(globalSubjectId), difficulty, dbType, questionText,
-      sectionData.marks_correct, parseInt(teacherUserId),
-      correctAnswer || null, explanation || null
+      moduleId,
+      difficulty,
+      dbType,
+      questionText,
+      sectionData.marks_correct,
+      parseInt(teacherUserId),
+      correctAnswer || null,
+      explanation || null
     ]
   );
+
   const questionId = qResult.insertId;
 
-  if (options && options.length > 0) {
-    const optionValues = options.map(opt => [parseInt(questionId), opt.option_text, opt.is_correct ? 1 : 0]);
+  if (Array.isArray(options) && options.length > 0) {
+    const optionValues = options.map((opt) => [
+      questionId,
+      opt.option_text,
+      opt.is_correct ? 1 : 0
+    ]);
+
     await connection.query(
-      `INSERT INTO question_options (question_id, option_text, is_correct) VALUES ?`,
+      `INSERT INTO question_options
+        (question_id, option_text, is_correct)
+       VALUES ?`,
       [optionValues]
     );
   }
 
   const [[{ count }]] = await connection.query(
-    `SELECT COUNT(*) as count FROM test_questions WHERE test_id = ?`,
+    `SELECT COUNT(*) AS count
+     FROM test_questions
+     WHERE test_id = ?`,
     [parseInt(testId)]
   );
 
   await connection.query(
     `INSERT INTO test_questions
-      (test_id, question_id, source, section_id, module_id, marks_correct,
-       marks_incorrect, question_type, paper_number, sort_order)
-     VALUES (?, ?, 'manual', ?, NULL, ?, ?, ?, ?, ?)`,
+      (
+        test_id,
+        question_id,
+        source,
+        section_id,
+        module_id,
+        marks_correct,
+        marks_incorrect,
+        question_type,
+        paper_number,
+        sort_order
+      )
+     VALUES (?, ?, 'manual', ?, ?, ?, ?, ?, ?, ?)`,
     [
-      parseInt(testId), parseInt(questionId), sectionData.section_id,
-      sectionData.marks_correct, sectionData.marks_incorrect,
-      sectionData.question_type, sectionData.paper_number || 1, Number(count) + 1
+      parseInt(testId),
+      questionId,
+      sectionData.section_id,
+      moduleId,
+      sectionData.marks_correct,
+      sectionData.marks_incorrect,
+      sectionData.question_type,
+      sectionData.paper_number || 1,
+      Number(count) + 1
     ]
   );
+
   return questionId;
 };
 

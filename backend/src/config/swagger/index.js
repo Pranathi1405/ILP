@@ -48,7 +48,7 @@ import { smeTestSwagger } from './modules/smeTest.swagger.js';
 import { smePerformanceSwagger } from './modules/smePerformance.swagger.js';
 import { userCourseSwagger } from './modules/userCourse.swagger.js';
 import { analyticsEventsSwagger } from './modules/analyticsEvents.swagger.js';
-import { courseSmeSwagger } from './modules/courseSme.swagger.js';
+import { smeSwagger} from './modules/courseSme.swagger.js';
 // ─────────────────────────────────────────────────────────────────────────────
 // SECTION 2: MODULE REGISTRY
 // Add new modules here — order controls the Swagger UI sidebar sequence.
@@ -75,7 +75,7 @@ const MODULE_REGISTRY = [
   paymentsSwagger,
   userCourseSwagger,
   analyticsEventsSwagger,
-  courseSmeSwagger,
+  smeSwagger,
   // ── Upcoming modules (uncomment when ready) ────────────────────────────────
   // authSwagger,
   // coursesSwagger,

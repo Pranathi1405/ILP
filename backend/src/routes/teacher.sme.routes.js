@@ -2,10 +2,8 @@
  * ============================================================
  * Teacher SME Routes
  * ------------------------------------------------------------
- * Module  : SME Test Engine — Course Level
- * Author  : Harshitha Ravuri,
- * Description:
- * HTTP layer for teacher operations in the course SME flow:
+ * Module  : Course-Level SME Test Engine
+ * Author  : Harshitha Ravuri
  * ============================================================
  */
 import { Router } from 'express';
@@ -14,35 +12,34 @@ import {
   getAssignedTests,
   addQuestionWithCompletion,
   removeQuestionWithCompletion,
-  handleDocumentParse,
+  editQuestion,
   getCompletionStatus,
 } from '../controllers/teacher.sme.controller.js';
 
 const router = Router();
 
-// All routes require teacher role
 router.use(authenticate, authorize('teacher'));
 
-// GET  /api/teacher/sme-tests/assigned
-// List all course SME tests assigned to this teacher
+
+// GET    /api/teacher/sme-tests/assigned
+// All course-SME tests assigned to this teacher
 router.get('/assigned', getAssignedTests);
 
-// POST /api/teacher/sme-tests/:id/questions
+// GET    /api/teacher/sme-tests/:id/completion-status
+// Current section-level completion state
+router.get('/:id/completion-status', getCompletionStatus);
+
+// POST   /api/teacher/sme-tests/:id/questions
 // Add question (QB or manual) + trigger assignment completion check
-// Body supports optional: { module_id: number }
+// Optional body field: module_id
 router.post('/:id/questions', addQuestionWithCompletion);
 
+// PATCH  /api/teacher/sme-tests/:id/questions/:qid
+// Edit an existing question's text / options / marks
+router.patch('/:id/questions/:qid', editQuestion);
+
 // DELETE /api/teacher/sme-tests/:id/questions/:qid
-// Remove question + re-check completion
+// Remove question + re-evaluate completion
 router.delete('/:id/questions/:qid', removeQuestionWithCompletion);
-
-// POST /api/teacher/sme-tests/:id/parse-document
-// Handle result of a document parsing attempt
-// Body: { parsed_count, required_count }
-router.post('/:id/parse-document', handleDocumentParse);
-
-// GET  /api/teacher/sme-tests/:id/completion-status
-// Check current assignment completion state
-router.get('/:id/completion-status', getCompletionStatus);
 
 export default router;

@@ -14,6 +14,7 @@ export const courseSwagger = {
       post: {
         tags: ["Courses"],
         summary: "Create a new course (Admin only)",
+        security: [{ bearerAuth: [] }],
         requestBody: {
           required: true,
           content: {
@@ -22,7 +23,7 @@ export const courseSwagger = {
               example: {
                 courseName: "Node.js Basics",
                 courseCode: "NODE101",
-                description: "Learn Node.js from scratch",
+                description: "Learn Node.js",
                 categoryId: 1,
                 isFree: false,
                 medium: "english",
@@ -37,24 +38,13 @@ export const courseSwagger = {
         },
         responses: {
           201: {
-            description: "Course created successfully",
+            description: "Course created",
             content: {
               "application/json": {
                 example: {
-                  courseId: 12,
-                  basePrice: 999,
-                  pricing: [
-                    {
-                      planId: 1,
-                      planName: "Basic",
-                      finalPrice: 1099
-                    },
-                    {
-                      planId: 2,
-                      planName: "Pro",
-                      finalPrice: 1299
-                    }
-                  ]
+                  success: true,
+                  message: "New course created",
+                  course_id: 12
                 }
               }
             }
@@ -79,7 +69,10 @@ export const courseSwagger = {
           {
             name: "difficulty",
             in: "query",
-            schema: { type: "string", enum: ["beginner", "intermediate", "advanced"] }
+            schema: {
+              type: "string",
+              enum: ["beginner", "intermediate", "advanced"]
+            }
           },
           { name: "minPrice", in: "query", schema: { type: "number" } },
           { name: "maxPrice", in: "query", schema: { type: "number" } },
@@ -91,26 +84,29 @@ export const courseSwagger = {
         ],
         responses: {
           200: {
-            description: "Courses fetched successfully",
+            description: "Courses fetched",
             content: {
               "application/json": {
                 example: {
-                  pagination: {
-                    total: 100,
-                    page: 1,
-                    limit: 10,
-                    totalPages: 10
-                  },
-                  courses: [
-                    {
-                      course_id: 1,
-                      course_name: "Node.js Basics",
-                      price: 999,
-                      is_free: false,
-                      basicPrice: 1099,
-                      proPrice: 1299
-                    }
-                  ]
+                  success: true,
+                  data: {
+                    pagination: {
+                      total: 100,
+                      page: 1,
+                      limit: 10,
+                      totalPages: 10
+                    },
+                    courses: [
+                      {
+                        course_id: 1,
+                        course_name: "Node.js Basics",
+                        price: 999,
+                        is_free: 0,
+                        basicPrice: 1099,
+                        proPrice: 1299
+                      }
+                    ]
+                  }
                 }
               }
             }
@@ -120,7 +116,7 @@ export const courseSwagger = {
     },
 
     // ─────────────────────────────────────────────
-    // GET / UPDATE / DELETE COURSE
+    // COURSE BY ID
     // ─────────────────────────────────────────────
     "/courses/{id}": {
       get: {
@@ -136,34 +132,32 @@ export const courseSwagger = {
         ],
         responses: {
           200: {
-            description: "Course fetched successfully",
+            description: "Course fetched",
             content: {
               "application/json": {
                 example: {
-                  course_id: 1,
-                  course_name: "Node.js Basics",
-                  price: 999,
-                  is_free: false,
+                  success: true,
+                  data: {
+                    course_id: 1,
+                    course_name: "Node.js Basics",
+                    price: 999,
+                    is_free: 0,
 
-                  // pricing
-                  basicPrice: 1099,
-                  proPrice: 1299,
+                    basicPrice: 1099,
+                    proPrice: 1299,
 
-                  // ✅ NEW FIELD
-                  teachers: [
-                    {
-                      teacher_name: "Ravi Kumar",
-                      email: "ravi@gmail.com"
-                    },
-                    {
-                      teacher_name: "Anita Rao",
-                      email: "anita@gmail.com"
-                    }
-                  ]
+                    teachers: [
+                      {
+                        teacher_name: "Ravi Kumar",
+                        subject_name: "Backend"
+                      }
+                    ]
+                  }
                 }
               }
             }
           },
+          400: { $ref: "#/components/responses/ValidationError" },
           404: { $ref: "#/components/responses/NotFound" }
         }
       },
@@ -171,6 +165,7 @@ export const courseSwagger = {
       patch: {
         tags: ["Courses"],
         summary: "Update course (Admin only)",
+        security: [{ bearerAuth: [] }],
         parameters: [
           {
             name: "id",
@@ -182,21 +177,17 @@ export const courseSwagger = {
         requestBody: {
           content: {
             "application/json": {
-              schema: { $ref: "#/components/schemas/UpdateCourseRequest" },
-              example: {
-                courseName: "Advanced Node.js",
-                price: 1200,
-                isFree: false
-              }
+              schema: { $ref: "#/components/schemas/UpdateCourseRequest" }
             }
           }
         },
         responses: {
           200: {
-            description: "Course updated successfully",
+            description: "Updated successfully",
             content: {
               "application/json": {
                 example: {
+                  success: true,
                   message: "Course updated successfully"
                 }
               }
@@ -210,6 +201,7 @@ export const courseSwagger = {
       delete: {
         tags: ["Courses"],
         summary: "Delete course (Admin only)",
+        security: [{ bearerAuth: [] }],
         parameters: [
           {
             name: "id",
@@ -220,10 +212,11 @@ export const courseSwagger = {
         ],
         responses: {
           200: {
-            description: "Course deleted successfully",
+            description: "Deleted successfully",
             content: {
               "application/json": {
                 example: {
+                  success: true,
                   message: "Successfully deleted a course"
                 }
               }
@@ -240,7 +233,8 @@ export const courseSwagger = {
     "/courses/{id}/enroll": {
       post: {
         tags: ["Courses"],
-        summary: "Enroll in a course (Student only, FREE courses only)",
+        summary: "Enroll in FREE course (Student only)",
+        security: [{ bearerAuth: [] }],
         parameters: [
           {
             name: "id",
@@ -251,7 +245,7 @@ export const courseSwagger = {
         ],
         responses: {
           200: {
-            description: "Enrollment successful",
+            description: "Enrollment success",
             content: {
               "application/json": {
                 example: {
@@ -262,67 +256,118 @@ export const courseSwagger = {
             }
           },
           400: {
-            description: "Validation / business rule error (paid course, already enrolled, etc.)"
+            description: "Already enrolled / Paid course / Course ended"
           },
           404: { $ref: "#/components/responses/NotFound" }
+        }
+      }
+    },
+
+    // ─────────────────────────────────────────────
+    // GET ENROLLED STUDENTS
+    // ─────────────────────────────────────────────
+    "/courses/enrolled/students": {
+      get: {
+        tags: ["Courses"],
+        summary: "Get enrolled students (Teacher/Admin)",
+        security: [{ bearerAuth: [] }],
+        parameters: [
+          {
+            name: "course_id",
+            in: "query",
+            schema: { type: "integer" }
+          },
+          {
+            name: "page",
+            in: "query",
+            schema: { type: "integer", default: 1 }
+          },
+          {
+            name: "limit",
+            in: "query",
+            schema: { type: "integer", default: 10 }
+          }
+        ],
+        responses: {
+          200: {
+            description: "Students fetched",
+            content: {
+              "application/json": {
+                example: {
+                  success: true,
+                  message: "Enrolled students fetched successfully",
+                  data: [
+                    {
+                      student_id: 1,
+                      first_name: "Ravi",
+                      last_name: "Kumar",
+                      course_id: 1,
+                      course_name: "Node.js Basics",
+                      average_score: 78.5
+                    }
+                  ],
+                  pagination: {
+                    total: 50,
+                    page: 1,
+                    limit: 10,
+                    totalPages: 5
+                  }
+                }
+              }
+            }
+          }
         }
       }
     }
   },
 
-  // ─────────────────────────────────────────────
-  // SCHEMAS
-  // ─────────────────────────────────────────────
-  schemas: {
-    CreateCourseRequest: {
-      type: "object",
-      required: ["courseName", "startDate", "endDate"],
-      properties: {
-        courseName: { type: "string" },
-        courseCode: { type: "string" },
-        description: { type: "string" },
-        categoryId: { type: "integer" },
-        isFree: { type: "boolean" },
-        medium: { type: "string", enum: ["english", "telugu", "hindi"] },
-        difficultyLevel: {
-          type: "string",
-          enum: ["beginner", "intermediate", "advanced"]
-        },
-        price: { type: "number" },
-        details: { type: "string" },
-        thumbnailUrl: { type: "string" },
-        prerequisites: { type: "string" },
-        learningOutcomes: { type: "string" },
-        isPublished: { type: "boolean" },
-        startDate: { type: "string", format: "date" },
-        endDate: { type: "string", format: "date" }
-      }
-    },
+  components: {
+    schemas: {
+      CreateCourseRequest: {
+        type: "object",
+        required: ["courseName", "startDate", "endDate"],
+        properties: {
+          courseName: { type: "string" },
+          courseCode: { type: "string" },
+          description: { type: "string" },
+          categoryId: { type: "integer" },
+          isFree: { type: "boolean" },
+          medium: {
+            type: "string",
+            enum: ["english", "telugu", "hindi"]
+          },
+          difficultyLevel: {
+            type: "string",
+            enum: ["beginner", "intermediate", "advanced"]
+          },
+          price: { type: "number" },
+          details: { type: "string" },
+          thumbnailUrl: { type: "string" },
+          prerequisites: { type: "string" },
+          learningOutcomes: { type: "string" },
+          isPublished: { type: "boolean" },
+          startDate: { type: "string", format: "date" },
+          endDate: { type: "string", format: "date" }
+        }
+      },
 
-    Teacher: {
-      type: "object",
-      properties: {
-        teacher_name: { type: "string" },
-        email: { type: "string" }
-      }
-    },
-
-    UpdateCourseRequest: {
-      type: "object",
-      properties: {
-        courseName: { type: "string" },
-        description: { type: "string" },
-        categoryId: { type: "integer" },
-        medium: { type: "string" },
-        difficultyLevel: { type: "string" },
-        price: { type: "number" },
-        isFree: { type: "boolean" },
-        prerequisites: { type: "string" },
-        learningOutcomes: { type: "string" },
-        isPublished: { type: "boolean" },
-        courseCode: { type: "string" },
-        startDate: { type: "string", format: "date" },
-        endDate: { type: "string", format: "date" }
+      UpdateCourseRequest: {
+        type: "object",
+        properties: {
+          courseName: { type: "string" },
+          description: { type: "string" },
+          categoryId: { type: "integer" },
+          medium: { type: "string" },
+          difficultyLevel: { type: "string" },
+          price: { type: "number" },
+          isFree: { type: "boolean" },
+          prerequisites: { type: "string" },
+          learningOutcomes: { type: "string" },
+          isPublished: { type: "boolean" },
+          courseCode: { type: "string" },
+          startDate: { type: "string", format: "date" },
+          endDate: { type: "string", format: "date" }
+        }
       }
     }
   }

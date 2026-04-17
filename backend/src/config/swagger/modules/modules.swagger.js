@@ -20,7 +20,8 @@ export const moduleSwagger = {
                 subjectId: 1,
                 moduleName: "Introduction to Algebra",
                 moduleDescription: "Basics of algebra",
-                displayOrder: 1
+                displayOrder: 1,
+                isPublished: false
               }
             }
           }
@@ -31,6 +32,8 @@ export const moduleSwagger = {
             content: {
               "application/json": {
                 example: {
+                  success: true,
+                  message: "Module created successfully",
                   moduleId: 10
                 }
               }
@@ -72,19 +75,20 @@ export const moduleSwagger = {
             content: {
               "application/json": {
                 example: {
+                  success: true,
                   pagination: {
                     total: 20,
                     page: 1,
                     limit: 10,
                     totalPages: 2
                   },
-                  modules: [
+                  data: [
                     {
                       module_id: 1,
-                      module_name: "Introduction to Algebra",
                       subject_id: 1,
-                      display_order: 1,
-                      created_at: "2025-03-01T10:00:00Z"
+                      module_name: "Introduction to Algebra",
+                      description: "Basics of algebra",
+                      display_order: 1
                     }
                   ]
                 }
@@ -113,10 +117,18 @@ export const moduleSwagger = {
             content: {
               "application/json": {
                 example: {
-                  module_id: 1,
-                  module_name: "Introduction to Algebra",
-                  subject_id: 1,
-                  display_order: 1
+                  success: true,
+                  message: "Module fetched successfully",
+                  data: {
+                    module_id: 1,
+                    subject_id: 1,
+                    module_name: "Introduction to Algebra",
+                    description: "Basics of algebra",
+                    display_order: 1,
+                    is_published: 0,
+                    created_at: "2025-03-01T10:00:00Z",
+                    updated_at: "2025-03-01T10:00:00Z"
+                  }
                 }
               }
             }
@@ -140,7 +152,12 @@ export const moduleSwagger = {
         requestBody: {
           content: {
             "application/json": {
-              schema: { $ref: "#/components/schemas/UpdateModuleRequest" }
+              schema: { $ref: "#/components/schemas/UpdateModuleRequest" },
+              example: {
+                moduleName: "Updated Algebra",
+                displayOrder: 2,
+                isPublished: 1
+              }
             }
           }
         },
@@ -150,7 +167,11 @@ export const moduleSwagger = {
             content: {
               "application/json": {
                 example: {
-                  moduleId: 1
+                  success: true,
+                  message: "Module updated successfully",
+                  data: {
+                    moduleId: 1
+                  }
                 }
               }
             }
@@ -177,8 +198,12 @@ export const moduleSwagger = {
             content: {
               "application/json": {
                 example: {
-                  moduleId: 1,
-                  deleted: true
+                  success: true,
+                  message: "Module deleted successfully",
+                  data: {
+                    moduleId: 1,
+                    deleted: true
+                  }
                 }
               }
             }
@@ -190,48 +215,58 @@ export const moduleSwagger = {
     }
   },
 
-  schemas: {
-    CreateModuleRequest: {
-      type: "object",
-      required: ["subjectId", "moduleName"],
-      properties: {
-        subjectId: {
-          type: "integer",
-          minimum: 1
-        },
-        moduleName: {
-          type: "string",
-          maxLength: 255
-        },
-        moduleDescription: {
-          type: "string",
-          maxLength: 1000
-        },
-        displayOrder: {
-          type: "integer",
-          minimum: 1
+  components: {
+    schemas: {
+      CreateModuleRequest: {
+        type: "object",
+        required: ["subjectId", "moduleName"],
+        properties: {
+          subjectId: {
+            type: "integer",
+            minimum: 1
+          },
+          moduleName: {
+            type: "string",
+            maxLength: 255
+          },
+          moduleDescription: {
+            type: "string",
+            maxLength: 1000
+          },
+          displayOrder: {
+            type: "integer",
+            minimum: 1
+          },
+          isPublished: {
+            type: "boolean",
+            example: false
+          }
         }
-      }
-    },
+      },
 
-    UpdateModuleRequest: {
-      type: "object",
-      properties: {
-        subjectId: {
-          type: "integer",
-          minimum: 1
-        },
-        moduleName: {
-          type: "string",
-          maxLength: 255
-        },
-        moduleDescription: {
-          type: "string",
-          maxLength: 1000
-        },
-        displayOrder: {
-          type: "integer",
-          minimum: 1
+      UpdateModuleRequest: {
+        type: "object",
+        properties: {
+          subjectId: {
+            type: "integer",
+            minimum: 1
+          },
+          moduleName: {
+            type: "string",
+            maxLength: 255
+          },
+          moduleDescription: {
+            type: "string",
+            maxLength: 1000
+          },
+          displayOrder: {
+            type: "integer",
+            minimum: 1
+          },
+          isPublished: {
+            type: "integer",
+            enum: [0, 1]
+          }
         }
       }
     }

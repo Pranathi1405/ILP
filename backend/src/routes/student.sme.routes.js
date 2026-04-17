@@ -2,10 +2,8 @@
  * ============================================================
  * Student SME Routes
  * ------------------------------------------------------------
- * Module  : SME Test Engine — Course Level
+ * Module  : Course-Level SME Test Engine
  * Author  : Harshitha Ravuri
- * Description:
- * HTTP layer for student-facing course SME test operations:
  * ============================================================
  */
 import { Router } from 'express';
@@ -21,24 +19,23 @@ import {
 
 const router = Router();
 
-// ── Static routes (no :id param) ─────────────────────────────
+// NOTE: Register BEFORE existing smeTest routes in app.js so /full and
+// /pattern don't get caught by the existing /:id handler.
 
 // GET  /api/sme-tests/full
-// All published parent (course-level) SME tests with timing_status
+// Published parent (course-level) SME tests with timing_status
 router.get('/full', authenticate, authorize('student'), getFullPublishedTests);
 
-// ── Parameterised routes ──────────────────────────────────────
-
 // GET  /api/sme-tests/:id/pattern
-// Section/marking structure for a test
+// Section / marking scheme for a test
 router.get('/:id/pattern', authenticate, authorize('student', 'teacher'), getPattern);
 
 // GET  /api/sme-tests/:id/questions
-// Full test with questions for a student to read/attempt
+// Full test with questions (student takes test)
 router.get('/:id/questions', authenticate, authorize('student'), getTestQuestions);
 
 // POST /api/sme-tests/:id/start
-// Begin (or resume) an attempt
+// Begin or resume an attempt
 router.post('/:id/start', authenticate, authorize('student'), startAttempt);
 
 // POST /api/sme-tests/:id/submit
@@ -46,7 +43,7 @@ router.post('/:id/start', authenticate, authorize('student'), startAttempt);
 router.post('/:id/submit', authenticate, authorize('student'), submitTest);
 
 // GET  /api/sme-tests/:id/results
-// Extended results with metrics (available after test ends)
+// Extended results with accuracy metrics (available after test ends)
 router.get('/:id/results', authenticate, authorize('student'), getTestResults);
 
 export default router;

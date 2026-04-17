@@ -173,3 +173,46 @@ export const findCourseTeachers = `
     WHERE s.course_id = ?
     AND s.is_active = 1;
 `
+
+export const getEnrolledStudentsQuery = ({
+  courseIdFilter,
+  limit,
+  offset
+}) => {
+  return `
+    SELECT 
+      s.student_id,
+      u.first_name,
+      u.last_name,
+      c.course_id,
+      c.course_name,
+      COALESCE(AVG(tpa.average_score), 0) AS average_score
+    FROM students s
+    INNER JOIN users u 
+      ON s.user_id = u.user_id
+    INNER JOIN course_enrollments ce 
+      ON s.student_id = ce.student_id
+    INNER JOIN courses c 
+      ON ce.course_id = c.course_id
+    LEFT JOIN test_performance_analytics tpa 
+      ON s.student_id = tpa.student_id
+    ${courseIdFilter ? "WHERE c.course_id = ?" : ""}
+    GROUP BY 
+      s.student_id, u.first_name, u.last_name, 
+      c.course_id, c.course_name
+    ORDER BY s.student_id DESC
+    LIMIT ? OFFSET ?
+  `;
+};
+
+export const countEnrolledStudentsQuery = ({ courseIdFilter }) => {
+  return `
+    SELECT COUNT(DISTINCT s.student_id, c.course_id) AS total
+    FROM students s
+    INNER JOIN course_enrollments ce 
+      ON s.student_id = ce.student_id
+    INNER JOIN courses c 
+      ON ce.course_id = c.course_id
+    ${courseIdFilter ? "WHERE c.course_id = ?" : ""}
+  `;
+};

@@ -14,6 +14,7 @@ import {
   updateCourseById,
   deleteCourse,
   enrollCourseController,
+  getEnrolledStudentsController,
 } from "../controllers/courses.controller.js";
 import { adminOnly, authenticate, studentOnly, teacherOrAdmin } from "../middleware/auth.middleware.js";
 
@@ -39,5 +40,8 @@ router.delete("/:id", authenticate, adminOnly, deleteCourse);
 
 //enroll for a course || POST
 router.post("/:id/enroll", authenticate, studentOnly, enrollCourseController);
+
+//get all enrolled students || GET
+router.get("/enrolled/students", authenticate, teacherOrAdmin, getEnrolledStudentsController);
 
 export default router;

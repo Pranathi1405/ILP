@@ -10,6 +10,7 @@ import express from "express";
 import { 
     authenticate, 
     studentOnly, 
+    studentOrParent, 
     teacherOnly, 
     teacherOrAdmin
 } from "../middleware/auth.middleware.js";
@@ -25,9 +26,9 @@ import {
 
 const router = express.Router();
 
-router.get("/student/enrolled-courses", authenticate, studentOnly, getEnrolledCoursesController);
+router.get("/student/enrolled-courses", authenticate, studentOrParent, getEnrolledCoursesController);
 
-router.get("/student/courses/:courseId/subjects", authenticate, studentOnly, getStudentCourseSubjectsController);
+router.get("/student/courses/:courseId/subjects", authenticate, studentOrParent, getStudentCourseSubjectsController);
 
 router.get("/student/subjects/:subjectId/modules", authenticate, studentOnly, getStudentSubjectModulesController);
 

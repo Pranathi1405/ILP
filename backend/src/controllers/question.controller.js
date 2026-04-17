@@ -1,88 +1,68 @@
-/**
- * ============================================================
- * Question Controller
- * ------------------------------------------------------------
- * Module  : Question Bank
- * Author  : NDMATRIX
- * Description:
- * Handles HTTP requests for question bank management.
- * ============================================================
- */
-import * as questionService from '../services/question.service.js';
-import { sendSuccess, sendError, sendPaginated } from '../utils/responseHandler.js';
+ import * as QuestionModel from '../models/question.model.js';
+import { sendSuccess, sendError } from '../utils/responseHandler.js';
 
-// POST /api/questions
 export const addQuestion = async (req, res) => {
   try {
-    const data = await questionService.addQuestion(req.user.id, req.body);
-    sendSuccess(res, 201, 'Question added successfully', data);
+    const question = await QuestionModel.createQuestion(req.body, req.user.id);
+    return sendSuccess(res, 201, 'Question added successfully', { question });
   } catch (err) {
-    sendError(res, err.status || 500, err.message);
+    return sendError(res, err.status || 500, err.message || 'Failed to add question');
   }
 };
 
-// POST /api/questions/paragraph
 export const addParagraphQuestion = async (req, res) => {
   try {
-    const data = await questionService.addParagraphQuestion(req.user.id, req.body);
-    sendSuccess(res, 201, 'Paragraph question added successfully', data);
+    const result = await QuestionModel.createParagraphQuestion(req.body, req.user.id);
+    return sendSuccess(res, 201, 'Paragraph question added successfully', result);
   } catch (err) {
-    sendError(res, err.status || 500, err.message);
+    return sendError(res, err.status || 500, err.message || 'Failed to add paragraph question');
   }
 };
 
-// POST /api/questions/bulk
 export const addBulkQuestions = async (req, res) => {
   try {
-    const data = await questionService.addBulkQuestions(req.user.id, req.body.questions);
-    sendSuccess(res, 201, 'Bulk upload completed', data);
+    const result = await QuestionModel.createBulkQuestions(req.body.questions, req.user.id);
+    return sendSuccess(res, 201, 'Bulk questions added successfully', result);
   } catch (err) {
-    sendError(res, err.status || 500, err.message);
+    return sendError(res, err.status || 500, err.message || 'Failed to add bulk questions');
   }
 };
 
-// GET /api/questions?subjectId=259&difficulty=easy&questionType=mcq&page=1&limit=20
 export const getQuestionsBySubject = async (req, res) => {
   try {
-    const { subjectId, difficulty, questionType, page, limit } = req.query;
-    const result = await questionService.getQuestionsBySubject(
-      req.user.id, subjectId, { difficulty, questionType, page, limit }
-    );
-    sendPaginated(res, 'Questions fetched successfully', result.data, result.pagination);
+    const { subjectId } = req.query;
+    if (!subjectId) return sendError(res, 400, 'subjectId is required');
+    const questions = await QuestionModel.findBySubject(parseInt(subjectId));
+    return sendSuccess(res, 200, 'Questions fetched successfully', { questions });
   } catch (err) {
-    sendError(res, err.status || 500, err.message);
+    return sendError(res, err.status || 500, err.message || 'Failed to fetch questions');
   }
 };
 
-// GET /api/questions/:id
 export const getQuestionById = async (req, res) => {
   try {
-    const data = await questionService.getQuestionById(req.params.id);
-    sendSuccess(res, 200, 'Question fetched successfully', data);
+    const question = await QuestionModel.findQuestionById(parseInt(req.params.id));
+    if (!question) return sendError(res, 404, 'Question not found');
+    return sendSuccess(res, 200, 'Question fetched successfully', { question });
   } catch (err) {
-    sendError(res, err.status || 500, err.message);
-  }
-};
-// PATCH /api/questions/:id
-export const updateQuestion = async (req, res) => {
-  try {
-    const data = await questionService.updateQuestion(
-      req.user.id,
-      req.params.id,
-      req.body
-    );
-    sendSuccess(res, 200, 'Question updated successfully', data);
-  } catch (err) {
-    sendError(res, err.status || 500, err.message);
+    return sendError(res, err.status || 500, err.message || 'Failed to fetch question');
   }
 };
 
-// DELETE /api/questions/:id
+export const updateQuestion = async (req, res) => {
+  try {
+    const question = await QuestionModel.updateQuestion(parseInt(req.params.id), req.body);
+    return sendSuccess(res, 200, 'Question updated successfully', { question });
+  } catch (err) {
+    return sendError(res, err.status || 500, err.message || 'Failed to update question');
+  }
+};
+
 export const deleteQuestion = async (req, res) => {
   try {
-    const data = await questionService.deleteQuestion(req.user.id, req.params.id);
-    sendSuccess(res, 200, data.message, data);
+    await QuestionModel.deleteQuestion(parseInt(req.params.id));
+    return sendSuccess(res, 200, 'Question deleted successfully');
   } catch (err) {
-    sendError(res, err.status || 500, err.message);
+    return sendError(res, err.status || 500, err.message || 'Failed to delete question');
   }
 };

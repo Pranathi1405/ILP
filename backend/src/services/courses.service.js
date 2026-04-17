@@ -704,3 +704,62 @@ export const enrollCourseService = async (user, courseId) => {
     connection.release();
   }
 };
+
+/**
+ * GET ALL ENROLLED STUDENTS
+ */
+export const getEnrolledStudentsService = async ({
+  course_id,
+  page = 1,
+  limit = 10
+}) => {
+  const offset = (page - 1) * limit;
+
+  // Proper validation
+  const hasCourseFilter =
+    course_id !== undefined &&
+    course_id !== null &&
+    course_id !== "" &&
+    !isNaN(course_id);
+
+  // If invalid course_id passed
+  if (
+    course_id !== undefined &&
+    (course_id === "" || isNaN(course_id))
+  ) {
+    throw new Error("Invalid Course ID");
+  }
+
+  const dataQuery = courseModel.getEnrolledStudentsQuery({
+    courseIdFilter: hasCourseFilter,
+    limit,
+    offset
+  });
+
+  const countQuery = courseModel.countEnrolledStudentsQuery({
+    courseIdFilter: hasCourseFilter
+  });
+
+  const params = [];
+  const countParams = [];
+
+  if (hasCourseFilter) {
+    params.push(Number(course_id));
+    countParams.push(Number(course_id));
+  }
+
+  params.push(Number(limit), Number(offset));
+
+  const [data] = await pool.query(dataQuery, params);
+  const [countResult] = await pool.query(countQuery, countParams);
+
+  return {
+    students: data,
+    pagination: {
+      total: countResult[0]?.total || 0,
+      page,
+      limit,
+      totalPages: Math.ceil((countResult[0]?.total || 0) / limit)
+    }
+  };
+};

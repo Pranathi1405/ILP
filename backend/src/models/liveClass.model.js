@@ -309,12 +309,16 @@ export const GET_CLASS_BASIC = `
     course_id,
     teacher_id,
     room_id,
-    status
+    status,
+    scheduled_start_time,
+    scheduled_end_time,
+    duration_minutes
   FROM live_classes
   WHERE class_id = ?
     AND is_deleted = 0
   LIMIT 1
 `;
+
 
 
 //  Update status

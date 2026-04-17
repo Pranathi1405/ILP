@@ -486,6 +486,24 @@ const normalizeMySQLDatetime = (value) => {
     return `${date.getUTCFullYear()}-${pad(date.getUTCMonth() + 1)}-${pad(date.getUTCDate())} ${pad(date.getUTCHours())}:${pad(date.getUTCMinutes())}:${pad(date.getUTCSeconds())}`;
 };
 
+const getLiveClassTokenTTLFromSchedule = (scheduledEndTime, fallbackDurationMinutes = 60) => {
+    const bufferMinutes = Number(process.env.ZEGO_TOKEN_BUFFER_MINUTES || 15);
+    const minTTLSeconds = Number(process.env.ZEGO_TOKEN_MIN_TTL_SECONDS || 1800);
+    const maxTTLSeconds = Number(process.env.ZEGO_TOKEN_MAX_TTL_SECONDS || 14400);
+
+    const end = new Date(scheduledEndTime);
+    const now = new Date();
+
+    let rawTTL = ((end.getTime() - now.getTime()) / 1000) + (bufferMinutes * 60);
+
+    if (!Number.isFinite(rawTTL) || rawTTL <= 0) {
+        rawTTL = (Number(fallbackDurationMinutes || 60) + bufferMinutes) * 60;
+    }
+
+    return Math.min(Math.max(Math.floor(rawTTL), minTTLSeconds), maxTTLSeconds);
+};
+
+
 
 export const startClassService = async (class_id, user_id) => {
 
@@ -563,12 +581,16 @@ export const generateTeacherBroadcastTokenService = async (class_id, user) => {
     if (cls.teacher_id !== teacher_id) throw new Error("UNAUTHORIZED");
     if (!cls.room_id) throw new Error("ROOM_ID_NOT_FOUND");
 
-    const token = generateZegoToken({
+      const token = generateZegoToken({
       userId: String(user.id),
       roomId: cls.room_id,
       role: "Host",
-      effectiveTimeInSeconds: Number(process.env.ZEGO_TOKEN_TTL_SECONDS || 7200),
+      effectiveTimeInSeconds: getLiveClassTokenTTLFromSchedule(
+        cls.scheduled_end_time,
+        cls.duration_minutes
+      ),
     });
+
 
     return {
       app_id: Number(process.env.ZEGO_APP_ID),
@@ -659,12 +681,16 @@ export const joinClassService = async (class_id, user) => { // receive full user
 
         await conn.query(UPSERT_ATTENDANCE, [class_id, student.student_id]);
 
-        const token = generateZegoToken({
+            const token = generateZegoToken({
             userId: String(user.id),
             roomId: cls.room_id,
             role: "Audience",
-            effectiveTimeInSeconds: Number(process.env.ZEGO_TOKEN_TTL_SECONDS || 7200)
+            effectiveTimeInSeconds: getLiveClassTokenTTLFromSchedule(
+                cls.scheduled_end_time,
+                cls.duration_minutes
+            )
         });
+
 
         return {
             room_id: cls.room_id,

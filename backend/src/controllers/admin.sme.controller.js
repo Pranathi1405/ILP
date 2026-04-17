@@ -2,26 +2,33 @@
  * ============================================================
  * Admin SME Controller
  * ------------------------------------------------------------
- * Module  : SME Test Engine — Course Level
+ * Module  : Course-Level SME Test Engine
  * Author  : Harshitha Ravuri
- * Description:
- * HTTP layer for admin operations:
- *   • Create course-level SME test (parent + child tests + assignments)
- *   • Publish course SME test (with completion guard)
  * ============================================================
  */
 import {
   createCourseSmeTest,
+  getAllCourseSmeTests,
   publishCourseSmeTest,
 } from '../services/smeTestOrchestrator.service.js';
-import { sendSuccess, sendError } from '../utils/responseHandler.js';
-import { getAssignmentsForParent as fetchAssignments } from '../services/assignment.service.js';
+import { getAssignmentsForParent } from '../services/assignment.service.js';
+import { sendSuccess, sendError, sendPaginated } from '../utils/responseHandler.js';
 
 // POST /api/admin/sme-tests
 export const createAdminSmeTest = async (req, res) => {
   try {
     const data = await createCourseSmeTest(req.user.id, req.body);
     sendSuccess(res, 201, 'Course SME test created successfully', data);
+  } catch (err) {
+    sendError(res, err.status || 500, err.message, err.details);
+  }
+};
+
+// GET /api/admin/sme-tests
+export const getAdminSmeTests = async (req, res) => {
+  try {
+    const result = await getAllCourseSmeTests(req.query);
+    sendPaginated(res, 'Course SME tests fetched successfully', result.data, result.pagination);
   } catch (err) {
     sendError(res, err.status || 500, err.message);
   }
@@ -33,15 +40,15 @@ export const publishAdminSmeTest = async (req, res) => {
     const data = await publishCourseSmeTest(req.params.id);
     sendSuccess(res, 200, 'Course SME test published successfully', data);
   } catch (err) {
-    sendError(res, err.status || 500, err.message);
+    // Include pending_subjects detail in response when publish is blocked
+    sendError(res, err.status || 500, err.message, err.details);
   }
 };
 
 // GET /api/admin/sme-tests/:id/assignments
-// Useful for admin dashboard — view all subject assignment statuses
 export const getTestAssignments = async (req, res) => {
   try {
-    const data = await fetchAssignments(req.params.id);
+    const data = await getAssignmentsForParent(req.params.id);
     sendSuccess(res, 200, 'Assignments fetched successfully', data);
   } catch (err) {
     sendError(res, err.status || 500, err.message);

@@ -162,3 +162,35 @@ export const enrollCourseController = async (req, res) => {
         });
     }
 };
+
+/**
+ * POST /api/courses/enrolled-students
+ * get all enrolled students in a course
+ */
+export const getEnrolledStudentsController = async (req, res) => {
+  try {
+    const { course_id, page, limit } = req.query;
+
+    const result = await courseService.getEnrolledStudentsService({
+      course_id,
+      page: Number(page) || 1,
+      limit: Number(limit) || 10
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Enrolled students fetched successfully",
+      data: result.students,
+      pagination: result.pagination
+    });
+
+  } catch (error) {
+    console.error("Error fetching enrolled students:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch enrolled students",
+      error: error.message
+    });
+  }
+};

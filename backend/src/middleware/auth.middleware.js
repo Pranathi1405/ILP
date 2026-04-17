@@ -81,6 +81,7 @@ export const teacherOnly = authorize('teacher');
 export const parentOnly = authorize('parent');
 export const adminOnly = authorize('admin');
 export const teacherOrAdmin = authorize('teacher', 'admin');
+export const studentOrParent = authorize('student', 'parent');
 export const allRoles = authorize('student', 'teacher', 'parent', 'admin');
 
 export const userManagerOnly = requirePermission('user_management');

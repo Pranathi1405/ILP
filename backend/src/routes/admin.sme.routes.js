@@ -2,37 +2,37 @@
  * ============================================================
  * Admin SME Routes
  * ------------------------------------------------------------
- * Module  : SME Test Engine — Course Level
+ * Module  : Course-Level SME Test Engine
  * Author  : Harshitha Ravuri
- * Description:
- * HTTP layer for admin operations:
- *   • Create course-level SME test (parent + child tests + assignments)
- *   • Publish course SME test (with completion guard)
  * ============================================================
  */
 import { Router } from 'express';
 import { authenticate, authorize } from '../middleware/auth.middleware.js';
 import {
   createAdminSmeTest,
+  getAdminSmeTests,
   publishAdminSmeTest,
   getTestAssignments,
 } from '../controllers/admin.sme.controller.js';
 
 const router = Router();
 
-// All routes require admin role
 router.use(authenticate, authorize('admin'));
 
-// POST   /api/admin/sme-tests
+// POST  /api/admin/sme-tests
 // Create a course-level SME test (parent + child tests + assignments)
 router.post('/', createAdminSmeTest);
 
-// PATCH  /api/admin/sme-tests/:id/publish
-// Publish the parent test (blocked if any assignment is incomplete)
-router.patch('/:id/publish', publishAdminSmeTest);
+// GET   /api/admin/sme-tests
+// List all course-level SME tests (admin dashboard)
+router.get('/', getAdminSmeTests);
 
-// GET    /api/admin/sme-tests/:id/assignments
-// View assignment statuses for a parent test
+// GET   /api/admin/sme-tests/:id/assignments
+// View per-subject assignment status for a parent test
 router.get('/:id/assignments', getTestAssignments);
+
+// PATCH /api/admin/sme-tests/:id/publish
+// Publish — blocked if any assignment is not completed
+router.patch('/:id/publish', publishAdminSmeTest);
 
 export default router;

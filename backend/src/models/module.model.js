@@ -50,8 +50,8 @@ AND display_order >= ?
 
 export const insertModuleQuery = `
 INSERT INTO subject_modules
-(subject_id, module_name, description, display_order)
-VALUES (?, ?, ?, ?)
+(subject_id, module_name, description, display_order, is_published)
+VALUES (?, ?, ?, ?, ?)
 `;
 
 
@@ -77,6 +77,7 @@ SELECT
     module_name,
     description,
     display_order,
+    is_published,
     created_at,
     updated_at
 FROM subject_modules
@@ -97,7 +98,8 @@ export const updateModuleByIdQuery = `
     subject_id = ?,
     module_name = ?,
     description = ?,
-    display_order = ?
+    display_order = ?,
+    is_published = ?
   WHERE module_id = ?
 `;
 

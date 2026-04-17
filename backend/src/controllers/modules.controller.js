@@ -41,8 +41,14 @@ export const createModuleController = async (req, res) => {
 };
 
 /**
- * GET /api/modules
  * get all modules
+ * GET /api/modules
+ * GET /api/modules?search=
+ * GET /api/modules?limit=
+ * GET /api/modules?page=2
+ * GET /api/modules?sortBy=display_order
+ * GET /api/modules?order=ASC
+ * GET /api/modules?subject_id=1
  */
 export const getAllModulesController = async (req, res) => {
 

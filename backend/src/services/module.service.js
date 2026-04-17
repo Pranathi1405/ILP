@@ -34,7 +34,8 @@ export const createModuleService = async (data) => {
       subjectId,
       moduleName,
       moduleDescription,
-      displayOrder
+      displayOrder,
+      isPublished = false
     } = data;
   
   
@@ -117,7 +118,8 @@ export const createModuleService = async (data) => {
         subjectId,
         trimmedName,
         moduleDescription || null,
-        finalOrder
+        finalOrder,
+        isPublished
       ]
     );
 
@@ -265,13 +267,14 @@ export const updateModuleByIdService = async (moduleId, body) => {
       throw {status: 400 , message: "Invalid Module ID"};
     }
   
-    const { subjectId, moduleName, moduleDescription, displayOrder } = body;
+    const { subjectId, moduleName, moduleDescription, displayOrder, isPublished } = body;
   
     if (
       subjectId === undefined &&
       moduleName === undefined &&
       moduleDescription === undefined &&
-      displayOrder === undefined
+      displayOrder === undefined &&
+      isPublished == undefined
     ) {
       throw {status: 400 , message: "At least one field is required to update"};
     }
@@ -287,7 +290,12 @@ export const updateModuleByIdService = async (moduleId, body) => {
   
     const oldSubjectId = existing.subject_id;
     const oldOrder = existing.display_order;
-  
+    const oldPublishedStatus = existing.is_published;
+
+    if(oldPublishedStatus === 1){
+      throw {status: 400, message: "cannot republish or draft a published module"};
+    }
+    
     /* Determine new subject */
     let newSubjectId = oldSubjectId;
   
@@ -412,6 +420,11 @@ export const updateModuleByIdService = async (moduleId, body) => {
     if (newOrder !== oldOrder) {
       fields.push("display_order = ?");
       values.push(newOrder);
+    }
+
+    if (isPublished === 1) {
+      fields.push("is_published = ?");
+      values.push(1);
     }
   
     if (!fields.length) {

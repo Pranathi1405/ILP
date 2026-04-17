@@ -2,367 +2,362 @@
  * ============================================================
  * Question Service
  * ------------------------------------------------------------
- * Module  : Question Bank
- * Author  : NDMATRIX
+ * Module  : SME Test Engine — Centralized Question Creation
  * Description:
- * Business logic for adding questions to the question bank.
- * Supports MCQ, MCQ Multi, NAT, Match List, Paragraph types.
+ * Single entry point for inserting questions into:
+ *   1. questions table (QB record)
+ *   2. test_questions table (test mapping)
+ *
+ * Sources: 'manual' | 'qb' | 'document'
+ *
+ * Rules:
+ *   - QB source → question must already exist, only inserts test_questions
+ *   - manual/document → inserts into questions + options + test_questions
+ *   - Duplicate prevention on test_questions before every insert
  * ============================================================
  */
 import pool from '../config/database.config.js';
-import * as QuestionModel from '../models/question.model.js';
+import * as SmeTestModel from '../models/smeTest.model.js';
 
-// ─── Validate options based on question type ──────────────────
-const validateOptions = (questionType, options) => {
-  const noOptionTypes = ['numerical'];
-  if (noOptionTypes.includes(questionType)) return;
+// ──────────────────────────────────────────────────────────────
+// INTERNAL HELPERS
+// ──────────────────────────────────────────────────────────────
 
-  if (!options || !Array.isArray(options) || options.length < 2) {
-    throw { status: 400, message: 'At least 2 options are required' };
-  }
-  if (options.length > 4) {
-    throw { status: 400, message: 'Maximum 4 options allowed' };
-  }
-  if (!options.some(o => o.is_correct)) {
-    throw { status: 400, message: 'At least one correct option is required' };
-  }
-  if (questionType === 'mcq' && options.filter(o => o.is_correct).length > 1) {
-    throw { status: 400, message: 'MCQ single correct can only have 1 correct option' };
-  }
-  if (questionType === 'mcq_multi' && options.filter(o => o.is_correct).length < 2) {
-    throw { status: 400, message: 'MCQ multi correct must have at least 2 correct options' };
-  }
+const toInt = (v, def = 0) => { const n = Number(v); return Number.isFinite(n) ? n : def; };
+
+/**
+ * Checks whether question_id is already mapped to test_id.
+ * Prevents duplicate test_questions rows.
+ */
+const isDuplicateInTest = async (connection, testId, questionId) => {
+  const [[row]] = await connection.query(
+    `SELECT 1 FROM test_questions WHERE test_id = ? AND question_id = ? LIMIT 1`,
+    [toInt(testId), toInt(questionId)]
+  );
+  return !!row;
 };
 
-// ─── Validate teacher has access to subject ───────────────────
-const validateTeacherSubjectAccess = async (teacherUserId, subjectId) => {
-  const isAssigned = await QuestionModel.isTeacherAssignedToSubject(teacherUserId, subjectId);
-  if (!isAssigned) {
-    throw {
-      status: 403,
-      message: 'You are not assigned to this subject'
-    };
-  }
+/**
+ * Resolves a fallback module_id for a subject (first published module).
+ * Required when inserting into questions table.
+ */
+const resolveModuleId = async (connection, subjectId) => {
+  const [[row]] = await connection.query(
+    `SELECT module_id FROM subject_modules
+     WHERE subject_id = ? AND is_published = 1
+     ORDER BY module_id ASC LIMIT 1`,
+    [toInt(subjectId)]
+  );
+  if (!row) throw { status: 400, message: `No published module found for subject ${subjectId}` };
+  return row.module_id;
 };
 
-// ─── Validate module belongs to subject ──────────────────────
-const validateModuleInSubject = async (moduleId, subjectId) => {
-  const isValid = await QuestionModel.isModuleInSubject(moduleId, subjectId);
-  if (!isValid) {
-    throw {
-      status: 400,
-      message: 'Module does not belong to this subject'
-    };
-  }
+/**
+ * Gets the next sort_order for a test's question list.
+ */
+const getNextSortOrder = async (connection, testId) => {
+  const [[{ total }]] = await connection.query(
+    `SELECT COUNT(*) AS total FROM test_questions WHERE test_id = ?`,
+    [toInt(testId)]
+  );
+  return Number(total) + 1;
 };
 
-// ─── Add single question ──────────────────────────────────────
-export const addQuestion = async (teacherUserId, payload) => {
-  const {
-    subject_id, module_id, question_type,
-    difficulty, question_text, question_image_url,
-    image_position, marks, correct_answer,
-    explanation, hints, ideal_time_mins, options
-  } = payload;
+// ──────────────────────────────────────────────────────────────
+// CORE — INSERT QUESTION INTO QB
+// ──────────────────────────────────────────────────────────────
 
-  // Validate required fields
-  if (!subject_id) throw { status: 400, message: 'subject_id is required' };
-  if (!module_id) throw { status: 400, message: 'module_id is required' };
-  if (!question_type) throw { status: 400, message: 'question_type is required' };
-  if (!difficulty) throw { status: 400, message: 'difficulty is required' };
-  if (!question_text) throw { status: 400, message: 'question_text is required' };
-  if (!marks) throw { status: 400, message: 'marks is required' };
+/**
+ * Inserts a question row + options into the questions / question_options tables.
+ * Returns the new question_id.
+ *
+ * @param {object} connection - Active DB connection (must be in transaction)
+ * @param {object} params
+ */
+const insertQuestionRecord = async (connection, {
+  moduleId,
+  subjectId,
+  teacherUserId,
+  questionText,
+  questionType,
+  difficulty,
+  marks,
+  correctAnswer,
+  explanation,
+  options = [],
+  source,           // 'manual' | 'document'
+}) => {
+  // Normalise question_type → DB ENUM value
+  const typeMap = {
+    mcq_single:  'mcq',
+    mcq_multi:   'mcq_multi',
+    nat:         'numerical',
+    match_list:  'match_list',
+    mcq:         'mcq',
+    numerical:   'numerical',
+    subjective:  'subjective',
+  };
+  const dbType = typeMap[questionType] || questionType;
 
-  const validTypes = ['mcq', 'mcq_multi', 'numerical', 'match_list'];
-  if (!validTypes.includes(question_type)) {
-    throw { status: 400, message: `Invalid question_type. Must be one of: ${validTypes.join(', ')}` };
-  }
+  const [result] = await connection.query(
+    `INSERT INTO questions
+       (module_id, difficulty, question_type,
+        question_text, marks, created_by,
+        is_manual, is_active,
+        correct_answer, explanation)
+     VALUES (?, ?, ?, ?, ?, ?, ?, 1, ?, ?)`,
+    [
+      toInt(moduleId),
+      difficulty || 'medium',
+      dbType,
+      questionText,
+      toInt(marks, 1),
+      toInt(teacherUserId),
+      source === 'manual' ? 1 : 0,   // is_manual flag
+      correctAnswer || null,
+      explanation ? JSON.stringify(explanation) : null,
+    ]
+  );
+  const questionId = result.insertId;
 
-  const validDifficulties = ['easy', 'medium', 'hard'];
-  if (!validDifficulties.includes(difficulty)) {
-    throw { status: 400, message: 'difficulty must be easy, medium or hard' };
-  }
-
-  // NAT requires correct_answer
-  if (question_type === 'numerical' && !correct_answer) {
-    throw { status: 400, message: 'correct_answer is required for numerical questions' };
-  }
-
-  // Validate options
-  validateOptions(question_type, options);
-
-  // Validate teacher access
-  await validateTeacherSubjectAccess(teacherUserId, subject_id);
-
-  // Validate module belongs to subject
-  await validateModuleInSubject(module_id, subject_id);
-
-  const connection = await pool.getConnection();
-  await connection.beginTransaction();
-
-  try {
-    const questionId = await QuestionModel.insertQuestion(connection, {
-      subjectId: subject_id,
-      moduleId: module_id,
-      difficulty,
-      questionType: question_type,
-      questionText: question_text,
-      questionImageUrl: question_image_url || null,
-      imagePosition: image_position || 'above',
-      marks,
-      createdBy: teacherUserId,
-      correctAnswer: correct_answer || null,
-      explanation: explanation || null,
-      hints: hints || null,
-      idealTimeMins: ideal_time_mins || null,
-      paragraphId: null
-    });
-
-    if (options && options.length > 0) {
-      await QuestionModel.insertOptions(connection, questionId, options);
-    }
-
-    await connection.commit();
-    return QuestionModel.findQuestionById(questionId);
-  } catch (err) {
-    await connection.rollback();
-    throw err;
-  } finally {
-    connection.release();
-  }
-};
-
-// ─── Add paragraph-based questions ───────────────────────────
-export const addParagraphQuestion = async (teacherUserId, payload) => {
-  const {
-    subject_id, module_id, difficulty,
-    marks, ideal_time_mins, paragraph, questions
-  } = payload;
-
-  // Validate required fields
-  if (!subject_id) throw { status: 400, message: 'subject_id is required' };
-  if (!module_id) throw { status: 400, message: 'module_id is required' };
-  if (!difficulty) throw { status: 400, message: 'difficulty is required' };
-  if (!marks) throw { status: 400, message: 'marks is required' };
-  if (!paragraph?.paragraph_text) {
-    throw { status: 400, message: 'paragraph.paragraph_text is required' };
-  }
-  if (!questions || !Array.isArray(questions) || questions.length < 2) {
-    throw { status: 400, message: 'At least 2 questions are required for a paragraph' };
-  }
-console.log('questions received:', JSON.stringify(questions, null, 2));
-  // Validate each sub-question
-  for (const q of questions) {
-    if (!q.question_text) throw { status: 400, message: 'question_text is required for each question' };
-    if (!q.question_type) throw { status: 400, message: 'question_type is required for each question' };
-    validateOptions(q.question_type, q.options);
-  }
-
-  // Validate teacher access
-  await validateTeacherSubjectAccess(teacherUserId, subject_id);
-
-  // Validate module belongs to subject
-  await validateModuleInSubject(module_id, subject_id);
-
-  const connection = await pool.getConnection();
-  await connection.beginTransaction();
-
-  try {
-    // Insert paragraph first
-    const paragraphId = await QuestionModel.insertParagraph(connection, {
-      paragraphText: paragraph.paragraph_text,
-      paragraphImageUrl: paragraph.paragraph_image_url || null,
-      moduleId: module_id,
-      createdBy: teacherUserId
-    });
-
-    // Insert each sub-question linked to paragraph
-    const insertedIds = [];
-    for (const q of questions) {
-      const questionId = await QuestionModel.insertQuestion(connection, {
-        subjectId: subject_id,
-        moduleId: module_id,
-        difficulty,
-        questionType: q.question_type,
-        questionText: q.question_text,
-        questionImageUrl: q.question_image_url || null,
-        imagePosition: q.image_position || 'above',
-        marks,
-        createdBy: teacherUserId,
-        correctAnswer: q.correct_answer || null,
-        explanation: q.explanation || null,
-        hints: q.hints || null,
-        idealTimeMins: ideal_time_mins || null,
-        paragraphId
-      });
-
-      if (q.options && q.options.length > 0) {
-        await QuestionModel.insertOptions(connection, questionId, q.options);
-      }
-
-      insertedIds.push(questionId);
-    }
-
-    await connection.commit();
-
-    // Return all inserted questions
-    const inserted = await Promise.all(
-      insertedIds.map(id => QuestionModel.findQuestionById(id))
+  // Insert options if present (MCQ types)
+  if (options && options.length > 0) {
+    const optionValues = options.map(opt => [
+      questionId,
+      opt.option_text,
+      opt.option_image_url || null,
+      opt.is_correct ? 1 : 0,
+    ]);
+    await connection.query(
+      `INSERT INTO question_options (question_id, option_text, option_image_url, is_correct) VALUES ?`,
+      [optionValues]
     );
-
-    return {
-      paragraph_id: paragraphId,
-      questions: inserted
-    };
-  } catch (err) {
-    await connection.rollback();
-    throw err;
-  } finally {
-    connection.release();
   }
+
+  return questionId;
 };
 
-// ─── Bulk add questions ───────────────────────────────────────
-export const addBulkQuestions = async (teacherUserId, questions) => {
-  if (!Array.isArray(questions) || questions.length === 0) {
-    throw { status: 400, message: 'questions array is required' };
-  }
-  if (questions.length > 50) {
-    throw { status: 400, message: 'Maximum 50 questions allowed per bulk upload' };
-  }
+// ──────────────────────────────────────────────────────────────
+// CORE — INSERT INTO test_questions
+// ──────────────────────────────────────────────────────────────
 
-  const results = { success: [], failed: [] };
+const insertTestQuestion = async (connection, {
+  testId,
+  questionId,
+  sectionId,
+  moduleId,
+  marksCorrect,
+  marksIncorrect,
+  questionType,
+  paperNumber,
+  source,
+}) => {
+  const sortOrder = await getNextSortOrder(connection, testId);
 
-  for (let i = 0; i < questions.length; i++) {
-    try {
-      const question = questions[i];
-      if (question.paragraph) {
-        const result = await addParagraphQuestion(teacherUserId, question);
-        results.success.push({ index: i, ...result });
-      } else {
-        const result = await addQuestion(teacherUserId, question);
-        results.success.push({ index: i, question_id: result.question_id });
-      }
-    } catch (err) {
-      results.failed.push({
-        index: i,
-        error: err.message || 'Unknown error'
-      });
-    }
-  }
-
-  return results;
+  await connection.query(
+    `INSERT INTO test_questions
+       (test_id, question_id, source, section_id, module_id,
+        marks_correct, marks_incorrect, question_type, paper_number, sort_order)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    [
+      toInt(testId),
+      toInt(questionId),
+      source,
+      sectionId ? toInt(sectionId) : null,
+      moduleId   ? toInt(moduleId)  : null,
+      marksCorrect   !== undefined ? marksCorrect   : 1,
+      marksIncorrect !== undefined ? marksIncorrect : 0,
+      questionType || null,
+      paperNumber  || 1,
+      sortOrder,
+    ]
+  );
 };
 
-// ─── Get questions by subject ─────────────────────────────────
-export const getQuestionsBySubject = async (teacherUserId, subjectId, query) => {
-  const id = parseInt(subjectId);
-  if (isNaN(id)) throw { status: 400, message: 'Invalid subject_id' };
+// ──────────────────────────────────────────────────────────────
+// PUBLIC API
+// ──────────────────────────────────────────────────────────────
 
-  await validateTeacherSubjectAccess(teacherUserId, id);
-  return QuestionModel.findQuestionsBySubject(id, query);
-};
-
-// ─── Get single question ──────────────────────────────────────
-export const getQuestionById = async (questionId) => {
-  const id = parseInt(questionId);
-  if (isNaN(id)) throw { status: 400, message: 'Invalid question_id' };
-
-  const question = await QuestionModel.findQuestionById(id);
-  if (!question) throw { status: 404, message: 'Question not found' };
-  return question;
-};
-// ─── Update a question ────────────────────────────────────────
-export const updateQuestion = async (teacherUserId, questionId, payload) => {
-  const id = parseInt(questionId);
-  if (isNaN(id)) throw { status: 400, message: 'Invalid question_id' };
-
-  // Check question exists and teacher created it
-  const isOwner = await QuestionModel.isQuestionCreatedByTeacher(id, teacherUserId);
-  if (!isOwner) {
-    throw { status: 403, message: 'You can only update questions you created' };
-  }
-
-  // Get current question to validate type-specific rules
-  const current = await QuestionModel.findQuestionById(id);
-  if (!current) throw { status: 404, message: 'Question not found' };
-
+/**
+ * createAndAttachQuestion
+ * -----------------------
+ * Universal entry point. Handles all 3 sources.
+ *
+ * @param {object} connection - Active transaction connection
+ * @param {object} params
+ *   test_id         {number}   - Required
+ *   section_id      {number}   - Required
+ *   source          {string}   - 'manual' | 'qb' | 'document'
+ *   teacher_user_id {number}   - Required for manual/document
+ *
+ *   // For QB:
+ *   question_id     {number}   - Required
+ *
+ *   // For manual/document:
+ *   subject_id      {number}   - Required (to resolve module)
+ *   module_id       {number}   - Optional (will auto-resolve if absent)
+ *   question_text   {string}   - Required
+ *   question_type   {string}   - Required
+ *   difficulty      {string}
+ *   marks           {number}
+ *   correct_answer  {string}
+ *   explanation     {object}
+ *   options         {Array}
+ *
+ *   // Section metadata for test_questions row:
+ *   marks_correct   {number}
+ *   marks_incorrect {number}
+ *   paper_number    {number}
+ *
+ * @returns {{ question_id: number, skipped: boolean }}
+ */
+export const createAndAttachQuestion = async (connection, params) => {
   const {
-    question_text, question_image_url, image_position,
-    difficulty, hints, ideal_time_mins,
-    correct_answer, explanation, options
-  } = payload;
+    test_id,
+    section_id,
+    source = 'manual',
+    teacher_user_id,
+    question_id: existingQid,
+    subject_id,
+    module_id,
+    question_text,
+    question_type,
+    difficulty,
+    marks,
+    correct_answer,
+    explanation,
+    options,
+    marks_correct,
+    marks_incorrect,
+    paper_number,
+  } = params;
 
-  // Validate difficulty if provided
-  if (difficulty) {
-    const validDifficulties = ['easy', 'medium', 'hard'];
-    if (!validDifficulties.includes(difficulty)) {
-      throw { status: 400, message: 'difficulty must be easy, medium or hard' };
+  if (!test_id)  throw { status: 400, message: 'test_id is required' };
+  if (!section_id && source !== 'qb') throw { status: 400, message: 'section_id is required' };
+
+  let questionId;
+
+  if (source === 'qb') {
+    // ── QB mode: question must already exist ───────────────────
+    if (!existingQid) throw { status: 400, message: 'question_id is required for QB source' };
+    questionId = toInt(existingQid);
+
+    // Verify it exists
+    const [[qRow]] = await connection.query(
+      `SELECT question_id, module_id FROM questions WHERE question_id = ? AND is_active = 1`,
+      [questionId]
+    );
+    if (!qRow) throw { status: 404, message: `Question ${questionId} not found in question bank` };
+
+  } else {
+    // ── manual / document: create question first ───────────────
+    if (!question_text) throw { status: 400, message: 'question_text is required' };
+    if (!question_type) throw { status: 400, message: 'question_type is required' };
+    if (!subject_id && !module_id) {
+      throw { status: 400, message: 'subject_id or module_id is required' };
     }
-  }
 
-  // Validate options if provided
-  if (options) {
-    validateOptions(current.question_type, options);
-  }
+    const resolvedModuleId = module_id
+      ? toInt(module_id)
+      : await resolveModuleId(connection, subject_id);
 
-  // NAT — if updating correct_answer must be provided
-  if (current.question_type === 'numerical' && correct_answer === '') {
-    throw { status: 400, message: 'correct_answer cannot be empty for numerical questions' };
-  }
-
-  const connection = await pool.getConnection();
-  await connection.beginTransaction();
-
-  try {
-    await QuestionModel.updateQuestion(connection, id, {
-      question_text,
-      question_image_url,
-      image_position,
+    questionId = await insertQuestionRecord(connection, {
+      moduleId:      resolvedModuleId,
+      subjectId:     subject_id,
+      teacherUserId: teacher_user_id,
+      questionText:  question_text,
+      questionType:  question_type,
       difficulty,
-      hints,
-      ideal_time_mins,
-      correct_answer,
-      explanation
+      marks,
+      correctAnswer: correct_answer,
+      explanation,
+      options,
+      source,
     });
-
-    // Replace options if provided
-    if (options && options.length > 0) {
-      await QuestionModel.replaceOptions(connection, id, options);
-    }
-
-    await connection.commit();
-    return QuestionModel.findQuestionById(id);
-  } catch (err) {
-    await connection.rollback();
-    throw err;
-  } finally {
-    connection.release();
   }
+
+  // ── Duplicate prevention ──────────────────────────────────────
+  const alreadyInTest = await isDuplicateInTest(connection, test_id, questionId);
+  if (alreadyInTest) {
+    return { question_id: questionId, skipped: true, reason: 'duplicate' };
+  }
+
+  // ── Fetch section metadata to get marks/type ─────────────────
+  let marksC   = marks_correct;
+  let marksI   = marks_incorrect;
+  let qType    = question_type;
+  let paper    = paper_number;
+  let moduleId = module_id;
+
+  if (section_id) {
+    const [[sectionRow]] = await connection.query(
+      `SELECT marks_correct, marks_incorrect, question_type, paper_number
+       FROM exam_sections WHERE section_id = ?`,
+      [toInt(section_id)]
+    );
+    if (sectionRow) {
+      marksC ??= sectionRow.marks_correct;
+      marksI ??= sectionRow.marks_incorrect;
+      qType  ??= sectionRow.question_type;
+      paper  ??= sectionRow.paper_number;
+    }
+  }
+
+  // Resolve module_id for test_questions if not set
+  if (!moduleId && subject_id) {
+    const [[mRow]] = await connection.query(
+      `SELECT module_id FROM subject_modules
+       WHERE subject_id = ? AND is_published = 1 ORDER BY module_id ASC LIMIT 1`,
+      [toInt(subject_id)]
+    );
+    moduleId = mRow?.module_id || null;
+  }
+
+  // ── Insert into test_questions ────────────────────────────────
+  await insertTestQuestion(connection, {
+    testId:         test_id,
+    questionId,
+    sectionId:      section_id,
+    moduleId,
+    marksCorrect:   marksC,
+    marksIncorrect: marksI,
+    questionType:   qType,
+    paperNumber:    paper,
+    source,
+  });
+
+  return { question_id: questionId, skipped: false };
 };
 
-// ─── Delete a question ────────────────────────────────────────
-export const deleteQuestion = async (teacherUserId, questionId) => {
-  const id = parseInt(questionId);
-  if (isNaN(id)) throw { status: 400, message: 'Invalid question_id' };
+// ──────────────────────────────────────────────────────────────
+// BULK HELPER — Document / Batch insert
+// ──────────────────────────────────────────────────────────────
 
-  // Check teacher owns this question
-  const isOwner = await QuestionModel.isQuestionCreatedByTeacher(id, teacherUserId);
-  if (!isOwner) {
-    throw { status: 403, message: 'You can only delete questions you created' };
+/**
+ * createAndAttachBulk
+ * -------------------
+ * Batch version of createAndAttachQuestion for document parsing.
+ * Runs inside a single transaction passed by caller.
+ * Skips duplicates gracefully.
+ *
+ * @param {object}   connection
+ * @param {object[]} questionList  - Array of question param objects
+ * @returns {{ inserted: number, skipped: number, question_ids: number[] }}
+ */
+export const createAndAttachBulk = async (connection, questionList) => {
+  let inserted = 0;
+  let skipped  = 0;
+  const ids    = [];
+
+  for (const q of questionList) {
+    const result = await createAndAttachQuestion(connection, q);
+    if (result.skipped) {
+      skipped++;
+    } else {
+      inserted++;
+      ids.push(result.question_id);
+    }
   }
 
-  // Block delete if question is in an active test
-  const inActiveTest = await QuestionModel.isQuestionInActiveTest(id);
-  if (inActiveTest) {
-    throw {
-      status: 400,
-      message: 'Cannot delete question — it is part of an active test'
-    };
-  }
-
-  const deleted = await QuestionModel.softDeleteQuestion(id);
-  if (!deleted) throw { status: 404, message: 'Question not found' };
-
-  return { message: 'Question deleted successfully', question_id: id };
+  return { inserted, skipped, question_ids: ids };
 };

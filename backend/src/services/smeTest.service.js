@@ -279,130 +279,92 @@ export const getAvailableQuestions = async (testId, query) => {
     ...result
   };
 };
-
 export const addQuestion = async (testId, teacherUserId, payload) => {
-  const id = parseInt(testId);
-  if (isNaN(id)) throw { status: 400, message: 'Invalid test ID' };
+  const id = ensureId(testId, 'test ID');
+  const teacherId = ensureId(teacherUserId, 'user ID');
 
   const test = await SmeTestModel.findSmeTestById(id);
   if (!test) throw { status: 404, message: 'Test not found' };
 
-  if (parseInt(test.created_by) !== parseInt(teacherUserId)) {
-    throw { status: 403, message: 'You do not have access to this test' };
-  }
+  assertOwnership(test, teacherId);
+
   if (test.status === 'published') {
-    throw { status: 400, message: 'Cannot add questions to a published test' };
+    throw { status: 400, message: 'Cannot modify published test' };
   }
 
-  const connection = await pool.getConnection();
-  await connection.beginTransaction();
-
+  let connection;
   try {
-    let result;
+    connection = await pool.getConnection();
+    await connection.beginTransaction();
 
-    if (test.question_source === 'qb') {
-      const { section_id, question_ids } = payload;
-      if (!section_id) throw { status: 400, message: 'section_id is required for QB mode' };
-      if (!question_ids || !Array.isArray(question_ids) || question_ids.length === 0) {
-        throw { status: 400, message: 'question_ids array is required for QB mode' };
-      }
-
-      const section = test.sections.find(s => s.section_id === parseInt(section_id));
-      if (!section) throw { status: 404, message: 'Section not found for this test' };
-
-      const sectionCounts = await SmeTestModel.getSectionQuestionCounts(id);
-      const currentCount = sectionCounts[parseInt(section_id)] || 0;
-      if (currentCount + question_ids.length > section.num_questions) {
-        throw {
-          status: 400,
-          message: `${section.section_name} needs ${section.num_questions} questions. Currently has ${currentCount}. Cannot add ${question_ids.length} more.`
-        };
-      }
-
-      const sectionData = {
-        section_id: section.section_id,
-        marks_correct: section.marks_correct,
-        marks_incorrect: section.marks_incorrect,
-        question_type: section.question_type,
-        paper_number: section.paper_number || 1
-      };
-
-      const added = await SmeTestModel.addQbQuestions(connection, id, section_id, question_ids, sectionData);
-      result = { added_count: added, message: `${added} questions added to ${section.section_name}` };
-
-    } else {
+    if (test.question_source === 'manual') {
       const {
-        section_id, question_text, question_type,
-        difficulty, options, correct_answer, explanation
+        section_id,
+        question_text,
+        question_type,
+        difficulty,
+        options,
+        correct_answer,
+        explanation
       } = payload;
 
-      if (!section_id) throw { status: 400, message: 'section_id is required' };
-      if (!question_text) throw { status: 400, message: 'question_text is required' };
-      if (!question_type) throw { status: 400, message: 'question_type is required' };
-      if (!difficulty) throw { status: 400, message: 'difficulty is required' };
+      const section = test.sections.find(
+        (s) => toInt(s.section_id) === toInt(section_id)
+      );
 
-      const section = test.sections.find(s => s.section_id === parseInt(section_id));
-      if (!section) throw { status: 404, message: 'Section not found for this test' };
+      if (!section) throw { status: 404, message: 'Section not found' };
 
-      const sectionCounts = await SmeTestModel.getSectionQuestionCounts(id);
-      const currentCount = sectionCounts[parseInt(section_id)] || 0;
-      if (currentCount >= section.num_questions) {
-        throw {
-          status: 400,
-          message: `${section.section_name} already has ${currentCount}/${section.num_questions} questions.`
-        };
-      }
-
-      const natTypes = ['nat', 'numerical'];
-      if (!natTypes.includes(question_type)) {
-        if (!options || !Array.isArray(options) || options.length < 2) {
-          throw { status: 400, message: 'At least 2 options are required' };
+      const questionId = await SmeTestModel.addManualQuestion(
+        connection,
+        id,
+        teacherId,
+        {
+          subjectId: section.subject_id,
+          questionText: question_text,
+          questionType: question_type,
+          difficulty,
+          options: options || [],
+          correctAnswer: correct_answer || null,
+          explanation: explanation || null,
+          sectionData: section
         }
-        if (!options.some(o => o.is_correct)) {
-          throw { status: 400, message: 'At least one correct option is required' };
-        }
-      }
+      );
 
-      const sectionData = {
-        section_id: section.section_id,
-        marks_correct: section.marks_correct,
-        marks_incorrect: section.marks_incorrect,
-        question_type: section.question_type,
-        paper_number: section.paper_number || 1
+      await connection.commit();
+
+      return {
+        message: 'Question added successfully',
+        question_id: questionId
       };
-
-      const questionId = await SmeTestModel.addManualQuestion(connection, id, teacherUserId, {
-        globalSubjectId: section.global_subject_id,
-        questionText: question_text, questionType: question_type,
-        difficulty, options: options || [],
-        correctAnswer: correct_answer || null,
-        explanation: explanation || null, sectionData
-      });
-
-      result = { question_id: questionId, message: 'Question added successfully' };
     }
+
+    const { section_id, question_ids } = payload;
+
+    const section = test.sections.find(
+      (s) => toInt(s.section_id) === toInt(section_id)
+    );
+
+    if (!section) throw { status: 404, message: 'Section not found' };
+
+    const count = await SmeTestModel.addQbQuestions(
+      connection,
+      id,
+      section_id,
+      question_ids,
+      section
+    );
 
     await connection.commit();
 
-    const sectionCounts = await SmeTestModel.getSectionQuestionCounts(id);
-    const updatedSections = test.sections.map(s => ({
-      section_id: s.section_id,
-      section_name: s.section_name,
-      question_type: s.question_type,
-      required: s.num_questions,
-      added: sectionCounts[s.section_id] || 0,
-      remaining: s.num_questions - (sectionCounts[s.section_id] || 0),
-      complete: (sectionCounts[s.section_id] || 0) >= s.num_questions
-    }));
-
-    const allComplete = updatedSections.every(s => s.complete);
-    return { ...result, sections: updatedSections, all_sections_complete: allComplete, ready_to_publish: allComplete };
-
+    return {
+      message: `${count} questions added`,
+      added_count: count
+    };
   } catch (err) {
-    await connection.rollback();
+    if (connection) await connection.rollback();
     throw err;
   } finally {
-    connection.release();
+    if (connection) connection.release();
   }
 };
 

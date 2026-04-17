@@ -59,6 +59,7 @@ import practiceTestRoutes from './routes/practiceTest.routes.js';
 import adminSmeRoutes from './routes/admin.sme.routes.js';
 import teacherSmeRoutes from './routes/teacher.sme.routes.js';
 import studentSmeRoutes from './routes/student.sme.routes.js';
+import bulkQuestionsRoutes from './routes/bulkQuestions.routes.js';
 // payment routes
 import paymentRoutes from './routes/payment.routes.js';
 // doubt routes
@@ -99,7 +100,8 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // ✅ SERVE STATIC FILES (FIXES "Failed to fetch")
 app.use(express.static('public'));
-
+//bulk questions upload 
+app.use('/api/bulk-questions', bulkQuestionsRoutes);
 app.use('/uploads', express.static('src/uploads'));
 
 // ── 4. REQUEST LOGGING (Development Only) ────────────────────────────────────
@@ -151,10 +153,11 @@ app.use('/api/categories', categoriesRoutes);
 // //question routes
 app.use('/api/questions', questionRoutes);
 //SME TEST Routes
-app.use('/api/sme-tests', smeTestRoutes);
+
 app.use('/api/admin/sme-tests', adminSmeRoutes);
 app.use('/api/teacher/sme-tests', teacherSmeRoutes);
 app.use('/api/sme-tests', studentSmeRoutes);
+app.use('/api/sme-tests', smeTestRoutes);
 app.use('/api/courses', coursesRoutes);
 app.use('/api/doubts', doubtRoutes);
 app.use('/api/subjects', subjectRoutes);
