@@ -1,0 +1,30 @@
+<div class="flex items-center justify-between px-8 py-5 bg-[#F8FAFC] border-b border-slate-200">
+  <div>
+    <h1 class="text-lg lg:text-3xl font-black text-slate-800 leading-tight tracking-tight">
+      Announcements
+    </h1>
+    <p
+      class="text-[10px] lg:text-sm font-semibold tracking-[0.18em] text-slate-400 mt-0.5 uppercase"
+    >
+      Communicate important updates to students and teachers across the institution.
+    </p>
+  </div>
+
+  <button
+    (click)="navigateToCreate()"
+    class="flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-sm font-semibold rounded-lg transition-colors duration-150 whitespace-nowrap shadow-sm"
+  >
+    <svg
+      class="w-4 h-4 shrink-0"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M12 5v14M5 12h14" />
+    </svg>
+    Create Announcement
+  </button>
+</div>

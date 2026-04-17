@@ -1,0 +1,72 @@
+<!-- Author: Poojitha -->
+<!-- Study-Materials Teacher Side, Material Content Creation Component -->
+<div class="min-h-screen">
+
+  <!-- HEADER -->
+<div class="px-8 py-6">
+  <h1 class="text-2xl font-semibold text-gray-800">
+    <strong>{{ subjectName }}</strong>
+  </h1>
+
+  <h2 class="mt-2 text-lg font-semibold">
+    <strong>Create Material Content</strong>
+  </h2>
+
+  <!-- SUBTITLE + BUTTON IN SAME ROW -->
+  <div class=" flex items-center justify-between">
+    <p class="text-sm text-gray-500">
+      Add study material to <strong>{{ moduleName }}</strong>
+    </p>
+
+    <button 
+      (click)="togglePreview()" 
+      class="px-4 py-2 text-sm border border-gray-200 rounded-md bg-white hover:bg-gray-50 shadow-sm transition">
+      
+      {{ showPreview ? 'Hide Preview' : 'Show Preview' }}
+    </button>
+  </div>
+</div>
+
+
+  <!-- MAIN -->
+  <div class="px-8 grid gap-6" [ngClass]="showPreview ? 'lg:grid-cols-2 grid-cols-1' : 'grid-cols-1'">
+
+    <!-- EDITOR -->
+    <form [formGroup]="materialForm">
+      <div class="bg-white rounded-xl p-6 shadow-sm">
+        <label class="text-sm font-medium  text-gray-600">Lecture Title</label>
+
+        <input type="text" formControlName="title"
+          class="w-full mt-2 mb-5 border border-gray-200 rounded-lg px-3 py-2" />
+
+        <label class="text-sm font-medium text-gray-600">Content</label>
+
+        <div class="mt-2 rounded-lg overflow-hidden">
+          <ckeditor [editor]="Editor" formControlName="content"></ckeditor>
+        </div>
+      </div>
+    </form>
+
+    <!-- PREVIEW -->
+    @if (showPreview) {
+    <div class="bg-white rounded-xl  p-6 shadow-sm">
+      <span class="text-sm font-semibold text-blue-600 mb-4">
+        👁 LIVE PREVIEW
+      </span>
+
+      <div class=" rounded-lg p-6 bg-gray-50">
+        <div class="ck-content" [innerHTML]="materialForm.get('content')?.value | renderLatexClean">
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+
+  <!-- FOOTER -->
+  <div class="px-8 mt-8">
+    <app-footer-actions (cancel)="onCancel()" (saveDraft)="saveDraft()" (publish)="publishContent()"
+      publishLabel="Publish Notes">
+    </app-footer-actions>
+  </div>
+
+</div>

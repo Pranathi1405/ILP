@@ -1,0 +1,411 @@
+<!-- student-overview.html -->
+<div class="min-h-screen bg-gray-50 p-6">
+  <!-- ── Page Header ───────────────────────────────────────────── -->
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-2xl font-bold text-gray-900">Student Overview</h1>
+  </div>
+
+  <!-- ── Top Section: Stats Card + Leaderboard ─────────────────── -->
+  <div class="grid grid-cols-1 lg:grid-cols-5 gap-5 mb-6">
+    <!-- Total Students Card -->
+    <div
+      class="lg:col-span-2 bg-white rounded-2xl p-6 border border-gray-100 shadow-sm flex flex-col justify-between min-h-[180px]"
+    >
+      <div class="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center mb-4">
+        <svg class="w-6 h-6 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"
+          />
+        </svg>
+      </div>
+      <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-1">
+        Total Assigned Students
+      </p>
+      <p class="text-5xl font-bold text-gray-900 leading-none mb-3">
+        {{ totalStudents | number }}
+      </p>
+    </div>
+
+    <!-- Leaderboard Table Card -->
+    <div class="lg:col-span-3 bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
+      <!-- Header -->
+      <div class="flex items-center justify-between mb-5">
+        <div class="flex items-center gap-2">
+          <svg
+            class="w-5 h-5 text-purple-500"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M5 3h14M5 3a2 2 0 00-2 2v3a7 7 0 007 7m-7-10h14m0 0a2 2 0 012 2v3a7 7 0 01-7 7m0 0v4m0 0H9m3 0h3"
+            />
+          </svg>
+          <h2 class="text-base font-semibold text-gray-800">Leaderboard Table</h2>
+        </div>
+        <span class="text-xs font-semibold text-gray-400 uppercase tracking-widest"
+          >Top Performers</span
+        >
+      </div>
+
+      <!-- Column headers -->
+      <div
+        class="grid grid-cols-12 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 px-1"
+      >
+        <div class="col-span-2">Rank</div>
+        <div class="col-span-7">Student Name</div>
+        <div class="col-span-3 text-right">Score</div>
+      </div>
+
+      <!-- Loading -->
+      <div *ngIf="leaderboardLoading" class="space-y-3">
+        <div *ngFor="let i of [1, 2, 3]" class="h-10 bg-gray-100 rounded-lg animate-pulse"></div>
+      </div>
+
+      <!-- Has data -->
+      <div *ngIf="!leaderboardLoading && leaderboard.length > 0" class="space-y-3">
+        <div
+          *ngFor="let entry of leaderboard; let i = index"
+          class="grid grid-cols-12 items-center py-2 px-1 rounded-lg hover:bg-gray-50 transition-colors"
+        >
+          <div class="col-span-2">
+            <span
+              class="inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-bold"
+              [ngClass]="{
+                'bg-yellow-100 text-yellow-700': i === 0,
+                'bg-gray-100 text-gray-600': i === 1,
+                'bg-amber-100 text-amber-700': i === 2,
+              }"
+            >
+              {{ formatRank(entry.rank) }}
+            </span>
+          </div>
+          <div class="col-span-7 flex items-center gap-3">
+            <div
+              class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
+              [ngClass]="getAvatarColor(entry.name)"
+            >
+              {{ getInitials(entry.name) }}
+            </div>
+            <span class="text-sm font-medium text-gray-800">{{ entry.name }}</span>
+          </div>
+          <div class="col-span-3 text-right">
+            <span
+              class="text-sm font-bold"
+              [ngClass]="{
+                'text-purple-600': i === 0,
+                'text-blue-600': i === 1,
+                'text-indigo-600': i === 2,
+              }"
+              >{{ entry.average_test_score }}</span
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty state -->
+      <div
+        *ngIf="!leaderboardLoading && leaderboard.length === 0"
+        class="flex flex-col items-center justify-center py-6 gap-2"
+      >
+        <div class="w-12 h-12 bg-purple-50 rounded-full flex items-center justify-center">
+          <svg
+            class="w-6 h-6 text-purple-300"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+              d="M5 3h14M5 3a2 2 0 00-2 2v3a7 7 0 007 7m-7-10h14m0 0a2 2 0 012 2v3a7 7 0 01-7 7m0 0v4m0 0H9m3 0h3"
+            />
+          </svg>
+        </div>
+        <p class="text-sm font-semibold text-gray-400">No top performers yet</p>
+        <p class="text-xs text-gray-300 text-center max-w-[200px]">
+          Students will appear here once they complete tests
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Student Roster Section ─────────────────────────────────── -->
+  <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+    <!-- Roster Header -->
+    <div class="flex items-start justify-between px-6 pt-6 pb-4">
+      <div>
+        <h2 class="text-lg font-bold text-gray-900">Student Roster</h2>
+        <p class="text-sm text-gray-400 mt-0.5">
+          Manage and track your enrolled students across all courses.
+        </p>
+      </div>
+
+      <!-- Course Filter Dropdown -->
+      <div class="relative">
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Course:</span>
+          <button
+            (click)="courseDropdownOpen = !courseDropdownOpen"
+            class="flex items-center gap-2 bg-white border border-gray-200 text-gray-700 text-sm font-medium px-3 py-2 rounded-lg hover:bg-gray-50 transition-colors min-w-[160px] justify-between"
+          >
+            <span class="truncate max-w-[140px]">{{ selectedCourseName }}</span>
+            <svg
+              class="w-4 h-4 text-gray-400 flex-shrink-0 transition-transform"
+              [class.rotate-180]="courseDropdownOpen"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Dropdown menu -->
+        <div
+          *ngIf="courseDropdownOpen"
+          class="absolute right-0 mt-1 w-64 bg-white border border-gray-200 rounded-xl shadow-lg z-20 overflow-hidden"
+        >
+          <div class="max-h-48 overflow-y-auto py-1">
+            <button
+              *ngFor="let course of courses"
+              (click)="onCourseSelect(course.course_id)"
+              class="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition-colors truncate"
+              [class.bg-indigo-50]="selectedCourseId === course.course_id"
+              [class.text-indigo-700]="selectedCourseId === course.course_id"
+            >
+              {{ course.course_title }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="overflow-x-auto">
+      <table class="w-full">
+        <!-- Table Head -->
+        <thead>
+          <tr class="bg-gray-50 border-y border-gray-100">
+            <th
+              class="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider px-6 py-3 w-16"
+            >
+              S.No
+            </th>
+            <th
+              class="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider px-4 py-3 w-28"
+            >
+              Student ID
+            </th>
+            <th
+              class="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider px-4 py-3"
+            >
+              Student Name
+            </th>
+            <th
+              class="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider px-4 py-3"
+            >
+              Course
+            </th>
+            <th
+              class="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider px-4 py-3 w-36"
+            >
+              Avg Score
+            </th>
+            <th
+              class="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider px-6 py-3 w-20"
+            >
+              Action
+            </th>
+          </tr>
+        </thead>
+
+        <!-- Loading skeleton -->
+        <tbody *ngIf="rosterLoading">
+          <tr *ngFor="let i of [1, 2, 3, 4]" class="border-b border-gray-50">
+            <td class="px-6 py-4" colspan="6">
+              <div class="h-8 bg-gray-100 rounded animate-pulse"></div>
+            </td>
+          </tr>
+        </tbody>
+
+        <!-- Has data -->
+        <tbody *ngIf="!rosterLoading && allStudents.length > 0">
+          <tr
+            *ngFor="let student of pagedStudents; let i = index"
+            class="border-b border-gray-50 hover:bg-gray-50 transition-colors"
+          >
+            <td class="px-6 py-4 text-sm text-gray-500 font-medium">
+              {{ formatRank((currentPage - 1) * pageSize + i + 1) }}
+            </td>
+            <td class="px-4 py-4 text-sm font-bold text-gray-800">
+              {{ formatStudentId(student.student_id) }}
+            </td>
+            <td class="px-4 py-4">
+              <div class="flex items-center gap-3">
+                <div
+                  class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
+                  [ngClass]="getAvatarColor(student.name)"
+                >
+                  {{ getInitials(student.name) }}
+                </div>
+                <span class="text-sm font-medium text-gray-800">{{ student.name }}</span>
+              </div>
+            </td>
+            <td class="px-4 py-4">
+              <span
+                class="inline-flex px-2.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wide"
+                [ngClass]="{
+                  'bg-purple-100 text-purple-700': student.status === 'In Progress',
+                  'bg-green-100 text-green-700': student.status === 'Completed',
+                  'bg-gray-100 text-gray-600': student.status === 'Not Started',
+                }"
+              >
+                {{ student.status }}
+              </span>
+            </td>
+            <td class="px-4 py-4">
+              <div class="flex items-center gap-3">
+                <div class="flex-1 bg-gray-100 rounded-full h-1.5 min-w-[80px]">
+                  <div
+                    class="h-1.5 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-all duration-500"
+                    [style.width.%]="getProgressWidth(student.average_test_score)"
+                  ></div>
+                </div>
+                <span class="text-sm font-semibold text-gray-700 w-10 text-right">
+                  {{ student.average_test_score }}%
+                </span>
+              </div>
+            </td>
+            <td class="px-6 py-4">
+              <button
+                (click)="viewStudent(student)"
+                class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-indigo-50 transition-colors group"
+                title="View student details"
+              >
+                <svg
+                  class="w-5 h-5 text-gray-400 group-hover:text-indigo-600 transition-colors"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                  />
+                </svg>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+
+        <!-- Empty state -->
+        <tbody *ngIf="!rosterLoading && allStudents.length === 0">
+          <tr>
+            <td colspan="6" class="py-16 text-center">
+              <div class="flex flex-col items-center gap-3">
+                <div class="w-16 h-16 bg-indigo-50 rounded-full flex items-center justify-center">
+                  <svg
+                    class="w-8 h-8 text-indigo-300"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                      d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                  </svg>
+                </div>
+                <p class="text-sm font-semibold text-gray-500">No students enrolled yet</p>
+                <p class="text-xs text-gray-400 max-w-[260px]">
+                  No students found for this course. Try selecting a different course from the
+                  dropdown above.
+                </p>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ── Pagination Footer ──────────────────────────────────── -->
+    <div class="flex items-center justify-between px-6 py-4 border-t border-gray-100">
+      <span class="text-sm text-gray-500">
+        Showing {{ pagedStudents.length }} of {{ allStudents.length }} students
+      </span>
+      <div class="flex items-center gap-1">
+        <button
+          (click)="goToPage(currentPage - 1)"
+          [disabled]="currentPage === 1"
+          class="w-8 h-8 flex items-center justify-center rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+        </button>
+        <button
+          *ngFor="let page of pageNumbers"
+          (click)="goToPage(page)"
+          class="w-8 h-8 flex items-center justify-center rounded-lg text-sm font-medium transition-colors"
+          [ngClass]="
+            page === currentPage
+              ? 'bg-indigo-600 text-white border border-indigo-600'
+              : 'border border-gray-200 text-gray-600 hover:bg-gray-50'
+          "
+        >
+          {{ page }}
+        </button>
+        <button
+          (click)="goToPage(currentPage + 1)"
+          [disabled]="currentPage === totalPages"
+          class="w-8 h-8 flex items-center justify-center rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 5l7 7-7 7"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Close dropdown on outside click -->
+<div
+  *ngIf="courseDropdownOpen"
+  (click)="courseDropdownOpen = false"
+  class="fixed inset-0 z-10"
+></div>

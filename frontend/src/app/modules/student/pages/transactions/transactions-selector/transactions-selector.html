@@ -1,0 +1,42 @@
+<div class="flex gap-1 border-b border-slate-200">
+  @for (tab of tabs; track tab.value) {
+    <button
+      (click)="onTabClick(tab.value)"
+      class="flex items-center gap-2 px-4 py-3 text-sm font-semibold transition-colors duration-150 border-b-2 -mb-[2px]"
+      [class]="
+        activeTab() === tab.value
+          ? 'border-custom_blue text-custom_blue'
+          : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
+      "
+    >
+      @if (tab.value === 'history') {
+        <svg
+          class="w-4 h-4"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="12" cy="12" r="10" />
+          <polyline points="12 6 12 12 16 14" />
+        </svg>
+      } @else {
+        <svg
+          class="w-4 h-4"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+        </svg>
+      }
+      {{ tab.label }}
+    </button>
+  }
+</div>

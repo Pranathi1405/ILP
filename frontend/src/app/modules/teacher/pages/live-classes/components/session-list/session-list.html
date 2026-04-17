@@ -1,0 +1,56 @@
+<!-- Author: Poojitha -->
+<!-- Live-Studio Page Session-list Component -->
+
+<div class="bg-white border border-gray-200 rounded-xl p-6">
+  <div class="flex justify-between items-center mb-4">
+    <div class="flex gap-2">
+      <!-- Upcoming -->
+      <button (click)="changeTab('upcoming')" [class.bg-gray-100]="selectedTab() === 'upcoming'" [disabled]="isSearching()"
+        class="px-4 py-2 rounded-lg text-sm font-medium">
+        Upcoming Sessions
+      </button>
+
+      <!-- Past -->
+      <button (click)="changeTab('past')" [class.bg-gray-100]="selectedTab() === 'past'" [disabled]="isSearching()"
+        class="px-4 py-2 text-sm">
+        Past Sessions
+      </button>
+    </div>
+
+    <div class="flex gap-4">
+      <!-- Status Filter -->
+      <select [ngModel]="selectedStatus()" (ngModelChange)="selectedStatus.set($event)"
+        class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <option value="All">All</option>
+        <option value="Scheduled">Scheduled</option>
+        <option value="Live">Live</option>
+      </select>
+
+      <!-- Search Input -->
+      <div class="relative">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-400 absolute left-3 top-2.5" fill="none"
+          viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35m1.85-5.65
+             a7 7 0 11-14 0
+             a7 7 0 0114 0z" />
+        </svg>
+
+        <input type="text" [ngModel]="searchTerm()" (ngModelChange)="onSearchChange($event)"
+
+          placeholder="Search by title, subjects....."
+          class="border border-gray-300 rounded-lg pl-9 pr-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Session Cards -->
+  <div class="flex flex-col gap-4 mt-4">
+    @for (session of filteredSessions(); track session.id) {
+    <app-session-card [session]="session" (onDelete)="handleDelete($event)" (onStart)="handleStart($event)" (resume)="handleResume($event)" > </app-session-card>
+    }
+
+    @if (filteredSessions().length === 0) {
+    <p class="text-gray-500 text-center py-6">No sessions found</p>
+    }
+  </div>
+</div>

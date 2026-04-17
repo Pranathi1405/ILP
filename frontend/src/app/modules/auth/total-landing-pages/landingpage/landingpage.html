@@ -1,0 +1,123 @@
+<nav
+  class="sticky top-0 z-50 backdrop-blur-xl bg-white/90 border-b border-gray-200 h-[68px] flex items-center justify-between px-6 md:px-12"
+>
+  <!-- Logo -->
+  <a href="#" class="flex items-center gap-2 font-bold text-lg text-blue-600">
+    <img src="/icons/icon.svg" class="h-8" />
+  </a>
+
+  <!-- Desktop Menu -->
+  <ul class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
+    <li>
+      <a (click)="scrollTo('courses')" class="text-black cursor-pointer">Courses</a>
+    </li>
+    <li>
+      <a (click)="scrollTo('features')" class="text-black cursor-pointer">Features</a>
+    </li>
+    <li>
+      <a href="#" class="text-black">Exams</a>
+    </li>
+    <li>
+      <a (click)="scrollTo('features')" class="text-black cursor-pointer">About Us</a>
+    </li>
+  </ul>
+
+  <!-- Right Side -->
+  <div class="flex items-center gap-3">
+    <!-- Desktop Buttons -->
+    <div class="hidden md:flex gap-3">
+      <button class="px-4 py-2 text-sm text-gray-600 hover:bg-blue-50" [routerLink]="['/login']">
+        Login
+      </button>
+
+      <button
+        class="px-6 py-2 text-sm font-semibold text-white bg-black rounded-full"
+        routerLink="/signup-selection"
+      >
+        Sign Up
+      </button>
+    </div>
+
+    <!-- Hamburger -->
+    <button class="md:hidden" (click)="toggleMenu()">
+      @if (!isMenuOpen) {
+        <!-- Hamburger -->
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-7 w-7 text-black"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"
+          />
+        </svg>
+      } @else {
+        <!-- Close -->
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-7 w-7 text-black"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      }
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+@if (isMenuOpen) {
+  <div
+    class="md:hidden fixed top-[68px] left-0 w-full bg-white shadow-lg flex flex-col items-center gap-6 py-6 z-40"
+  >
+    <a (click)="closeMenu()" [routerLink]="[]" fragment="courses">Courses</a>
+    <a (click)="closeMenu()" [routerLink]="[]" fragment="features">Features</a>
+    <a (click)="closeMenu()" href="#">Exams</a>
+    <a (click)="closeMenu()" [routerLink]="[]" fragment="features">About Us</a>
+
+    <button (click)="closeMenu()" [routerLink]="['/login']" class="px-4 py-2 text-sm text-gray-600">
+      Login
+    </button>
+
+    <button
+      (click)="closeMenu()"
+      routerLink="/signup-selection"
+      class="px-6 py-2 text-sm font-semibold text-white bg-black rounded-full"
+    >
+      Sign Up
+    </button>
+  </div>
+}
+
+<!-- Content -->
+<app-landing-title></app-landing-title>
+
+@defer {
+  <div id="courses">
+    <app-free-trial></app-free-trial>
+  </div>
+}
+
+@defer {
+  <div id="features">
+    <app-choose-us></app-choose-us>
+  </div>
+}
+
+@defer {
+  <app-users></app-users>
+}
+
+<app-footer></app-footer>

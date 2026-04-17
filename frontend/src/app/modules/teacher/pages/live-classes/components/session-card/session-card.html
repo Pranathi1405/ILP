@@ -1,0 +1,103 @@
+<!-- Author: Poojitha -->
+<!-- Live Studio Session Card Component -->
+
+<div
+  class="flex items-center justify-between bg-white border border-gray-200 rounded-xl px-5 py-4 hover:shadow-sm transition">
+  <!-- LEFT SECTION -->
+  <div class="flex items-start gap-4">
+    <!-- Session Icon -->
+    <div class="w-10 h-10 flex items-center justify-center rounded-lg"
+      [ngClass]="session.status === 'live' ? 'bg-red-100 text-red-600' : 'bg-gray-900 text-white'">
+      <!-- Camera Icon -->
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121
+                 8.618v6.764a1 1 0 01-1.447.894L15
+                 14V10z" />
+
+        <rect x="3" y="6" width="12" height="12" rx="2"></rect>
+      </svg>
+    </div>
+
+    <!-- Session Info -->
+    <div class="flex flex-col gap-1">
+      <!-- Title + Status -->
+      <div class="flex items-center gap-2">
+        <h3 class="font-semibold text-gray-800 truncate">
+          {{ session.title }}
+        </h3>
+
+        <!-- LIVE Badge -->
+        @if (session.status === 'live') {
+        <span class="flex items-center bg-red-100 gap-1 text-xs font-semibold text-red-600">
+          <span class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span> LIVE 
+        </span>
+        }
+
+        <!-- Scheduled Badge -->
+        @if (session.status === 'scheduled') {
+        <span class="text-xs bg-blue-100 text-blue-600 px-2 py-0.5 rounded"> SCHEDULED </span>
+        }
+        @if (session.status === 'completed') {
+  <span class="text-xs bg-green-100 text-green-600 px-2 py-0.5 rounded">
+    COMPLETED
+  </span>
+}
+
+      </div>
+
+      <!-- Session Details -->
+      <p class="text-sm text-gray-500">
+        {{ session.date }} • {{ session.time }} • {{ session.course }} • {{ session.subject }} • {{ session.module }}
+      </p>
+    </div>
+  </div>
+
+  <!-- RIGHT SECTION -->
+  <div class="flex items-center gap-3">
+    <!-- Start Broadcast -->
+    @if (session.status === 'scheduled') {
+    <button (click)="startBroadcast()"
+      class="flex items-center gap-2 bg-black text-white px-4 py-2 rounded-lg text-sm hover:bg-gray-800 transition">
+      Start Broadcast
+    </button>
+    }
+
+    <!-- Resume Broadcast -->
+    @if (session.status === 'live') {
+    <button  (click)="resume.emit(session.id)"
+      class="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-sky-500 transition">
+      <!-- Play Icon -->
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+        <path d="M4 4l12 6-12 6V4z" />
+      </svg>
+
+      Resume Broadcast
+    </button>
+    }
+
+    <!-- Menu -->
+    <div class="relative">
+      <!-- Menu Button -->
+      <button (click)="toggleMenu()" title="More options"
+        class="p-2 rounded-lg hover:bg-gray-100 text-gray-500 hover:text-gray-700">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+          <path
+            d="M10 3a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm0 5.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm0 5.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3z" />
+        </svg>
+      </button>
+
+      <!-- Dropdown -->
+      @if (isMenuOpen) {
+      <div class="absolute right-0 mt-2 w-36 bg-white border border-gray-200 rounded-lg shadow-md z-10">
+        <button (click)="editSession()" class="w-full text-left px-4 py-2 text-sm hover:bg-gray-100">
+          ✏️ Edit
+        </button>
+
+        <button (click)="deleteSession()" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
+          🗑 Delete
+        </button>
+      </div>
+      }
+    </div>
+  </div>
+</div>

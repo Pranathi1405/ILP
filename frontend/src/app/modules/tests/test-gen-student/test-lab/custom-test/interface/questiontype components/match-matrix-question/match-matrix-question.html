@@ -1,0 +1,72 @@
+<!-- Author: E.Kaeith Emmanuel | MATCH_MATRIX -->
+<div class="space-y-5">
+  <p class="text-[11px] font-bold uppercase tracking-widest text-rose-500 mb-5 flex items-center gap-2">
+    <span class="inline-block w-2 h-2 rounded-full bg-rose-500"></span>
+    Match the Following
+  </p>
+
+  <div class="grid grid-cols-2 gap-4">
+    <div>
+      <p class="text-[11px] font-bold uppercase tracking-wide text-gray-500 mb-3">List I</p>
+      <div class="space-y-2">
+        @for (item of listI; track item.key) {
+        <div class="flex items-start gap-3 bg-blue-50 border border-blue-200 rounded-xl px-4 py-3">
+          <span
+            class="shrink-0 w-7 h-7 rounded-full bg-blue-600 text-white text-xs font-bold flex items-center justify-center mt-0.5">
+            {{ item.key }}
+          </span>
+          <span class="text-[13px] text-gray-700 leading-snug" [innerHTML]="item.value | safeLatex"></span>
+        </div>
+        }
+      </div>
+    </div>
+
+    <div>
+      <p class="text-[11px] font-bold uppercase tracking-wide text-gray-500 mb-3">List II</p>
+      <div class="space-y-2">
+        @for (item of listII; track item.key) {
+        <div class="flex items-start gap-3 bg-emerald-50 border border-emerald-200 rounded-xl px-4 py-3">
+          <span
+            class="shrink-0 w-7 h-7 rounded-full bg-emerald-600 text-white text-xs font-bold flex items-center justify-center mt-0.5">
+            {{ item.key }}
+          </span>
+          <span class="text-[13px] text-gray-700 leading-snug" [innerHTML]="item.value | safeLatex"></span>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+
+  <p class="text-[13px] text-gray-500 italic">Select the correct matching combination:</p>
+
+  <div class="space-y-3">
+    @for (choice of choices; track $index) {
+    <button type="button" (click)="select($index)"
+      class="w-full flex items-center gap-4 px-5 py-4 rounded-2xl border-2 text-left transition-all duration-200 group outline-none focus-visible:ring-2 focus-visible:ring-rose-400"
+      [class.border-rose-500]="isSelected($index)" [class.bg-rose-50]="isSelected($index)"
+      [class.shadow-md]="isSelected($index)" [class.border-gray-200]="!isSelected($index)"
+      [class.bg-white]="!isSelected($index)">
+      <span
+        class="shrink-0 w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-200"
+        [class.bg-rose-500]="isSelected($index)" [class.text-white]="isSelected($index)"
+        [class.bg-gray-100]="!isSelected($index)" [class.text-gray-500]="!isSelected($index)">{{ choice.label }}</span>
+
+      <div class="flex flex-wrap gap-2 flex-1">
+        @for (pair of choice.pairs; track pair.k) {
+        <span class="text-[12px] px-2.5 py-1 rounded-lg font-mono font-semibold transition-all duration-200"
+          [class.bg-rose-200]="isSelected($index)" [class.text-rose-800]="isSelected($index)"
+          [class.bg-gray-100]="!isSelected($index)" [class.text-gray-600]="!isSelected($index)"
+          [innerHTML]="(pair.k + ' → ' + pair.v) | safeLatex"></span>
+        }
+      </div>
+
+      @if (isSelected($index)) {
+      <svg class="w-5 h-5 text-rose-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5"
+        viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+      </svg>
+      }
+    </button>
+    }
+  </div>
+</div>

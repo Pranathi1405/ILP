@@ -1,0 +1,57 @@
+
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: docker/DOCKERFILE
+    container_name: ilp-backend
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      DB_HOST: batch04-db.mysql.database.azure.com
+      DB_PORT: 3306
+      DB_USER: batch04_admin
+      DB_PASSWORD: Intern04@40
+      DB_NAME: ilp
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: redis_password_123
+      JWT_SECRET: Sathvik
+      # JWT_REFRESH_SECRET: Sathvik
+      RAZORPAY_KEY_ID: rzp_test_x3lel82AZIsRl6
+      RAZORPAY_KEY_SECRET: IAdwmjeqwMbXm9LEJD90JtAk
+    depends_on:
+      redis:
+        condition: service_healthy
+    volumes:
+      - ../src:/app/src
+      - ../logs:/app/logs
+    networks:
+      - ilp-network
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: ilp-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - ilp-network
+    restart: unless-stopped
+    command: redis-server --appendonly yes --requirepass redis_password_123
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "redis_password_123", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  redis_data:
+
+networks:
+  ilp-network:
+    driver: bridge

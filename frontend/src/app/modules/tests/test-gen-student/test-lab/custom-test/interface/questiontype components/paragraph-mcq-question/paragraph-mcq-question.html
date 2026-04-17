@@ -1,0 +1,71 @@
+<!-- Author: E.Kaeith Emmanuel | PARAGRAPH_MCQ -->
+<div class="space-y-5">
+  <p
+    class="text-[11px] font-bold uppercase tracking-widest text-cyan-600 mb-2 flex items-center gap-2"
+  >
+    <span class="inline-block w-2 h-2 rounded-full bg-cyan-500"></span>
+    Comprehension / Paragraph Type
+  </p>
+
+  @if (question.paragraph) {
+    <div class="bg-cyan-50 border border-cyan-200 rounded-2xl px-5 py-4">
+      <p class="text-[11px] font-bold uppercase tracking-wide text-cyan-600 mb-2">Passage</p>
+      <div
+        class="text-[14px] text-gray-800 leading-relaxed whitespace-pre-line"
+        [innerHTML]="question.paragraph | safeLatex"
+      ></div>
+    </div>
+  }
+
+  <div class="border-t border-gray-200"></div>
+
+  <p
+    class="text-[15px] font-semibold text-gray-800 leading-snug"
+    [innerHTML]="question.question | safeLatex"
+  ></p>
+
+  <div class="space-y-3">
+    @for (option of question.options; track option.id) {
+      <button
+        type="button"
+        (click)="selectOption(option.id)"
+        class="w-full flex items-center gap-4 px-5 py-4 rounded-2xl border-2 text-left transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
+        [class.border-cyan-500]="isSelected(option.id)"
+        [class.bg-cyan-50]="isSelected(option.id)"
+        [class.shadow-md]="isSelected(option.id)"
+        [class.border-gray-200]="!isSelected(option.id)"
+        [class.bg-white]="!isSelected(option.id)"
+      >
+        <span
+          class="shrink-0 w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-200"
+          [class.bg-cyan-600]="isSelected(option.id)"
+          [class.text-white]="isSelected(option.id)"
+          [class.bg-gray-100]="!isSelected(option.id)"
+          [class.text-gray-500]="!isSelected(option.id)"
+        >
+          {{ option.label }}
+        </span>
+
+        <span
+          class="text-[15px] leading-snug flex-1 transition-colors duration-200"
+          [class.text-cyan-800]="isSelected(option.id)"
+          [class.font-medium]="isSelected(option.id)"
+          [class.text-gray-700]="!isSelected(option.id)"
+          [innerHTML]="option.text | safeLatex"
+        ></span>
+
+        @if (isSelected(option.id)) {
+          <svg
+            class="w-5 h-5 text-cyan-600 shrink-0"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            viewBox="0 0 24 24"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+        }
+      </button>
+    }
+  </div>
+</div>

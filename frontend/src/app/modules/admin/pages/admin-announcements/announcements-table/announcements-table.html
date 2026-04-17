@@ -1,0 +1,375 @@
+<div class="bg-white mt-5 border border-slate-200 rounded-xl overflow-hidden">
+  @if (actionError()) {
+    <div class="px-6 py-3 bg-red-50 border-b border-red-100 text-sm text-red-600 font-semibold">
+      {{ actionError() }}
+    </div>
+  }
+
+  <div class="overflow-x-auto">
+    <table class="w-full min-w-[900px]">
+      <colgroup>
+        <col class="w-[14%]" />
+        <col class="w-[24%]" />
+        <col class="w-[15%]" />
+        <col class="w-[18%]" />
+        <col class="w-[15%]" />
+        <col class="w-[14%]" />
+      </colgroup>
+      <thead class="bg-[#F8FAFC]">
+        <tr>
+          @for (col of columnHeaders; track col) {
+            <th
+              class="px-4 xl:px-6 py-3 xl:py-4 text-center font-bold text-[10px] xl:text-[12px] leading-[120%] tracking-[2px] uppercase text-[#94A3B8]"
+            >
+              {{ col }}
+            </th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @if (paginatedAnnouncements().length === 0) {
+          <tr>
+            <td
+              [colSpan]="columnHeaders.length"
+              class="px-6 py-16 text-center text-slate-400 text-sm"
+            >
+              No announcements found.
+            </td>
+          </tr>
+        } @else {
+          @for (a of paginatedAnnouncements(); track a.announcement_id) {
+            <tr
+              class="border-t border-slate-100 hover:bg-slate-50 transition-colors"
+              [class.opacity-50]="actionLoading() === a.announcement_id"
+            >
+              <!-- target_audience -->
+              <td class="px-4 xl:px-6 py-3 xl:py-4 text-center align-middle">
+                <span
+                  class="inline-block px-3 py-1 rounded-xl text-xs font-semibold border"
+                  [ngClass]="targetStyles[a.target_audience]"
+                >
+                  {{ targetLabels[a.target_audience] }}
+                  @if (a.target_audience === 'course_students' && a.course_id) {
+                    <span class="ml-1 opacity-60">#{{ a.course_id }}</span>
+                  }
+                </span>
+              </td>
+
+              <!-- title + content preview -->
+              <td class="px-4 xl:px-6 py-3 xl:py-4">
+                <p class="font-bold text-[13px] xl:text-[15px] text-slate-800 leading-snug">
+                  {{ a.title }}
+                </p>
+                <p class="text-[11px] xl:text-[12px] text-slate-400 mt-0.5 truncate max-w-xs">
+                  {{ a.content }}
+                </p>
+              </td>
+
+              <!-- status -->
+              <td class="px-4 xl:px-6 py-3 xl:py-4 text-center align-middle">
+                <span
+                  class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold capitalize"
+                  [ngClass]="statusStyles[a.status]"
+                >
+                  <span
+                    class="w-1.5 h-1.5 rounded-full"
+                    [ngClass]="statusDotStyles[a.status]"
+                  ></span>
+                  {{ a.status }}
+                </span>
+              </td>
+
+              <!-- duration -->
+              <td class="px-4 xl:px-6 py-3 xl:py-4 text-center align-middle">
+                @if (a.start_date) {
+                  <p class="text-[12px] xl:text-[13px] font-semibold text-slate-500 leading-snug">
+                    {{ a.start_date | date: 'MMM dd, yyyy' }}
+                  </p>
+                }
+                @if (a.end_date) {
+                  <p class="text-[11px] text-slate-400 mt-0.5">
+                    — {{ a.end_date | date: 'MMM dd, yyyy' }}
+                  </p>
+                }
+                @if (!a.start_date && !a.end_date) {
+                  <p class="text-[11px] text-slate-300">—</p>
+                }
+              </td>
+
+              <!-- created_by -->
+              <td class="px-4 xl:px-6 py-3 xl:py-4 text-center align-middle">
+                <p class="text-[12px] xl:text-[13px] font-semibold text-slate-700">
+                  {{ a.created_by_name ?? 'Admin' }}
+                </p>
+                @if (a.created_at) {
+                  <p class="text-[11px] text-slate-400 mt-0.5">
+                    {{ a.created_at | date: 'MMM dd' }}
+                  </p>
+                }
+              </td>
+
+              <!-- ── Actions ── -->
+              <td class="px-4 xl:px-6 py-3 xl:py-4 text-center align-middle">
+                <div class="flex items-center justify-center gap-1.5">
+                  @if (actionLoading() === a.announcement_id) {
+                    <svg
+                      class="animate-spin w-4 h-4 text-slate-400"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                    >
+                      <circle
+                        class="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        stroke-width="4"
+                      />
+                      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                    </svg>
+                  } @else if (a.status === 'broadcasted' || a.status === 'edited') {
+                    <!-- Edit -->
+                    <button
+                      (click)="navigateToEdit(a)"
+                      title="Edit"
+                      class="w-7 h-7 flex items-center justify-center rounded-md hover:bg-slate-100 transition-colors"
+                    >
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <path
+                          d="M1.5 12H2.56875L9.9 4.66875L8.83125 3.6L1.5 10.9312V12ZM0 13.5V10.3125L9.9 0.43125C10.05 0.29375 10.2156 0.1875 10.3969 0.1125C10.5781 0.0375 10.7688 0 10.9688 0C11.1687 0 11.3625 0.0375 11.55 0.1125C11.7375 0.1875 11.9 0.3 12.0375 0.45L13.0688 1.5C13.2188 1.6375 13.3281 1.8 13.3969 1.9875C13.4656 2.175 13.5 2.3625 13.5 2.55C13.5 2.75 13.4656 2.94062 13.3969 3.12188C13.3281 3.30313 13.2188 3.46875 13.0688 3.61875L3.1875 13.5H0ZM12 2.55L10.95 1.5L12 2.55ZM9.35625 4.14375L8.83125 3.6L9.9 4.66875L9.35625 4.14375Z"
+                          fill="#94A3B8"
+                        />
+                      </svg>
+                    </button>
+                    <!-- Deactivate -->
+                    <button
+                      (click)="openDeactivateConfirm(a)"
+                      title="Deactivate"
+                      class="w-7 h-7 flex items-center justify-center rounded-md hover:bg-red-50 transition-colors"
+                    >
+                      <svg width="12" height="14" viewBox="0 0 12 14" fill="none">
+                        <path
+                          d="M2.25 13.5C1.8375 13.5 1.48438 13.3531 1.19062 13.0594C0.896875 12.7656 0.75 12.4125 0.75 12V2.25H0V0.75H3.75V0H8.25V0.75H12V2.25H11.25V12C11.25 12.4125 11.1031 12.7656 10.8094 13.0594C10.5156 13.3531 10.1625 13.5 9.75 13.5H2.25ZM9.75 2.25H2.25V12H9.75V2.25ZM3.75 10.5H5.25V3.75H3.75V10.5ZM6.75 10.5H8.25V3.75H6.75V10.5ZM2.25 2.25V12V2.25Z"
+                          fill="#94A3B8"
+                        />
+                      </svg>
+                    </button>
+                    <!-- Analytics -->
+                    <button
+                      (click)="viewAnalytics(a)"
+                      title="Analytics"
+                      class="w-7 h-7 flex items-center justify-center rounded-md hover:bg-blue-50 transition-colors"
+                    >
+                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                        <path d="M9 12V6.75H12V12H9ZM4.5 12V0H7.5V12H4.5ZM0 12V3.75H3V12H0Z" fill="#94A3B8" />
+                      </svg>
+                    </button>
+                  } @else if (a.status === 'scheduled' || a.status === 'draft') {
+                    <!-- Edit -->
+                    <button
+                      (click)="navigateToEdit(a)"
+                      title="Edit"
+                      class="w-7 h-7 flex items-center justify-center rounded-md hover:bg-slate-100 transition-colors"
+                    >
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <path
+                          d="M1.5 12H2.56875L9.9 4.66875L8.83125 3.6L1.5 10.9312V12ZM0 13.5V10.3125L9.9 0.43125C10.05 0.29375 10.2156 0.1875 10.3969 0.1125C10.5781 0.0375 10.7688 0 10.9688 0C11.1687 0 11.3625 0.0375 11.55 0.1125C11.7375 0.1875 11.9 0.3 12.0375 0.45L13.0688 1.5C13.2188 1.6375 13.3281 1.8 13.3969 1.9875C13.4656 2.175 13.5 2.3625 13.5 2.55C13.5 2.75 13.4656 2.94062 13.3969 3.12188C13.3281 3.30313 13.2188 3.46875 13.0688 3.61875L3.1875 13.5H0ZM12 2.55L10.95 1.5L12 2.55ZM9.35625 4.14375L8.83125 3.6L9.9 4.66875L9.35625 4.14375Z"
+                          fill="#94A3B8"
+                        />
+                      </svg>
+                    </button>
+                    <!-- Deactivate -->
+                    <button
+                      (click)="openDeactivateConfirm(a)"
+                      title="Deactivate"
+                      class="w-7 h-7 flex items-center justify-center rounded-md hover:bg-red-50 transition-colors"
+                    >
+                      <svg width="12" height="14" viewBox="0 0 12 14" fill="none">
+                        <path
+                          d="M2.25 13.5C1.8375 13.5 1.48438 13.3531 1.19062 13.0594C0.896875 12.7656 0.75 12.4125 0.75 12V2.25H0V0.75H3.75V0H8.25V0.75H12V2.25H11.25V12C11.25 12.4125 11.1031 12.7656 10.8094 13.0594C10.5156 13.3531 10.1625 13.5 9.75 13.5H2.25ZM9.75 2.25H2.25V12H9.75V2.25ZM3.75 10.5H5.25V3.75H3.75V10.5ZM6.75 10.5H8.25V3.75H6.75V10.5ZM2.25 2.25V12V2.25Z"
+                          fill="#94A3B8"
+                        />
+                      </svg>
+                    </button>
+                    <!-- Broadcast -->
+                    <button
+                      (click)="openBroadcastConfirm(a)"
+                      title="Broadcast Now"
+                      class="w-7 h-7 flex items-center justify-center rounded-md hover:bg-emerald-50 transition-colors"
+                    >
+                      <svg
+                        width="13"
+                        height="13"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="#10b981"
+                        stroke-width="2.2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <polyline points="22 2 11 13" />
+                        <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                      </svg>
+                    </button>
+                  } @else if (a.status === 'deactivated') {
+                    <!-- Analytics only -->
+                    <button
+                      (click)="viewAnalytics(a)"
+                      title="Analytics"
+                      class="w-7 h-7 flex items-center justify-center rounded-md hover:bg-blue-50 transition-colors"
+                    >
+                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                        <path d="M9 12V6.75H12V12H9ZM4.5 12V0H7.5V12H4.5ZM0 12V3.75H3V12H0Z" fill="#94A3B8" />
+                      </svg>
+                    </button>
+                  }
+                </div>
+              </td>
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  <div
+    class="flex justify-between items-center px-4 xl:px-6 py-3 xl:py-4 border-t border-slate-100"
+  >
+    <p class="text-[11px] xl:text-[13px] text-slate-500 font-semibold uppercase tracking-wide">
+      Showing {{ startIndex() + 1 }} to {{ endIndex() }} of
+      {{ filteredAnnouncements().length }} announcements
+    </p>
+    <div class="flex items-center gap-1">
+      <button
+        (click)="prevPage()"
+        [disabled]="currentPage() === 1"
+        class="w-7 h-7 xl:w-8 xl:h-8 flex items-center justify-center rounded-md border border-slate-200 text-slate-400 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+      >
+        ‹
+      </button>
+
+      @for (page of visiblePages(); track $index) {
+        @if (page === '...') {
+          <span
+            class="w-7 h-7 xl:w-8 xl:h-8 flex items-center justify-center text-slate-400 text-sm"
+            >…</span
+          >
+        } @else {
+          <button
+            (click)="goToPage(page)"
+            class="w-7 h-7 xl:w-8 xl:h-8 flex items-center justify-center rounded-md text-[12px] xl:text-[13px] font-semibold transition-colors"
+            [class]="
+              currentPage() === page
+                ? 'bg-blue-600 text-white border border-blue-600'
+                : 'border border-slate-200 text-slate-500 hover:bg-slate-50'
+            "
+          >
+            {{ page }}
+          </button>
+        }
+      }
+
+      <button
+        (click)="nextPage()"
+        [disabled]="currentPage() === totalPages()"
+        class="w-7 h-7 xl:w-8 xl:h-8 flex items-center justify-center rounded-md border border-slate-200 text-slate-400 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+      >
+        ›
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Broadcast Confirm Dialog ── -->
+@if (showBroadcastConfirm()) {
+  <div class="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-8">
+      <div
+        class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-50 border-2 border-emerald-300 mx-auto mb-5"
+      >
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#10b981"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="22 2 11 13" />
+          <polygon points="22 2 15 22 11 13 2 9 22 2" />
+        </svg>
+      </div>
+      <h3 class="text-lg font-black text-slate-800 text-center mb-2">Broadcast Now?</h3>
+      <p class="text-sm text-slate-500 text-center font-semibold mb-1">
+        {{ pendingBroadcastAnnouncement()?.title }}
+      </p>
+      <p class="text-xs text-slate-400 text-center mb-8">
+        This will immediately send notifications to all
+        <span class="font-semibold text-slate-600 capitalize">{{
+          pendingBroadcastAnnouncement()?.target_audience?.replaceAll('_', ' ')
+        }}</span>
+        users.
+      </p>
+      <div class="flex gap-3">
+        <button
+          type="button"
+          (click)="cancelBroadcast()"
+          class="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 text-slate-600 text-xs font-bold tracking-widest uppercase transition hover:border-slate-400"
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          (click)="confirmBroadcast()"
+          class="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-500 text-white text-xs font-bold tracking-widest uppercase shadow-lg shadow-emerald-100 transition hover:bg-emerald-600"
+        >
+          Broadcast
+        </button>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- ── Deactivate Confirm Dialog ── -->
+@if (showDeactivateConfirm()) {
+  <div class="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-8">
+      <div
+        class="flex items-center justify-center w-12 h-12 rounded-full bg-red-50 border-2 border-red-200 mx-auto mb-5"
+      >
+        <svg width="12" height="14" viewBox="0 0 12 14" fill="none">
+          <path
+            d="M2.25 13.5C1.8375 13.5 1.48438 13.3531 1.19062 13.0594C0.896875 12.7656 0.75 12.4125 0.75 12V2.25H0V0.75H3.75V0H8.25V0.75H12V2.25H11.25V12C11.25 12.4125 11.1031 12.7656 10.8094 13.0594C10.5156 13.3531 10.1625 13.5 9.75 13.5H2.25ZM9.75 2.25H2.25V12H9.75V2.25ZM3.75 10.5H5.25V3.75H3.75V10.5ZM6.75 10.5H8.25V3.75H6.75V10.5ZM2.25 2.25V12V2.25Z"
+            fill="#F87171"
+          />
+        </svg>
+      </div>
+      <h3 class="text-lg font-black text-slate-800 text-center mb-2">Deactivate Announcement?</h3>
+      <p class="text-sm text-slate-500 text-center font-semibold mb-1">
+        {{ pendingDeactivateAnnouncement()?.title }}
+      </p>
+      <p class="text-xs text-slate-400 text-center mb-8">
+        This will deactivate the announcement. This action cannot be undone.
+      </p>
+      <div class="flex gap-3">
+        <button
+          type="button"
+          (click)="cancelDeactivate()"
+          class="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 text-slate-600 text-xs font-bold tracking-widest uppercase transition hover:border-slate-400"
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          (click)="confirmDeactivate()"
+          class="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-red-500 text-white text-xs font-bold tracking-widest uppercase shadow-lg shadow-red-100 transition hover:bg-red-600"
+        >
+          Deactivate
+        </button>
+      </div>
+    </div>
+  </div>
+}

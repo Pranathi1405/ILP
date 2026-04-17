@@ -1,0 +1,382 @@
+<div class="p-8 space-y-6">
+  <!-- ── PROFILE LOADING ── -->
+  <div *ngIf="profileLoading" class="flex justify-center py-10">
+    <div
+      class="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"
+    ></div>
+  </div>
+
+  <ng-container *ngIf="!profileLoading">
+    <!-- ── PROFILE SETTINGS ── -->
+    <div>
+      <h2 class="text-2xl font-semibold text-slate-800">Profile Settings</h2>
+      <p class="text-slate-500 text-sm">Update your personal information and contact details.</p>
+    </div>
+
+    <div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-8 space-y-6">
+      <div class="grid grid-cols-2 gap-6">
+        <div>
+          <label class="text-sm text-slate-500 mb-1 block">First Name</label>
+          <input
+            type="text"
+            [(ngModel)]="profile.firstname"
+            class="w-full border border-slate-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          />
+        </div>
+
+        <div>
+          <label class="text-sm text-slate-500 mb-1 block">Last Name</label>
+          <input
+            type="text"
+            [(ngModel)]="profile.lastname"
+            class="w-full border border-slate-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          />
+        </div>
+
+        <!-- Email — read only for all roles -->
+        <div>
+          <label class="text-sm text-slate-500 mb-1 block">Email Address</label>
+          <input
+            type="email"
+            [(ngModel)]="profile.email"
+            disabled
+            class="w-full border border-slate-200 rounded-lg px-3 py-2 bg-slate-50 text-slate-400 cursor-not-allowed focus:outline-none"
+          />
+          <p class="text-xs text-slate-400 mt-1">Email cannot be changed</p>
+        </div>
+
+        <div>
+          <label class="text-sm text-slate-500 mb-1 block">Phone Number</label>
+          <input
+            type="text"
+            [(ngModel)]="profile.phone"
+            class="w-full border border-slate-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          />
+        </div>
+      </div>
+
+      <div *ngIf="profileSuccess" class="text-green-600 text-sm text-right">
+        {{ profileSuccess }}
+      </div>
+      <div *ngIf="profileError" class="text-red-500 text-sm text-right">{{ profileError }}</div>
+
+      <div class="flex justify-end mt-4">
+        <button
+          (click)="saveProfile()"
+          [disabled]="profileSaving"
+          class="w-40 h-10 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition disabled:opacity-50"
+        >
+          {{ profileSaving ? 'Saving...' : 'Save Changes' }}
+        </button>
+      </div>
+    </div>
+
+    <!-- ── LINKED CHILDREN — parent only ── -->
+    <ng-container *ngIf="isParent">
+      <div>
+        <h3 class="text-xl font-semibold text-slate-800">Linked Children</h3>
+        <p class="text-slate-500 text-sm">Manage your linked children accounts.</p>
+      </div>
+
+      <div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-6 space-y-4">
+        <!-- Loading children -->
+        <div *ngIf="childrenLoading" class="flex justify-center py-4">
+          <div
+            class="w-6 h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"
+          ></div>
+        </div>
+
+        <!-- Children list -->
+        <div *ngIf="!childrenLoading" class="flex flex-wrap gap-4 mb-4">
+          <div
+            *ngFor="let child of children"
+            class="flex items-center justify-between p-4 border border-slate-200 rounded-xl w-72 bg-slate-50"
+          >
+            <div class="flex items-center gap-3">
+              <div
+                class="flex items-center justify-center w-12 h-12 font-semibold text-blue-600 bg-blue-100 rounded-full"
+              >
+                {{ child.name.charAt(0) }}
+              </div>
+              <div>
+                <p class="text-sm font-semibold text-slate-800">{{ child.name }}</p>
+              </div>
+            </div>
+            <span class="px-2 py-1 text-xs text-white bg-blue-600 rounded-md">ACTIVE</span>
+          </div>
+          <p *ngIf="children.length === 0" class="text-sm text-slate-400">
+            No children linked yet.
+          </p>
+        </div>
+
+        <!-- Add child -->
+        <div>
+          <p class="mb-2 text-sm font-bold text-slate-800">Add Another Child</p>
+          <div class="flex items-center gap-4">
+            <label class="text-sm font-medium text-slate-700 w-40">Student Link Code</label>
+            <input
+              [(ngModel)]="linkCode"
+              placeholder="Enter code"
+              class="flex-1 px-4 py-2 text-sm border border-slate-200 rounded-xl"
+            />
+            <button
+              (click)="addChild()"
+              [disabled]="childSaving"
+              class="px-4 py-2 font-medium text-blue-600 border border-blue-200 bg-blue-50 rounded-xl disabled:opacity-50"
+            >
+              {{ childSaving ? 'Adding...' : '+ Add Child' }}
+            </button>
+          </div>
+          <p *ngIf="childSuccess" class="mt-2 text-sm text-green-600">{{ childSuccess }}</p>
+          <p *ngIf="childError" class="mt-2 text-sm text-red-500">{{ childError }}</p>
+          <p class="mt-2 text-xs text-slate-400">
+            This link code can be obtained from your child's school administration.
+          </p>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- ── SECURITY ── -->
+    <div>
+      <h3 class="text-xl font-semibold text-slate-800">Security</h3>
+      <p class="text-slate-500 text-sm">Manage your password and track account activity.</p>
+    </div>
+
+    <div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-8">
+      <div class="grid grid-cols-2 gap-10">
+        <!-- Change Password -->
+        <div class="space-y-3">
+          <p class="text-sm font-medium text-slate-800">Password</p>
+          <p class="text-xs text-slate-500">
+            Changing your password regularly helps keep your account secure.
+          </p>
+
+          <!-- Student: toggle button -->
+          <button
+            *ngIf="isStudent && !showChangePassword"
+            (click)="toggleChangePassword()"
+            class="border border-slate-300 text-slate-700 w-44 py-2 rounded-lg text-sm hover:bg-slate-50 transition"
+          >
+            Change Password
+          </button>
+
+          <!-- Password fields: always visible for teacher/parent, toggle for student -->
+          <ng-container *ngIf="!isStudent || showChangePassword">
+            <input
+              type="password"
+              [(ngModel)]="passwordForm.oldpassword"
+              placeholder="Current Password"
+              class="w-full border border-slate-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            />
+            <input
+              type="password"
+              [(ngModel)]="passwordForm.newpassword"
+              placeholder="New Password"
+              class="w-full border border-slate-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            />
+            <input
+              type="password"
+              [(ngModel)]="passwordForm.confirmPassword"
+              placeholder="Confirm New Password"
+              class="w-full border border-slate-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            />
+
+            <div *ngIf="passwordError" class="text-red-500 text-xs">{{ passwordError }}</div>
+            <div *ngIf="passwordSuccess" class="text-green-600 text-xs">{{ passwordSuccess }}</div>
+
+            <div class="flex gap-2 mt-1">
+              <button
+                (click)="updatePassword()"
+                [disabled]="passwordSaving"
+                class="bg-slate-900 text-white w-40 py-2 rounded-lg text-sm disabled:opacity-50 hover:bg-slate-700 transition"
+              >
+                {{ passwordSaving ? 'Updating...' : 'Update Password' }}
+              </button>
+              <!-- Cancel only for student toggle -->
+              <button
+                *ngIf="isStudent"
+                (click)="toggleChangePassword()"
+                class="border border-slate-200 text-slate-600 w-24 py-2 rounded-lg text-sm hover:bg-slate-50"
+              >
+                Cancel
+              </button>
+            </div>
+          </ng-container>
+        </div>
+
+        <!-- Login Activity — same for all roles -->
+        <div class="space-y-4">
+          <p class="text-sm font-medium text-slate-800">Recent Login Activity</p>
+          <div class="bg-slate-50 rounded-xl p-4 flex justify-between items-center">
+            <div>
+              <p class="text-sm font-medium">Chrome on Windows</p>
+              <p class="text-xs text-slate-400">Active now</p>
+            </div>
+            <span class="bg-green-100 text-green-600 px-2 py-1 text-xs rounded-2xl">CURRENT</span>
+          </div>
+          <div class="bg-slate-50 rounded-xl p-4 flex justify-between items-center">
+            <div>
+              <p class="text-sm font-medium">iPhone 14 Safari</p>
+              <p class="text-xs text-slate-400">2 hours ago</p>
+            </div>
+            <span class="text-blue-600 px-2 py-1 text-xs rounded-2xl cursor-pointer hover:underline"
+              >Log Out</span
+            >
+          </div>
+          <!-- MOCK: no sessions API in backend yet -->
+          <p class="text-red-500 text-xs mt-2 cursor-pointer hover:underline">
+            Sign out of all sessions
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── NOTIFICATIONS ── -->
+    <div class="space-y-4">
+      <h2 class="text-xl font-semibold text-slate-800">Notifications</h2>
+      <p class="text-sm text-slate-500">Choose which updates you want to receive.</p>
+
+      <div *ngIf="prefsLoading" class="flex justify-center py-8">
+        <div
+          class="w-6 h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"
+        ></div>
+      </div>
+
+      <div *ngIf="prefsError && !prefsLoading" class="text-red-500 text-sm text-center py-4">
+        {{ prefsError }}
+        <button (click)="loadPreferences()" class="ml-2 text-blue-600 underline text-sm">
+          Retry
+        </button>
+      </div>
+
+      <div
+        *ngIf="!prefsLoading && !prefsError"
+        class="w-full bg-white rounded-2xl shadow p-6 space-y-2"
+      >
+        <!-- Header -->
+        <div class="flex items-center justify-between px-4 pb-2 border-b border-slate-100">
+          <span class="text-xs text-slate-400 font-semibold uppercase tracking-wide"
+            >Notification Type</span
+          >
+          <div class="flex gap-8 pr-1">
+            <span class="text-xs text-slate-800 font-semibold w-12 text-center">IN-APP</span>
+            <span class="text-xs text-slate-800 font-semibold w-12 text-center">PUSH</span>
+          </div>
+        </div>
+
+        <!-- Preference rows — filtered by role automatically -->
+        <div
+          *ngFor="let pref of preferences; let i = index"
+          class="flex items-center justify-between rounded-xl px-4 py-3 hover:bg-slate-50 transition"
+        >
+          <div>
+            <p class="font-medium text-slate-800 text-sm">
+              {{ prefLabels[pref.notification_type]?.title || pref.notification_type }}
+            </p>
+            <p class="text-xs text-slate-500">
+              {{ prefLabels[pref.notification_type]?.subtitle || '' }}
+            </p>
+          </div>
+
+          <div class="flex items-center gap-8 pr-1">
+            <span *ngIf="prefsSavingIndex === i" class="text-xs text-slate-400 mr-2 animate-pulse"
+              >saving...</span
+            >
+
+            <!-- IN-APP toggle -->
+            <button
+              (click)="togglePreference(i, 'in_app_enabled')"
+              [disabled]="prefsSavingIndex === i"
+              class="w-12 h-6 flex items-center rounded-full p-1 transition disabled:opacity-60"
+              [ngClass]="pref.in_app_enabled ? 'bg-blue-600' : 'bg-slate-300'"
+            >
+              <div
+                class="bg-white w-4 h-4 rounded-full shadow transform transition"
+                [ngClass]="pref.in_app_enabled ? 'translate-x-6' : ''"
+              ></div>
+            </button>
+
+            <!-- PUSH toggle -->
+            <button
+              (click)="togglePreference(i, 'push_enabled')"
+              [disabled]="prefsSavingIndex === i"
+              class="w-12 h-6 flex items-center rounded-full p-1 transition disabled:opacity-60"
+              [ngClass]="pref.push_enabled ? 'bg-blue-600' : 'bg-slate-300'"
+            >
+              <div
+                class="bg-white w-4 h-4 rounded-full shadow transform transition"
+                [ngClass]="pref.push_enabled ? 'translate-x-6' : ''"
+              ></div>
+            </button>
+          </div>
+        </div>
+
+        <div *ngIf="preferences.length === 0" class="text-center text-slate-400 text-sm py-4">
+          No notification preferences found.
+        </div>
+      </div>
+    </div>
+
+    <!-- ── HELP & SUPPORT ── -->
+    <div>
+      <h3 class="text-slate-800 font-semibold mb-1">Help & Support</h3>
+      <p class="text-sm text-slate-500 mb-5">Get assistance or report technical issues.</p>
+    </div>
+
+    <div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-6">
+      <div class="flex items-center gap-2 mb-4">
+        <!-- SVG ICON PLACEHOLDER -->
+        <!-- <svg>...</svg> -->
+        <p class="text-sm font-medium text-slate-700">Report an Issue</p>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4 mb-4">
+        <div>
+          <label class="text-xs text-slate-500 block mb-1">Issue Category</label>
+          <select
+            class="w-full border border-slate-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          >
+            <option>Live Class Problem</option>
+            <option>Content Issue</option>
+            <option>Payment Issue</option>
+            <option>Technical Bug</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-xs text-slate-500 block mb-1">Priority</label>
+          <select
+            class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+          >
+            <option>Low</option>
+            <option>Medium</option>
+            <option>High</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="mb-5">
+        <label class="text-xs text-slate-500 block mb-1">Description</label>
+        <textarea
+          rows="4"
+          class="w-full border border-slate-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          placeholder="Describe the issue in detail..."
+        ></textarea>
+      </div>
+
+      <div class="flex justify-between items-center">
+        <button
+          class="border border-dashed border-slate-300 text-slate-500 px-4 py-2 rounded-lg text-sm hover:bg-slate-50 transition flex items-center gap-2"
+        >
+          <!-- SVG ICON PLACEHOLDER -->
+          Upload Screenshot
+        </button>
+        <button
+          class="bg-blue-600 text-white px-6 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition"
+        >
+          Submit Report
+        </button>
+      </div>
+    </div>
+  </ng-container>
+</div>

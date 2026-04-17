@@ -1,0 +1,182 @@
+<div class="flex justify-center items-center bg-gray-100 min-h-screen">
+  <a routerLink="/" class="absolute top-3 left-3">
+    <img src="image.png" class="h-10" />
+  </a>
+
+  <div class="bg-white shadow-lg rounded-xl p-6 relative mt-10 w-full max-w-3xl">
+    <div class="relative flex items-center mb-4">
+      <img src="/icons/icon.svg" class="h-10 w-20 object-contain" />
+      <h6 class="font-semibold absolute left-1/2 -translate-x-1/2">Student Registration</h6>
+    </div>
+
+    <p class="font-semibold text-sm mb-3">Personal Information</p>
+
+    <form [formGroup]="signupform" (ngSubmit)="onSubmit()">
+      <div class="grid grid-cols-12 gap-3">
+        <!-- First Name -->
+        <div class="col-span-12 md:col-span-6">
+          <label class="text-sm">First Name<span class="text-red-500">*</span></label>
+          <input type="text" class="border rounded px-2 py-1 w-full" formControlName="firstname" />
+          @if (signupform.get('firstname')?.touched && signupform.get('firstname')?.errors) {
+            @if (signupform.get('firstname')?.errors?.['required']) {
+              <div class="text-red-500 text-xs">First name is required</div>
+            }
+          }
+        </div>
+
+        <!-- Last Name -->
+        <div class="col-span-12 md:col-span-6">
+          <label class="text-sm">Last Name<span class="text-red-500">*</span></label>
+          <input type="text" class="border rounded px-2 py-1 w-full" formControlName="lastname" />
+          @if (signupform.get('lastname')?.touched && signupform.get('lastname')?.errors) {
+            @if (signupform.get('lastname')?.errors?.['required']) {
+              <div class="text-red-500 text-xs">Last name is required</div>
+            }
+          }
+        </div>
+
+        <!-- Email -->
+        <div class="col-span-12 md:col-span-6">
+          <label class="text-sm">Email<span class="text-red-500">*</span></label>
+          <input type="email" class="border rounded px-2 py-1 w-full" formControlName="email" />
+          @if (signupform.get('email')?.touched && signupform.get('email')?.errors) {
+            @if (signupform.get('email')?.errors?.['required']) {
+              <div class="text-red-500 text-xs">Email is required</div>
+            }
+          }
+        </div>
+
+        <!-- Phone -->
+        <div class="col-span-12 md:col-span-6">
+          <label class="text-sm">Phone<span class="text-red-500">*</span></label>
+          <input type="text" class="border rounded px-2 py-1 w-full" formControlName="phone" />
+          @if (signupform.get('phone')?.touched && signupform.get('phone')?.errors) {
+            @if (signupform.get('phone')?.errors?.['required']) {
+              <div class="text-red-500 text-xs">Phone is required</div>
+            }
+          }
+        </div>
+
+        <!-- Password -->
+        <div class="col-span-12 md:col-span-6">
+          <label class="text-sm">Password<span class="text-red-500">*</span></label>
+          <input
+            type="password"
+            class="border rounded px-2 py-1 w-full"
+            formControlName="password"
+          />
+          @if (signupform.get('password')?.touched && signupform.get('password')?.errors) {
+            @if (signupform.get('password')?.errors?.['required']) {
+              <div class="text-red-500 text-xs">Password is required</div>
+            }
+          }
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="col-span-12 md:col-span-6">
+          <label class="text-sm">Confirm Password<span class="text-red-500">*</span></label>
+          <input
+            type="password"
+            class="border rounded px-2 py-1 w-full"
+            formControlName="confirmpassword"
+          />
+          @if (
+            signupform.get('confirmpassword')?.touched &&
+            signupform.get('confirmpassword')?.hasError('mismatch')
+          ) {
+            <div class="text-red-500 text-xs">Passwords do not match</div>
+          }
+        </div>
+
+        <!-- Date of Birth -->
+        <div class="col-span-12 md:col-span-6">
+          <label class="text-sm">Date of Birth</label>
+          <input
+            type="date"
+            class="border rounded px-2 py-1 w-full"
+            formControlName="date_of_birth"
+          />
+        </div>
+
+        <!-- Gender -->
+        <div class="col-span-12 md:col-span-6">
+          <label class="text-sm">Gender</label>
+          <select class="border rounded px-2 py-1 w-full" formControlName="gender">
+            <option value="">Select</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
+        </div>
+        <div class="col-span-12">
+          <label class="text-sm">Address</label>
+          <input type="text" class="border rounded px-2 py-1 w-full" formControlName="address" />
+        </div>
+
+        <div class="col-span-12 md:col-span-6">
+          <label class="text-sm">City</label>
+          <input type="text" class="border rounded px-2 py-1 w-full" formControlName="city" />
+        </div>
+
+        <!-- State -->
+        <div class="col-span-12 md:col-span-6">
+          <label class="text-sm">State</label>
+          <input type="text" class="border rounded px-2 py-1 w-full" formControlName="state" />
+        </div>
+
+        <!-- Country -->
+        <div class="col-span-12 md:col-span-6">
+          <label class="text-sm">Country</label>
+          <input type="text" class="border rounded px-2 py-1 w-full" formControlName="country" />
+        </div>
+
+        <!-- Postal Code -->
+        <div class="col-span-12 md:col-span-6">
+          <label class="text-sm">Postal Code</label>
+          <input type="text" class="border rounded px-2 py-1 w-full" formControlName="postalcode" />
+        </div>
+
+        <div class="col-span-12 mt-4">
+          <p class="font-semibold text-sm mb-3">Academic Information</p>
+        </div>
+
+        <div class="col-span-12 md:col-span-6">
+          <label class="text-sm">Grade Level</label>
+          <input
+            type="text"
+            class="border rounded px-2 py-1 w-full"
+            formControlName="grade_level"
+          />
+        </div>
+
+        <div class="col-span-12 md:col-span-6">
+          <label class="text-sm">Section</label>
+          <input type="text" class="border rounded px-2 py-1 w-full" formControlName="section" />
+        </div>
+        <div class="col-span-6 flex">
+          <input type="checkbox" formControlName="terms" />
+          <p class="ml-1">
+            I accept all the<span
+              (click)="openTerms()"
+              class="ml-1 text-cyan-500 hover:underline cursor-pointer"
+              >terms&conditions</span
+            >
+          </p>
+        </div>
+      </div>
+
+      <div class="mt-5">
+        <button class="w-full text-white py-2 rounded-md bg-cyan-500 hover:bg-cyan-600">
+          Create Student Account
+        </button>
+      </div>
+
+      <div class="flex justify-center gap-2 mt-2 text-sm">
+        <p>Already have an account?</p>
+        <a [routerLink]="['/login']" class="text-cyan-500">Login</a>
+      </div>
+    </form>
+  </div>
+</div>
+@if (showTerms) {
+  <app-termsandconditions (close)="handleTerms($event)"> </app-termsandconditions>
+}

@@ -1,0 +1,71 @@
+<header class="flex items-center justify-between px-6 py-3 bg-white border-b border-slate-200">
+  <!-- Greeting instead of Welcome -->
+  <div class="flex items-center gap-4">
+    <h1 class="text-lg font-bold text-slate-700">{{ greeting() }}!</h1>
+  </div>
+
+  <div class="flex items-center gap-4">
+    <!-- Bell with unread dot — reused from admin -->
+    <button
+      (click)="openNotifications()"
+      class="p-2 rounded-md hover:bg-slate-100 flex items-center justify-center relative"
+    >
+      <svg
+        width="16"
+        height="20"
+        viewBox="0 0 16 20"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M0 17V15H2V8C2 6.61667 2.41667 5.3875 3.25 4.3125C4.08333 3.2375 5.16667 2.53333 6.5 2.2V1.5C6.5 1.08333 6.64583 0.729167 6.9375 0.4375C7.22917 0.145833 7.58333 0 8 0C8.41667 0 8.77083 0.145833 9.0625 0.4375C9.35417 0.729167 9.5 1.08333 9.5 1.5V2.2C10.8333 2.53333 11.9167 3.2375 12.75 4.3125C13.5833 5.3875 14 6.61667 14 8V15H16V17H0ZM8 20C7.45 20 6.97917 19.8042 6.5875 19.4125C6.19583 19.0208 6 18.55 6 18H10C10 18.55 9.80417 19.0208 9.4125 19.4125C9.02083 19.8042 8.55 20 8 20ZM4 15H12V8C12 6.9 11.6083 5.95833 10.825 5.175C10.0417 4.39167 9.1 4 8 4C6.9 4 5.95833 4.39167 5.175 5.175C4.39167 5.95833 4 6.9 4 8V15Z"
+          fill="#475569"
+        />
+      </svg>
+
+      <!-- Red dot badge — shows when unread > 0 -->
+      @if (notificationsService.unreadCount() > 0) {
+        <span
+          class="absolute top-1 right-1 w-2.5 h-2.5 bg-blue-600 rounded-full border-2 border-white"
+        >
+        </span>
+      }
+    </button>
+
+    <!-- Avatar -->
+    <div class="flex items-center gap-2 cursor-pointer">
+      <div
+        class="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center text-sm font-semibold"
+      >
+        <svg
+          width="38"
+          height="38"
+          viewBox="0 0 38 38"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+        >
+          <rect width="37.94" height="37.94" rx="18.97" fill="#FFEDD5" />
+          <rect width="37.94" height="37.94" rx="18.97" fill="url(#pattern0_2256_3670)" />
+          <defs>
+            <pattern
+              id="pattern0_2256_3670"
+              patternContentUnits="objectBoundingBox"
+              width="1"
+              height="1"
+            >
+              <use xlink:href="#image0_2256_3670" transform="scale(0.0125)" />
+            </pattern>
+            <image
+              id="image0_2256_3670"
+              width="80"
+              height="80"
+              preserveAspectRatio="none"
+              xlink:href="data:image/jpeg;base64,/9j/2wBDAAgICAgJCAkKCgkNDgwODRMREBARExwUFhQWFBwrGx8bGx8bKyYuJSMlLiZENS8vNUROQj5CTl9VVV93cXecnNH/2wBDAQgICAgJCAkKCgkNDgwODRMREBARExwUFhQWFBwrGx8bGx8bKyYuJSMlLiZENS8vNUROQj5CTl9VVV93cXecnNH/wgARCABQAFADASIAAhEBAxEB/8QAGwABAAIDAQEAAAAAAAAAAAAAAAYHAwQFAQL/xAAZAQADAQEBAAAAAAAAAAAAAAAAAQMCBQT/2gAMAwEAAhADEAAAALDGICJMlqhezsuFrbMwAAFFXrDVfThl0/MPXCbAjsi9POBIAYM7FXZinb5/b1/DpcDx6aGQPjN1OiUhMsrOyc10NCW4XOLsmNyZ8GZvo9eISVVqiyadsysZdj+9SHo53O6/I1H/xAAzEAACAQMBBQYEBQUAAAAAAAABAgMABBEFBhIhMUEHEBMgUWEiQnGhFCMwM2JSgYKRkv/aAAgBAQABPwD9XaLaqDR2EESCa6IDFOij+VXu1GsahcyyfiZIY2PwxRsQFFadtRq1p4SvL4luCMqUBYD2NWl3Be20VzA+9HIMg+e/trrUtrr21BVZJbtkz0ULV92awQ2TS2V7K9wiZxIF3Xq50DWrS0mang/JjRXYjordfoK7P55ZLO/jP7aTIV+rDzvpESbUXV6gKmW0JUqBlZQQGK56kVop1MSOL17oozMiLP4Xy/MDGBwNR2+pT6lPBdPdvaMOIIgEBV8gpjG8a2X0pdN0zHWaRpf8eSjzyQqZBL8wBFTX+Jbc76Lug53s8z14UsqmHxN8MN3OV5UccABgAYA9B+hFeQxSAXKMQORXrTSTTw+J4Zjj+VTzI9W84BPIUibpDH1q+vdG0p45r2dULk7iFSxOObACrVrS5s0mhkWWGeMMrjkyt6VNp0qcYzvj70QQSCMHyIm9knkKsoY2DMyg4IwKZFZCjAFSMEV2kW1vBYaYxGZzcsA/8AuSKsLeGG2hW3AW3KI0cfRcr07poIphh1z79RUsZikeM81Peh3YyfqasJQJXTPA4x3dqE2brSIPRJXrZ6bx9B0mT1tIvsMd29gn3YAf3FamuLhT/Ug+3f8AEIwVGSOOPWraTdJIPwg4B9un+qhuo3UbzANXaVcCTXLYKeCW1bDzGbZXSyTxUOn/AC5rB9qLk3RHVVAUe5HFj9BWqr+y31Hd/8QAIhEBAAICAQIHAAAAAAAAAAAAAQACAxEQEyEEICIjMUFx/9oACAECAQE/AICzpvktkMdbP3rt+yniMtVGwxSypzeheqMxeqwb+WABrnc6OOoXDurN8ESXPZpwT//EACURAAICAQIEBwAAAAAAAAAAAAECAAMRBBATIUFxEiAkMTJR8f/aAAgBAwEBPwDY8vJp6jbaFxkde0s09ZAPgxCpU4I3ptaqxXX9E1S8OvIX2EJJJJPPcJ1nHucmt2yFAhr+thEblK29RZ2hjfIz/9k="
+            />
+          </defs>
+        </svg>
+      </div>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,112 @@
+<div class="result-page">
+  <div *ngIf="loading" class="state-screen">
+    <div class="spinner"></div>
+    <p>Loading your result...</p>
+  </div>
+
+  <div *ngIf="!loading && error" class="state-screen error-state">
+    <svg
+      width="48"
+      height="48"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5"
+    >
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="8" x2="12" y2="12" />
+      <line x1="12" y1="16" x2="12.01" y2="16" />
+    </svg>
+    <p>{{ error }}</p>
+    <button class="action-button secondary" (click)="goHome()">Return to Dashboard</button>
+  </div>
+
+  <ng-container *ngIf="!loading && !error && result">
+    <section class="hero-card">
+      <div class="score-ring">
+        <svg viewBox="0 0 140 140" class="ring-chart" aria-hidden="true">
+          <circle class="ring-track" cx="70" cy="70" r="52"></circle>
+          <circle
+            class="ring-progress"
+            cx="70"
+            cy="70"
+            r="52"
+            [style.stroke-dashoffset]="scoreRingOffset"
+          ></circle>
+        </svg>
+
+        <div class="ring-content">
+          <div class="ring-score">{{ result.totalScore }}</div>
+          <div class="ring-label">Out of {{ scoreDisplayTotal }}</div>
+        </div>
+      </div>
+
+      <div class="hero-copy">
+        <h1>Diagnostic Result.</h1>
+        <p>{{ performanceSummary }}</p>
+
+        <div class="metric-grid">
+          <div class="metric-item">
+            <span class="metric-label">Correct</span>
+            <strong class="metric-value success">{{ result.correctCount }}</strong>
+          </div>
+
+          <div class="metric-item">
+            <span class="metric-label">Incorrect</span>
+            <strong class="metric-value danger">{{ incorrectCount }}</strong>
+          </div>
+
+          <div class="metric-item">
+            <span class="metric-label">Accuracy</span>
+            <strong class="metric-value accent">{{ accuracyNum }}%</strong>
+          </div>
+
+          <div class="metric-item">
+            <span class="metric-label">Attempted</span>
+            <strong class="metric-value neutral">{{ attemptedCount }}/{{ result.totalQuestions }}</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="subjects-card">
+      <div class="section-title">
+        <span class="section-accent"></span>
+        <h2>Subject Performance</h2>
+      </div>
+
+      <div class="subjects-list" *ngIf="subjectPerformance.length; else noSubjects">
+        <div class="subject-row" *ngFor="let subject of subjectPerformance">
+          <div class="subject-header">
+            <div class="subject-name-wrap">
+              <span class="subject-name">{{ subject.name }}</span>
+              <span class="subject-status" [ngClass]="subject.tone">
+                {{ subjectToneLabel(subject.tone) }}
+              </span>
+            </div>
+            <span class="subject-score">{{ subject.accuracy }}%</span>
+          </div>
+
+          <div class="subject-bar">
+            <div
+              class="subject-fill"
+              [ngClass]="subject.tone"
+              [style.width.%]="subject.accuracy"
+            ></div>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #noSubjects>
+        <p class="empty-state">Subject-level performance will appear once the detailed report is available.</p>
+      </ng-template>
+    </section>
+
+    <div class="action-row">
+      <button class="action-button primary" (click)="viewDetailedResults()">
+        View Detailed Results
+      </button>
+      <button class="action-button secondary" (click)="goHome()">Return to Dashboard</button>
+    </div>
+  </ng-container>
+</div>

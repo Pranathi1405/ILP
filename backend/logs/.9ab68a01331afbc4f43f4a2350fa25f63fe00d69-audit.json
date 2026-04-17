@@ -1,0 +1,105 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 30
+    },
+    "auditLog": "C:\\Users\\NDMATRIX\\Desktop\\Intern-batch-04\\backend\\logs\\.9ab68a01331afbc4f43f4a2350fa25f63fe00d69-audit.json",
+    "files": [
+        {
+            "date": 1773805324668,
+            "name": "C:\\Users\\NDMATRIX\\Desktop\\Intern-batch-04\\backend\\logs\\error-2026-03-18.log",
+            "hash": "91681d4acec157bdb25cbfe567ae5c1c4ab2ca93d4a8b1805b5338d27973e6cb"
+        },
+        {
+            "date": 1773984971134,
+            "name": "C:\\Users\\NDMATRIX\\Desktop\\Intern-batch-04\\backend\\logs\\error-2026-03-20.log",
+            "hash": "e0a6849a9d9f693c5b4007f0fc2f1295b0160d7e2406877c51a071a1671d165a"
+        },
+        {
+            "date": 1774237652343,
+            "name": "C:\\Users\\NDMATRIX\\Desktop\\Intern-batch-04\\backend\\logs\\error-2026-03-23.log",
+            "hash": "5a896726f967be412b6441459fd67fe212788bbd172853c1a3a1ae839c1b591e"
+        },
+        {
+            "date": 1774324242905,
+            "name": "C:\\Users\\NDMATRIX\\Desktop\\Intern-batch-04\\backend\\logs\\error-2026-03-24.log",
+            "hash": "601ef45ec86e35b73a8f6c8def0cc76d74ce0098b60fe05a2d6243f3d8f8d081"
+        },
+        {
+            "date": 1774409966647,
+            "name": "C:\\Users\\NDMATRIX\\Desktop\\Intern-batch-04\\backend\\logs\\error-2026-03-25.log",
+            "hash": "51742de424ff0d7fba14d0cda34e682f1c4fcfe10c8134676ca3aab243dd7cba"
+        },
+        {
+            "date": 1774496482426,
+            "name": "C:\\Users\\NDMATRIX\\Desktop\\Intern-batch-04\\backend\\logs\\error-2026-03-26.log",
+            "hash": "cb6e55b62d2cde40acc7151e1c7fe1d6e3561658df3b1b0fbc803e2a63b77ba6"
+        },
+        {
+            "date": 1774588825350,
+            "name": "C:\\Users\\NDMATRIX\\Desktop\\Intern-batch-04\\backend\\logs\\error-2026-03-27.log",
+            "hash": "2c23d5590c12eda8745205bfbeb5ba85eb189021725940d97ad8150d0d8ccd81"
+        },
+        {
+            "date": 1774669136550,
+            "name": "C:\\Users\\NDMATRIX\\Desktop\\Intern-batch-04\\backend\\logs\\error-2026-03-28.log",
+            "hash": "f54c416770ea29cb80285267c9fb73aa94f35f0a9ddee22c750c017605c85b6a"
+        },
+        {
+            "date": 1774928787450,
+            "name": "C:\\Users\\NDMATRIX\\Desktop\\Intern-batch-04\\backend\\logs\\error-2026-03-31.log",
+            "hash": "1d3bd1796e9477f4790005471353f4ffbe3ffa78246eaff39b53d52c7e402597"
+        },
+        {
+            "date": 1775014561058,
+            "name": "C:\\Users\\NDMATRIX\\Desktop\\Intern-batch-04\\backend\\logs\\error-2026-04-01.log",
+            "hash": "71a2e2943d8dc86dd721c7f54259adcb9d79408fd916a02afe667346a873e095"
+        },
+        {
+            "date": 1775101308766,
+            "name": "C:\\Users\\NDMATRIX\\Desktop\\Intern-batch-04\\backend\\logs\\error-2026-04-02.log",
+            "hash": "f848ab0721a76040866c373ae43d96e9d601d082044a8d8bf70ff5e512917174"
+        },
+        {
+            "date": 1775446934405,
+            "name": "C:\\Users\\NDMATRIX\\Desktop\\Intern-batch-04\\backend\\logs\\error-2026-04-06.log",
+            "hash": "a444dc1f2e94eab616b3ab6a9cd8e29fe3f0ad13b3e1e4d4d3d5e0d6db07e819"
+        },
+        {
+            "date": 1775533528893,
+            "name": "C:\\Users\\NDMATRIX\\Desktop\\Intern-batch-04\\backend\\logs\\error-2026-04-07.log",
+            "hash": "6b513eae1242e6c8afd0f0e31f094e3446c5e8e81400c7d17be825e81e9a0e3e"
+        },
+        {
+            "date": 1775619427124,
+            "name": "C:\\Users\\NDMATRIX\\Desktop\\Intern-batch-04\\backend\\logs\\error-2026-04-08.log",
+            "hash": "309d25209208d7afa72de68ebed4a418678a432d15f04fddbda3bf7dbe154568"
+        },
+        {
+            "date": 1775706557391,
+            "name": "C:\\Users\\NDMATRIX\\Desktop\\Intern-batch-04\\backend\\logs\\error-2026-04-09.log",
+            "hash": "ebcc003c408b7f14c9c5a3e0ffcf5a09694818917d31baf5f7591675a2408ed8"
+        },
+        {
+            "date": 1776065353694,
+            "name": "C:\\Users\\NDMATRIX\\Desktop\\Intern-batch-04\\backend\\logs\\error-2026-04-13.log",
+            "hash": "fd3ee1c0e53de05a4252907b694d04a4eed9338fc0a5e186f4a8c0625f67d47e"
+        },
+        {
+            "date": 1776138104478,
+            "name": "C:\\Users\\NDMATRIX\\Desktop\\Intern-batch-04\\backend\\logs\\error-2026-04-14.log",
+            "hash": "32fd97834c7a6c68bfe7c71a85aa34d528f60436b63e81ecca521325f598a4ca"
+        },
+        {
+            "date": 1776226571022,
+            "name": "C:\\Users\\NDMATRIX\\Desktop\\Intern-batch-04\\backend\\logs\\error-2026-04-15.log",
+            "hash": "ce8e931d7c6ba09405d50c80cb9ab4643154e06f753aa93adad3eb4f77c4fb41"
+        },
+        {
+            "date": 1776310741508,
+            "name": "C:\\Users\\NDMATRIX\\Desktop\\Intern-batch-04\\backend\\logs\\error-2026-04-16.log",
+            "hash": "015644dd26a0e5cb641b61a8fa2b6d39c8f4ca8130efad4b33ae83fea97d6e2c"
+        }
+    ],
+    "hashType": "sha256"
+}

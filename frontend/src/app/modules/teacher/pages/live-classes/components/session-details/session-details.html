@@ -1,0 +1,116 @@
+<!-- Author: Poojitha -->
+<!-- Schedule-Class-Page Session Details Component -->
+
+<form [formGroup]="sessionForm" class="bg-white border border-gray-200 rounded-xl p-6">
+  <!-- CARD TITLE -->
+  <h2 class="text-lg font-semibold text-gray-800 mb-5">Session Details</h2>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <!-- SESSION TITLE -->
+    <div class="col-span-2">
+      <label class="text-sm text-gray-600"> Session Title </label>
+
+      <input type="text" formControlName="title" [class.border-red-500]="
+          sessionForm.get('title')?.touched && sessionForm.get('title')?.invalid
+        " placeholder="Enter session title"
+        class="w-full mt-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none" />
+      @if (sessionForm.get('title')?.touched && sessionForm.get('title')?.invalid) {
+      <p class="text-red-500 text-xs mt-1">Session title is required</p>
+      }
+    </div>
+
+    <!-- COURSE -->
+    <div>
+      <label class="text-sm text-gray-600"> Course </label>
+
+      <select formControlName="course"
+        [class.border-red-500]="sessionForm.get('course')?.touched && sessionForm.get('course')?.invalid"
+        class="w-full mt-1 border border-gray-300 rounded-lg px-3 py-2 text-sm">
+
+        <option value="">Select Course</option>
+
+        @for (course of courses; track course.course_id) {
+        <option [value]="course.course_id">{{ course.course_name }}</option>
+        }
+
+      </select>
+
+      @if (sessionForm.get('course')?.touched && sessionForm.get('course')?.invalid) {
+      <p class="text-red-500 text-xs mt-1">Please select a course</p>
+      }
+    </div>
+
+    <!-- SUBJECT -->
+    <div>
+      <label class="text-sm text-gray-600"> Subject </label>
+
+      <select formControlName="subject" [class.border-red-500]="
+      sessionForm.get('subject')?.touched && sessionForm.get('subject')?.invalid
+    " class="w-full mt-1 border border-gray-300 rounded-lg px-3 py-2 text-sm">
+
+        <option value="">Select subject</option>
+
+        @for (subject of filteredSubjects; track subject.subject_id) {
+        <option [value]="subject.subject_id">{{ subject.subject_name }}</option>
+        }
+
+      </select>
+
+      @if (sessionForm.get('subject')?.touched && sessionForm.get('subject')?.invalid) {
+      <p class="text-red-500 text-xs mt-1">Please select a subject</p>
+      }
+    </div>
+
+    <!-- Module -->
+    <div>
+      <label class="text-sm text-gray-600"> Module </label>
+
+      <select formControlName="module" [class.border-red-500]="
+      sessionForm.get('module')?.touched && sessionForm.get('module')?.invalid
+    " class="w-full mt-1 border border-gray-300 rounded-lg px-3 py-2 text-sm">
+
+        <option value="">Select module</option>
+
+        @for (module of filteredModules; track module.module_id) {
+        <option [value]="module.module_id">{{ module.module_name }}</option>
+        }
+
+      </select>
+
+      @if (sessionForm.get('module')?.touched && sessionForm.get('module')?.invalid) {
+      <p class="text-red-500 text-xs mt-1">Please select a module</p>
+      }
+    </div>
+
+    <!-- DATE -->
+    <div>
+      <label class="text-sm text-gray-600"> Date </label>
+
+      <input type="date" formControlName="date" [min]="today" [class.border-red-500]="
+          sessionForm.get('date')?.touched && sessionForm.get('date')?.invalid
+        " class="w-full mt-1 border border-gray-300 rounded-lg px-3 py-2 text-sm" />
+    </div>
+
+    <!-- START TIME -->
+    <div>
+      <label class="text-sm text-gray-600"> Start Time </label>
+
+      <input type="time" formControlName="time" [class.border-red-500]="
+          sessionForm.get('time')?.touched && sessionForm.get('time')?.invalid
+        " class="w-full mt-1 border border-gray-300 rounded-lg px-3 py-2 text-sm" />
+    </div>
+
+    <!-- DURATION -->
+    <div>
+      <label class="text-sm text-gray-600"> Duration (minutes) </label>
+
+      <input type="number" formControlName="duration" [class.border-red-500]="
+          sessionForm.get('duration')?.touched && sessionForm.get('duration')?.invalid
+        " placeholder="60" class="w-full mt-1 border border-gray-300 rounded-lg px-3 py-2 text-sm" />
+      @if (sessionForm.get('duration')?.touched && sessionForm.get('duration')?.errors?.['min']) {
+      <p class="text-red-500 text-xs mt-1">Duration must be greater than 0</p>
+      }
+    </div>
+
+  </div>
+</form>

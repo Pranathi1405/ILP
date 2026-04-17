@@ -1,0 +1,8 @@
+.form-control:focus{
+    border:2px solid black;
+    outline: none;
+    box-shadow: none;
+}
+.text-decoraation-none:focus{
+    text-decoration: underline;
+}

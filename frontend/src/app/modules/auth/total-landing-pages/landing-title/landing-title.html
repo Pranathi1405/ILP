@@ -1,0 +1,84 @@
+<div class="relative overflow-hidden">
+
+  <!-- Animated Background -->
+  <div class="absolute inset-0 -z-10 
+              bg-linear-to-br from-blue-50 via-white to-indigo-50
+              animate-gradient">
+  </div>
+
+  <!-- Soft Glow Blobs -->
+  <div class="absolute -top-20 -left-20 w-72 h-72 bg-blue-300/40 rounded-full blur-3xl animate-pulse"></div>
+  <div class="absolute bottom-0 right-0 w-80 h-80 bg-indigo-300/40 rounded-full blur-3xl animate-pulse"></div>
+
+  <!-- Main Content -->
+  <div class="grid lg:grid-cols-2 gap-12 px-20 py-20 max-w-7xl mx-auto items-center min-h-[calc(100vh-68px)]">
+
+    <!-- LEFT -->
+    <div>
+      <div class="inline-flex items-center gap-2 bg-blue-50 text-blue-600 border border-blue-200 rounded-full px-4 py-1 text-xs font-semibold mb-6">
+        <span class="w-2 h-2 bg-green-400 rounded-full animate-ping"></span>
+        OVER 10,000+ SUCCESSFUL STUDENTS
+      </div>
+
+      <h1 class="text-5xl font-extrabold leading-tight mb-5">
+        Unlock Your Potential <br />
+        with
+        <span class="bg-linear-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">
+          Expert-Led
+        </span>
+        <br />
+        Learning
+      </h1>
+
+      <p class="text-gray-600 text-lg leading-relaxed mb-9 max-w-lg">
+        Access world-class education, live interactive classes, and personalized mentorship from the comfort of your home.
+      </p>
+
+      <div class="flex items-center gap-4">
+        <a href="#"
+          class="inline-flex items-center gap-2 px-7 py-3 rounded-full text-white font-semibold
+                 bg-linear-to-r from-blue-600 to-blue-500
+                 shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-200">
+          Start Now →
+        </a>
+
+        <button class="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition-colors duration-200">
+          View Demo
+        </button>
+      </div>
+
+      <div class="flex gap-10 mt-12">
+        <div class="hover:-translate-y-1 transition-transform duration-200">
+          <div class="text-2xl font-bold">10K+</div>
+          <div class="text-sm text-gray-400">Active Students</div>
+        </div>
+        <div class="hover:-translate-y-1 transition-transform duration-200">
+          <div class="text-2xl font-bold">200+</div>
+          <div class="text-sm text-gray-400">Expert Tutors</div>
+        </div>
+        <div class="hover:-translate-y-1 transition-transform duration-200">
+          <div class="text-2xl font-bold">500+</div>
+          <div class="text-sm text-gray-400">Courses Available</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="aspect-video relative overflow-hidden rounded-2xl group cursor-pointer">
+      <img
+        src="Students_learning_together.png"
+        class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+      />
+      <div class="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition"></div>
+
+      <div class="absolute inset-0 flex items-center justify-center">
+        <div class="w-16 h-16 rounded-full bg-white/30 backdrop-blur-md border border-white/40
+                    flex items-center justify-center text-white text-xl
+                    animate-pulse hover:scale-110 transition">
+          ▶
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

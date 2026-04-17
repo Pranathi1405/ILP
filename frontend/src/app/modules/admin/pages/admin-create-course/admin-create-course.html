@@ -1,0 +1,472 @@
+<div class="p-8 bg-[#f7f8fc] min-h-screen">
+
+  <!-- PROGRESS BAR -->
+  <div class="mb-10">
+    <div class="flex justify-between items-center mb-2">
+      <span class="text-xs font-semibold text-blue-600">STEP {{ currentStep }} OF 3</span>
+      <span class="text-xs text-gray-400">
+        @if (currentStep === 1) { <span>Next: Professor Assignment</span> }
+        @if (currentStep === 2) { <span>Next: Basic Information</span> }
+        @if (currentStep === 3) { <span>Status: 100% Complete</span> }
+      </span>
+    </div>
+    <div class="grid grid-cols-3 gap-2">
+      <div class="h-1 rounded-full" [ngClass]="currentStep >= 1 ? 'bg-blue-600' : 'bg-gray-200'"></div>
+      <div class="h-1 rounded-full" [ngClass]="currentStep >= 2 ? 'bg-blue-600' : 'bg-gray-200'"></div>
+      <div class="h-1 rounded-full" [ngClass]="currentStep >= 3 ? 'bg-blue-600' : 'bg-gray-200'"></div>
+    </div>
+  </div>
+
+  <!-- STEP 1: CATEGORY -->
+  @if (currentStep === 1) {
+  <div>
+    <div class="text-center mb-10">
+      <h2 class="text-2xl font-bold text-gray-800">Select Course Category</h2>
+      <p class="text-sm text-gray-500 mt-1">How do you want to structure your learning path?</p>
+    </div>
+    <div class="max-w-xl mx-auto">
+      <p class="text-sm font-semibold text-gray-700 mb-1">Course Category</p>
+      <p class="text-xs text-gray-400 mb-3">Select which exam track this course belongs to.</p>
+
+      @if (categoriesLoading) {
+      <div class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm bg-white text-gray-400 flex items-center gap-2">
+        <svg class="animate-spin w-4 h-4 text-blue-400" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+        </svg>
+        Loading categories...
+      </div>
+      }
+
+      @if (!categoriesLoading) {
+      <div class="relative w-[95%]">
+        <select [(ngModel)]="selectedCategoryId"
+          class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm bg-white text-gray-600 outline-none appearance-none pr-10 cursor-pointer">
+          <option [ngValue]="null">Choose a category (e.g. JEE, NEET)</option>
+          @for (cat of categories; track cat.category_id) {
+            <option [ngValue]="cat.category_id">{{ cat.category_name }}</option>
+          }
+        </select>
+        <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+          <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </div>
+      </div>
+      }
+
+      @if (categoriesError) {
+        <p class="mt-2 text-xs text-red-500 font-medium">{{ categoriesError }}</p>
+      }
+
+      <div class="flex items-center gap-4 mt-3">
+        <span (click)="openCreateCategoryModal()"
+          class="text-sm text-blue-600 cursor-pointer font-medium flex items-center gap-1 hover:text-blue-700">
+          <span class="text-lg">+</span> Create New Category
+        </span>
+      </div>
+    </div>
+  </div>
+  }
+
+  <!-- STEP 2: PROFESSOR ASSIGNMENT -->
+  @if (currentStep === 2) {
+  <div>
+    <div class="text-center mb-10">
+      <h2 class="text-2xl font-bold text-gray-800">Professor Assignment</h2>
+      <p class="text-sm text-gray-500 mt-1">Assign teachers to subjects for this course.</p>
+    </div>
+
+    <div class="max-w-2xl mx-auto">
+      <div class="grid grid-cols-[1fr_1fr_60px] gap-4 mb-3">
+        <p class="text-xs font-semibold text-gray-500">Subject Name</p>
+        <p class="text-xs font-semibold text-gray-500">Assigned Teacher</p>
+        <p class="text-xs font-semibold text-gray-500">Actions</p>
+      </div>
+
+      @for (subject of subjects; track i; let i = $index) {
+      <div class="grid grid-cols-[1fr_1fr_60px] gap-4 mb-3 items-center">
+        <select
+          [(ngModel)]="subject.subjectName"
+          (ngModelChange)="loadTeachersForSubject(i)"
+          class="px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white text-gray-600 outline-none focus:border-blue-400">
+          <option value="">Select Subject</option>
+          <option value="Mathematics">Mathematics</option>
+          <option value="Physics">Physics</option>
+          <option value="Chemistry">Chemistry</option>
+          <option value="Biology">Biology</option>
+          <option value="English">English</option>
+          <option value="Aptitude">Aptitude</option>
+          <option value="Logical Reasoning">Logical Reasoning</option>
+        </select>
+
+        <div class="relative">
+          @if (teachersLoadingPerRow[i]) {
+            <div class="px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white text-gray-400 flex items-center gap-2">
+              <svg class="animate-spin w-4 h-4 text-blue-400" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+              </svg>
+              Loading...
+            </div>
+          } @else {
+   <!-- CHANGE [ngValue] to [value] and track by teacher_name -->
+<select
+  [ngModel]="subject.teacherName"
+  (ngModelChange)="onTeacherSelect(i, $event)"
+  class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white text-gray-600 outline-none">
+  <option value="">Select Teacher</option>
+  @for (t of subjectTeachers[i]; track t.teacher_name) {
+    
+    <option [value]="t.teacher_name">{{ t.teacher_name }}</option>
+  }
+</select>
+          }
+        </div>
+
+        <button (click)="removeSubject(i)"
+          class="w-8 h-8 flex items-center justify-center opacity-70 hover:opacity-100 transition">
+          <img src="/images/delete.jpg" class="w-4 h-4 object-contain"/>
+        </button>
+      </div>
+      }
+
+      @if (step2Error) {
+        <p class="mt-2 text-xs text-red-500 font-medium">{{ step2Error }}</p>
+      }
+
+      <button (click)="addSubject()"
+        class="mt-2 text-sm text-blue-600 font-medium flex items-center gap-1 hover:text-blue-700">
+        <span class="text-lg">+</span> Add Another Subject
+      </button>
+    </div>
+  </div>
+  }
+
+  <!-- STEP 3: BASIC INFO + SUMMARY -->
+  @if (currentStep === 3) {
+  <div>
+    <div class="text-center mb-6">
+      <p class="text-sm font-semibold text-blue-600 mb-1">STEP 3 OF 3</p>
+      <h2 class="text-2xl font-bold text-gray-800">Course Creation Summary</h2>
+      <p class="text-sm text-gray-500 mt-2">Review your course details before publishing. Make sure all subjects, teachers, and pricing information are correct.</p>
+    </div>
+
+    <div class="max-w-4xl mx-auto space-y-4">
+
+      <!-- ── CARD 1: Course Preview + Basic Info ── -->
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+        <div class="flex gap-6">
+
+          <!-- LEFT: Course Preview -->
+          <div class="w-56 shrink-0">
+            <div class="w-full h-36 rounded-xl bg-gray-100 border border-gray-200 flex items-center justify-center overflow-hidden mb-3">
+              @if (thumbnailUrl) {
+                <img [src]="thumbnailUrl" alt="Course thumbnail" class="w-full h-full object-cover rounded-xl"/>
+              } @else {
+                <svg class="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+              }
+            </div>
+            <p class="text-sm font-bold text-gray-800 mb-1">{{ courseName || 'Course Name' }}</p>
+            <div class="flex gap-3 mb-2">
+              <div>
+                <p class="text-[10px] text-gray-400">Price</p>
+                <p class="text-sm font-bold text-gray-800">{{ isFree ? 'Free' : '₹ ' + price }}</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-1 mb-1">
+              <svg class="w-3 h-3 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z"/>
+              </svg>
+              <span class="text-[11px] text-gray-500">{{ difficultyLevel | titlecase }}</span>
+            </div>
+            <div class="flex items-center gap-1">
+              <span class="text-[10px] px-2 py-0.5 bg-blue-50 text-blue-600 border border-blue-100 rounded-full font-semibold">
+                {{ selectedCategoryName }}
+              </span>
+            </div>
+          </div>
+
+          <!-- RIGHT: Basic Info Form -->
+          <div class="flex-1">
+            <p class="text-xs text-gray-400 font-semibold mb-4">BASIC INFORMATION</p>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="text-xs font-semibold text-gray-600 mb-1 block">Course Name *</label>
+                <input type="text" [(ngModel)]="courseName" placeholder="e.g. JEE Advanced 2026"
+                  class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm outline-none focus:border-blue-400"/>
+              </div>
+              <div>
+                <label class="text-xs font-semibold text-gray-600 mb-1 block">Course Code</label>
+                <input type="text" [(ngModel)]="courseCode" placeholder="e.g. JEE_ADV_2026"
+                  class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm outline-none focus:border-blue-400"/>
+              </div>
+              <div class="col-span-2">
+                <label class="text-xs font-semibold text-gray-600 mb-1 block">Description</label>
+                <textarea [(ngModel)]="description" rows="2" placeholder="Brief course description..."
+                  class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm outline-none focus:border-blue-400 resize-none"></textarea>
+              </div>
+              <div>
+                <label class="text-xs font-semibold text-gray-600 mb-1 block">Difficulty Level</label>
+                <select [(ngModel)]="difficultyLevel"
+                  class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm outline-none">
+                  <option value="beginner">Beginner</option>
+                  <option value="intermediate">Intermediate</option>
+                  <option value="advanced">Advanced</option>
+                </select>
+              </div>
+              <div>
+                <label class="text-xs font-semibold text-gray-600 mb-1 block">Medium</label>
+                <select [(ngModel)]="medium"
+                  class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm outline-none">
+                  <option value="english">English</option>
+                  <option value="telugu">Telugu</option>
+                  <option value="hindi">Hindi</option>
+                </select>
+              </div>
+              <div>
+                <label class="text-xs font-semibold text-gray-600 mb-1 block">Start Date *</label>
+                <input type="date" [(ngModel)]="startDate"
+                  class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm outline-none focus:border-blue-400"/>
+              </div>
+              <div>
+                <label class="text-xs font-semibold text-gray-600 mb-1 block">End Date *</label>
+                <input type="date" [(ngModel)]="endDate"
+                  class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm outline-none focus:border-blue-400"/>
+              </div>
+              <div>
+                <label class="text-xs font-semibold text-gray-600 mb-1 block">Price (₹)</label>
+                <input type="number" [(ngModel)]="price" [disabled]="isFree" placeholder="0"
+                  class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm outline-none focus:border-blue-400 disabled:bg-gray-50"/>
+              </div>
+              <div class="flex items-center gap-2 mt-5">
+                <input type="checkbox" [(ngModel)]="isFree" id="isFree" class="w-4 h-4"/>
+                <label for="isFree" class="text-sm text-gray-600">Free Course</label>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── CARD 2: Thumbnail URL ── -->
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+        <p class="text-xs text-gray-400 font-semibold mb-4">THUMBNAIL</p>
+        <div class="flex gap-4 items-start">
+          <div class="flex-1">
+            <label class="text-xs font-semibold text-gray-600 mb-1 block">Thumbnail URL</label>
+            <input type="url" [(ngModel)]="thumbnailUrl"
+              placeholder="https://example.com/image.jpg"
+              class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm outline-none focus:border-blue-400"/>
+            <p class="mt-1 text-[11px] text-gray-400">Paste a direct image URL. The preview updates automatically.</p>
+          </div>
+          <!-- Live preview -->
+          <div class="w-32 h-20 rounded-lg bg-gray-100 border border-gray-200 flex items-center justify-center overflow-hidden shrink-0">
+            @if (thumbnailUrl) {
+              <img [src]="thumbnailUrl" alt="Preview" class="w-full h-full object-cover rounded-lg"/>
+            } @else {
+              <svg class="w-7 h-7 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+              </svg>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- ── CARD 3: Prerequisites + Learning Outcomes ── -->
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+        <div class="grid grid-cols-2 gap-6">
+
+          <!-- Prerequisites -->
+          <div>
+            <p class="text-xs text-gray-400 font-semibold mb-3">PREREQUISITES</p>
+            <div class="min-h-[72px] p-3 border border-gray-200 rounded-lg bg-gray-50 flex flex-wrap gap-2 content-start mb-2">
+              @for (item of prerequisites; track item; let i = $index) {
+                <span class="inline-flex items-center gap-1 text-xs px-2 py-1 bg-blue-50 text-blue-700 border border-blue-100 rounded-full font-medium">
+                  {{ item }}
+                  <button (click)="removePrerequisite(i)" class="text-blue-300 hover:text-blue-600 leading-none ml-0.5">×</button>
+                </span>
+              }
+              @if (prerequisites.length === 0) {
+                <span class="text-xs text-gray-400">No prerequisites added yet.</span>
+              }
+            </div>
+            <div class="flex gap-2">
+              <input type="text" [(ngModel)]="newPrerequisite"
+                placeholder="e.g. Class 11 Physics"
+                (keydown.enter)="addPrerequisite()"
+                class="flex-1 px-3 py-2 border border-gray-200 rounded-lg text-sm outline-none focus:border-blue-400"/>
+              <button (click)="addPrerequisite()"
+                class="px-3 py-2 bg-blue-50 text-blue-600 border border-blue-100 rounded-lg text-sm font-medium hover:bg-blue-100">
+                Add
+              </button>
+            </div>
+            @if (prereqError) {
+              <p class="mt-1 text-xs text-red-500 font-medium">{{ prereqError }}</p>
+            }
+          </div>
+
+          <!-- Learning Outcomes -->
+          <div>
+            <p class="text-xs text-gray-400 font-semibold mb-3">LEARNING OUTCOMES</p>
+            <div class="min-h-[72px] p-3 border border-gray-200 rounded-lg bg-gray-50 flex flex-wrap gap-2 content-start mb-2">
+              @for (item of learningOutcomes; track item; let i = $index) {
+                <span class="inline-flex items-center gap-1 text-xs px-2 py-1 bg-green-50 text-green-700 border border-green-100 rounded-full font-medium">
+                  {{ item }}
+                  <button (click)="removeLearningOutcome(i)" class="text-green-300 hover:text-green-600 leading-none ml-0.5">×</button>
+                </span>
+              }
+              @if (learningOutcomes.length === 0) {
+                <span class="text-xs text-gray-400">No outcomes added yet.</span>
+              }
+            </div>
+            <div class="flex gap-2">
+              <input type="text" [(ngModel)]="newOutcome"
+                placeholder="e.g. Solve JEE problems"
+                (keydown.enter)="addLearningOutcome()"
+                class="flex-1 px-3 py-2 border border-gray-200 rounded-lg text-sm outline-none focus:border-blue-400"/>
+              <button (click)="addLearningOutcome()"
+                class="px-3 py-2 bg-green-50 text-green-600 border border-green-100 rounded-lg text-sm font-medium hover:bg-green-100">
+                Add
+              </button>
+            </div>
+            @if (outcomesError) {
+              <p class="mt-1 text-xs text-red-500 font-medium">{{ outcomesError }}</p>
+            }
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── CARD 4: Professor Assignments ── -->
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+        <div class="flex justify-between items-center mb-4">
+          <p class="text-xs text-gray-400 font-semibold">PROFESSOR ASSIGNMENTS</p>
+          <button (click)="goToStep(2)"
+            class="text-xs text-blue-600 font-medium flex items-center gap-1 hover:text-blue-700">
+            ✏️ Manage Teachers
+          </button>
+        </div>
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="text-xs text-gray-400 border-b border-gray-100">
+              <th class="text-left pb-3 font-semibold">SUBJECT NAME</th>
+              <th class="text-left pb-3 font-semibold">ASSIGNED TEACHER</th>
+              <th class="text-left pb-3 font-semibold">STATUS</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (subject of subjects; track subject; let i = $index) {
+            <tr class="border-b border-gray-50">
+              <td class="py-3 font-semibold text-gray-800">{{ subject.subjectName || 'Not assigned' }}</td>
+              <td class="py-3">
+                <div class="flex items-center gap-2">
+                  <div class="w-7 h-7 rounded-full bg-blue-100 flex items-center justify-center text-xs text-blue-600 font-semibold">
+                    {{ getTeacherName(subject.teacherId, i)[0]?.toUpperCase() }}
+                  </div>
+                  <span class="text-gray-700 font-medium">{{ getTeacherName(subject.teacherId, i) }}</span>
+                </div>
+              </td>
+              <td class="py-3">
+                <span class="px-2 py-1 text-[11px] font-semibold bg-green-50 text-green-600 border border-green-200 rounded-full">
+                  ● Active
+                </span>
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+    @if (submitError) {
+      <p class="text-center text-xs text-red-500 mt-3 font-medium">{{ submitError }}</p>
+    }
+    <p class="text-center text-xs text-gray-400 mt-4 flex items-center justify-center gap-1">
+      🔒 All changes are automatically saved as a draft. Once published, the course will be visible to students.
+    </p>
+  </div>
+  }
+
+  <!-- FOOTER BUTTONS -->
+  <div class="flex justify-between items-center mt-10">
+    @if (currentStep === 1) {
+      <button routerLink="/admin/course-management"
+        class="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700">
+        ✕ Cancel
+      </button>
+    }
+    @if (currentStep > 1) {
+      <button (click)="prevStep()"
+        class="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700">
+        ← Back to Edit
+      </button>
+    }
+
+    @if (currentStep < 3) {
+      <button (click)="nextStep()"
+        class="bg-blue-600 text-white px-6 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition">
+        Next Step →
+      </button>
+    }
+
+    @if (currentStep === 3) {
+      <div class="flex gap-3">
+        <button (click)="saveAsDraft()" [disabled]="isSubmitting"
+          class="px-5 py-2 border border-gray-200 rounded-lg text-sm text-gray-600 hover:bg-gray-50 disabled:opacity-50">
+          <strong>{{ isSubmitting ? 'Saving...' : 'Save as Draft' }}</strong>
+        </button>
+        <button (click)="confirmAndPublish()" [disabled]="isSubmitting"
+          class="bg-blue-600 text-white px-6 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition disabled:opacity-50 flex items-center gap-2">
+          {{ isSubmitting ? 'Publishing...' : 'Confirm & Publish Course ✓' }}
+        </button>
+      </div>
+    }
+  </div>
+
+</div>
+
+<!-- CREATE CATEGORY MODAL -->
+@if (showCreateCategoryModal) {
+<div class="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+  <div class="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 mx-4">
+    <div class="flex justify-between items-center mb-5">
+      <h3 class="text-lg font-bold text-gray-800">Create New Category</h3>
+      <button (click)="closeCreateCategoryModal()" class="text-gray-400 hover:text-gray-600 text-xl font-medium">✕</button>
+    </div>
+    <div class="mb-4">
+      <label class="text-sm font-semibold text-gray-700 mb-1 block">Category Name *</label>
+      <input type="text" [(ngModel)]="newCategoryName" placeholder="e.g. JEE, NEET, BITSAT"
+        class="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm outline-none focus:border-blue-400"/>
+    </div>
+    <div class="mb-5">
+      <label class="text-sm font-semibold text-gray-700 mb-1 block">Description (optional)</label>
+      <textarea [(ngModel)]="newCategoryDescription" rows="3" placeholder="Brief description..."
+        class="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm outline-none focus:border-blue-400 resize-none"></textarea>
+    </div>
+    @if (createCategoryError) {
+      <p class="text-xs text-red-500 mb-3 font-medium">{{ createCategoryError }}</p>
+    }
+    @if (createCategorySuccess) {
+      <p class="text-xs text-green-600 mb-3 font-medium">{{ createCategorySuccess }}</p>
+    }
+    <div class="flex justify-end gap-3">
+      <button (click)="closeCreateCategoryModal()"
+        class="px-4 py-2 text-sm text-gray-500 border border-gray-200 rounded-lg hover:bg-gray-50">Cancel</button>
+      <button (click)="submitNewCategory()" [disabled]="createCategoryLoading"
+        class="px-5 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 disabled:opacity-50 flex items-center gap-2">
+        @if (createCategoryLoading) {
+          <svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+          </svg>
+        }
+        {{ createCategoryLoading ? 'Creating...' : 'Create Category' }}
+      </button>
+    </div>
+  </div>
+</div>
+}

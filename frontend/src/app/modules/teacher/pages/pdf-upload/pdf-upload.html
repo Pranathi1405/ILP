@@ -1,0 +1,58 @@
+<div class="p-6 bg-[#f7f8fc] min-h-screen">
+
+  <!-- HEADER -->
+  <div class="mb-6">
+    <h1 class="text-2xl font-semibold text-gray-800">
+      <strong>{{ courseName }}</strong>
+    </h1>
+
+    <h2 class="mt-2 text-lg font-semibold">
+      <strong>Upload Study Material</strong>
+    </h2>
+
+    <p class="text-sm text-gray-500">
+      Add PDF notes to <strong>{{ moduleName }}</strong>
+    </p>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="space-y-6">
+
+    <!-- FILE UPLOAD (includes title + description) -->
+    <app-file-upload
+      titleLabel="PDF Title"
+      titlePlaceholder="Enter PDF title (e.g., Laws of Motion Notes)"
+      descriptionPlaceholder="Write a short description about this PDF..."
+      uploadText="Click to upload or drag and drop"
+      supportedText="Supports PDF only. Max file size: 50MB."
+      accept="application/pdf"
+      [enablePreview]="true"
+      (fileChange)="onFileData($event)">
+    </app-file-upload>
+
+    <!-- GUIDELINES FULL WIDTH -->
+    <div class="mt-5 bg-blue-50 p-5 rounded-xl shadow-sm border border-blue-100 w-full">
+      <p class="text-sm font-medium text-blue-700 mb-3">
+        <strong>Guidelines</strong>
+      </p>
+
+      <ul class="text-sm text-gray-600 space-y-2 list-disc pl-4">
+        <li>Ensure all content is your own or licensed</li>
+        <li>Optimal PDF size is under 20MB for mobile users</li>
+        <li>Include alt-text descriptions for accessibility</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="flex justify-end gap-4 mt-8">
+    <app-footer-actions
+      publishLabel="Publish PDF"
+      (cancel)="onCancel()"
+      (saveDraft)="onSaveDraft()"
+      (publish)="onPublish()">
+    </app-footer-actions>
+  </div>
+
+</div>

@@ -1,0 +1,137 @@
+<!-- Author: E.Kaeith Emmanuel — NTA Exact Layout -->
+
+<!-- Trigger button in navbar -->
+<div class="relative inline-block">
+  <button (click)="toggle()" class="nta-open-btn" title="Scientific Calculator">
+    🧮 Calculator
+  </button>
+
+  @if (isOpen()) {
+    <!-- ══════════════════════════════════════════════════════ -->
+    <!-- NTA CALCULATOR WINDOW                                  -->
+    <!-- ══════════════════════════════════════════════════════ -->
+    <div class="nta-window">
+      <!-- TITLE BAR -->
+      <div class="nta-titlebar">
+        <span class="nta-title">Scientific Calculator</span>
+        <div class="nta-titlebar-right">
+          <button class="nta-help-btn">Help</button>
+          <button class="nta-ctrl-btn">_</button>
+          <button class="nta-ctrl-btn nta-close" (click)="close()">✕</button>
+        </div>
+      </div>
+
+      <!-- DISPLAY AREA -->
+      <div class="nta-display-wrap">
+        <!-- Expression line -->
+        <div class="nta-expr-line">{{ expression() }}</div>
+        <!-- Main display -->
+        <div class="nta-main-display" [class.nta-error]="error()">
+          {{ display() }}
+        </div>
+      </div>
+
+      <!-- MODE ROW: mod | Deg/Rad | Memory buttons -->
+      <div class="nta-mode-row">
+        <button class="nta-mode-btn" (click)="fn('mod')">mod</button>
+
+        <label class="nta-radio-label">
+          <input
+            type="radio"
+            name="angle"
+            value="Deg"
+            [checked]="angleMode() === 'Deg'"
+            (change)="setAngle('Deg')"
+          />
+          Deg
+        </label>
+        <label class="nta-radio-label">
+          <input
+            type="radio"
+            name="angle"
+            value="Rad"
+            [checked]="angleMode() === 'Rad'"
+            (change)="setAngle('Rad')"
+          />
+          Rad
+        </label>
+
+        <div class="nta-mem-row">
+          <button class="nta-mem-btn" (click)="mc()">MC</button>
+          <button class="nta-mem-btn" [class.nta-mem-active]="hasMemory()" (click)="mr()">
+            MR
+          </button>
+          <button class="nta-mem-btn" (click)="ms()">MS</button>
+          <button class="nta-mem-btn" (click)="mAdd()">M+</button>
+          <button class="nta-mem-btn" (click)="mSub()">M-</button>
+        </div>
+      </div>
+
+      <!-- BUTTON GRID -->
+      <div class="nta-grid">
+        <!-- ROW 1: sinh cosh tanh Exp ( ) ← C +/- √ -->
+        <button class="nta-btn nta-fn" (click)="fn('sinh')">sinh</button>
+        <button class="nta-btn nta-fn" (click)="fn('cosh')">cosh</button>
+        <button class="nta-btn nta-fn" (click)="fn('tanh')">tanh</button>
+        <button class="nta-btn nta-fn" (click)="fn('exp')">Exp</button>
+        <button class="nta-btn nta-fn" (click)="inputParen('(')">(</button>
+        <button class="nta-btn nta-fn" (click)="inputParen(')')">)</button>
+        <button class="nta-btn nta-red" (click)="backspace()">&#8592;</button>
+        <button class="nta-btn nta-red" (click)="clear()">C</button>
+        <button class="nta-btn nta-fn" (click)="fn('neg')">+/-</button>
+        <button class="nta-btn nta-fn" (click)="fn('sqrt')">&#8730;</button>
+
+        <!-- ROW 2: sinh⁻¹ cosh⁻¹ tanh⁻¹ log₂x ln log 7 8 9 / % -->
+        <button class="nta-btn nta-fn nta-super" (click)="fn('asinh')">sinh<sup>-1</sup></button>
+        <button class="nta-btn nta-fn nta-super" (click)="fn('acosh')">cosh<sup>-1</sup></button>
+        <button class="nta-btn nta-fn nta-super" (click)="fn('atanh')">tanh<sup>-1</sup></button>
+        <button class="nta-btn nta-fn nta-super" (click)="fn('log2')">log<sub>2</sub>x</button>
+        <button class="nta-btn nta-fn" (click)="fn('ln')">ln</button>
+        <button class="nta-btn nta-fn" (click)="fn('log')">log</button>
+        <button class="nta-btn nta-num" (click)="inputDigit('7')">7</button>
+        <button class="nta-btn nta-num" (click)="inputDigit('8')">8</button>
+        <button class="nta-btn nta-num" (click)="inputDigit('9')">9</button>
+        <button class="nta-btn nta-op" (click)="inputOp('/')">/</button>
+        <button class="nta-btn nta-fn" (click)="fn('perc')">%</button>
+
+        <!-- ROW 3: π e n! logyx eˣ 10ˣ 4 5 6 * 1/x -->
+        <button class="nta-btn nta-fn" (click)="fn('pi')">&#960;</button>
+        <button class="nta-btn nta-fn" (click)="fn('e')">e</button>
+        <button class="nta-btn nta-fn" (click)="fn('fact')">n!</button>
+        <button class="nta-btn nta-fn nta-super" (click)="fn('logy')">log<sub>y</sub>x</button>
+        <button class="nta-btn nta-fn nta-super" (click)="fn('ex')">e<sup>x</sup></button>
+        <button class="nta-btn nta-fn nta-super" (click)="fn('10x')">10<sup>x</sup></button>
+        <button class="nta-btn nta-num" (click)="inputDigit('4')">4</button>
+        <button class="nta-btn nta-num" (click)="inputDigit('5')">5</button>
+        <button class="nta-btn nta-num" (click)="inputDigit('6')">6</button>
+        <button class="nta-btn nta-op" (click)="inputOp('*')">*</button>
+        <button class="nta-btn nta-fn" (click)="fn('inv')">1/x</button>
+
+        <!-- ROW 4: sin cos tan xʸ x³ x² 1 2 3 - = (rowspan) -->
+        <button class="nta-btn nta-fn" (click)="fn('sin')">sin</button>
+        <button class="nta-btn nta-fn" (click)="fn('cos')">cos</button>
+        <button class="nta-btn nta-fn" (click)="fn('tan')">tan</button>
+        <button class="nta-btn nta-fn nta-super" (click)="fn('xy')">x<sup>y</sup></button>
+        <button class="nta-btn nta-fn nta-super" (click)="fn('x3')">x<sup>3</sup></button>
+        <button class="nta-btn nta-fn nta-super" (click)="fn('x2')">x<sup>2</sup></button>
+        <button class="nta-btn nta-num" (click)="inputDigit('1')">1</button>
+        <button class="nta-btn nta-num" (click)="inputDigit('2')">2</button>
+        <button class="nta-btn nta-num" (click)="inputDigit('3')">3</button>
+        <button class="nta-btn nta-op" (click)="inputOp('-')">-</button>
+        <!-- = button spans rows 4 and 5 -->
+        <button class="nta-btn nta-equals nta-rowspan2" (click)="evaluate()">=</button>
+
+        <!-- ROW 5: sin⁻¹ cos⁻¹ tan⁻¹ √x ⁴√x |x| 0 . + -->
+        <button class="nta-btn nta-fn nta-super" (click)="fn('asin')">sin<sup>-1</sup></button>
+        <button class="nta-btn nta-fn nta-super" (click)="fn('acos')">cos<sup>-1</sup></button>
+        <button class="nta-btn nta-fn nta-super" (click)="fn('atan')">tan<sup>-1</sup></button>
+        <button class="nta-btn nta-fn nta-super" (click)="fn('sqrt')"><sup>2</sup>&#8730;x</button>
+        <button class="nta-btn nta-fn nta-super" (click)="fn('cbrt')"><sup>3</sup>&#8730;x</button>
+        <button class="nta-btn nta-fn" (click)="fn('abs')">|x|</button>
+        <button class="nta-btn nta-num nta-zero" (click)="inputDigit('0')">0</button>
+        <button class="nta-btn nta-num" (click)="inputDigit('.')">.</button>
+        <button class="nta-btn nta-op" (click)="inputOp('+')" style="grid-column: span 1">+</button>
+      </div>
+    </div>
+  }
+</div>

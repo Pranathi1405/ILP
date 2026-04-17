@@ -1,0 +1,109 @@
+<div class="p-6 bg-gray-100 min-h-screen">
+  <div class="max-w-6xl mx-auto">
+    <!-- ================= HEADER ================= -->
+    @if (result) {
+      <div class="bg-white rounded-2xl shadow-sm p-6 mb-6">
+        <h1 class="text-xl font-semibold text-gray-800">
+          {{ result.title }}
+        </h1>
+
+        <div class="grid grid-cols-3 gap-4 mt-4 text-sm">
+          <div>
+            <p class="text-gray-500">Score</p>
+            <p class="font-semibold text-gray-800">
+              {{ result.total_score }} / {{ result.total_marks }}
+            </p>
+          </div>
+
+          <div>
+            <p class="text-gray-500">Accuracy</p>
+            <p
+              class="font-semibold"
+              [ngClass]="{
+                'text-green-600': result.accuracy_percent >= 80,
+                'text-yellow-600': result.accuracy_percent >= 60 && result.accuracy_percent < 80,
+                'text-red-600': result.accuracy_percent < 60,
+              }"
+            >
+              {{ result.accuracy_percent }}%
+            </p>
+          </div>
+
+          <div>
+            <p class="text-gray-500">Duration</p>
+            <p class="font-semibold text-gray-800">{{ result.duration_minutes }} mins</p>
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- ================= STATES ================= -->
+    @if (loading) {
+      <div class="bg-white p-6 rounded-xl text-center">
+        <div
+          class="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto"
+        ></div>
+        <p class="text-gray-500 text-sm mt-2">Loading analysis...</p>
+      </div>
+    }
+
+    @if (!loading && error) {
+      <div class="bg-white p-6 rounded-xl text-center">
+        <p class="text-red-500 text-sm">{{ error }}</p>
+      </div>
+    }
+
+    <!-- ================= QUESTIONS ================= -->
+    @if (!loading && !error && answers.length > 0) {
+      <div class="space-y-4">
+        @for (q of answers; track q.question_id; let i = $index) {
+          <div class="bg-white border rounded-xl p-5" [ngClass]="getStatusColor(q)">
+            <!-- Q HEADER -->
+            <div class="flex justify-between items-start mb-2">
+              <p class="font-medium text-gray-800 text-sm">
+                Q{{ i + 1 }}. <span [innerHTML]="(q.question_text || '') | safeLatex"></span>
+              </p>
+
+              <span
+                class="text-xs px-2 py-1 rounded-full font-semibold"
+                [ngClass]="{
+                  'bg-green-100 text-green-600': getStatus(q) === 'correct',
+                  'bg-red-100 text-red-600': getStatus(q) === 'wrong',
+                  'bg-gray-200 text-gray-500': getStatus(q) === 'skipped',
+                }"
+              >
+                {{ getStatus(q) | uppercase }}
+              </span>
+            </div>
+
+            <!-- OPTIONS -->
+            <div class="text-sm mt-2 space-y-1">
+              <p>
+                <span class="text-gray-500">Your Answer:</span>
+                <span class="font-medium" [innerHTML]="((q.selected_option_text || q.numerical_answer || '—') + '') | safeLatex"></span>
+              </p>
+
+              <p>
+                <span class="text-gray-500">Correct Answer:</span>
+                <span class="font-medium text-green-600" [innerHTML]="((q.correct_option_text || q.correct_numerical || '') + '') | safeLatex"></span>
+              </p>
+            </div>
+
+            <!-- MARKS -->
+            <div class="text-xs text-gray-500 mt-3">
+              Marks:
+              <span
+                [ngClass]="{
+                  'text-green-600': q.marks_obtained > 0,
+                  'text-red-600': q.marks_obtained < 0,
+                }"
+              >
+                {{ q.marks_obtained }}
+              </span>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>

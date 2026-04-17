@@ -1,0 +1,21 @@
+<!-- Author: Poojitha -->
+<!-- Live-Studio Page Stats Cards Component -->
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+  @for (stat of stats(); track $index) {
+
+  <div
+    class="flex justify-between items-center bg-white p-5 rounded-xl border border-gray-200 hover:shadow-md transition">
+    <div>
+      <p class="text-sm text-gray-500">{{ stat.title }}</p>
+
+      <h2 class="text-3xl font-bold mt-1" [class]="stat.valueColor">
+        {{ stat.value }}
+      </h2>
+    </div>
+    <div class="w-10 h-10 flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg">
+      {{ stat.icon }}
+    </div>
+  </div>
+  }
+</div>

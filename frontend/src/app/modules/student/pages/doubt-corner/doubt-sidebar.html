@@ -1,0 +1,271 @@
+<div class="flex flex-col flex-1 min-h-0 bg-white w-full">
+  <!-- ── Header ──────────────────────────────────────────────────────────── -->
+  <div class="px-4 pt-5 pb-3 border-b border-slate-100">
+    <h2 class="text-[18px] font-bold text-slate-800 leading-tight mb-3">Doubt Corner</h2>
+
+    <!-- Search -->
+    <div class="relative">
+      <svg
+        class="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.5"
+      >
+        <circle cx="11" cy="11" r="8" />
+        <path d="m21 21-4.35-4.35" stroke-linecap="round" />
+      </svg>
+      <input
+        type="text"
+        placeholder="Search doubts..."
+        [ngModel]="searchValue()"
+        (ngModelChange)="onSearch($event)"
+        class="w-full pl-9 pr-3 py-2 text-[13px] text-slate-700 placeholder-slate-400 bg-[#F8FAFC] border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-400 transition-all"
+      />
+    </div>
+  </div>
+
+  <!-- ── Filters ─────────────────────────────────────────────────────────── -->
+  <div class="px-4 py-3 border-b border-slate-100 flex flex-col gap-3">
+    <!-- Row: Status + Course dropdowns -->
+    <div class="flex gap-2">
+      <!-- Status Dropdown -->
+      <div class="relative flex-1" tabindex="0" (focusout)="closeDropdowns()">
+        <button
+          (click)="toggleStatusDropdown()"
+          class="w-full flex items-center justify-between gap-1.5 border border-slate-200 rounded-lg px-3 py-1.5 bg-white hover:bg-slate-50 transition-colors"
+        >
+          <span class="text-[11px] font-semibold text-slate-500 uppercase tracking-wide"
+            >Status</span
+          >
+          <div class="flex items-center gap-1">
+            <span
+              class="text-[11px] font-bold px-1.5 py-0.5 rounded border leading-none"
+              [class]="
+                selectedStatus() === 'Open'
+                  ? 'bg-amber-50 border-amber-200 text-amber-600'
+                  : selectedStatus() === 'Resolved'
+                    ? 'bg-emerald-50 border-emerald-200 text-emerald-600'
+                    : 'bg-slate-100 border-slate-200 text-slate-500'
+              "
+              >{{ selectedStatus() }}</span
+            >
+            <svg
+              class="w-3 h-3 text-slate-400 transition-transform"
+              [class.rotate-180]="statusDropdownOpen()"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+            >
+              <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+        </button>
+
+        @if (statusDropdownOpen()) {
+          <div
+            class="absolute top-full left-0 mt-1 w-full bg-white border border-slate-200 rounded-lg shadow-md z-50 py-1 overflow-hidden"
+          >
+            @for (option of statusOptions; track option) {
+              <button
+                (click)="onStatusSelect(option)"
+                class="w-full text-left px-3 py-2 text-[12px] font-semibold transition-colors hover:bg-slate-50"
+                [class]="
+                  option === selectedStatus() ? 'text-cyan-600 bg-cyan-50' : 'text-slate-600'
+                "
+              >
+                {{ option }}
+              </button>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Course Dropdown -->
+      <div class="relative flex-1" tabindex="0" (focusout)="closeDropdowns()">
+        <button
+          (click)="toggleCourseDropdown()"
+          class="w-full flex items-center justify-between gap-1.5 border border-slate-200 rounded-lg px-3 py-1.5 bg-white hover:bg-slate-50 transition-colors"
+        >
+          <span class="text-[11px] font-semibold text-slate-500 uppercase tracking-wide truncate">
+            {{ selectedCourse()?.course_name ?? 'Course' }}
+          </span>
+          <div class="flex items-center gap-1 shrink-0">
+            @if (selectedCourseId() !== null) {
+              <button
+                (click)="$event.stopPropagation(); clearCourse()"
+                class="w-4 h-4 flex items-center justify-center rounded-full hover:bg-slate-200 transition-colors"
+              >
+                <svg
+                  class="w-2.5 h-2.5 text-slate-400"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                >
+                  <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" />
+                </svg>
+              </button>
+            }
+            <svg
+              class="w-3 h-3 text-slate-400 transition-transform"
+              [class.rotate-180]="courseDropdownOpen()"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+            >
+              <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+        </button>
+
+        @if (courseDropdownOpen()) {
+          <div
+            class="absolute top-full left-0 mt-1 w-full bg-white border border-slate-200 rounded-lg shadow-md z-50 py-1 overflow-hidden max-h-48 overflow-y-auto"
+          >
+            @if (doubtService.isLoadingCourses()) {
+              <div class="px-3 py-3 flex justify-center">
+                <div
+                  class="w-4 h-4 border-2 border-slate-200 border-t-cyan-500 rounded-full animate-spin"
+                ></div>
+              </div>
+            } @else {
+              <button
+                (click)="onCourseSelect(null)"
+                class="w-full text-left px-3 py-2 text-[12px] font-semibold transition-colors hover:bg-slate-50"
+                [class]="
+                  selectedCourseId() === null ? 'text-cyan-600 bg-cyan-50' : 'text-slate-600'
+                "
+              >
+                All Courses
+              </button>
+              @for (course of courses(); track course.course_id) {
+                <button
+                  (click)="onCourseSelect(course.course_id)"
+                  class="w-full text-left px-3 py-2 text-[12px] font-semibold transition-colors hover:bg-slate-50 truncate"
+                  [class]="
+                    selectedCourseId() === course.course_id
+                      ? 'text-cyan-600 bg-cyan-50'
+                      : 'text-slate-600'
+                  "
+                >
+                  {{ course.course_name }}
+                </button>
+              }
+            }
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Subject pills — only after course is selected -->
+    @if (selectedCourseId() !== null) {
+      <div class="flex flex-wrap gap-1.5">
+        @if (doubtService.isLoadingSubjects()) {
+          <div
+            class="w-4 h-4 border-2 border-slate-200 border-t-cyan-500 rounded-full animate-spin"
+          ></div>
+        } @else {
+          @for (subject of subjects(); track subject.subject_id) {
+            <button
+              (click)="onSubjectSelect(subject.subject_id)"
+              class="px-2.5 py-1 text-[11px] font-semibold rounded-full border transition-all"
+              [class]="
+                selectedSubjectId() === subject.subject_id
+                  ? 'bg-cyan-500 border-cyan-500 text-white'
+                  : 'bg-white border-slate-200 text-slate-600 hover:border-cyan-300 hover:text-cyan-600'
+              "
+            >
+              {{ subject.subject_name }}
+            </button>
+          }
+        }
+      </div>
+    }
+  </div>
+
+  <!-- ── Doubts list (infinite scroll) ──────────────────────────────────── -->
+  <div #scrollContainer class="flex-1 min-h-0 overflow-y-auto" (scroll)="onScroll($event)">
+    @if (isLoading()) {
+      <div class="flex flex-col">
+        @for (_ of [1, 2, 3, 4, 5]; track $index) {
+          <div class="px-4 py-3.5 border-b border-slate-100 animate-pulse">
+            <div class="h-3 bg-slate-100 rounded w-4/5 mb-2.5"></div>
+            <div class="h-2.5 bg-slate-100 rounded w-3/5 mb-3"></div>
+            <div class="flex gap-2">
+              <div class="h-4 bg-slate-100 rounded-full w-16"></div>
+              <div class="h-4 bg-slate-100 rounded-full w-12"></div>
+            </div>
+          </div>
+        }
+      </div>
+    } @else if (doubts().length === 0) {
+      <div class="flex flex-col items-center justify-center py-16 px-4 text-center">
+        <svg
+          class="w-10 h-10 text-slate-200 mb-3"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
+          <path
+            d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        <p class="text-[13px] font-semibold text-slate-400">No doubts found</p>
+        <p class="text-[11px] text-slate-300 mt-1">Try adjusting your filters</p>
+      </div>
+    } @else {
+      <div class="flex flex-col">
+        @for (doubt of doubts(); track doubt.doubt_id) {
+          <button
+            (click)="selectDoubt(doubt)"
+            class="w-full text-left px-4 py-3.5 border-b border-slate-100 transition-colors border-l-2"
+            [class]="
+              activeDoubt()?.doubt_id === doubt.doubt_id
+                ? 'bg-cyan-50 border-l-cyan-500'
+                : 'hover:bg-slate-50 border-l-transparent'
+            "
+          >
+            <!-- Question preview — uses .question (mapped from question_text) -->
+            <p class="text-[13px] font-semibold text-slate-700 leading-snug line-clamp-2 mb-2">
+              {{ doubt.question }}
+            </p>
+
+            <!-- Tags -->
+            <div class="flex items-center gap-1.5 flex-wrap">
+              <span
+                class="text-[10px] font-bold px-2 py-0.5 rounded-md bg-[#F1F5F9] border border-slate-200 text-slate-500 uppercase tracking-wide truncate max-w-[100px]"
+              >
+                {{ doubt.course_name }}
+              </span>
+              <span
+                class="text-[10px] font-bold px-2 py-0.5 rounded-md bg-[#F1F5F9] border border-slate-200 text-slate-500 uppercase tracking-wide truncate max-w-[90px]"
+              >
+                {{ doubt.subject_name }}
+              </span>
+              <span
+                class="ml-auto text-[10px] font-bold px-2 py-0.5 rounded-md border leading-none"
+                [class]="statusBadgeClass(doubt.status)"
+                >{{ doubt.status }}</span
+              >
+            </div>
+          </button>
+        }
+
+        @if (isLoadingMore()) {
+          <div class="flex justify-center py-4">
+            <div
+              class="w-4 h-4 border-2 border-slate-200 border-t-cyan-500 rounded-full animate-spin"
+            ></div>
+          </div>
+        }
+
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,386 @@
+<!-- Loading -->
+<div *ngIf="isLoading" class="flex items-center justify-center h-screen">
+  <div
+    class="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"
+  ></div>
+</div>
+
+<!-- Error + Retry -->
+<div *ngIf="!isLoading && hasError" class="flex flex-col items-center justify-center h-64 gap-4">
+  <p class="text-red-500 text-sm font-semibold">Failed to load performance data.</p>
+  <button (click)="retry()" class="px-4 py-2 bg-black text-white text-sm rounded-lg">Retry</button>
+</div>
+
+<!-- ── MAIN PAGE CONTENT ── -->
+<div *ngIf="!isLoading && !hasError && vm" class="p-6 space-y-6 bg-gray-50 min-h-screen">
+  <!-- ── HEADER ── -->
+  <div class="flex items-start justify-between">
+    <div>
+      <h1 class="text-2xl font-bold text-slate-800">Performance Report: {{ vm.childName }}</h1>
+      <p class="text-xs text-slate-400 font-semibold tracking-widest mt-1">
+        ACADEMIC DEEP DIVE & ANALYSIS
+      </p>
+    </div>
+    <div class="flex items-center gap-3">
+      <button
+        class="flex items-center gap-2 border border-slate-200 rounded-lg px-4 py-2 text-sm text-slate-600 bg-white hover:bg-slate-50"
+      >
+        Last 30 Days
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M19 9l-7 7-7-7"
+          />
+        </svg>
+      </button>
+      <button
+        class="flex items-center gap-2 border border-slate-200 rounded-lg px-4 py-2 text-sm text-slate-600 bg-white hover:bg-slate-50"
+      >
+        <!-- SVG ICON PLACEHOLDER: download -->
+        Download PDF
+      </button>
+    </div>
+  </div>
+
+  <!-- ── SUBJECT PROFICIENCY + TOPIC MASTERY ── -->
+  <div class="grid grid-cols-3 gap-6">
+    <!-- Subject Proficiency — 2/3 width -->
+    <div class="col-span-2 bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
+      <div class="flex items-center gap-2 mb-5">
+        <!-- SVG ICON PLACEHOLDER: chart -->
+        <h2 class="text-sm font-bold text-slate-700">Subject Proficiency</h2>
+      </div>
+
+      <div *ngIf="vm.subjectBars.length === 0" class="text-slate-400 text-sm text-center py-8">
+        No subject data available.
+      </div>
+
+      <div class="space-y-5">
+        <div *ngFor="let subject of vm.subjectBars">
+          <div class="flex justify-between items-center mb-1">
+            <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-widest">
+              {{ subject.subject_title }}
+            </span>
+            <span class="text-sm font-bold" [ngClass]="subject.score_color_class">
+              {{ subject.avg_score }}%
+            </span>
+          </div>
+          <div class="w-full bg-slate-100 rounded-full h-2">
+            <div
+              class="h-2 rounded-full transition-all duration-500"
+              [ngClass]="subject.bar_color_class"
+              [style.width.%]="subject.avg_score"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Topic Mastery — 1/3 width -->
+    <div class="col-span-1 bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
+      <h2 class="text-sm font-bold text-slate-700 mb-5">Topic Mastery</h2>
+
+      <!-- Strong Topics -->
+      <div *ngIf="vm.strongTopics.length > 0" class="mb-5">
+        <p class="text-xs font-bold text-green-600 uppercase tracking-widest mb-3">Strong Topics</p>
+        <div class="space-y-2">
+          <div *ngFor="let topic of vm.strongTopics" class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-green-500 flex-shrink-0"></span>
+            <span class="text-sm text-slate-700">{{ topic }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Weak Topics -->
+      <div *ngIf="vm.weakTopics.length > 0">
+        <p class="text-xs font-bold text-red-500 uppercase tracking-widest mb-3">Weak Topics</p>
+        <div class="space-y-2">
+          <div *ngFor="let topic of vm.weakTopics" class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-red-400 flex-shrink-0"></span>
+            <span class="text-sm text-slate-700">{{ topic }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div
+        *ngIf="vm.strongTopics.length === 0 && vm.weakTopics.length === 0"
+        class="text-slate-400 text-sm text-center py-8"
+      >
+        No mastery data available.
+      </div>
+    </div>
+  </div>
+  <!-- ================= EXAM RESULTS LIST ================= -->
+
+  <div
+    *ngFor="let exam of vm.examResults"
+    class="grid grid-cols-6 items-center py-4 border-b border-slate-50 hover:bg-slate-50 transition"
+  >
+    <div class="text-xs text-slate-500">
+      {{ exam.date }}
+    </div>
+
+    <div class="col-span-2 text-sm font-semibold text-slate-800">
+      {{ exam.test_name }}
+    </div>
+
+    <div class="text-sm font-bold text-slate-800">
+      {{ exam.score }}
+    </div>
+
+    <div class="text-sm font-bold" [ngClass]="exam.accuracy_color_class">
+      {{ exam.score_percent }}%
+    </div>
+
+    <!-- VIEW ANALYSIS BUTTON -->
+    <div>
+      <button
+        (click)="openAnalysis(exam)"
+        class="text-[11px] font-bold text-blue-600 hover:underline leading-tight"
+      >
+        VIEW<br />ANALYSIS
+      </button>
+    </div>
+  </div>
+
+  <!-- ================= ANALYSIS MODAL ================= -->
+
+  <div
+    *ngIf="showAnalysisModal"
+    class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-6"
+    (click)="closeAnalysis()"
+  >
+    <!-- Modal box -->
+    <div
+      class="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 relative"
+      (click)="$event.stopPropagation()"
+    >
+      <!-- Close button -->
+      <button
+        (click)="closeAnalysis()"
+        class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      </button>
+
+      <!-- Header -->
+      <h3 class="text-base font-bold text-slate-800 mb-1">Performance Trend</h3>
+
+      <p class="text-xs text-slate-400 mb-4">
+        {{ selectedExam?.test_name }}
+      </p>
+
+      <!-- Trend badge -->
+      <div class="flex justify-end mb-2">
+        <span
+          *ngIf="vm.trendBadge"
+          class="flex items-center gap-1 text-xs font-bold px-2 py-1 rounded-full"
+          [ngClass]="vm!.trendPositive ? 'text-green-600 bg-green-50' : 'text-red-500 bg-red-50'"
+        >
+          {{ vm!.trendBadge }}
+        </span>
+      </div>
+
+      <!-- CHART (INSIDE MODAL — kept as is) -->
+      <svg
+        *ngIf="vm && vm.trendPoints.length > 0"
+        [attr.viewBox]="'0 0 ' + chartWidth + ' ' + chartHeight"
+        class="w-full"
+      >
+        <g stroke="#f1f5f9" stroke-width="1">
+          <line
+            *ngFor="let y of yAxisLines"
+            [attr.x1]="chartPadding"
+            [attr.x2]="chartWidth - chartPadding"
+            [attr.y1]="getChartY(y)"
+            [attr.y2]="getChartY(y)"
+          />
+        </g>
+
+        <g fill="#94a3b8" font-size="10">
+          <text
+            *ngFor="let y of yAxisLabels"
+            [attr.x]="chartPadding - 6"
+            [attr.y]="getChartY(y) + 3"
+            text-anchor="end"
+          >
+            {{ y }}
+          </text>
+        </g>
+
+        <path [attr.d]="chartAreaPath" fill="rgba(99,102,241,0.08)" />
+
+        <polyline
+          [attr.points]="chartPolylinePoints"
+          fill="none"
+          stroke="#6366f1"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+
+        <circle
+          *ngFor="let point of vm.trendPoints; let i = index"
+          [attr.cx]="getChartX(i)"
+          [attr.cy]="getChartY(point.score_percent)"
+          r="4"
+          fill="white"
+          stroke="#6366f1"
+          stroke-width="2"
+        />
+
+        <text
+          *ngFor="let point of vm.trendPoints; let i = index"
+          [attr.x]="getChartX(i)"
+          [attr.y]="chartHeight - 6"
+          text-anchor="middle"
+          fill="#94a3b8"
+          font-size="9"
+        >
+          {{ point.label }}
+        </text>
+      </svg>
+
+      <!-- Academic status -->
+      <div class="mt-4 flex items-center justify-between p-3 bg-slate-50 rounded-xl">
+        <div>
+          <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+            Academic Status
+          </p>
+          <p class="text-xs font-semibold text-slate-700 capitalize">
+            {{ vm.performanceTrend || 'stable' }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ── MODAL — outside main div but NOT inside black overlay ── -->
+  <!-- ✅ fixed position overlays ON TOP of the page content -->
+  <div
+    *ngIf="showAnalysisModal"
+    class="fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center p-6"
+    (click)="closeAnalysis()"
+  >
+    <div
+      class="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 relative"
+      (click)="$event.stopPropagation()"
+    >
+      <!-- Close -->
+      <button
+        (click)="closeAnalysis()"
+        class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      </button>
+
+      <!-- Header -->
+      <h3 class="text-base font-bold text-slate-800 mb-1">Performance Trend</h3>
+      <p class="text-xs text-slate-400 mb-4">{{ selectedExam?.test_name }}</p>
+
+      <!-- Trend badge -->
+      <div class="flex justify-end mb-2">
+        <span
+          *ngIf="vm.trendBadge"
+          class="flex items-center gap-1 text-xs font-bold px-2 py-1 rounded-full"
+          [ngClass]="vm!.trendPositive ? 'text-green-600 bg-green-50' : 'text-red-500 bg-red-50'"
+        >
+          {{ vm!.trendBadge }}
+        </span>
+      </div>
+
+      <!-- Chart inside modal -->
+      <svg
+        *ngIf="vm && vm.trendPoints.length > 0"
+        [attr.viewBox]="'0 0 ' + chartWidth + ' ' + chartHeight"
+        class="w-full"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g stroke="#f1f5f9" stroke-width="1">
+          <line
+            *ngFor="let y of yAxisLines"
+            [attr.x1]="chartPadding"
+            [attr.x2]="chartWidth - chartPadding"
+            [attr.y1]="getChartY(y)"
+            [attr.y2]="getChartY(y)"
+          />
+        </g>
+
+        <g fill="#94a3b8" font-size="10">
+          <text
+            *ngFor="let y of yAxisLabels"
+            [attr.x]="chartPadding - 6"
+            [attr.y]="getChartY(y) + 3"
+            text-anchor="end"
+          >
+            {{ y }}
+          </text>
+        </g>
+
+        <path [attr.d]="chartAreaPath" fill="rgba(99,102,241,0.08)" stroke="none" />
+
+        <polyline
+          [attr.points]="chartPolylinePoints"
+          fill="none"
+          stroke="#6366f1"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+
+        <circle
+          *ngFor="let point of vm.trendPoints; let i = index"
+          [attr.cx]="getChartX(i)"
+          [attr.cy]="getChartY(point.score_percent)"
+          r="4"
+          fill="white"
+          stroke="#6366f1"
+          stroke-width="2"
+        />
+
+        <text
+          *ngFor="let point of vm.trendPoints; let i = index"
+          [attr.x]="getChartX(i)"
+          [attr.y]="chartHeight - 6"
+          text-anchor="middle"
+          fill="#94a3b8"
+          font-size="9"
+        >
+          {{ point.label }}
+        </text>
+      </svg>
+
+      <!-- Academic status -->
+      <div class="mt-4 flex items-center justify-between p-3 bg-slate-50 rounded-xl">
+        <div>
+          <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+            Academic Status
+          </p>
+          <p class="text-xs font-semibold text-slate-700 capitalize">
+            {{ vm.performanceTrend || 'stable' }}
+          </p>
+        </div>
+        <button
+          class="bg-slate-900 text-white text-xs font-semibold px-3 py-2 rounded-lg hover:bg-slate-700 transition"
+        >
+          Full Report
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

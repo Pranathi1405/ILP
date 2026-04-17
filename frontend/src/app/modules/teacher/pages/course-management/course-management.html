@@ -1,0 +1,90 @@
+<div class="p-8 bg-[#f7f8fc] min-h-screen">
+
+  <!-- DROPDOWN -->
+  <div class="relative w-[420px] mb-6">
+    <select
+      (change)="onCategoryChange($event)"
+      class="border rounded-lg px-4 pr-12 py-3 text-[13px] w-full bg-white appearance-none">
+      <option value="">Choose a category (e.g. JEE, NEET)</option>
+      <option *ngFor="let cat of categories" [value]="cat.category_id">
+        {{ cat.category_name }}
+      </option>
+    </select>
+    <img
+      src="images/dropdown3.jpg"
+      class="absolute right-4 top-1/2 -translate-y-1/2 w-3 h-2 pointer-events-none"
+    />
+  </div>
+
+  <!-- TITLE -->
+  <div class="mb-8">
+    <h2 class="text-[26px] font-bold text-gray-800">My Assigned Batches</h2>
+    <p class="text-[13px] text-gray-400 mt-1">
+      <strong>Manage and monitor your assigned curriculum modules and student progress.</strong>
+    </p>
+  </div>
+
+  <!-- LOADING -->
+  <div *ngIf="isLoading" class="text-gray-400 text-[13px] mt-4">
+    Loading courses...
+  </div>
+
+  <!-- NO COURSES -->
+  <div *ngIf="!isLoading && courses.length === 0" class="text-gray-400 text-[13px] mt-4">
+    No courses assigned yet.
+  </div>
+
+  <!-- COURSE CARDS -->
+  <div *ngIf="!isLoading && courses.length > 0" class="grid grid-cols-3 gap-6 max-w-[1050px]">
+
+    <div *ngFor="let course of courses" class="bg-white rounded-xl shadow-sm overflow-hidden">
+
+      <!-- CARD TOP -->
+      <div
+        class="text-white p-6 relative h-[200px] flex items-end bg-[#0f3f3f]"
+        [style.backgroundImage]="course.thumbnail_url ? 'url(' + course.thumbnail_url + ')' : 'none'"
+        [style.backgroundSize]="'cover'"
+        [style.backgroundPosition]="'center'">
+
+        <span class="absolute top-4 right-4 bg-green-500 text-white text-[10px] px-3 py-1 rounded-full">
+          {{ course.is_published ? 'ACTIVE' : 'INACTIVE' }}
+        </span>
+
+        <h3 class="text-[18px] font-semibold drop-shadow">
+          {{ course.course_name }}
+        </h3>
+      </div>
+
+      <!-- CARD BODY -->
+      <div class="p-6">
+
+        <div class="flex justify-between text-[12px] mb-3">
+          <span class="text-gray-500"><strong>DIFFICULTY</strong></span>
+          <span class="font-medium"><strong>{{ course.difficulty_level || 'N/A' }}</strong></span>
+        </div>
+
+        <div class="flex justify-between text-[12px] mb-3">
+          <span class="text-gray-500"><strong>COURSE CODE</strong></span>
+          <span class="font-medium"><strong>{{ course.course_code || 'N/A' }}</strong></span>
+        </div>
+
+        <div class="flex justify-between text-[12px] mb-4">
+          <span class="text-gray-500"><strong>PRICE</strong></span>
+          <span class="font-medium">
+            <strong>{{ course.is_free ? 'Free' : '₹' + course.price }}</strong>
+          </span>
+        </div>
+
+        <button
+          [routerLink]="['/teacher/module-management']"
+          [queryParams]="{ courseId: course.course_id }"
+          class="w-full border border-blue-500 text-blue-600 text-[13px] py-2 rounded-lg hover:bg-blue-50">
+          <strong>Manage Subject →</strong>
+        </button>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>

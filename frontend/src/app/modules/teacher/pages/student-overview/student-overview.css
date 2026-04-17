@@ -1,0 +1,39 @@
+/* student-overview.css */
+/* Tailwind handles all styling via utility classes in the HTML.
+   Only add overrides here if Tailwind cannot express them. */
+
+:host {
+  display: block;
+}
+
+/* Smooth dropdown animation */
+.dropdown-enter {
+  animation: dropIn 0.15s ease-out;
+}
+
+@keyframes dropIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Pulse skeleton shimmer */
+@keyframes shimmer {
+  0% {
+    background-position: -400px 0;
+  }
+  100% {
+    background-position: 400px 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 400px 100%;
+  animation: shimmer 1.4s infinite;
+}

@@ -1,0 +1,116 @@
+<div
+  class="min-h-screen flex items-center justify-center bg-linear-to-br from-blue-50 via-white to-cyan-100 px-4"
+>
+  <!-- Card -->
+  <a routerLink="/" class="absolute top-3 left-3">
+    <img src="image.png" class="h-10 m-auto" />
+  </a>
+  <div class="bg-white w-full max-w-md rounded-3xl shadow-xl px-8 py-8 flex flex-col items-center">
+    <img src="/icons/icon.svg" class="w-28 mb-4 hover:scale-105 transition" />
+    <h2 class="text-2xl font-bold text-gray-800">Verify OTP</h2>
+
+    <p class="text-gray-500 text-sm text-center mt-2 max-w-xs">
+      Enter the 6-digit verification code sent to your email address
+    </p>
+
+    <form class="w-full mt-6" [formGroup]="otpform" (ngSubmit)="verifyOtp()">
+      <div class="flex justify-center gap-3">
+        <input
+          #otpInput
+          type="text"
+          maxlength="1"
+          class="w-12 h-12 text-lg border border-gray-200 rounded-xl text-center shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition"
+          formControlName="otp1"
+          (input)="moveNext($event, 0)"
+          (keydown)="movePrevious($event, 0)"
+        />
+        <input
+          #otpInput
+          type="text"
+          maxlength="1"
+          class="w-12 h-12 text-lg border border-gray-200 rounded-xl text-center shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition"
+          formControlName="otp2"
+          (input)="moveNext($event, 1)"
+          (keydown)="movePrevious($event, 1)"
+        />
+
+        <input
+          #otpInput
+          type="text"
+          maxlength="1"
+          class="w-12 h-12 text-lg border border-gray-200 rounded-xl text-center shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition"
+          formControlName="otp3"
+          (input)="moveNext($event, 2)"
+          (keydown)="movePrevious($event, 2)"
+        />
+
+        <input
+          #otpInput
+          type="text"
+          maxlength="1"
+          class="w-12 h-12 text-lg border border-gray-200 rounded-xl text-center shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition"
+          formControlName="otp4"
+          (input)="moveNext($event, 3)"
+          (keydown)="movePrevious($event, 3)"
+        />
+
+        <input
+          #otpInput
+          type="text"
+          maxlength="1"
+          class="w-12 h-12 text-lg border border-gray-200 rounded-xl text-center shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition"
+          formControlName="otp5"
+          (input)="moveNext($event, 4)"
+          (keydown)="movePrevious($event, 4)"
+        />
+
+        <input
+          #otpInput
+          type="text"
+          maxlength="1"
+          class="w-12 h-12 text-lg border border-gray-200 rounded-xl text-center shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition"
+          formControlName="otp6"
+          (input)="moveNext($event, 5)"
+          (keydown)="movePrevious($event, 5)"
+        />
+      </div>
+      <div class="text-center text-sm text-gray-500 mt-4">
+        @if (!canresend) {
+          Resend code in <span class="font-semibold text-gray-700">{{ timer }}s</span>
+        }
+      </div>
+
+      <!-- Resend Button -->
+      <div class="flex justify-center mt-2">
+        <button
+          type="button"
+          class="text-cyan-500 font-medium hover:text-cyan-600 hover:underline transition"
+          (click)="resendcode()"
+        >
+          @if (canresend) {
+            Resend Code
+          }
+        </button>
+      </div>
+
+      <!-- Verify Button -->
+      <button
+        type="submit"
+        class="mt-6 w-full py-3 rounded-xl font-semibold text-white bg-cyan-500 hover:bg-cyan-600 shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer"
+      >
+        Verify and Proceed
+      </button>
+      <div class="text-center mt-5">
+        <a
+          [routerLink]="['/login']"
+          class="text-sm text-gray-500 hover:text-cyan-500 hover:underline transition"
+        >
+          ← Back to Login
+        </a>
+      </div>
+    </form>
+  </div>
+  <div>
+    <img src="mfa.png" class="h-150 w-180 ml-10" />
+  </div>
+</div>

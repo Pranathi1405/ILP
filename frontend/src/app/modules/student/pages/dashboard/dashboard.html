@@ -1,0 +1,227 @@
+<div class="w-full space-y-8">
+  <h1 class="text-xl font-semibold text-slate-700">DASHBOARD</h1>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="flex items-center gap-3">
+    <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-500"></div>
+    <span class="text-slate-400 text-sm">Loading dashboard...</span>
+  </div>
+
+  <div *ngIf="!isLoading">
+    <!-- TOP STAT CARDS -->
+    <div class="grid grid-cols-4 gap-6 w-full">
+      <!-- Attendance — MOCK: no API yet -->
+      <div class="bg-white p-6 rounded-[26px] shadow-sm flex flex-col justify-between">
+        <div class="flex items-center gap-5">
+          <div class="w-[52px] h-[39px] rounded-full bg-[#CFFAFE] flex items-center justify-center">
+            <svg width="24" height="12" viewBox="0 0 24 12" fill="none">
+              <path
+                d="M12 6.75C13.6406 6.75 15.0469 7.125 16.2188 7.64062C17.2969 8.10938 18 9.1875 18 10.3594V11.0156C18 11.5312 17.5312 12 17.0156 12H6.98438C6.46875 12 6 11.5312 6 11.0156V10.4062C6 9.1875 6.70312 8.10938 7.78125 7.64062C8.95312 7.125 10.3594 6.75 12 6.75ZM3.98438 6.98438C5.10938 6.98438 6 6.09375 6 5.01562C6 3.89062 5.10938 3 3.98438 3C2.90625 3 2.01562 3.89062 2.01562 5.01562C2.01562 6.09375 2.90625 6.98438 3.98438 6.98438ZM5.10938 8.10938C4.78125 8.0625 4.40625 8.01562 3.98438 8.01562C3 8.01562 2.0625 8.20312 1.21875 8.57812C0.46875 8.90625 0 9.60938 0 10.4531V11.0156C0 11.5312 0.46875 12 0.984375 12H4.5V10.4062C4.5 9.5625 4.73438 8.76562 5.10938 8.10938ZM20.0156 6.98438C21.0938 6.98438 21.9844 6.09375 21.9844 5.01562C21.9844 3.89062 21.0938 3 20.0156 3C18.8906 3 18 3.89062 18 5.01562C18 6.09375 18.8906 6.98438 20.0156 6.98438ZM24 10.4531C24 9.60938 23.5312 8.90625 22.7812 8.57812C21.9375 8.20312 21 8.01562 20.0156 8.01562C19.5938 8.01562 19.2188 8.0625 18.8906 8.10938C19.2656 8.76562 19.5 9.5625 19.5 10.4062V12H23.0156C23.5312 12 24 11.5312 24 11.0156V10.4531ZM12 0C13.6406 0 15 1.35938 15 3C15 4.64062 13.6406 6 12 6C10.3594 6 9 4.64062 9 3C9 1.35938 10.3594 0 12 0Z"
+                fill="#1A5FF8"
+              />
+            </svg>
+          </div>
+          <p class="text-sm text-slate-500">Attendance</p>
+        </div>
+        <!-- MOCK: attendance has no API yet -->
+        <h2 class="text-2xl font-bold text-slate-800">{{ attendance }}%</h2>
+      </div>
+
+      <!-- Test Scores — REAL from API -->
+      <div class="bg-white p-6 rounded-[26px] shadow-sm flex flex-col justify-between">
+        <div class="flex items-center gap-5">
+          <div class="w-[36px] h-[36px] rounded-full bg-[#FFEDD5] flex items-center justify-center">
+            <svg width="11" height="20" viewBox="0 0 11 20" fill="none">
+              <path
+                d="M10.0312 8.4375V0.984375C10.0312 0.421875 9.5625 0 9 0H1.03125C0.46875 0 0 0.421875 0 0.984375V8.4375C0 8.76562 0.1875 9.09375 0.515625 9.28125L4.6875 11.7656L3.70312 14.1094L1.45312 14.2969C1.03125 14.3438 0.84375 14.9062 1.17188 15.1875L2.85938 16.6406L2.34375 18.8438C2.25 19.2656 2.71875 19.5938 3.09375 19.3594L5.01562 18.2344L6.9375 19.3594C7.3125 19.5938 7.78125 19.2656 7.6875 18.8438L7.17188 16.6406L8.85938 15.1875C9.1875 14.9062 9 14.3438 8.57812 14.2969L6.32812 14.1094L5.34375 11.7656L9.51562 9.28125C9.84375 9.09375 10.0312 8.76562 10.0312 8.4375ZM6 10.2188L5.01562 10.8281L4.03125 10.2188V0.984375H6V10.2188Z"
+                fill="#F97316"
+              />
+            </svg>
+          </div>
+          <p class="text-sm text-slate-500">Test scores</p>
+        </div>
+        <!-- REAL: from /analytics/student/overview → average_test_score -->
+        <h2 class="text-2xl font-bold text-slate-800">{{ test_scores }} %</h2>
+      </div>
+
+      <!-- Courses Done — REAL from API -->
+      <div class="bg-white p-6 rounded-[26px] shadow-sm flex flex-col justify-between">
+        <div class="flex items-center gap-5">
+          <div class="w-[36px] h-[36px] rounded-full bg-[#DCFCE7] flex items-center justify-center">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path
+                d="M9.98438 0C4.45312 0 0 4.45312 0 9.98438C0 15.5156 4.45312 19.9688 9.98438 19.9688C15.5156 19.9688 19.9688 15.5156 19.9688 9.98438C19.9688 4.45312 15.5156 0 9.98438 0ZM7.26562 14.2969L3.70312 10.6875C3.28125 10.3125 3.28125 9.65625 3.70312 9.28125C4.07812 8.90625 4.6875 8.90625 5.10938 9.28125L7.96875 12.1406L14.8594 5.29688C15.2344 4.875 15.8906 4.875 16.2656 5.29688C16.6875 5.67188 16.6875 6.28125 16.2656 6.70312L8.67188 14.2969C8.29688 14.6719 7.6875 14.6719 7.26562 14.2969Z"
+                fill="#22C55E"
+              />
+            </svg>
+          </div>
+          <p class="text-sm text-slate-500">Courses Done</p>
+        </div>
+        <!-- REAL: from /analytics/student/overview → completed_courses -->
+        <h2 class="text-2xl font-bold text-slate-800">{{ courses_done }}</h2>
+      </div>
+
+      <!-- Daily Streak — REAL from API -->
+      <div class="bg-white p-6 rounded-[26px] shadow-sm flex flex-col gap-4">
+        <div class="flex items-center gap-3">
+          <div class="w-[44px] h-[44px] bg-[#FEE2E2] rounded-full flex items-center justify-center">
+            <svg class="w-9 h-9" viewBox="0 0 16 18" fill="none">
+              <path
+                d="M8.01562 10.1242L6 12.1398C5.53125 12.6086 5.15625 13.1711 5.0625 13.7804C4.73438 15.6554 6.1875 17.2492 8.01562 17.2492C9.84375 17.2492 11.2969 15.6554 10.9688 13.8273C10.875 13.1711 10.5 12.6086 10.0312 12.1398L8.01562 10.1242Z"
+                fill="#EF4444"
+              />
+            </svg>
+          </div>
+          <p class="text-sm text-slate-500">Daily Streak</p>
+        </div>
+        <!-- REAL: from /analytics/student/overview → current_streak_days -->
+        <h2 class="text-2xl font-bold text-slate-800">{{ daily_streak }} Days</h2>
+        <svg width="196" height="7" viewBox="0 0 196 7" xmlns="http://www.w3.org/2000/svg">
+          <rect width="24.3268" height="6.42146" rx="3.21073" fill="#EF4444" />
+          <rect x="28.6079" width="24.3268" height="6.42146" rx="3.21073" fill="#EF4444" />
+          <rect x="57.2156" width="24.3268" height="6.42146" rx="3.21073" fill="#EF4444" />
+          <rect x="85.8232" width="24.3268" height="6.42146" rx="3.21073" fill="#EF4444" />
+          <rect x="114.431" width="24.3268" height="6.42146" rx="3.21073" fill="#EF4444" />
+          <rect x="143.039" width="24.3268" height="6.42146" rx="3.21073" fill="#EF4444" />
+          <rect x="171.646" width="24.3268" height="6.42146" rx="3.21073" fill="#EF4444" />
+        </svg>
+      </div>
+    </div>
+
+    <!-- LIVE CLASSES -->
+    <p class="text-sm font-medium text-slate-500 mt-8">LIVE NOW</p>
+
+    <div class="grid grid-cols-2 gap-6 w-full mt-4">
+      @if (liveNowClasses.length === 0) {
+        <div
+          class="col-span-2 bg-white p-6 rounded-[16px] shadow-sm flex items-center justify-center text-slate-400 text-sm"
+        >
+          No live class happening right now
+        </div>
+      } @else {
+        @for (cls of liveNowClasses; track cls.id) {
+          <div
+            class="bg-white p-6 rounded-[16px] shadow-sm flex flex-col justify-between border border-red-100"
+          >
+            <div>
+              <p class="text-xs text-slate-400 mb-1">
+                {{ cls.subject_name }} · {{ cls.course_name }}
+              </p>
+
+              <h3 class="font-semibold text-[15px] text-black">
+                {{ cls.title }}
+              </h3>
+
+              <div class="flex items-center gap-2 mt-2">
+                <span class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+                <span class="text-xs text-red-500 font-medium">LIVE</span>
+              </div>
+
+              <p class="text-sm text-slate-500 mt-2">
+                {{ cls.scheduled_start_time | date: 'hh:mm a' }} —
+                {{ cls.scheduled_end_time | date: 'hh:mm a' }}
+              </p>
+
+              <p class="text-xs text-slate-400 mt-1">{{ cls.duration_minutes }} mins</p>
+            </div>
+
+            <button
+              class="mt-4 bg-black text-white py-2 rounded-md text-sm hover:bg-gray-900 transition"
+              (click)="joinLiveClass(cls)"
+            >
+              {{ resumeClassIds.includes(cls.id) ? 'Resume' : 'Join Live Now' }}
+            </button>
+          </div>
+        }
+      }
+    </div>
+
+    <!-- LOWER SECTION -->
+    <div class="grid grid-cols-3 gap-6 mt-6">
+      <div class="col-span-4 space-y-6">
+        <!-- TEST + RECENT ACTIVITY -->
+        <div class="grid grid-cols-2 gap-6">
+          <!-- MOCK: upcoming test — no API available yet -->
+          <div class="bg-white p-6 rounded-[16px] shadow-sm">
+            <div class="bg-[#E6F4F1] p-3 rounded-md text-center text-sm font-medium text-teal-700">
+              Upcoming Scheduled Test
+            </div>
+            <div class="mt-4">
+              <h3 class="font-semibold text-lg">{{ upcomingTest.name }}</h3>
+              <p class="text-sm text-slate-500 mt-1">Starts in: {{ upcomingTest.starts_in }}</p>
+              <button class="mt-4 bg-teal-400 text-black px-30 py-2 rounded-[26px]">
+                Go To Test
+              </button>
+            </div>
+          </div>
+
+          <!-- REAL: Global Leaderboard — /analytics/student/leaderboard -->
+          <div class="bg-white p-6 rounded-[16px] shadow-sm">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-bold text-slate-800">LEADERBOARD</h3>
+              <span class="text-xs text-slate-400">All Time</span>
+            </div>
+
+            @if (isLeaderboardLoading) {
+              <div class="flex items-center justify-center h-40 text-slate-400 text-sm">
+                <div
+                  class="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-500 mr-2"
+                ></div>
+                Loading...
+              </div>
+
+            } @else if (!leaderboardData) {
+              <div class="flex items-center justify-center h-40 text-slate-400 text-sm">
+                No leaderboard data available
+              </div>
+
+            } @else {
+              <!-- My Rank -->
+              <div class="bg-[#EFF6FF] rounded-xl p-4 mb-4 flex items-center justify-between">
+                <div>
+                  <p class="text-xs text-slate-500 mb-1">Your Rank</p>
+                  <p class="text-3xl font-bold text-blue-600">
+                    #{{ leaderboardData.student_rank.rank_position }}
+                  </p>
+                </div>
+                <div class="text-right">
+                  <p class="text-xs text-slate-500 mb-1">Points</p>
+                  <p class="text-xl font-bold text-slate-800">
+                    {{ leaderboardData.student_rank.points_earned }}
+                  </p>
+                  <p class="text-xs text-slate-400">
+                    Avg Score: {{ leaderboardData.student_rank.average_score }}%
+                  </p>
+                </div>
+              </div>
+
+              <!-- Top Students List -->
+              <div class="space-y-2 max-h-[220px] overflow-y-auto pr-1">
+                @for (student of leaderboardData.leaderboard_list; track student.rank_position) {
+                  <div
+                    class="flex items-center justify-between py-2 px-3 rounded-lg text-sm"
+                    [ngClass]="
+                      student.is_current_student
+                        ? 'bg-[#EFF6FF] font-semibold'
+                        : 'hover:bg-slate-50'
+                    "
+                  >
+                    <div class="flex items-center gap-3">
+                      <span class="w-6 text-xs text-slate-400 font-medium"
+                        >#{{ student.rank_position }}</span
+                      >
+                      <span class="text-slate-700"
+                        >{{ student.first_name }} {{ student.last_name }}</span
+                      >
+                    </div>
+                    <span class="text-slate-600 text-xs">{{ student.points_earned }} pts</span>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

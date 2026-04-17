@@ -1,0 +1,207 @@
+<aside
+  class="flex flex-col w-55 md:w-68.75 min-h-screen bg-white border-r border-slate-100 select-none"
+>
+  <!-- ── Logo ── -->
+  <div class="flex items-center gap-2.5 px-4 py-2.5 border-slate-100">
+    <div class="leading-none">
+      <img src="/icons/egrad_logo.png" class="w-md" alt="" />
+    </div>
+  </div>
+
+  <!-- ── Nav ── -->
+  <nav class="flex-1 px-4 pt-4 pb-2 space-y-0.5 w-55 md:w-67.5">
+    @for (item of navItems; track item.key) {
+      <button
+        [routerLink]="item.route"
+        (click)="setActive(item)"
+        class="group relative flex w-full items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-none duration-150 cursor-pointer no-underline"
+        [class.selected-option]="activeItem() === item.key"
+        [class.text-slate-500]="activeItem() !== item.key"
+        [class.hover:bg-slate-50]="activeItem() !== item.key"
+        [class.hover:text-slate-700]="activeItem() !== item.key"
+      >
+        <!-- Icons -->
+        @if (item.key === 'command-center') {
+          <svg
+            class="selected-icon"
+            width="19"
+            height="19"
+            viewBox="0 0 19 19"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M3.07812 4.74528C3.07812 3.82481 3.82432 3.07861 4.74479 3.07861H6.41146C7.33193 3.07861 8.07812 3.82481 8.07812 4.74528V6.41195C8.07812 7.33242 7.33193 8.07861 6.41146 8.07861H4.74479C3.82432 8.07861 3.07812 7.33242 3.07812 6.41195V4.74528V4.74528M11.4115 4.74528C11.4115 3.82481 12.1577 3.07861 13.0781 3.07861H14.7448C15.6653 3.07861 16.4115 3.82481 16.4115 4.74528V6.41195C16.4115 7.33242 15.6653 8.07861 14.7448 8.07861H13.0781C12.1577 8.07861 11.4115 7.33242 11.4115 6.41195V4.74528V4.74528M3.07812 13.0786C3.07812 12.1581 3.82432 11.4119 4.74479 11.4119H6.41146C7.33193 11.4119 8.07812 12.1581 8.07812 13.0786V14.7453C8.07812 15.6658 7.33193 16.4119 6.41146 16.4119H4.74479C3.82432 16.4119 3.07812 15.6658 3.07812 14.7453V13.0786V13.0786M11.4115 13.0786C11.4115 12.1581 12.1577 11.4119 13.0781 11.4119H14.7448C15.6653 11.4119 16.4115 12.1581 16.4115 13.0786V14.7453C16.4115 15.6658 15.6653 16.4119 14.7448 16.4119H13.0781C12.1577 16.4119 11.4115 15.6658 11.4115 14.7453V13.0786V13.0786"
+              [attr.stroke]="activeItem() === item.key ? '#1A5FF8' : '#475569'"
+              stroke-width="1.53935"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        }
+
+        @if (item.key === 'user-management') {
+          <svg
+            width="15"
+            height="11"
+            viewBox="0 0 15 11"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M5.23828 6.53906C3.48047 6.53906 0 7.41797 0 9.17578V10.4766H10.4766V9.17578C10.4766 7.41797 6.99609 6.53906 5.23828 6.53906ZM1.75781 9C2.39062 8.54297 3.90234 8.05078 5.23828 8.05078C6.57422 8.05078 8.08594 8.54297 8.71875 9H1.75781ZM5.23828 5.23828C6.67969 5.23828 7.875 4.07812 7.875 2.60156C7.875 1.16016 6.67969 0 5.23828 0C3.79688 0 2.60156 1.16016 2.60156 2.60156C2.60156 4.07812 3.79688 5.23828 5.23828 5.23828ZM5.23828 1.47656C5.87109 1.47656 6.36328 2.00391 6.36328 2.60156C6.36328 3.23438 5.87109 3.72656 5.23828 3.72656C4.60547 3.72656 4.11328 3.23438 4.11328 2.60156C4.11328 2.00391 4.60547 1.47656 5.23828 1.47656ZM10.5117 6.60938C11.3906 7.24219 11.9883 8.05078 11.9883 9.17578V10.4766H14.9766V9.17578C14.9766 7.66406 12.375 6.78516 10.5117 6.60938ZM9.73828 5.23828C11.1797 5.23828 12.375 4.07812 12.375 2.60156C12.375 1.16016 11.1797 0 9.73828 0C9.31641 0 8.96484 0.0703125 8.61328 0.246094C9.07031 0.914062 9.35156 1.72266 9.35156 2.60156C9.35156 3.48047 9.07031 4.32422 8.61328 4.99219C8.96484 5.13281 9.31641 5.23828 9.73828 5.23828Z"
+              [attr.fill]="activeItem() === item.key ? '#1A5FF8' : '#475569'"
+            />
+          </svg>
+        }
+        @if (item.key === 'course-management') {
+          <svg
+            width="15"
+            height="16"
+            viewBox="0 0 15 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12.8985 9.92898C12.8985 11.3637 12.8985 12.081 12.6802 12.6459C12.5359 13.0195 12.3243 13.3589 12.0575 13.6449C11.7908 13.9308 11.4741 14.1576 11.1256 14.3123C10.5978 14.547 9.92859 14.547 8.59012 14.547H6.43593C3.72738 14.547 2.37311 14.547 1.53154 13.645C0.691406 12.7437 0.691406 11.2921 0.691406 8.38963V3.77157C0.691406 2.95505 0.994018 2.17197 1.53267 1.5946C2.07132 1.01723 2.8019 0.692871 3.56367 0.692871"
+              [attr.stroke]="activeItem() === item.key ? '#1A5FF8' : '#475569'"
+              stroke-width="1.38542"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M5.74949 4.92594L6.06304 7.98079C6.07637 8.10603 6.12018 8.22539 6.19013 8.32705C6.26008 8.4287 6.35375 8.50913 6.46186 8.56035C6.95748 8.78741 7.88587 9.15916 8.63942 9.15916C9.39298 9.15916 10.3214 8.78741 10.817 8.56035C10.9252 8.50923 11.019 8.42886 11.0891 8.32719C11.1592 8.22553 11.2031 8.10611 11.2165 7.98079L11.5294 4.92594M13.3356 4.15627V7.05795M8.63942 1.4624L3.58203 3.77143L8.63942 6.08046L13.6968 3.77143L8.63942 1.4624Z"
+              [attr.stroke]="activeItem() === item.key ? '#1A5FF8' : '#475569'"
+              stroke-width="1.38542"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        }
+
+        @if (item.key === 'content-approval') {
+          <svg
+            width="17"
+            height="16"
+            viewBox="0 0 17 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M16.5234 7.875L14.6953 5.76562L14.9414 3.02344L12.2344 2.39062L10.8281 0L8.26172 1.08984L5.69531 0L4.28906 2.39062L1.58203 2.98828L1.82812 5.76562L0 7.875L1.82812 9.94922L1.58203 12.7266L4.28906 13.3594L5.69531 15.75L8.26172 14.6602L10.8281 15.75L12.2344 13.3594L14.9414 12.7266L14.6953 9.98438L16.5234 7.875ZM13.5352 8.96484L13.1133 9.45703L13.1836 10.0898L13.3242 11.5664L11.8828 11.8828L11.2852 12.0234L10.9336 12.5859L10.1953 13.8516L8.85938 13.2539L8.26172 13.0078L7.66406 13.2539L6.32812 13.8516L5.58984 12.5859L5.27344 12.0234L4.64062 11.8828L3.19922 11.5664L3.33984 10.0898L3.41016 9.45703L2.98828 8.96484L2.00391 7.875L2.98828 6.75L3.41016 6.29297L3.33984 5.625L3.19922 4.18359L4.64062 3.86719L5.23828 3.72656L5.58984 3.16406L6.32812 1.89844L7.66406 2.46094L8.26172 2.74219L8.85938 2.46094L10.1953 1.89844L10.9336 3.16406L11.25 3.72656L11.8828 3.86719L13.3242 4.18359L13.1836 5.625L13.1133 6.29297L13.5352 6.75L14.5195 7.875L13.5352 8.96484ZM6.82031 9.17578L5.09766 7.45312L3.97266 8.54297L6.82031 11.4258L12.3398 5.90625L11.2148 4.78125L6.82031 9.17578Z"
+              [attr.fill]="activeItem() === item.key ? '#1A5FF8' : '#475569'"
+            />
+          </svg>
+        }
+
+        @if (item.key === 'financials') {
+          <svg
+            width="15"
+            height="14"
+            viewBox="0 0 15 14"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M13.5 3.19922V1.51172C13.5 0.667969 12.832 0 11.9883 0H1.51172C0.667969 0 0 0.667969 0 1.51172V11.9883C0 12.832 0.667969 13.5 1.51172 13.5H11.9883C12.832 13.5 13.5 12.832 13.5 11.9883V10.3008C13.957 10.0195 14.2383 9.5625 14.2383 9V4.5C14.2383 3.9375 13.957 3.48047 13.5 3.19922ZM12.7617 4.5V9H7.48828V4.5H12.7617ZM1.51172 11.9883V1.51172H11.9883V2.98828H7.48828C6.67969 2.98828 6.01172 3.69141 6.01172 4.5V9C6.01172 9.80859 6.67969 10.5117 7.48828 10.5117H11.9883V11.9883H1.51172ZM8.61328 6.75C8.61328 6.11719 9.14062 5.625 9.73828 5.625C10.3711 5.625 10.8633 6.11719 10.8633 6.75C10.8633 7.38281 10.3711 7.875 9.73828 7.875C9.14062 7.875 8.61328 7.38281 8.61328 6.75Z"
+              [attr.fill]="activeItem() === item.key ? '#1A5FF8' : '#475569'"
+            />
+          </svg>
+        }
+
+        @if (item.key === 'announcements') {
+          <svg
+            width="15"
+            height="12"
+            viewBox="0 0 15 12"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12 6.75V5.25H15V6.75H12ZM12.9 12L10.5 10.2L11.4 9L13.8 10.8L12.9 12ZM11.4 3L10.5 1.8L12.9 0L13.8 1.2L11.4 3ZM2.25 11.25V8.25H1.5C1.0875 8.25 0.734375 8.10312 0.440625 7.80937C0.146875 7.51562 0 7.1625 0 6.75V5.25C0 4.8375 0.146875 4.48438 0.440625 4.19063C0.734375 3.89688 1.0875 3.75 1.5 3.75H4.5L8.25 1.5V10.5L4.5 8.25H3.75V11.25H2.25ZM6.75 7.8375V4.1625L4.9125 5.25H1.5V6.75H4.9125L6.75 7.8375ZM9 8.5125V3.4875C9.3375 3.7875 9.60938 4.15312 9.81563 4.58437C10.0219 5.01562 10.125 5.4875 10.125 6C10.125 6.5125 10.0219 6.98438 9.81563 7.41563C9.60938 7.84688 9.3375 8.2125 9 8.5125Z"
+              [attr.fill]="activeItem() === item.key ? '#1A5FF8' : '#475569'"
+            />
+          </svg>
+        }
+
+        @if (item.key === 'settings') {
+          <svg
+            width="17"
+            height="17"
+            viewBox="0 0 17 17"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M6.8737 1.86703C7.2287 0.403698 9.31036 0.403698 9.66536 1.86703C9.7734 2.31291 10.0879 2.68038 10.5117 2.85599C10.9356 3.03159 11.4178 2.9942 11.8095 2.75536C13.0954 1.97203 14.5679 3.4437 13.7845 4.73036C13.546 5.12191 13.5087 5.60377 13.6841 6.02735C13.8595 6.45093 14.2266 6.76537 14.672 6.8737C16.1354 7.2287 16.1354 9.31036 14.672 9.66536C14.2261 9.7734 13.8587 10.0879 13.6831 10.5117C13.5075 10.9356 13.5449 11.4178 13.7837 11.8095C14.567 13.0954 13.0954 14.5679 11.8087 13.7845C11.4172 13.546 10.9353 13.5087 10.5117 13.6841C10.0881 13.8595 9.7737 14.2266 9.66536 14.672C9.31036 16.1354 7.2287 16.1354 6.8737 14.672C6.76566 14.2261 6.45117 13.8587 6.02732 13.6831C5.60347 13.5075 5.12125 13.5449 4.72953 13.7837C3.4437 14.567 1.9712 13.0954 2.75453 11.8087C2.99302 11.4172 3.03032 10.9353 2.85492 10.5117C2.67953 10.0881 2.31251 9.7737 1.86703 9.66536C0.403698 9.31036 0.403698 7.2287 1.86703 6.8737C2.31291 6.76566 2.68038 6.45117 2.85599 6.02732C3.03159 5.60347 2.9942 5.12125 2.75536 4.72953C1.97203 3.4437 3.4437 1.9712 4.73036 2.75453C5.56036 3.2612 6.6437 2.81286 6.8737 1.86703V1.86703"
+              [attr.stroke]="activeItem() === item.key ? '#1A5FF8' : '#475569'"
+              stroke-width="1.53935"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        }
+
+        <span class="truncate">{{ item.label }}</span>
+      </button>
+    }
+  </nav>
+
+  <!-- ── User Footer ── -->
+  <div class="flex items-center gap-2.5 px-4 py-4 border-t border-slate-100">
+    <div
+      class="flex items-center justify-center w-9 h-9 rounded-full bg-amber-100 shrink-0 overflow-hidden"
+    >
+      <svg
+        width="37"
+        height="37"
+        viewBox="0 0 37 37"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+      >
+        <rect width="36.9444" height="36.9444" rx="18.4722" fill="#FFEDD5" />
+        <rect width="36.9444" height="36.9444" rx="18.4722" fill="url(#pattern0_1321_235)" />
+        <defs>
+          <pattern
+            id="pattern0_1321_235"
+            patternContentUnits="objectBoundingBox"
+            width="1"
+            height="1"
+          >
+            <use xlink:href="#image0_1321_235" transform="scale(0.0125)" />
+          </pattern>
+          <image
+            id="image0_1321_235"
+            width="80"
+            height="80"
+            preserveAspectRatio="none"
+            xlink:href="data:image/jpeg;base64,/9j/2wBDAAgICAgJCAkKCgkNDgwODRMREBARExwUFhQWFBwrGx8bGx8bKyYuJSMlLiZENS8vNUROQj5CTl9VVV93cXecnNH/2wBDAQgICAgJCAkKCgkNDgwODRMREBARExwUFhQWFBwrGx8bGx8bKyYuJSMlLiZENS8vNUROQj5CTl9VVV93cXecnNH/wgARCABQAFADASIAAhEBAxEB/8QAGwABAAIDAQEAAAAAAAAAAAAAAAYHAwQFAQL/xAAZAQADAQEBAAAAAAAAAAAAAAAAAQMCBQT/2gAMAwEAAhADEAAAALDGICJMlqhezsuFrbMwAAFFXrDVfThl0/MPXCbAjsi9POBIAYM7FXZinb5/b1/DpcDx6aGQPjN1OiUhMsrOyc10NCW4XOLsmNyZ8GZvo9eISVVqiyadsysZdj+9SHo53O6/I1H/xAAzEAACAQMBBQYEBQUAAAAAAAABAgMABBEFBhIhMUEHEBMgUWEiQnGhFCMwM2JSgYKRkv/aAAgBAQABPwD9XaLaqDR2EESCa6IDFOij+VXu1GsahcyyfiZIY2PwxRsQFFadtRq1p4SvL4luCMqUBYD2NWl3Be20VzA+9HIMg+e/trrUtrr21BVZJbtkz0ULV92awQ2TS2V7K9wiZxIF3Xq50DWrS0mung/JjRXYjordfoK7P55ZLO/jP7aTIV+rDzvpESbUXV6gKmW0JUqBlZQQGK56kVop1MSOL17oozMiLP4Xy/MDGBwNR2+pT6lPBdPdvaMOIIgEBV8gpjG8a2X0pdN0zHWaRpf8eSjzyQqZBL8wBFTX+Jbc76Lug53s8z14UsqmHxN8MN3OV5UccABgAYA9B+hFeQxSAXKMQORXrTSTTw+J4Zjj+VTzI9W84BPIUibpDH1q+vdG0p45r2dULk7iFSxOObACrVrS5s0mhkWWGeMMrjkyt6VNp0qcYzvj70QQSCMHyIm9knkKsoY2DMyg4IwKZFZCjAFSMEV2kW1vBYaYxGZzcsA/8AuSKsLeGG2hW3AW3KI0cfRcr07poIphh1z79RUsZikeM81Peh3YyfqasJQJXTPA4x3dqE2brSIPRJXrZ6bx9B0mT1tIvsMd29gn3YAf3FamuLhT/Ug+3f8AEIwVGSOOPWraTdJIPwg4B9un+qhuo3UbzANXaVcCTXLYKeCW1bDzGbZXSyTxUOn/AC5rB9qLk3RHVVAUe5HFj9BWqr+y31Hd/8QAIhEBAAICAQIHAAAAAAAAAAAAAQACAxEQEyEEICIjMUFx/9oACAECAQE/AICzpvktkMdbP3rt+yniMtVGwxSypzeheqMxeqwb+WABrnc6OOoXDurN8ESXPZpwT//EACURAAICAQIEBwAAAAAAAAAAAAECAAMRBBATIUFxEiAkMTJR8f/aAAgBAwEBPwDY8vJp6jbaFxkde0s09ZAPgxCpU4I3ptaqxXX9E1S8OvIX2EJJJJPPcJ1nHucmt2yFAhr+thEblK29RZ2hjfIz/9k="
+          />
+        </defs>
+      </svg>
+    </div>
+    <div class="flex-1 min-w-0">
+      <p class="text-sm font-semibold text-slate-700 truncate">Yugandhar R.</p>
+      <p class="text-[11px] text-slate-400 truncate">Administrator</p>
+    </div>
+    <button
+      (click)="logout()"
+      class="flex items-center justify-center w-7 h-7 rounded-md text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
+    >
+      <svg
+        class="w-4 h-4"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+        <polyline points="16 17 21 12 16 7" />
+        <line x1="21" y1="12" x2="9" y2="12" />
+      </svg>
+    </button>
+  </div>
+</aside>

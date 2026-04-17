@@ -1,0 +1,141 @@
+<div class="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-6">
+  @if (!summary) {
+    <div class="flex items-center gap-3 text-gray-400 animate-pulse">
+      <svg class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+      </svg>
+      Loading results…
+    </div>
+  } @else {
+    <div class="w-full max-w-2xl">
+      <!-- Header -->
+      <div class="text-center mb-8">
+        <p class="text-xs tracking-widest text-gray-400 uppercase mb-2">Practice Complete</p>
+        <h1 class="text-3xl font-bold text-gray-900">Your Results</h1>
+      </div>
+
+      <!-- Score card -->
+      <div class="bg-white rounded-3xl shadow-sm border p-8 mb-6 text-center">
+        <!-- Big score ring (CSS only) -->
+        <div class="relative inline-flex items-center justify-center mb-4">
+          <svg class="w-36 h-36 -rotate-90" viewBox="0 0 120 120">
+            <!-- Track -->
+            <circle cx="60" cy="60" r="52" fill="none" stroke="#e5e7eb" stroke-width="10" />
+            <!-- Progress — stroke-dasharray = 2π×52 ≈ 326.7 -->
+            <circle
+              cx="60"
+              cy="60"
+              r="52"
+              fill="none"
+              stroke="#14b8a6"
+              stroke-width="10"
+              stroke-linecap="round"
+              [attr.stroke-dasharray]="326.7"
+              [attr.stroke-dashoffset]="326.7 - (326.7 * scorePercent) / 100"
+              style="transition: stroke-dashoffset 1s ease"
+            />
+          </svg>
+          <div class="absolute flex flex-col items-center">
+            <span class="text-3xl font-bold text-gray-900">{{ scorePercent }}%</span>
+            <span class="text-xs text-gray-400">score</span>
+          </div>
+        </div>
+
+        <p class="text-lg font-semibold" [class]="grade.color">{{ grade.label }}</p>
+        <p class="text-sm text-gray-400 mt-1">
+          {{ summary.correct }} correct out of {{ summary.total }} questions
+        </p>
+      </div>
+
+      <!-- Stat grid -->
+      <div class="grid grid-cols-2 gap-4 mb-6">
+        <!-- Correct -->
+        <div class="bg-white rounded-2xl border p-5 flex items-center gap-4">
+          <div
+            class="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center text-green-600 text-lg"
+          >
+            ✓
+          </div>
+          <div>
+            <p class="text-2xl font-bold text-gray-900">{{ summary.correct }}</p>
+            <p class="text-xs text-gray-400 mt-0.5">Correct</p>
+          </div>
+        </div>
+
+        <!-- Wrong -->
+        <div class="bg-white rounded-2xl border p-5 flex items-center gap-4">
+          <div
+            class="w-10 h-10 rounded-xl bg-red-100 flex items-center justify-center text-red-500 text-lg"
+          >
+            ✗
+          </div>
+          <div>
+            <p class="text-2xl font-bold text-gray-900">{{ wrong }}</p>
+            <p class="text-xs text-gray-400 mt-0.5">Incorrect</p>
+          </div>
+        </div>
+
+        <!-- Unattempted -->
+        <div class="bg-white rounded-2xl border p-5 flex items-center gap-4">
+          <div
+            class="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center text-gray-400 text-lg"
+          >
+            –
+          </div>
+          <div>
+            <p class="text-2xl font-bold text-gray-900">{{ unattempted }}</p>
+            <p class="text-xs text-gray-400 mt-0.5">Unattempted</p>
+          </div>
+        </div>
+
+        <!-- Accuracy -->
+        <div class="bg-white rounded-2xl border p-5 flex items-center gap-4">
+          <div
+            class="w-10 h-10 rounded-xl bg-teal-100 flex items-center justify-center text-teal-600 text-sm font-bold"
+          >
+            %
+          </div>
+          <div>
+            <p class="text-2xl font-bold text-gray-900">{{ summary.accuracy }}%</p>
+            <p class="text-xs text-gray-400 mt-0.5">Accuracy</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Time taken -->
+      <div class="bg-white rounded-2xl border p-5 flex items-center justify-between mb-6">
+        <div class="flex items-center gap-3 text-gray-500 text-sm">
+          <svg
+            class="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <path d="M12 6v6l4 2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          Time Taken
+        </div>
+        <span class="font-mono font-semibold text-gray-800 text-lg">{{ summary.timeTaken }}</span>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="flex gap-4">
+        <button
+          (click)="goHome()"
+          class="flex-1 py-3 border border-gray-300 rounded-xl text-sm font-medium text-gray-600 hover:border-gray-400 hover:bg-gray-50 transition"
+        >
+          ← Back to Home
+        </button>
+        <button
+          (click)="retryTest()"
+          class="flex-1 py-3 bg-black text-white rounded-xl text-sm font-medium hover:bg-gray-800 transition"
+        >
+          Practice Again
+        </button>
+      </div>
+    </div>
+  }
+</div>

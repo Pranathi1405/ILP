@@ -1,0 +1,187 @@
+<!-- Loading spinner — shown while APIs are in flight -->
+<div *ngIf="isLoading" class="flex justify-center items-center h-64">
+  <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-slate-400"></div>
+</div>
+
+<!-- Error state with retry button -->
+<div *ngIf="!isLoading && hasError" class="flex flex-col items-center justify-center h-64 gap-4">
+  <p class="text-red-500 text-sm font-semibold">Failed to load dashboard. Please try again.</p>
+  <button (click)="retry()" class="px-4 py-2 bg-black text-white text-sm rounded-md">Retry</button>
+</div>
+
+<!-- Main dashboard content — shown only when loaded with no error -->
+<div *ngIf="!isLoading && !hasError">
+  <h2 class="font-semibold mb-6">Dashboard</h2>
+
+  <!-- ── Incoming Stream Banner ── -->
+
+<!--  When class exists -->
+<div *ngIf="nextClass; else noClassTemplate"
+     class="bg-white border border-slate-200 rounded-[18px] p-4 w-full">
+
+  <p class="text-sm font-bold text-red-600">Incoming stream</p>
+
+  <div class="flex justify-between items-center mt-2">
+    <h6 class="text-xs font-bold text-slate-900">
+      Next Class: {{ nextClass.title }} <br />
+      ({{ nextClass.course_name }})
+    </h6>
+
+    <div class="flex gap-2">
+      <button
+        *ngIf="nextClass"
+        class="px-4 py-2 text-xs bg-red-500 text-white rounded-[18px]"
+        (click)="goLiveNow()"
+      >
+        GO LIVE NOW
+      </button>
+    </div>
+  </div>
+
+  <p class="text-xs font-bold text-slate-500 mt-3">
+    {{ classTimeLabel }}
+  </p>
+</div>
+
+<!--  When NO class -->
+<ng-template #noClassTemplate>
+  <div class="bg-white border border-slate-200 rounded-[18px] p-4 w-full text-center">
+    <p class="text-sm font-semibold text-gray-500">
+      No scheduled classes found
+    </p>
+  </div>
+</ng-template>
+
+  <!-- ── Stats Cards ── -->
+  <div class="grid grid-cols-3 gap-6 mt-8">
+    <!-- Doubts Pending -->
+    <div class="bg-white p-6 rounded-[26px] shadow-sm flex flex-col gap-4">
+      <div class="flex items-center gap-65">
+        <svg
+          width="50"
+          height="48"
+          viewBox="0 0 50 48"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <rect width="49.4648" height="47.9123" rx="18" fill="#F3F4F6" />
+          <path
+            d="M31.5 15.4688V27.4688H16.6406L15.4688 28.6406V15.4688H31.5ZM31.5 13.5H15.4688C14.3906 13.5 13.5 14.3906 13.5 15.4688V31.0781C13.5 31.9688 14.5781 32.4375 15.1875 31.7812L17.4844 29.4844H31.5C32.5781 29.4844 33.4688 28.5938 33.4688 27.4688V15.4688C33.4688 14.3906 32.5781 13.5 31.5 13.5Z"
+            fill="#9CA3AF"
+          />
+        </svg>
+        <p class="text-xs text-slate-400">DOUBTS PENDING</p>
+      </div>
+      <!-- Dynamic: real count from API -->
+      <h2 class="text-3xl font-bold text-red-500">{{ stats?.doubts_pending ?? 0 }}</h2>
+      <button class="bg-black text-white py-2 rounded-md text-sm">Reply</button>
+    </div>
+
+    <!-- Assignments to Grade -->
+    <div class="bg-white p-6 rounded-[26px] shadow-sm flex flex-col gap-4">
+      <div class="flex items-center gap-50">
+        <svg
+          width="50"
+          height="50"
+          viewBox="0 0 50 50"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <rect width="49.4648" height="49.4648" rx="18" fill="#F3F4F6" />
+          <path
+            d="M23.4844 13.5C18 13.5 13.5 18 13.5 23.4844C13.5 28.9688 18 33.4688 23.4844 33.4688C28.9688 33.4688 33.4688 28.9688 33.4688 23.4844C33.4688 18 28.9688 13.5 23.4844 13.5ZM27.0469 27.2812L22.9688 24.7969C22.6406 24.6094 22.4531 24.2812 22.4531 23.9062V19.2188C22.5 18.8438 22.8281 18.4688 23.25 18.4688C23.625 18.4688 24 18.8438 24 19.2188V23.6719L27.8438 26.0156C28.1719 26.2031 28.3125 26.6719 28.0781 27.0469C27.8438 27.375 27.375 27.5156 27.0469 27.2812Z"
+            fill="#9CA3AF"
+          />
+        </svg>
+        <p class="text-xs text-slate-400">ASSIGNMENTS TO GRADE</p>
+      </div>
+      <!-- Dynamic: real count from API -->
+      <h2 class="text-3xl font-bold text-slate-800">{{ stats?.assignments_to_grade ?? 0 }}</h2>
+      <button class="bg-black text-white py-2 rounded-md text-sm">View Submissions</button>
+    </div>
+
+    <!-- Average Class Rating -->
+    <div class="bg-white p-6 rounded-[26px] shadow-sm flex flex-col gap-4">
+      <div class="flex items-center gap-50">
+        <svg
+          width="47"
+          height="46"
+          viewBox="0 0 47 46"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <rect width="46.2349" height="45.4019" rx="18" fill="#F3F4F6" />
+          <path
+            d="M29.6895 18.9727L24.8613 18.5508L22.9863 14.0977C22.6113 13.3008 21.4863 13.3008 21.1113 14.0977L19.2363 18.5508L14.4082 18.9727C13.5176 19.0195 13.1895 20.1445 13.8457 20.707L17.502 23.8945L16.4238 28.6289C16.1895 29.4727 17.127 30.1758 17.877 29.707L22.0488 27.1758L26.2207 29.707C26.9707 30.1758 27.9082 29.4727 27.6738 28.6289L26.5957 23.8945L30.252 20.707C30.9082 20.1445 30.5801 19.0195 29.6895 18.9727ZM22.0488 25.3477L18.2988 27.5977L19.2832 23.332L15.9551 20.4258L20.3613 20.0508L22.0488 16.0195L23.7363 20.0508L28.1426 20.4258L24.8145 23.332L25.7988 27.5977L22.0488 25.3477Z"
+            fill="#9CA3AF"
+          />
+        </svg>
+        <p class="text-xs text-slate-400">AVERAGE CLASS RATING</p>
+      </div>
+      <!-- Dynamic: real rating from API -->
+      <h2 class="text-3xl font-bold text-blue-600">{{ stats?.average_class_rating ?? 0 }}/5.0</h2>
+      <button class="bg-black text-white py-2 rounded-md text-sm">View Feedback</button>
+    </div>
+  </div>
+
+  <!-- ── My Courses Table ── -->
+  <h3 class="font-semibold text-slate-800 mt-6">My Courses</h3>
+  <div class="bg-white rounded-[18px] border border-slate-200 p-6 w-full mt-4">
+    <!-- Header row — static, unchanged -->
+    <div class="grid grid-cols-5">
+      <div class="text-slate-400">Courses</div>
+      <div class="text-slate-400">Category</div>
+      <div class="text-slate-400">Enrolled</div>
+      <div class="text-slate-400">Status</div>
+      <div class="text-slate-400">Actions</div>
+    </div>
+
+    <!-- Dynamic: loop over real courses from API -->
+    <div
+      *ngFor="let course of courses"
+      class="grid grid-cols-5 items-center py-4 border-b border-slate-100"
+    >
+      <div class="font-black">{{ course.course_name }}</div>
+      <div class="text-slate-400">{{ course.category }}</div>
+      <div class="font-bold text-slate-700">{{ course.enrolled_students }} Students</div>
+
+      <!-- Status badge: green for active, grey for others -->
+      <div>
+        <button
+          [class]="
+            course.status === 'active'
+              ? 'bg-green-100 text-green-600 text-[12px] font-semibold px-3 py-[4px] rounded-full'
+              : 'bg-slate-100 text-slate-500 text-[12px] font-semibold px-3 py-[4px] rounded-full'
+          "
+        >
+          {{ course.status.toUpperCase() }}
+        </button>
+      </div>
+
+      <!-- Actions SVG icons — preserved exactly from original -->
+      <div>
+        <svg
+          width="79"
+          height="21"
+          viewBox="0 0 79 21"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M21.8457 14.4375V17.4844C21.8457 17.7656 22.0801 18 22.3613 18H25.4082C25.502 18 25.6426 17.9531 25.7363 17.8594L36.6582 6.9375L32.9082 3.1875L21.9863 14.1094C21.8926 14.2031 21.8457 14.2969 21.8457 14.4375ZM39.5645 4.03125C39.9395 3.65625 39.9395 3 39.5645 2.625L37.2207 0.28125C36.8457 -0.09375 36.1895 -0.09375 35.8145 0.28125L33.9863 2.10938L37.7363 5.85938L39.5645 4.03125Z"
+            fill="#9CA3AF"
+          />
+          <path
+            d="M62.1113 17.1387C63.1895 17.1387 64.127 16.2012 64.127 15.123V8.13867C64.127 7.01367 63.1895 6.12305 62.1113 6.12305C61.0332 6.12305 60.0957 7.01367 60.0957 8.13867V15.123C60.0957 16.2012 61.0332 17.1387 62.1113 17.1387ZM72.0957 12.123V15.123C72.0957 16.2012 73.0332 17.1387 74.1113 17.1387C75.1895 17.1387 76.127 16.2012 76.127 15.123V12.123C76.127 11.0449 75.1895 10.1074 74.1113 10.1074C73.0332 10.1074 72.0957 11.0449 72.0957 12.123ZM68.1113 17.1387C69.1895 17.1387 70.127 16.2012 70.127 15.123V3.12305C70.127 2.04492 69.1895 1.10742 68.1113 1.10742C67.0332 1.10742 66.0957 2.04492 66.0957 3.12305V15.123C66.0957 16.2012 67.0332 17.1387 68.1113 17.1387Z"
+            fill="#9CA3AF"
+          />
+        </svg>
+      </div>
+    </div>
+
+    <!-- Empty state: shown if courses array is empty after API -->
+    <div *ngIf="courses.length === 0" class="text-center text-slate-400 text-sm py-8">
+      No courses found.
+    </div>
+  </div>
+</div>

@@ -1,0 +1,612 @@
+<div class="min-h-screen bg-[#F8FAFC] px-8 py-8 max-w-4xl">
+  <!-- ══════════════════════════════════════════════════════
+       RESULT SCREEN
+  ═══════════════════════════════════════════════════════════ -->
+  @if (resultStatus() !== null) {
+    <div
+      class="rounded-2xl w-full max-w-lg p-10 mx-auto mt-12 shadow-sm border"
+      [class]="
+        resultStatus() === 'success' ? 'bg-[#E8F5F0] border-[#b6dece]' : 'bg-red-50 border-red-200'
+      "
+    >
+      <button
+        type="button"
+        (click)="goBack()"
+        class="flex items-center gap-2 text-xs font-bold tracking-widest uppercase mb-8 transition-colors"
+        [class]="
+          resultStatus() === 'success'
+            ? 'text-[#1E6B45] hover:text-[#17593a]'
+            : 'text-red-500 hover:text-red-700'
+        "
+      >
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M19 12H5M12 5l-7 7 7 7" />
+        </svg>
+        Back
+      </button>
+
+      <div class="flex flex-col items-center text-center gap-5 py-4">
+        <!-- Icon ring -->
+        <div
+          class="w-16 h-16 rounded-full border-[3px] flex items-center justify-center"
+          [class]="resultStatus() === 'success' ? 'border-[#1E6B45]' : 'border-red-500'"
+        >
+          @if (resultStatus() === 'success') {
+            <svg
+              width="28"
+              height="28"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#1E6B45"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M20 6L9 17l-5-5" />
+            </svg>
+          } @else {
+            <svg
+              width="28"
+              height="28"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#EF4444"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          }
+        </div>
+
+        <div>
+          <p
+            class="font-black text-lg leading-snug"
+            [class]="resultStatus() === 'success' ? 'text-[#0F2D1F]' : 'text-red-600'"
+          >
+            {{ resultMessage() }}
+          </p>
+          @if (resultStatus() === 'success') {
+            <p class="text-[#1E6B45] text-sm font-semibold mt-1.5">
+              Login credentials will be sent to their email.
+            </p>
+          }
+        </div>
+
+        @if (resultStatus() === 'success') {
+          <button
+            type="button"
+            (click)="goToUsersList()"
+            class="mt-1 px-6 py-2.5 rounded-xl bg-[#1E6B45] text-white text-xs font-bold tracking-widest uppercase transition hover:bg-[#17593a] hover:-translate-y-0.5"
+          >
+            Go to Users List
+          </button>
+        } @else {
+          <button
+            type="button"
+            (click)="goBack()"
+            class="mt-1 px-6 py-2.5 rounded-xl border border-red-300 text-red-600 text-xs font-bold tracking-widest uppercase transition hover:bg-red-100"
+          >
+            Try Again
+          </button>
+        }
+      </div>
+    </div>
+  }
+
+  <!-- ══════════════════════════════════════════════════════
+       FORMS (hidden while result showing)
+  ═══════════════════════════════════════════════════════════ -->
+  @if (resultStatus() === null) {
+    <!-- Breadcrumb -->
+    <nav
+      class="flex items-center gap-1.5 text-xs font-semibold tracking-wide text-slate-400 uppercase mb-6"
+    >
+      <span class="hover:text-slate-600 cursor-pointer transition-colors" (click)="onCancel()"
+        >User Directory</span
+      >
+      <span class="text-slate-300">›</span>
+      <span class="text-slate-600">Add New User</span>
+    </nav>
+
+    <!-- Page title -->
+    <div class="mb-8">
+      <h1 class="text-3xl font-black text-slate-800 tracking-tight leading-tight uppercase">
+        Add New User
+      </h1>
+      <p class="text-[11px] font-semibold tracking-[0.18em] text-slate-400 mt-1.5 uppercase">
+        @if (step() === 'select-type') {
+          Choose a user type to continue
+        } @else if (step() === 'teacher') {
+          Create academic credentials for a new teacher
+        } @else {
+          Send an admin invitation with role &amp; permissions
+        }
+      </p>
+    </div>
+
+    <!-- ── STEP 1: Type selector ────────────────────────────────────────── -->
+    @if (step() === 'select-type') {
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-2xl">
+        <!-- Teacher card -->
+        <button
+          (click)="selectType('teacher')"
+          class="group bg-white border border-slate-200 rounded-2xl p-7 text-left hover:border-cyan-400 hover:shadow-md transition-all duration-150"
+        >
+          <div
+            class="w-11 h-11 rounded-xl bg-cyan-50 flex items-center justify-center mb-5 group-hover:bg-cyan-100 transition-colors"
+          >
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z"
+                fill="#06b6d4"
+              />
+            </svg>
+          </div>
+          <p class="font-black text-slate-800 text-base leading-tight mb-1">Teacher</p>
+          <p class="text-slate-400 text-sm font-medium leading-relaxed">
+            Add a new teacher with subject and department access
+          </p>
+          <div
+            class="mt-5 flex items-center gap-1.5 text-cyan-500 text-xs font-bold tracking-wide uppercase"
+          >
+            Continue
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </div>
+        </button>
+
+        <!-- Admin card -->
+        <button
+          (click)="selectType('admin')"
+          class="group bg-white border border-slate-200 rounded-2xl p-7 text-left hover:border-slate-400 hover:shadow-md transition-all duration-150"
+        >
+          <div
+            class="w-11 h-11 rounded-xl bg-slate-100 flex items-center justify-center mb-5 group-hover:bg-slate-200 transition-colors"
+          >
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"
+                fill="#475569"
+              />
+            </svg>
+          </div>
+          <p class="font-black text-slate-800 text-base leading-tight mb-1">Admin</p>
+          <p class="text-slate-400 text-sm font-medium leading-relaxed">
+            Invite an admin and configure their permissions
+          </p>
+          <div
+            class="mt-5 flex items-center gap-1.5 text-slate-500 text-xs font-bold tracking-wide uppercase"
+          >
+            Continue
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </div>
+        </button>
+      </div>
+
+      <button
+        type="button"
+        (click)="onCancel()"
+        class="mt-8 text-xs font-bold tracking-widest text-slate-400 hover:text-slate-600 uppercase transition-colors"
+      >
+        Cancel &amp; Discard
+      </button>
+    }
+
+    <!-- ── STEP 2a: Teacher form ─────────────────────────────────────────── -->
+    @if (step() === 'teacher') {
+      <form [formGroup]="teacherForm" (ngSubmit)="submitTeacher()" novalidate>
+        <!-- Card -->
+        <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden">
+          <!-- Card header -->
+          <div class="px-7 py-5 border-b border-slate-100 flex items-center gap-3">
+            <div class="w-8 h-8 rounded-lg bg-cyan-50 flex items-center justify-center shrink-0">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z"
+                  fill="#06b6d4"
+                />
+              </svg>
+            </div>
+            <div>
+              <h2 class="text-sm font-black text-slate-800 tracking-wide uppercase">
+                Teacher Profile
+              </h2>
+              <p class="text-[11px] text-slate-400 font-semibold mt-0.5">
+                Personal details and department assignment
+              </p>
+            </div>
+          </div>
+
+          <!-- Fields -->
+          <div class="px-7 py-7 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+            <!-- First Name -->
+            <div>
+              <label
+                class="block text-[0.68rem] font-bold tracking-widest text-slate-500 uppercase mb-1.5"
+              >
+                First Name <span class="text-red-400">*</span>
+              </label>
+              <input
+                type="text"
+                formControlName="first_name"
+                placeholder="e.g. Rajesh"
+                class="w-full px-4 py-2.5 rounded-xl border bg-slate-50 text-slate-800 text-sm outline-none placeholder:text-slate-300 transition focus:bg-white"
+                [class.border-slate-200]="
+                  !hasT('first_name', 'required') && !hasT('first_name', 'maxlength')
+                "
+                [class.border-red-400]="
+                  hasT('first_name', 'required') || hasT('first_name', 'maxlength')
+                "
+                [class.ring-2]="hasT('first_name', 'required') || hasT('first_name', 'maxlength')"
+                [class.ring-red-100]="
+                  hasT('first_name', 'required') || hasT('first_name', 'maxlength')
+                "
+              />
+              @if (hasT('first_name', 'required')) {
+                <p class="text-red-500 text-xs mt-1 pl-1">First name is required.</p>
+              } @else if (hasT('first_name', 'maxlength')) {
+                <p class="text-red-500 text-xs mt-1 pl-1">Max 50 characters.</p>
+              }
+            </div>
+
+            <!-- Last Name -->
+            <div>
+              <label
+                class="block text-[0.68rem] font-bold tracking-widest text-slate-500 uppercase mb-1.5"
+              >
+                Last Name <span class="text-red-400">*</span>
+              </label>
+              <input
+                type="text"
+                formControlName="last_name"
+                placeholder="e.g. Kumar"
+                class="w-full px-4 py-2.5 rounded-xl border bg-slate-50 text-slate-800 text-sm outline-none placeholder:text-slate-300 transition focus:bg-white"
+                [class.border-slate-200]="
+                  !hasT('last_name', 'required') && !hasT('last_name', 'maxlength')
+                "
+                [class.border-red-400]="
+                  hasT('last_name', 'required') || hasT('last_name', 'maxlength')
+                "
+                [class.ring-2]="hasT('last_name', 'required') || hasT('last_name', 'maxlength')"
+                [class.ring-red-100]="
+                  hasT('last_name', 'required') || hasT('last_name', 'maxlength')
+                "
+              />
+              @if (hasT('last_name', 'required')) {
+                <p class="text-red-500 text-xs mt-1 pl-1">Last name is required.</p>
+              } @else if (hasT('last_name', 'maxlength')) {
+                <p class="text-red-500 text-xs mt-1 pl-1">Max 50 characters.</p>
+              }
+            </div>
+
+            <!-- Email -->
+            <div>
+              <label
+                class="block text-[0.68rem] font-bold tracking-widest text-slate-500 uppercase mb-1.5"
+              >
+                Email Address <span class="text-red-400">*</span>
+              </label>
+              <input
+                type="email"
+                formControlName="email"
+                placeholder="rajesh.k@school.com"
+                class="w-full px-4 py-2.5 rounded-xl border bg-slate-50 text-slate-800 text-sm outline-none placeholder:text-slate-300 transition focus:bg-white"
+                [class.border-slate-200]="!hasT('email', 'required') && !hasT('email', 'email')"
+                [class.border-red-400]="hasT('email', 'required') || hasT('email', 'email')"
+                [class.ring-2]="hasT('email', 'required') || hasT('email', 'email')"
+                [class.ring-red-100]="hasT('email', 'required') || hasT('email', 'email')"
+              />
+              @if (hasT('email', 'required')) {
+                <p class="text-red-500 text-xs mt-1 pl-1">Email is required.</p>
+              } @else if (hasT('email', 'email')) {
+                <p class="text-red-500 text-xs mt-1 pl-1">Enter a valid email address.</p>
+              }
+            </div>
+
+            <!-- Phone -->
+            <div>
+              <label
+                class="block text-[0.68rem] font-bold tracking-widest text-slate-500 uppercase mb-1.5"
+              >
+                Phone Number <span class="text-red-400">*</span>
+              </label>
+              <input
+                type="tel"
+                formControlName="phone"
+                placeholder="9876543210"
+                maxlength="10"
+                class="w-full px-4 py-2.5 rounded-xl border bg-slate-50 text-slate-800 text-sm outline-none placeholder:text-slate-300 transition focus:bg-white"
+                [class.border-slate-200]="!hasT('phone', 'required') && !hasT('phone', 'pattern')"
+                [class.border-red-400]="hasT('phone', 'required') || hasT('phone', 'pattern')"
+                [class.ring-2]="hasT('phone', 'required') || hasT('phone', 'pattern')"
+                [class.ring-red-100]="hasT('phone', 'required') || hasT('phone', 'pattern')"
+              />
+              @if (hasT('phone', 'required')) {
+                <p class="text-red-500 text-xs mt-1 pl-1">Phone number is required.</p>
+              } @else if (hasT('phone', 'pattern')) {
+                <p class="text-red-500 text-xs mt-1 pl-1">Enter a valid 10-digit number.</p>
+              }
+            </div>
+
+            <!-- Department — full width -->
+            <div class="md:col-span-2">
+              <label
+                class="block text-[0.68rem] font-bold tracking-widest text-slate-500 uppercase mb-1.5"
+              >
+                Department <span class="text-red-400">*</span>
+              </label>
+              <div class="relative max-w-sm">
+                <select
+                  formControlName="department"
+                  class="w-full px-4 py-2.5 pr-10 rounded-xl border bg-slate-50 text-slate-800 text-sm outline-none appearance-none cursor-pointer transition focus:bg-white"
+                  [class.border-slate-200]="!hasT('department', 'required')"
+                  [class.border-red-400]="hasT('department', 'required')"
+                  [class.ring-2]="hasT('department', 'required')"
+                  [class.ring-red-100]="hasT('department', 'required')"
+                >
+                  <option value="" disabled>Select a department</option>
+                  @for (dept of departments; track dept) {
+                    <option [value]="dept">{{ dept }}</option>
+                  }
+                </select>
+                <svg
+                  class="w-4 h-4 pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-slate-400"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                >
+                  <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </div>
+              @if (hasT('department', 'required')) {
+                <p class="text-red-500 text-xs mt-1 pl-1">Department is required.</p>
+              }
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer row -->
+        <div class="flex items-center justify-between mt-6 pb-10">
+          <button
+            type="button"
+            (click)="goBack()"
+            class="flex items-center gap-1.5 text-xs font-bold tracking-widest text-slate-400 hover:text-slate-700 uppercase transition-colors"
+          >
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M19 12H5M12 5l-7 7 7 7" />
+            </svg>
+            Back
+          </button>
+          <button
+            type="submit"
+            [disabled]="isLoading()"
+            class="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-custom_blue text-white text-xs font-bold tracking-widest uppercase shadow-lg shadow-cyan-100 transition cursor-pointer hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            @if (isLoading()) {
+              <span
+                class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"
+              ></span>
+              Creating...
+            } @else {
+              Create Teacher Account
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            }
+          </button>
+        </div>
+      </form>
+    }
+
+    <!-- ── STEP 2b: Admin form ────────────────────────────────────────────── -->
+    @if (step() === 'admin') {
+      <form [formGroup]="adminForm" (ngSubmit)="submitAdmin()" novalidate>
+        <!-- Card -->
+        <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden max-w-2xl">
+          <!-- Card header -->
+          <div class="px-7 py-5 border-b border-slate-100 flex items-center gap-3">
+            <div class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center shrink-0">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"
+                  fill="#475569"
+                />
+              </svg>
+            </div>
+            <div>
+              <h2 class="text-sm font-black text-slate-800 tracking-wide uppercase">
+                Admin Invitation
+              </h2>
+              <p class="text-[11px] text-slate-400 font-semibold mt-0.5">
+                Assign role and platform permissions
+              </p>
+            </div>
+          </div>
+
+          <!-- Fields -->
+          <div class="px-7 py-7 flex flex-col gap-6">
+            <!-- Email -->
+            <div>
+              <label
+                class="block text-[0.68rem] font-bold tracking-widest text-slate-500 uppercase mb-1.5"
+              >
+                Email Address <span class="text-red-400">*</span>
+              </label>
+              <input
+                type="email"
+                formControlName="email"
+                placeholder="admin@school.com"
+                class="w-full px-4 py-2.5 rounded-xl border bg-slate-50 text-slate-800 text-sm outline-none placeholder:text-slate-300 transition focus:bg-white"
+                [class.border-slate-200]="!hasA('email', 'required') && !hasA('email', 'email')"
+                [class.border-red-400]="hasA('email', 'required') || hasA('email', 'email')"
+                [class.ring-2]="hasA('email', 'required') || hasA('email', 'email')"
+                [class.ring-red-100]="hasA('email', 'required') || hasA('email', 'email')"
+              />
+              @if (hasA('email', 'required')) {
+                <p class="text-red-500 text-xs mt-1 pl-1">Email is required.</p>
+              } @else if (hasA('email', 'email')) {
+                <p class="text-red-500 text-xs mt-1 pl-1">Enter a valid email address.</p>
+              }
+            </div>
+
+            <!-- Role -->
+            <div>
+              <label
+                class="block text-[0.68rem] font-bold tracking-widest text-slate-500 uppercase mb-1.5"
+              >
+                Role <span class="text-red-400">*</span>
+              </label>
+              <input
+                type="text"
+                formControlName="role"
+                placeholder="e.g. Finance Manager, Academic Head"
+                class="w-full px-4 py-2.5 rounded-xl border bg-slate-50 text-slate-800 text-sm outline-none placeholder:text-slate-300 transition focus:bg-white"
+                [class.border-slate-200]="!hasA('role', 'required')"
+                [class.border-red-400]="hasA('role', 'required')"
+                [class.ring-2]="hasA('role', 'required')"
+                [class.ring-red-100]="hasA('role', 'required')"
+              />
+              @if (hasA('role', 'required')) {
+                <p class="text-red-500 text-xs mt-1 pl-1">Role is required.</p>
+              }
+            </div>
+
+            <!-- Permissions -->
+            <div>
+              <label
+                class="block text-[0.68rem] font-bold tracking-widest text-slate-500 uppercase mb-3"
+              >
+                Permissions
+              </label>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" formGroupName="permissions">
+                @for (p of permissionLabels; track p.key) {
+                  <label
+                    class="flex items-center gap-3 px-4 py-3.5 rounded-xl border cursor-pointer transition-all"
+                    [class.border-slate-700]="adminForm.get('permissions.' + p.key)?.value"
+                    [class.bg-slate-800]="adminForm.get('permissions.' + p.key)?.value"
+                    [class.border-slate-200]="!adminForm.get('permissions.' + p.key)?.value"
+                    [class.bg-slate-50]="!adminForm.get('permissions.' + p.key)?.value"
+                    [class.hover:bg-slate-100]="!adminForm.get('permissions.' + p.key)?.value"
+                  >
+                    <input
+                      type="checkbox"
+                      [formControlName]="p.key"
+                      class="w-4 h-4 accent-white rounded cursor-pointer shrink-0"
+                    />
+                    <span
+                      class="text-xs font-bold transition-colors"
+                      [class.text-white]="adminForm.get('permissions.' + p.key)?.value"
+                      [class.text-slate-600]="!adminForm.get('permissions.' + p.key)?.value"
+                    >
+                      {{ p.label }}
+                    </span>
+                  </label>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer row -->
+        <div class="flex items-center justify-between mt-6 pb-10">
+          <button
+            type="button"
+            (click)="goBack()"
+            class="flex items-center gap-1.5 text-xs font-bold tracking-widest text-slate-400 hover:text-slate-700 uppercase transition-colors"
+          >
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M19 12H5M12 5l-7 7 7 7" />
+            </svg>
+            Back
+          </button>
+          <button
+            type="submit"
+            [disabled]="isLoading()"
+            class="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-slate-800 text-white text-xs font-bold tracking-widest uppercase shadow-lg shadow-slate-200 transition hover:bg-slate-900 hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            @if (isLoading()) {
+              <span
+                class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"
+              ></span>
+              Sending...
+            } @else {
+              Send Admin Invitation
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            }
+          </button>
+        </div>
+      </form>
+    }
+  }
+</div>

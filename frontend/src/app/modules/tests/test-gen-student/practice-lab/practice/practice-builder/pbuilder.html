@@ -1,0 +1,243 @@
+<!-- Practice Test Builder -->
+<div class="min-h-screen flex items-start justify-center py-10 px-4"
+  style="background: #f0f2f5; font-family: 'Segoe UI', system-ui, sans-serif">
+  <div class="w-full max-w-7xl">
+    <div class="mb-6">
+      <h1 style="font-size: 2.25rem; font-weight: 700; color: #1a1a2e; margin-bottom: 4px">
+        Custom Practice Test
+      </h1>
+      <p style="color: #6b7280; font-size: 1.05rem">
+        Design your practice session by selecting specific parameters below.
+      </p>
+    </div>
+
+    <div class="flex gap-6 items-start">
+      <form #testForm="ngForm" (ngSubmit)="buildTest()" class="flex-1 rounded-2xl p-12 space-y-8"
+        style="background: #ffffff; box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07)">
+        @if (errorMessage) {
+        <div class="text-base rounded-lg px-4 py-3"
+          style="background: #fef2f2; border: 1px solid #fecaca; color: #dc2626">
+          {{ errorMessage }}
+        </div>
+        }
+
+        @if (warning()) {
+        <div class="text-base rounded-lg px-4 py-3"
+          style="background: #fffbeb; border: 1px solid #fcd34d; color: #92400e">
+          {{ warning() }}
+        </div>
+        }
+        <div>
+          <label class="block text-base font-semibold mb-2" style="color: #374151">
+            Linked Course *
+          </label>
+          @if (isLoadingCourses) {
+          <p class="text-sm" style="color: #6b7280">Loading linked courses...</p>
+          } @else {
+          <div class="relative">
+            <select name="courseId" required [(ngModel)]="formData.courseId" (ngModelChange)="onCourseChange()"
+              class="w-full rounded-xl px-5 py-4 pr-10 text-base appearance-none focus:outline-none"
+              style="border: 1.5px solid #e5e7eb; color: #1f2937; background: #fff; cursor: pointer">
+              <option value="">Select Linked Course</option>
+              @for (course of courses(); track course.id) {
+              <option [value]="course.id">{{ course.label }}</option>
+              }
+            </select>
+            <span class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
+              style="color: #9ca3af">&#9662;</span>
+          </div>
+          }
+        </div>
+        <div>
+          <label class="block text-base font-semibold mb-2" style="color: #374151">
+            Test Type *
+          </label>
+          <div class="relative">
+            <select name="testType" required [(ngModel)]="formData.testType" (ngModelChange)="onTestTypeChange()"
+              class="w-full rounded-xl px-5 py-4 pr-10 text-base appearance-none focus:outline-none"
+              style="border: 1.5px solid #e5e7eb; color: #1f2937; background: #fff; cursor: pointer">
+              <option value="">Select Test Type</option>
+              <option value="subject">Subject Wise</option>
+              <option value="chapter">Chapter Wise</option>
+            </select>
+            <span class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
+              style="color: #9ca3af">&#9662;</span>
+          </div>
+        </div>
+        <div>
+          <label class="block text-base font-semibold mb-2" style="color: #374151">Subject *</label>
+          @if (isLoadingSubjects) {
+          <p class="text-sm" style="color: #6b7280">Loading subjects...</p>
+          } @else {
+          <div class="relative">
+            <select name="subjectId" required [(ngModel)]="formData.subjectId" (ngModelChange)="onSubjectChange()"
+              class="w-full rounded-xl px-5 py-4 pr-10 text-base appearance-none focus:outline-none" style="
+                  border: 1.5px solid #e5e7eb;
+                  color: #1f2937;
+                  background: #fff;
+                  cursor: pointer;
+                " [disabled]="!formData.courseId">
+              <option value="">Select Subject</option>
+              @for (s of subjects(); track s.id) {
+              <option [value]="s.id">{{ s.label }}</option>
+              }
+            </select>
+            <span class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
+              style="color: #9ca3af">&#9662;</span>
+          </div>
+          }
+        </div>
+
+        @if (showChapter) {
+        <div>
+          <label class="block text-base font-semibold mb-2" style="color: #374151">
+            Chapter
+            <span style="color: #9ca3af; font-weight: 400">(leave empty for all)</span>
+          </label>
+
+          @if (isLoadingChapters) {
+          <p class="text-sm" style="color: #6b7280">Loading chapters...</p>
+          } @else {
+          @if (formData.chapter) {
+          <div class="flex flex-wrap gap-2 mb-2">
+            @for (c of chapters(); track c.id) {
+            @if (c.id === +formData.chapter) {
+            <span class="inline-flex items-center gap-1 text-sm px-3 py-1 rounded-full"
+              style="background: #2563eb; color: #fff">
+              {{ c.label }}
+              <button type="button" (click)="formData.chapter = ''; onChapterChange()"
+                class="hover:opacity-70 leading-none">
+                &times;
+              </button>
+            </span>
+            }
+            }
+          </div>
+          }
+
+          <div class="relative">
+            <select name="chapter" [(ngModel)]="formData.chapter" (ngModelChange)="onChapterChange()"
+              class="w-full rounded-xl px-5 py-4 pr-10 text-base appearance-none focus:outline-none" style="
+                    border: 1.5px solid #e5e7eb;
+                    color: #6b7280;
+                    background: #fff;
+                    cursor: pointer;
+                  " [disabled]="!formData.subjectId">
+              <option value="">All Chapters</option>
+              @for (c of chapters(); track c.id) {
+              <option [value]="c.id">{{ c.label }}</option>
+              }
+            </select>
+            <span class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
+              style="color: #9ca3af">&#9662;</span>
+          </div>
+          }
+        </div>
+        }
+
+        <div>
+          <label class="block text-base font-semibold mb-3" style="color: #374151">Difficulty Level</label>
+          <div class="flex gap-3">
+            @for (level of difficultyLevels; track level) {
+            <button type="button" (click)="formData.difficulty = level"
+              class="flex-1 py-4 rounded-xl text-base font-medium transition-all"
+              [style.background]="formData.difficulty === level ? '#2563eb' : '#fff'"
+              [style.color]="formData.difficulty === level ? '#fff' : '#374151'" [style.border]="
+                  formData.difficulty === level ? '2px solid #2563eb' : '2px solid #e5e7eb'
+                ">
+              {{ level }}
+            </button>
+            }
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-base font-semibold mb-3" style="color: #374151">Type of Questions *</label>
+
+          @if (formData.types.length) {
+          <div class="flex flex-wrap gap-2 mb-3">
+            @for (type of formData.types; track type) {
+            <span class="inline-flex items-center gap-1 text-sm px-3 py-1 rounded-full"
+              style="background: #2563eb; color: #fff">
+              {{ type }}
+            </span>
+            }
+          </div>
+          }
+
+          <div class="flex gap-3">
+            @for (type of questionTypes; track type) {
+            <label
+              class="flex-1 py-4 rounded-xl text-base font-medium text-center transition-all cursor-pointer select-none"
+              [style.background]="isTypeChecked(type) ? '#2563eb' : '#fff'"
+              [style.color]="isTypeChecked(type) ? '#fff' : '#374151'"
+              [style.border]="isTypeChecked(type) ? '2px solid #2563eb' : '2px solid #e5e7eb'">
+              <input type="checkbox" class="hidden" [value]="type" [checked]="isTypeChecked(type)"
+                (change)="onTypeChange($event)" />
+              {{ type }}
+            </label>
+            }
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-base font-semibold mb-2" style="color: #374151">No Of Questions</label>
+          <div class="relative">
+            <select name="numberOfQuestions" [(ngModel)]="formData.numberOfQuestions"
+              class="w-full rounded-xl px-5 py-4 pr-10 text-base appearance-none focus:outline-none"
+              style="border: 1.5px solid #e5e7eb; color: #1f2937; background: #fff; cursor: pointer">
+              @for (n of [5, 10, 15, 20, 25, 30, 40, 50, 75, 100]; track n) {
+              <option [value]="n">{{ n }}</option>
+              }
+            </select>
+            <span class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
+              style="color: #9ca3af">&#9662;</span>
+          </div>
+        </div>
+
+        <button type="submit" [disabled]="
+            !formData.courseId || !formData.subjectId || !formData.testType || !formData.types.length || isLoading
+          "
+          class="w-full py-5 rounded-2xl text-white font-semibold text-base flex items-center justify-center gap-2 transition-all"
+          style="
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+          " [style.opacity]="
+            !formData.courseId || !formData.subjectId || !formData.testType || !formData.types.length || isLoading
+              ? '0.5'
+              : '1'
+          " [style.cursor]="
+            !formData.courseId || !formData.subjectId || !formData.testType || !formData.types.length || isLoading
+              ? 'not-allowed'
+              : 'pointer'
+          ">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          @if (isLoading) {
+          Building Test...
+          } @else {
+          Generate Test
+          }
+        </button>
+      </form>
+
+      <div class="w-72 space-y-4 shrink-0">
+        <div class="rounded-2xl p-5" style="background: #eff6ff; border: 1.5px solid #bfdbfe">
+          <div class="flex items-center gap-2 mb-2">
+            <svg class="w-4 h-4" fill="none" stroke="#2563eb" stroke-width="2" viewBox="0 0 24 24">
+              <path
+                d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span class="font-bold text-base" style="color: #2563eb">Test Tip</span>
+          </div>
+          <p class="text-base leading-relaxed" style="color: #374151">
+            Select a linked course first so the subject and chapter lists stay limited to what the
+            student can actually access.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

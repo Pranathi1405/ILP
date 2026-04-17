@@ -1,0 +1,365 @@
+<div class="px-8 py-6 max-w-5xl">
+  <!-- Breadcrumb -->
+  <nav class="flex items-center gap-2 text-sm text-slate-400 font-semibold mb-4">
+    <span class="hover:text-slate-600 cursor-pointer" (click)="onCancel()">Dashboard</span>
+    <span>›</span>
+    <span class="hover:text-slate-600 cursor-pointer" (click)="onCancel()">Announcements</span>
+    <span>›</span>
+    <span class="text-slate-700">{{
+      isEditMode() ? 'Edit Announcement' : 'Create Announcement'
+    }}</span>
+  </nav>
+
+  <!-- Page header -->
+  <div class="mb-8">
+    <h1 class="text-2xl lg:text-3xl font-black text-slate-800 leading-tight tracking-tight">
+      {{ isEditMode() ? 'Edit Announcement' : 'Create New Announcement' }}
+    </h1>
+    <p class="text-sm text-slate-400 font-semibold mt-1">
+      @if (isEditMode()) {
+        Update the announcement details. If it was already broadcasted, status will change to
+        Edited.
+      } @else {
+        Fill in the details. You can broadcast or schedule from the announcements list afterwards.
+      }
+    </p>
+  </div>
+
+  <!-- Global error -->
+  @if (errorMessage()) {
+    <div
+      class="mb-4 px-4 py-3 bg-red-50 border border-red-200 rounded-xl text-sm text-red-600 font-semibold"
+    >
+      {{ errorMessage() }}
+    </div>
+  }
+
+  <form [formGroup]="createForm" novalidate class="flex flex-col gap-6">
+    <!-- ── Section 1: General Information ── -->
+    <div class="bg-white rounded-xl border border-slate-200 p-6">
+      <div class="flex items-center gap-2 mb-6">
+        <svg width="16" height="14" viewBox="0 0 16 14" fill="none">
+          <path
+            d="M14 0H2C0.9 0 0 0.9 0 2V10C0 11.1 0.9 12 2 12H5L8 14L11 12H14C15.1 12 16 11.1 16 10V2C16 0.9 15.1 0 14 0ZM14 10H10.5L8 11.5L5.5 10H2V2H14V10Z"
+            fill="#475569"
+          />
+        </svg>
+        <h2 class="text-sm font-bold text-slate-700 tracking-wide">General Information</h2>
+      </div>
+
+      <!-- Title -->
+      <div class="mb-5">
+        <label
+          class="block text-[0.68rem] font-bold tracking-widest text-slate-500 uppercase mb-1.5"
+        >
+          Announcement Title <span class="text-red-400">*</span>
+        </label>
+        <input
+          type="text"
+          formControlName="title"
+          placeholder="e.g. Mid-term Examination Schedule Update"
+          class="w-full px-4 py-2.5 rounded-xl border bg-slate-50 text-slate-800 text-sm outline-none placeholder:text-slate-300 transition focus:bg-white"
+          [class.border-slate-200]="
+            !hasError('title', 'required') && !hasError('title', 'maxlength')
+          "
+          [class.border-red-400]="hasError('title', 'required') || hasError('title', 'maxlength')"
+          [class.ring-2]="hasError('title', 'required') || hasError('title', 'maxlength')"
+          [class.ring-red-100]="hasError('title', 'required') || hasError('title', 'maxlength')"
+        />
+        @if (hasError('title', 'required')) {
+          <p class="text-red-500 text-xs mt-1 pl-1">Title is required.</p>
+        } @else if (hasError('title', 'maxlength')) {
+          <p class="text-red-500 text-xs mt-1 pl-1">Title must be 150 characters or fewer.</p>
+        }
+      </div>
+
+      <!-- Content -->
+      <div class="mb-5">
+        <label
+          class="block text-[0.68rem] font-bold tracking-widest text-slate-500 uppercase mb-1.5"
+        >
+          Message Body
+          <span class="normal-case font-normal text-slate-400 tracking-normal ml-1"
+            >(Optional — required before broadcasting)</span
+          >
+        </label>
+        <textarea
+          formControlName="content"
+          placeholder="Enter the content of your announcement here..."
+          rows="7"
+          class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-800 text-sm outline-none placeholder:text-slate-300 transition focus:bg-white resize-none"
+        >
+        </textarea>
+      </div>
+
+      <!-- Target audience + optional course_id -->
+      <div class="grid gap-6" [class.grid-cols-2]="showCourseId()">
+        <div>
+          <label
+            class="block text-[0.68rem] font-bold tracking-widest text-slate-500 uppercase mb-1.5"
+            >Target Audience</label
+          >
+          <div class="relative">
+            <select
+              formControlName="target_audience"
+              class="w-full px-4 py-2.5 pr-10 rounded-xl border border-slate-200 bg-slate-50 text-slate-800 text-sm outline-none appearance-none cursor-pointer transition focus:bg-white"
+            >
+              @for (option of targetAudienceOptions; track option.value) {
+                <option [value]="option.value">{{ option.label }}</option>
+              }
+            </select>
+            <svg
+              class="w-4 h-4 pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-slate-400"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+            >
+              <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+        </div>
+
+        @if (showCourseId()) {
+          <div>
+            <label
+              class="block text-[0.68rem] font-bold tracking-widest text-slate-500 uppercase mb-1.5"
+              >Course ID</label
+            >
+            <input
+              type="number"
+              formControlName="course_id"
+              placeholder="Enter course ID"
+              class="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-800 text-sm outline-none placeholder:text-slate-300 transition focus:bg-white"
+            />
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- ── Section 2: Schedule Settings (hidden in edit mode) ── -->
+    @if (!isEditMode()) {
+      <div class="bg-white rounded-xl border border-slate-200 p-6">
+        <div class="flex items-center gap-2 mb-6">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path
+              d="M6.993 0C3.129 0 0 3.136 0 7C0 10.864 3.129 14 6.993 14C10.864 14 14 10.864 14 7C14 3.136 10.864 0 6.993 0ZM7 12.6C3.906 12.6 1.4 10.094 1.4 7C1.4 3.906 3.906 1.4 7 1.4C10.094 1.4 12.6 3.906 12.6 7C12.6 10.094 10.094 12.6 7 12.6ZM7.35 3.5H6.3V7.7L9.975 9.905L10.5 9.051L7.35 7.175V3.5Z"
+              fill="#475569"
+            />
+          </svg>
+          <h2 class="text-sm font-bold text-slate-700 tracking-wide">
+            Schedule Settings <span class="font-normal text-slate-400">(Optional)</span>
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- Start -->
+          <div>
+            <p class="text-[0.68rem] font-bold tracking-widest text-slate-400 uppercase mb-3">
+              Publication Start
+            </p>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-[0.68rem] font-semibold text-slate-500 mb-1">Date</label>
+                <div class="relative">
+                  <input
+                    type="date"
+                    formControlName="start_date"
+                    class="w-full pl-9 pr-3 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-700 text-sm outline-none transition focus:bg-white"
+                  />
+                  <svg
+                    class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <rect x="3" y="4" width="18" height="18" rx="2" />
+                    <line x1="16" y1="2" x2="16" y2="6" />
+                    <line x1="8" y1="2" x2="8" y2="6" />
+                    <line x1="3" y1="10" x2="21" y2="10" />
+                  </svg>
+                </div>
+              </div>
+              <div>
+                <label class="block text-[0.68rem] font-semibold text-slate-500 mb-1">Time</label>
+                <div class="relative">
+                  <input
+                    type="time"
+                    formControlName="start_time"
+                    class="w-full pl-9 pr-3 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-700 text-sm outline-none transition focus:bg-white"
+                  />
+                  <svg
+                    class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12 6 12 12 16 14" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- End -->
+          <div>
+            <p class="text-[0.68rem] font-bold tracking-widest text-slate-400 uppercase mb-3">
+              Expiration <span class="normal-case font-normal">(Optional)</span>
+            </p>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-[0.68rem] font-semibold text-slate-500 mb-1">Date</label>
+                <div class="relative">
+                  <input
+                    type="date"
+                    formControlName="end_date"
+                    class="w-full pl-9 pr-3 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-700 text-sm outline-none transition focus:bg-white"
+                  />
+                  <svg
+                    class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <rect x="3" y="4" width="18" height="18" rx="2" />
+                    <line x1="16" y1="2" x2="16" y2="6" />
+                    <line x1="8" y1="2" x2="8" y2="6" />
+                    <line x1="3" y1="10" x2="21" y2="10" />
+                  </svg>
+                </div>
+              </div>
+              <div>
+                <label class="block text-[0.68rem] font-semibold text-slate-500 mb-1">Time</label>
+                <div class="relative">
+                  <input
+                    type="time"
+                    formControlName="end_time"
+                    class="w-full pl-9 pr-3 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-700 text-sm outline-none transition focus:bg-white"
+                  />
+                  <svg
+                    class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12 6 12 12 16 14" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- ── Footer Actions ── -->
+    <div class="flex items-center justify-between pt-2 pb-8">
+      <button
+        type="button"
+        (click)="onCancel()"
+        class="text-sm font-bold text-slate-500 hover:text-slate-700 transition-colors"
+      >
+        Cancel &amp; Discard
+      </button>
+
+      <div class="flex items-center gap-3">
+        @if (isEditMode()) {
+          <!-- Edit: single Save Changes button -->
+          <button
+            type="button"
+            (click)="saveEdit()"
+            [disabled]="isLoading()"
+            class="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-blue-600 text-white text-xs font-bold tracking-widest uppercase shadow-lg shadow-blue-200 transition hover:bg-blue-700 hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            @if (isLoading()) {
+              <svg class="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                />
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+              </svg>
+            }
+            Save Changes
+          </button>
+        } @else {
+          <!-- Create: Schedule (optional) + Save Announcement -->
+
+          <!-- Schedule button — always visible, tooltip when start_date not future -->
+          <div
+            class="relative"
+            (mouseenter)="onScheduleHover(true)"
+            (mouseleave)="onScheduleHover(false)"
+          >
+            <button
+              type="button"
+              (click)="scheduleAnnouncement()"
+              [disabled]="isLoading()"
+              class="px-6 py-2.5 rounded-xl border border-blue-600 text-blue-600 text-xs font-bold tracking-widest uppercase transition hover:bg-blue-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Schedule
+            </button>
+            @if (showScheduleWarning()) {
+              <div
+                class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-60 px-3 py-2 bg-slate-800 text-white text-xs font-semibold rounded-lg shadow-lg text-center pointer-events-none z-50"
+              >
+                Set a future start date to schedule.
+                <div
+                  class="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-800"
+                ></div>
+              </div>
+            }
+          </div>
+
+          <!-- Save Announcement → POST /api/announcements (draft) -->
+          <button
+            type="button"
+            (click)="saveAnnouncement()"
+            [disabled]="isLoading()"
+            class="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-blue-600 text-white text-xs font-bold tracking-widest uppercase shadow-lg shadow-blue-200 transition hover:bg-blue-700 hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            @if (isLoading()) {
+              <svg class="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                />
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+              </svg>
+            } @else {
+              <svg
+                width="13"
+                height="13"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z" />
+                <polyline points="17 21 17 13 7 13 7 21" />
+                <polyline points="7 3 7 8 15 8" />
+              </svg>
+            }
+            Save Announcement
+          </button>
+        }
+      </div>
+    </div>
+  </form>
+</div>

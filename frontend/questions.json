@@ -1,0 +1,4907 @@
+{
+  "questions": [
+    {
+      "id": 1,
+      "exam": "JEE Main",
+      "subject": "Physics",
+      "chapter": "Mechanics",
+      "topic": "Laws of Motion",
+      "difficultyLevel": "Easy",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "A block of mass 5 kg is placed on a frictionless horizontal surface. A horizontal force of 20 N is applied. The acceleration of the block is:",
+      "options": [
+        "2 m/s²",
+        "4 m/s²",
+        "10 m/s²",
+        "25 m/s²"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 2,
+      "exam": "JEE Main",
+      "subject": "Physics",
+      "chapter": "Mechanics",
+      "topic": "Work Energy",
+      "difficultyLevel": "Medium",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "A ball of mass 0.5 kg is thrown vertically upward with speed 20 m/s. The maximum height reached (g = 10 m/s²) is:",
+      "options": [
+        "10 m",
+        "20 m",
+        "40 m",
+        "5 m"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 3,
+      "exam": "JEE Main",
+      "subject": "Physics",
+      "chapter": "Mechanics",
+      "topic": "Rotational Motion",
+      "difficultyLevel": "Hard",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "A solid sphere of mass M and radius R rolls without slipping on a horizontal surface. The ratio of rotational KE to total KE is:",
+      "options": [
+        "2/7",
+        "5/7",
+        "2/5",
+        "1/2"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 4,
+      "exam": "JEE Main",
+      "subject": "Physics",
+      "chapter": "Thermodynamics",
+      "topic": "First Law",
+      "difficultyLevel": "Medium",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "An ideal gas is compressed isothermally. Which statement is TRUE?",
+      "options": [
+        "Internal energy increases",
+        "Temperature decreases",
+        "Heat is released to surroundings",
+        "Enthalpy increases"
+      ],
+      "correctAnswer": 2
+    },
+    {
+      "id": 5,
+      "exam": "JEE Main",
+      "subject": "Physics",
+      "chapter": "Electrodynamics",
+      "topic": "Current Electricity",
+      "difficultyLevel": "Medium",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Three resistors of 2Ω, 4Ω, and 4Ω are connected in parallel. The equivalent resistance is:",
+      "options": [
+        "1 Ω",
+        "10 Ω",
+        "0.5 Ω",
+        "2 Ω"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 6,
+      "exam": "JEE Main",
+      "subject": "Physics",
+      "chapter": "Optics",
+      "topic": "Refraction",
+      "difficultyLevel": "Easy",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "A ray of light passes from air (n=1) to glass (n=1.5). If angle of incidence is 30°, the sine of angle of refraction is:",
+      "options": [
+        "1/3",
+        "1/2",
+        "√3/2",
+        "2/3"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 7,
+      "exam": "JEE Main",
+      "subject": "Mathematics",
+      "chapter": "Calculus",
+      "topic": "Derivatives",
+      "difficultyLevel": "Easy",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "If f(x) = x³ − 3x² + 2x, then f'(1) is:",
+      "options": [
+        "-1",
+        "0",
+        "1",
+        "2"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 8,
+      "exam": "JEE Main",
+      "subject": "Mathematics",
+      "chapter": "Algebra",
+      "topic": "Quadratic Equations",
+      "difficultyLevel": "Medium",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "The roots of the equation x² − 5x + 6 = 0 are:",
+      "options": [
+        "1 and 6",
+        "2 and 3",
+        "−2 and −3",
+        "1 and 5"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 9,
+      "exam": "JEE Main",
+      "subject": "Mathematics",
+      "chapter": "Coordinate Geometry",
+      "topic": "Circles",
+      "difficultyLevel": "Medium",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "The equation of a circle with centre (2, −3) and radius 5 is:",
+      "options": [
+        "(x−2)² + (y+3)² = 25",
+        "(x+2)² + (y−3)² = 25",
+        "(x−2)² + (y−3)² = 25",
+        "(x+2)² + (y+3)² = 5"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 10,
+      "exam": "JEE Main",
+      "subject": "Chemistry",
+      "chapter": "Physical Chemistry",
+      "topic": "Chemical Kinetics",
+      "difficultyLevel": "Medium",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "For a first-order reaction, when 99% of reactant has decomposed, the number of half-lives elapsed is approximately:",
+      "options": [
+        "3.32",
+        "5",
+        "6.64",
+        "2"
+      ],
+      "correctAnswer": 2
+    },
+    {
+      "id": 11,
+      "exam": "JEE Main",
+      "subject": "Chemistry",
+      "chapter": "Organic Chemistry",
+      "topic": "Alcohols",
+      "difficultyLevel": "Easy",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Which reagent is used to oxidise a primary alcohol to an aldehyde WITHOUT further oxidising it to a carboxylic acid?",
+      "options": [
+        "KMnO₄/H⁺",
+        "K₂Cr₂O₇/H₂SO₄",
+        "PCC (Pyridinium chlorochromate)",
+        "Fehling's solution"
+      ],
+      "correctAnswer": 2
+    },
+    {
+      "id": 12,
+      "exam": "JEE Main",
+      "subject": "Chemistry",
+      "chapter": "Inorganic Chemistry",
+      "topic": "Chemical Bonding",
+      "difficultyLevel": "Hard",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Which of the following molecules has a BENT geometry?",
+      "options": [
+        "CO₂",
+        "BeCl₂",
+        "H₂O",
+        "BF₃"
+      ],
+      "correctAnswer": 2
+    },
+    {
+      "id": 13,
+      "exam": "JEE Advanced",
+      "subject": "Physics",
+      "chapter": "Electrodynamics",
+      "topic": "Current Electricity",
+      "difficultyLevel": "Hard",
+      "questionType": "INTEGER",
+      "marks": 4,
+      "negativeMarks": 0,
+      "question": "A Wheatstone bridge has P = 100Ω, Q = 100Ω, R = 100Ω, S = 100Ω and is connected to a 10 V battery. The current (in mA) through the galvanometer when balanced is:",
+      "correctAnswer": 0
+    },
+    {
+      "id": 14,
+      "exam": "JEE Advanced",
+      "subject": "Physics",
+      "chapter": "Mechanics",
+      "topic": "Laws of Motion",
+      "difficultyLevel": "Hard",
+      "questionType": "INTEGER",
+      "marks": 4,
+      "negativeMarks": 0,
+      "question": "A bullet of mass 10 g travelling at 400 m/s embeds itself in a block of mass 990 g on a smooth surface. The velocity (in m/s) of the system after collision is:",
+      "correctAnswer": 4
+    },
+    {
+      "id": 15,
+      "exam": "JEE Advanced",
+      "subject": "Physics",
+      "chapter": "Thermodynamics",
+      "topic": "Heat Engines",
+      "difficultyLevel": "Hard",
+      "questionType": "INTEGER",
+      "marks": 4,
+      "negativeMarks": 0,
+      "question": "A Carnot engine operates between 500 K and 300 K. If the engine absorbs 1000 J from the hot reservoir, the work done (in J) by the engine is:",
+      "correctAnswer": 400
+    },
+    {
+      "id": 16,
+      "exam": "JEE Advanced",
+      "subject": "Mathematics",
+      "chapter": "Calculus",
+      "topic": "Limits",
+      "difficultyLevel": "Hard",
+      "questionType": "INTEGER",
+      "marks": 4,
+      "negativeMarks": 0,
+      "question": "The value of lim(x→0) [sin(x)/x]^(1/x²) equals e^k. The value of k is:",
+      "correctAnswer": -6
+    },
+    {
+      "id": 17,
+      "exam": "JEE Advanced",
+      "subject": "Mathematics",
+      "chapter": "Algebra",
+      "topic": "Sequences",
+      "difficultyLevel": "Medium",
+      "questionType": "INTEGER",
+      "marks": 4,
+      "negativeMarks": 0,
+      "question": "The sum of first 20 terms of an AP whose first term is 3 and common difference is 2 is:",
+      "correctAnswer": 440
+    },
+    {
+      "id": 18,
+      "exam": "JEE Advanced",
+      "subject": "Chemistry",
+      "chapter": "Physical Chemistry",
+      "topic": "Thermodynamics",
+      "difficultyLevel": "Hard",
+      "questionType": "INTEGER",
+      "marks": 4,
+      "negativeMarks": 0,
+      "question": "For the reaction N₂ + 3H₂ → 2NH₃, ΔH = −92 kJ/mol. How much heat (in kJ) is released when 4 moles of NH₃ are formed?",
+      "correctAnswer": 184
+    },
+    {
+      "id": 19,
+      "exam": "JEE Advanced",
+      "subject": "Physics",
+      "chapter": "Optics",
+      "topic": "Refraction",
+      "difficultyLevel": "Hard",
+      "questionType": "MSQ_PARTIAL",
+      "marks": 4,
+      "negativeMarks": 2,
+      "question": "For total internal reflection to occur, which of the following conditions MUST be satisfied?",
+      "options": [
+        "Light must travel from a denser medium to a rarer medium",
+        "Angle of incidence must be greater than the critical angle",
+        "Light must travel from rarer to denser medium",
+        "The two media must have the same refractive index"
+      ],
+      "correctAnswer": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": 20,
+      "exam": "JEE Advanced",
+      "subject": "Mathematics",
+      "chapter": "Calculus",
+      "topic": "Derivatives",
+      "difficultyLevel": "Hard",
+      "questionType": "MSQ_PARTIAL",
+      "marks": 4,
+      "negativeMarks": 2,
+      "question": "Which of the following functions are differentiable at x = 0?",
+      "options": [
+        "f(x) = |x|",
+        "f(x) = x|x|",
+        "f(x) = x²sin(1/x) for x ≠ 0, f(0) = 0",
+        "f(x) = x^(1/3)"
+      ],
+      "correctAnswer": [
+        1,
+        2
+      ]
+    },
+    {
+      "id": 21,
+      "exam": "JEE Advanced",
+      "subject": "Chemistry",
+      "chapter": "Organic Chemistry",
+      "topic": "Hydrocarbons",
+      "difficultyLevel": "Hard",
+      "questionType": "MSQ_PARTIAL",
+      "marks": 4,
+      "negativeMarks": 2,
+      "question": "Which of the following statements about benzene are CORRECT?",
+      "options": [
+        "All C−C bond lengths in benzene are equal",
+        "Benzene undergoes electrophilic substitution more readily than addition",
+        "The resonance energy of benzene is approximately 36 kcal/mol",
+        "Benzene reacts with Br₂(aq) without a catalyst"
+      ],
+      "correctAnswer": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "id": 22,
+      "exam": "JEE Advanced",
+      "subject": "Physics",
+      "chapter": "Mechanics",
+      "topic": "Rotational Motion",
+      "difficultyLevel": "Hard",
+      "questionType": "MSQ_PARTIAL",
+      "marks": 4,
+      "negativeMarks": 2,
+      "question": "A rigid body is in pure rotation. Which of the following quantities are the SAME for all particles of the body?",
+      "options": [
+        "Angular velocity",
+        "Linear velocity",
+        "Angular acceleration",
+        "Centripetal acceleration"
+      ],
+      "correctAnswer": [
+        0,
+        2
+      ]
+    },
+    {
+      "id": 23,
+      "exam": "JEE Advanced",
+      "subject": "Physics",
+      "chapter": "Electrodynamics",
+      "topic": "Magnetism",
+      "difficultyLevel": "Hard",
+      "questionType": "MSQ_PARTIAL",
+      "marks": 4,
+      "negativeMarks": 2,
+      "question": "A charged particle moves in a uniform magnetic field. Which statements are CORRECT?",
+      "options": [
+        "The speed of the particle remains constant",
+        "The kinetic energy of the particle remains constant",
+        "The magnetic force does no work on the particle",
+        "The momentum of the particle remains constant"
+      ],
+      "correctAnswer": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "id": 24,
+      "exam": "JEE Advanced",
+      "subject": "Mathematics",
+      "chapter": "Coordinate Geometry",
+      "topic": "Straight Lines",
+      "difficultyLevel": "Medium",
+      "questionType": "MSQ_PARTIAL",
+      "marks": 4,
+      "negativeMarks": 2,
+      "question": "Which of the following lines pass through the origin?",
+      "options": [
+        "y = 3x",
+        "2x − 3y = 0",
+        "x + y = 1",
+        "y = −5x"
+      ],
+      "correctAnswer": [
+        0,
+        1,
+        3
+      ]
+    },
+    {
+      "id": 25,
+      "exam": "JEE Advanced",
+      "subject": "Chemistry",
+      "chapter": "Inorganic Chemistry",
+      "topic": "Periodic Table",
+      "difficultyLevel": "Medium",
+      "questionType": "MSQ_PARTIAL",
+      "marks": 4,
+      "negativeMarks": 2,
+      "question": "Which of the following elements have completely filled d-orbitals in their ground state?",
+      "options": [
+        "Zinc (Zn)",
+        "Copper (Cu)",
+        "Iron (Fe)",
+        "Cadmium (Cd)"
+      ],
+      "correctAnswer": [
+        0,
+        3
+      ]
+    },
+    {
+      "id": 26,
+      "exam": "JEE Main",
+      "subject": "Physics",
+      "chapter": "Thermodynamics",
+      "topic": "Heat Engines",
+      "difficultyLevel": "Medium",
+      "questionType": "NAT",
+      "marks": 4,
+      "negativeMarks": 0,
+      "question": "A gas expands from 2 L to 6 L against a constant external pressure of 1 atm. The work done BY the gas in joules is: (1 L·atm = 101.3 J)",
+      "correctAnswer": 405
+    },
+    {
+      "id": 27,
+      "exam": "JEE Main",
+      "subject": "Mathematics",
+      "chapter": "Algebra",
+      "topic": "Sequences",
+      "difficultyLevel": "Easy",
+      "questionType": "NAT",
+      "marks": 4,
+      "negativeMarks": 0,
+      "question": "The sum of the first 10 natural numbers is:",
+      "correctAnswer": 55
+    },
+    {
+      "id": 28,
+      "exam": "JEE Main",
+      "subject": "Chemistry",
+      "chapter": "Physical Chemistry",
+      "topic": "Chemical Kinetics",
+      "difficultyLevel": "Hard",
+      "questionType": "NAT",
+      "marks": 4,
+      "negativeMarks": 0,
+      "question": "The half-life of a first-order reaction is 693 s. The rate constant (k) in units of 10⁻³ s⁻¹ is:",
+      "correctAnswer": 1
+    },
+    {
+      "id": 29,
+      "exam": "BITSAT",
+      "subject": "Mathematics",
+      "chapter": "Calculus",
+      "topic": "Limits",
+      "difficultyLevel": "Medium",
+      "questionType": "NAT",
+      "marks": 3,
+      "negativeMarks": 1,
+      "question": "The value of lim(x→0) (sin 3x) / x is:",
+      "correctAnswer": 3
+    },
+    {
+      "id": 30,
+      "exam": "BITSAT",
+      "subject": "Physics",
+      "chapter": "Optics",
+      "topic": "Reflection",
+      "difficultyLevel": "Easy",
+      "questionType": "NAT",
+      "marks": 3,
+      "negativeMarks": 1,
+      "question": "A concave mirror of focal length 10 cm forms an image at a distance of 30 cm in front of it. The object distance (in cm) is:",
+      "correctAnswer": 15
+    },
+    {
+      "id": 31,
+      "exam": "JEE Main",
+      "subject": "Physics",
+      "chapter": "Mechanics",
+      "topic": "Laws of Motion",
+      "difficultyLevel": "Hard",
+      "questionType": "PARAGRAPH_MCQ",
+      "marks": 4,
+      "negativeMarks": 0,
+      "paragraph": "A system consists of two blocks A (mass 3 kg) and B (mass 2 kg) connected by a light inextensible string over a frictionless pulley (Atwood's machine). Block A hangs on one side and block B on the other. Take g = 10 m/s².",
+      "subQuestions": [
+        {
+          "question": "The acceleration of the system is:",
+          "options": [
+            "1 m/s²",
+            "2 m/s²",
+            "4 m/s²",
+            "5 m/s²"
+          ],
+          "correctAnswer": 1
+        },
+        {
+          "question": "The tension in the string is:",
+          "options": [
+            "20 N",
+            "24 N",
+            "30 N",
+            "12 N"
+          ],
+          "correctAnswer": 1
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "exam": "JEE Advanced",
+      "subject": "Physics",
+      "chapter": "Optics",
+      "topic": "Refraction",
+      "difficultyLevel": "Hard",
+      "questionType": "PARAGRAPH_MCQ",
+      "marks": 4,
+      "negativeMarks": 0,
+      "paragraph": "A glass slab of thickness 6 cm and refractive index 1.5 is placed in the path of a converging beam. The beam was originally converging to a point P at a distance of 12 cm from one face of the slab.",
+      "subQuestions": [
+        {
+          "question": "The apparent shift in the position of point P due to the glass slab is:",
+          "options": [
+            "1 cm",
+            "2 cm",
+            "3 cm",
+            "4 cm"
+          ],
+          "correctAnswer": 1
+        },
+        {
+          "question": "The beam now converges to a point that is ______ from the other face of the slab:",
+          "options": [
+            "8 cm",
+            "10 cm",
+            "14 cm",
+            "16 cm"
+          ],
+          "correctAnswer": 1
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "exam": "JEE Main",
+      "subject": "Chemistry",
+      "chapter": "Organic Chemistry",
+      "topic": "Alcohols",
+      "difficultyLevel": "Medium",
+      "questionType": "PARAGRAPH_MCQ",
+      "marks": 4,
+      "negativeMarks": 0,
+      "paragraph": "Compound A (C₄H₁₀O) on oxidation with PCC gives an aldehyde B. Compound B on reaction with Tollens' reagent gives a silver mirror. Compound B on further oxidation gives compound C which turns blue litmus red.",
+      "subQuestions": [
+        {
+          "question": "Compound A is:",
+          "options": [
+            "2-butanol",
+            "1-butanol",
+            "2-methyl-1-propanol",
+            "tert-butanol"
+          ],
+          "correctAnswer": 1
+        },
+        {
+          "question": "Compound C is:",
+          "options": [
+            "Propanal",
+            "Acetaldehyde",
+            "Butanal",
+            "Butanoic acid"
+          ],
+          "correctAnswer": 3
+        }
+      ]
+    },
+    {
+      "id": 34,
+      "exam": "JEE Advanced",
+      "subject": "Mathematics",
+      "chapter": "Calculus",
+      "topic": "Derivatives",
+      "difficultyLevel": "Hard",
+      "questionType": "PARAGRAPH_MCQ",
+      "marks": 4,
+      "negativeMarks": 0,
+      "paragraph": "Let f(x) = x³ − 6x² + 11x − 6. The function has three real roots and two critical points.",
+      "subQuestions": [
+        {
+          "question": "The critical points of f(x) are at x =",
+          "options": [
+            "x = 1 and x = 3",
+            "x = 2 − 1/√3 and x = 2 + 1/√3",
+            "x = 0 and x = 4",
+            "x = 1 and x = 5"
+          ],
+          "correctAnswer": 1
+        },
+        {
+          "question": "At x = 1, the function f(x) has a:",
+          "options": [
+            "Local maximum",
+            "Local minimum",
+            "Point of inflection",
+            "Global maximum"
+          ],
+          "correctAnswer": 0
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "exam": "NEET",
+      "subject": "Biology",
+      "chapter": "Cell Biology",
+      "topic": "Cell Structure",
+      "difficultyLevel": "Medium",
+      "questionType": "PARAGRAPH_MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "paragraph": "The fluid mosaic model of cell membrane was proposed by Singer and Nicolson in 1972. The membrane consists of a lipid bilayer with embedded proteins. Cholesterol is interspersed among phospholipids.",
+      "subQuestions": [
+        {
+          "question": "Which component provides fluidity to the cell membrane?",
+          "options": [
+            "Glycoproteins",
+            "Cholesterol",
+            "Integral proteins",
+            "Peripheral proteins"
+          ],
+          "correctAnswer": 1
+        },
+        {
+          "question": "The movement of membrane lipids laterally within the bilayer is called:",
+          "options": [
+            "Flip-flop",
+            "Lateral diffusion",
+            "Endocytosis",
+            "Active transport"
+          ],
+          "correctAnswer": 1
+        }
+      ]
+    },
+    {
+      "id": 36,
+      "exam": "JEE Main",
+      "subject": "Physics",
+      "chapter": "Electrodynamics",
+      "topic": "Current Electricity",
+      "difficultyLevel": "Medium",
+      "questionType": "ASSERTION_REASON",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Assertion (A): When a wire is stretched to double its length, its resistance becomes four times.\nReason (R): Resistance is directly proportional to length and inversely proportional to cross-sectional area.",
+      "options": [
+        "Both A and R are true and R is the correct explanation of A",
+        "Both A and R are true but R is NOT the correct explanation of A",
+        "A is true but R is false",
+        "A is false but R is true"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 37,
+      "exam": "JEE Main",
+      "subject": "Physics",
+      "chapter": "Thermodynamics",
+      "topic": "First Law",
+      "difficultyLevel": "Hard",
+      "questionType": "ASSERTION_REASON",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Assertion (A): In an adiabatic process, the work done by the gas is at the expense of its internal energy.\nReason (R): In an adiabatic process, no heat exchange takes place between the system and surroundings.",
+      "options": [
+        "Both A and R are true and R is the correct explanation of A",
+        "Both A and R are true but R is NOT the correct explanation of A",
+        "A is true but R is false",
+        "A is false but R is true"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 38,
+      "exam": "NEET",
+      "subject": "Biology",
+      "chapter": "Human Physiology",
+      "topic": "Digestion",
+      "difficultyLevel": "Easy",
+      "questionType": "ASSERTION_REASON",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Assertion (A): Pepsin is secreted in its inactive form (pepsinogen) in the stomach.\nReason (R): Hydrochloric acid activates pepsinogen to pepsin in the stomach.",
+      "options": [
+        "Both A and R are true and R is the correct explanation of A",
+        "Both A and R are true but R is NOT the correct explanation of A",
+        "A is true but R is false",
+        "A is false but R is true"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 39,
+      "exam": "BITSAT",
+      "subject": "Chemistry",
+      "chapter": "Organic Chemistry",
+      "topic": "Hydrocarbons",
+      "difficultyLevel": "Medium",
+      "questionType": "ASSERTION_REASON",
+      "marks": 3,
+      "negativeMarks": 1,
+      "question": "Assertion (A): Alkenes undergo addition reactions more readily than alkanes.\nReason (R): Alkenes contain a π bond which is weaker and more reactive than a σ bond.",
+      "options": [
+        "Both A and R are true and R is the correct explanation of A",
+        "Both A and R are true but R is NOT the correct explanation of A",
+        "A is true but R is false",
+        "A is false but R is true"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 40,
+      "exam": "JEE Main",
+      "subject": "Chemistry",
+      "chapter": "Inorganic Chemistry",
+      "topic": "Periodic Table",
+      "difficultyLevel": "Medium",
+      "questionType": "ASSERTION_REASON",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Assertion (A): Ionisation energy generally increases across a period from left to right.\nReason (R): Across a period, nuclear charge increases while shielding remains nearly constant, so electrons are held more tightly.",
+      "options": [
+        "Both A and R are true and R is the correct explanation of A",
+        "Both A and R are true but R is NOT the correct explanation of A",
+        "A is true but R is false",
+        "A is false but R is true"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 41,
+      "exam": "JEE Advanced",
+      "subject": "Physics",
+      "chapter": "Mechanics",
+      "topic": "Work Energy",
+      "difficultyLevel": "Hard",
+      "questionType": "ASSERTION_REASON",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Assertion (A): The work done by static friction on a rolling body is zero.\nReason (R): The point of contact of a rolling body with the surface is instantaneously at rest.",
+      "options": [
+        "Both A and R are true and R is the correct explanation of A",
+        "Both A and R are true but R is NOT the correct explanation of A",
+        "A is true but R is false",
+        "A is false but R is true"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 42,
+      "exam": "NEET",
+      "subject": "Physics",
+      "chapter": "Mechanics",
+      "topic": "Laws of Motion",
+      "difficultyLevel": "Easy",
+      "questionType": "ASSERTION_REASON",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Assertion (A): A body in uniform circular motion has a constant speed but varying velocity.\nReason (R): In uniform circular motion, the direction of velocity changes continuously.",
+      "options": [
+        "Both A and R are true and R is the correct explanation of A",
+        "Both A and R are true but R is NOT the correct explanation of A",
+        "A is true but R is false",
+        "A is false but R is true"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 43,
+      "exam": "JEE Main",
+      "subject": "Physics",
+      "chapter": "Mechanics",
+      "topic": "Rotational Motion",
+      "difficultyLevel": "Hard",
+      "questionType": "MATCH_MATRIX",
+      "marks": 4,
+      "negativeMarks": 0,
+      "question": "Match the physical quantity in List-I with its SI unit in List-II:",
+      "matrix": {
+        "List-I": {
+          "A": "Moment of Inertia",
+          "B": "Angular Momentum",
+          "C": "Torque",
+          "D": "Angular velocity"
+        },
+        "List-II": {
+          "1": "N·m",
+          "2": "kg·m²/s",
+          "3": "rad/s",
+          "4": "kg·m²"
+        }
+      },
+      "choices": [
+        {
+          "A": 4,
+          "B": 2,
+          "C": 1,
+          "D": 3
+        },
+        {
+          "A": 2,
+          "B": 4,
+          "C": 3,
+          "D": 1
+        },
+        {
+          "A": 1,
+          "B": 3,
+          "C": 4,
+          "D": 2
+        },
+        {
+          "A": 4,
+          "B": 2,
+          "C": 3,
+          "D": 1
+        }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 44,
+      "exam": "JEE Main",
+      "subject": "Chemistry",
+      "chapter": "Organic Chemistry",
+      "topic": "Alcohols",
+      "difficultyLevel": "Hard",
+      "questionType": "MATCH_MATRIX",
+      "marks": 4,
+      "negativeMarks": 0,
+      "question": "Match the reaction in List-I with the type of reaction in List-II:",
+      "matrix": {
+        "List-I": {
+          "A": "CH₃OH + HBr →",
+          "B": "CH₃CH=CH₂ + H₂ →",
+          "C": "CH₃CHO + [O] →",
+          "D": "CH₃COOH + NaOH →"
+        },
+        "List-II": {
+          "1": "Oxidation",
+          "2": "Neutralisation",
+          "3": "Substitution",
+          "4": "Addition"
+        }
+      },
+      "choices": [
+        {
+          "A": 3,
+          "B": 4,
+          "C": 1,
+          "D": 2
+        },
+        {
+          "A": 4,
+          "B": 3,
+          "C": 2,
+          "D": 1
+        },
+        {
+          "A": 1,
+          "B": 2,
+          "C": 3,
+          "D": 4
+        },
+        {
+          "A": 3,
+          "B": 1,
+          "C": 4,
+          "D": 2
+        }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 45,
+      "exam": "NEET",
+      "subject": "Biology",
+      "chapter": "Cell Biology",
+      "topic": "Cell Structure",
+      "difficultyLevel": "Medium",
+      "questionType": "MATCH_MATRIX",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Match the organelle in List-I with its function in List-II:",
+      "matrix": {
+        "List-I": {
+          "A": "Mitochondria",
+          "B": "Ribosome",
+          "C": "Golgi Apparatus",
+          "D": "Lysosome"
+        },
+        "List-II": {
+          "1": "Intracellular digestion",
+          "2": "ATP synthesis",
+          "3": "Protein secretion and packaging",
+          "4": "Protein synthesis"
+        }
+      },
+      "choices": [
+        {
+          "A": 2,
+          "B": 4,
+          "C": 3,
+          "D": 1
+        },
+        {
+          "A": 1,
+          "B": 3,
+          "C": 4,
+          "D": 2
+        },
+        {
+          "A": 4,
+          "B": 2,
+          "C": 1,
+          "D": 3
+        },
+        {
+          "A": 2,
+          "B": 3,
+          "C": 4,
+          "D": 1
+        }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 46,
+      "exam": "JEE Advanced",
+      "subject": "Mathematics",
+      "chapter": "Coordinate Geometry",
+      "topic": "Circles",
+      "difficultyLevel": "Hard",
+      "questionType": "MATCH_MATRIX",
+      "marks": 4,
+      "negativeMarks": 0,
+      "question": "Match the conic section in List-I with its defining condition (eccentricity e) in List-II:",
+      "matrix": {
+        "List-I": {
+          "A": "Circle",
+          "B": "Ellipse",
+          "C": "Parabola",
+          "D": "Hyperbola"
+        },
+        "List-II": {
+          "1": "e > 1",
+          "2": "0 < e < 1",
+          "3": "e = 1",
+          "4": "e = 0"
+        }
+      },
+      "choices": [
+        {
+          "A": 4,
+          "B": 2,
+          "C": 3,
+          "D": 1
+        },
+        {
+          "A": 2,
+          "B": 4,
+          "C": 1,
+          "D": 3
+        },
+        {
+          "A": 3,
+          "B": 1,
+          "C": 4,
+          "D": 2
+        },
+        {
+          "A": 1,
+          "B": 2,
+          "C": 3,
+          "D": 4
+        }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 47,
+      "exam": "BITSAT",
+      "subject": "Chemistry",
+      "chapter": "Inorganic Chemistry",
+      "topic": "Chemical Bonding",
+      "difficultyLevel": "Medium",
+      "questionType": "MATCH_MATRIX",
+      "marks": 3,
+      "negativeMarks": 1,
+      "question": "Match the molecule in List-I with its hybridisation in List-II:",
+      "matrix": {
+        "List-I": {
+          "A": "BF₃",
+          "B": "CH₄",
+          "C": "NH₃",
+          "D": "H₂O"
+        },
+        "List-II": {
+          "1": "sp³ (bent)",
+          "2": "sp³ (pyramidal)",
+          "3": "sp³ (tetrahedral)",
+          "4": "sp² (trigonal planar)"
+        }
+      },
+      "choices": [
+        {
+          "A": 4,
+          "B": 3,
+          "C": 2,
+          "D": 1
+        },
+        {
+          "A": 3,
+          "B": 4,
+          "C": 1,
+          "D": 2
+        },
+        {
+          "A": 2,
+          "B": 1,
+          "C": 4,
+          "D": 3
+        },
+        {
+          "A": 4,
+          "B": 2,
+          "C": 3,
+          "D": 1
+        }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 48,
+      "exam": "JEE Main",
+      "subject": "Mathematics",
+      "chapter": "Algebra",
+      "topic": "Quadratic Equations",
+      "difficultyLevel": "Medium",
+      "questionType": "MATCH_MATRIX",
+      "marks": 4,
+      "negativeMarks": 0,
+      "question": "Match the quadratic equation in List-I with its nature of roots in List-II:",
+      "matrix": {
+        "List-I": {
+          "A": "x² − 5x + 6 = 0",
+          "B": "x² + 2x + 1 = 0",
+          "C": "x² + x + 1 = 0",
+          "D": "2x² − 5x + 2 = 0"
+        },
+        "List-II": {
+          "1": "Complex conjugate roots",
+          "2": "Two distinct rational roots",
+          "3": "Two equal real roots",
+          "4": "Irrational roots"
+        }
+      },
+      "choices": [
+        {
+          "A": 2,
+          "B": 3,
+          "C": 1,
+          "D": 2
+        },
+        {
+          "A": 4,
+          "B": 3,
+          "C": 1,
+          "D": 2
+        },
+        {
+          "A": 2,
+          "B": 3,
+          "C": 1,
+          "D": 4
+        },
+        {
+          "A": 3,
+          "B": 1,
+          "C": 2,
+          "D": 4
+        }
+      ],
+      "correctAnswer": 2
+    },
+    {
+      "id": 49,
+      "exam": "NEET",
+      "subject": "Chemistry",
+      "chapter": "Physical Chemistry",
+      "topic": "Chemical Kinetics",
+      "difficultyLevel": "Easy",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "The rate of a reaction doubles when temperature increases from 300 K to 310 K. The activation energy (in kJ/mol) is approximately: (R = 8.314 J/mol·K)",
+      "options": [
+        "53.6 kJ/mol",
+        "75.2 kJ/mol",
+        "120.5 kJ/mol",
+        "26.8 kJ/mol"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 50,
+      "exam": "NEET",
+      "subject": "Biology",
+      "chapter": "Genetics",
+      "topic": "Mendelian Genetics",
+      "difficultyLevel": "Easy",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "In a monohybrid cross between two heterozygous tall plants (Tt × Tt), the expected phenotypic ratio is:",
+      "options": [
+        "1:2:1",
+        "3:1",
+        "1:1",
+        "2:1"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 51,
+      "exam": "NEET",
+      "subject": "Biology",
+      "chapter": "Genetics",
+      "topic": "Mendelian Genetics",
+      "difficultyLevel": "Medium",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "A dihybrid cross (AaBb × AaBb) produces offspring in which genotypic ratio for AABB is:",
+      "options": [
+        "1/4",
+        "1/16",
+        "9/16",
+        "3/16"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 52,
+      "exam": "NEET",
+      "subject": "Biology",
+      "chapter": "Human Physiology",
+      "topic": "Digestion",
+      "difficultyLevel": "Easy",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Which enzyme is responsible for the digestion of starch in the mouth?",
+      "options": [
+        "Pepsin",
+        "Salivary amylase",
+        "Trypsin",
+        "Lipase"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 53,
+      "exam": "NEET",
+      "subject": "Biology",
+      "chapter": "Human Physiology",
+      "topic": "Digestion",
+      "difficultyLevel": "Medium",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Which of the following is NOT a function of the liver?",
+      "options": [
+        "Bile secretion",
+        "Urea synthesis",
+        "Secretion of insulin",
+        "Glycogen storage"
+      ],
+      "correctAnswer": 2
+    },
+    {
+      "id": 54,
+      "exam": "NEET",
+      "subject": "Chemistry",
+      "chapter": "Organic Chemistry",
+      "topic": "Hydrocarbons",
+      "difficultyLevel": "Medium",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Which test is used to distinguish between alkanes and alkenes?",
+      "options": [
+        "Tollens' test",
+        "Lucas test",
+        "Bromine water (decolourisation) test",
+        "Fehling's test"
+      ],
+      "correctAnswer": 2
+    },
+    {
+      "id": 55,
+      "exam": "NEET",
+      "subject": "Physics",
+      "chapter": "Optics",
+      "topic": "Refraction",
+      "difficultyLevel": "Easy",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Which colour of visible light has the highest frequency?",
+      "options": [
+        "Red",
+        "Green",
+        "Blue",
+        "Violet"
+      ],
+      "correctAnswer": 3
+    },
+    {
+      "id": 56,
+      "exam": "JEE Advanced",
+      "subject": "Chemistry",
+      "chapter": "Physical Chemistry",
+      "topic": "Thermodynamics",
+      "difficultyLevel": "Hard",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 2,
+      "question": "For the process H₂O(l) → H₂O(g) at 100°C and 1 atm, which statement is CORRECT?",
+      "options": [
+        "ΔG < 0",
+        "ΔG > 0",
+        "ΔG = 0",
+        "ΔH < 0"
+      ],
+      "correctAnswer": 2
+    },
+    {
+      "id": 57,
+      "exam": "JEE Advanced",
+      "subject": "Mathematics",
+      "chapter": "Algebra",
+      "topic": "Quadratic Equations",
+      "difficultyLevel": "Hard",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 2,
+      "question": "If α and β are roots of x² − px + q = 0, then α² + β² equals:",
+      "options": [
+        "p² − 2q",
+        "p² + 2q",
+        "p² − q",
+        "q² − 2p"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 58,
+      "exam": "JEE Advanced",
+      "subject": "Physics",
+      "chapter": "Electrodynamics",
+      "topic": "Magnetism",
+      "difficultyLevel": "Hard",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 2,
+      "question": "A long straight wire carries current I. At a perpendicular distance r from the wire, the magnetic field B is given by:",
+      "options": [
+        "μ₀I/(2πr)",
+        "μ₀I/(4πr)",
+        "μ₀I/(2πr²)",
+        "μ₀Ir/(2π)"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 59,
+      "exam": "JEE Advanced",
+      "subject": "Chemistry",
+      "chapter": "Inorganic Chemistry",
+      "topic": "Chemical Bonding",
+      "difficultyLevel": "Hard",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 2,
+      "question": "According to VSEPR theory, the shape of XeF₄ is:",
+      "options": [
+        "Tetrahedral",
+        "See-saw",
+        "Square planar",
+        "Octahedral"
+      ],
+      "correctAnswer": 2
+    },
+    {
+      "id": 60,
+      "exam": "JEE Advanced",
+      "subject": "Mathematics",
+      "chapter": "Coordinate Geometry",
+      "topic": "Straight Lines",
+      "difficultyLevel": "Hard",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 2,
+      "question": "The angle between lines y = 2x + 3 and y = (1/2)x + 5 is:",
+      "options": [
+        "0°",
+        "45°",
+        "90°",
+        "30°"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 61,
+      "exam": "BITSAT",
+      "subject": "Mathematics",
+      "chapter": "Calculus",
+      "topic": "Derivatives",
+      "difficultyLevel": "Medium",
+      "questionType": "MCQ",
+      "marks": 3,
+      "negativeMarks": 1,
+      "question": "If y = sin²x, then dy/dx is:",
+      "options": [
+        "2 sin x",
+        "sin 2x",
+        "cos 2x",
+        "2 cos x"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 62,
+      "exam": "BITSAT",
+      "subject": "Physics",
+      "chapter": "Thermodynamics",
+      "topic": "Heat Engines",
+      "difficultyLevel": "Medium",
+      "questionType": "MCQ",
+      "marks": 3,
+      "negativeMarks": 1,
+      "question": "The efficiency of a Carnot engine working between 500 K and 300 K is:",
+      "options": [
+        "40%",
+        "60%",
+        "30%",
+        "20%"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 63,
+      "exam": "BITSAT",
+      "subject": "Chemistry",
+      "chapter": "Inorganic Chemistry",
+      "topic": "Periodic Table",
+      "difficultyLevel": "Easy",
+      "questionType": "MCQ",
+      "marks": 3,
+      "negativeMarks": 1,
+      "question": "Which of the following elements has the highest electronegativity?",
+      "options": [
+        "Oxygen",
+        "Nitrogen",
+        "Chlorine",
+        "Fluorine"
+      ],
+      "correctAnswer": 3
+    },
+    {
+      "id": 64,
+      "exam": "BITSAT",
+      "subject": "Mathematics",
+      "chapter": "Coordinate Geometry",
+      "topic": "Circles",
+      "difficultyLevel": "Easy",
+      "questionType": "MCQ",
+      "marks": 3,
+      "negativeMarks": 1,
+      "question": "The distance between the points (3, 4) and (0, 0) is:",
+      "options": [
+        "3",
+        "4",
+        "5",
+        "7"
+      ],
+      "correctAnswer": 2
+    },
+    {
+      "id": 65,
+      "exam": "BITSAT",
+      "subject": "Physics",
+      "chapter": "Electrodynamics",
+      "topic": "Current Electricity",
+      "difficultyLevel": "Hard",
+      "questionType": "MCQ",
+      "marks": 3,
+      "negativeMarks": 1,
+      "question": "A battery of EMF 12V and internal resistance 2Ω is connected to a 10Ω resistor. The terminal voltage of the battery is:",
+      "options": [
+        "10 V",
+        "12 V",
+        "11 V",
+        "9 V"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 66,
+      "exam": "JEE Main",
+      "subject": "Mathematics",
+      "chapter": "Calculus",
+      "topic": "Limits",
+      "difficultyLevel": "Hard",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "The value of lim(x→0) (1 − cos x) / x² is:",
+      "options": [
+        "0",
+        "1/2",
+        "1",
+        "∞"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 67,
+      "exam": "JEE Main",
+      "subject": "Chemistry",
+      "chapter": "Inorganic Chemistry",
+      "topic": "Periodic Table",
+      "difficultyLevel": "Medium",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "The element with electronic configuration [Xe] 4f¹⁴ 5d¹⁰ 6s² belongs to which block of the periodic table?",
+      "options": [
+        "s-block",
+        "p-block",
+        "d-block",
+        "f-block"
+      ],
+      "correctAnswer": 2
+    },
+    {
+      "id": 68,
+      "exam": "JEE Main",
+      "subject": "Physics",
+      "chapter": "Optics",
+      "topic": "Reflection",
+      "difficultyLevel": "Medium",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "A convex mirror has focal length 20 cm. An object is placed 30 cm in front of it. The image distance is:",
+      "options": [
+        "−12 cm",
+        "+12 cm",
+        "−60 cm",
+        "+60 cm"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 69,
+      "exam": "NEET",
+      "subject": "Biology",
+      "chapter": "Cell Biology",
+      "topic": "Cell Structure",
+      "difficultyLevel": "Easy",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Which organelle is known as the 'powerhouse of the cell'?",
+      "options": [
+        "Nucleus",
+        "Ribosome",
+        "Mitochondria",
+        "Golgi Apparatus"
+      ],
+      "correctAnswer": 2
+    },
+    {
+      "id": 70,
+      "exam": "NEET",
+      "subject": "Chemistry",
+      "chapter": "Inorganic Chemistry",
+      "topic": "Chemical Bonding",
+      "difficultyLevel": "Medium",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "The number of lone pairs on the central atom of PCl₃ is:",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 71,
+      "exam": "JEE Advanced",
+      "subject": "Chemistry",
+      "chapter": "Organic Chemistry",
+      "topic": "Alcohols",
+      "difficultyLevel": "Hard",
+      "questionType": "MSQ_PARTIAL",
+      "marks": 4,
+      "negativeMarks": 2,
+      "question": "Which of the following reactions produce an ester as the main product?",
+      "options": [
+        "Ethanol + acetic acid (conc. H₂SO₄ catalyst, heat)",
+        "Methanol + SOCl₂",
+        "Propan-1-ol + acetyl chloride",
+        "Ethanol + NaOH"
+      ],
+      "correctAnswer": [
+        0,
+        2
+      ]
+    },
+    {
+      "id": 72,
+      "exam": "JEE Advanced",
+      "subject": "Physics",
+      "chapter": "Thermodynamics",
+      "topic": "First Law",
+      "difficultyLevel": "Hard",
+      "questionType": "MSQ_PARTIAL",
+      "marks": 4,
+      "negativeMarks": 2,
+      "question": "For an ideal gas undergoing an isothermal expansion, which of the following are TRUE?",
+      "options": [
+        "ΔU = 0",
+        "Q = W (work done by gas)",
+        "Temperature remains constant",
+        "Pressure remains constant"
+      ],
+      "correctAnswer": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "id": 73,
+      "exam": "JEE Advanced",
+      "subject": "Mathematics",
+      "chapter": "Algebra",
+      "topic": "Sequences",
+      "difficultyLevel": "Hard",
+      "questionType": "MSQ_PARTIAL",
+      "marks": 4,
+      "negativeMarks": 2,
+      "question": "Which of the following series are convergent?",
+      "options": [
+        "∑ 1/n² (n from 1 to ∞)",
+        "∑ 1/n (harmonic series)",
+        "∑ (1/2)ⁿ (n from 1 to ∞)",
+        "∑ 1/n! (n from 0 to ∞)"
+      ],
+      "correctAnswer": [
+        0,
+        2,
+        3
+      ]
+    },
+    {
+      "id": 74,
+      "exam": "NEET",
+      "subject": "Biology",
+      "chapter": "Genetics",
+      "topic": "Mendelian Genetics",
+      "difficultyLevel": "Hard",
+      "questionType": "MSQ_PARTIAL",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Which of the following are examples of incomplete dominance?",
+      "options": [
+        "Snapdragon flower colour (red × white → pink)",
+        "Sickle cell anaemia (co-dominance)",
+        "Four o'clock plant (Mirabilis jalapa) flower colour",
+        "ABO blood groups"
+      ],
+      "correctAnswer": [
+        0,
+        2
+      ]
+    },
+    {
+      "id": 75,
+      "exam": "JEE Main",
+      "subject": "Chemistry",
+      "chapter": "Physical Chemistry",
+      "topic": "Thermodynamics",
+      "difficultyLevel": "Hard",
+      "questionType": "MSQ_PARTIAL",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Which of the following changes increase the entropy of a system?",
+      "options": [
+        "Melting of ice",
+        "Dissolution of sugar in water",
+        "Freezing of water",
+        "Sublimation of dry ice"
+      ],
+      "correctAnswer": [
+        0,
+        1,
+        3
+      ]
+    },
+    {
+      "id": 76,
+      "exam": "JEE Advanced",
+      "subject": "Physics",
+      "chapter": "Optics",
+      "topic": "Reflection",
+      "difficultyLevel": "Hard",
+      "questionType": "INTEGER",
+      "marks": 4,
+      "negativeMarks": 0,
+      "question": "A convex lens of focal length 20 cm and a concave lens of focal length 40 cm are placed in contact. The effective focal length (in cm) of the combination is:",
+      "correctAnswer": 40
+    },
+    {
+      "id": 77,
+      "exam": "JEE Advanced",
+      "subject": "Mathematics",
+      "chapter": "Coordinate Geometry",
+      "topic": "Circles",
+      "difficultyLevel": "Hard",
+      "questionType": "INTEGER",
+      "marks": 4,
+      "negativeMarks": 0,
+      "question": "The number of tangent lines that can be drawn from the point (1, 1) to the circle x² + y² = 4 is:",
+      "correctAnswer": 2
+    },
+    {
+      "id": 78,
+      "exam": "JEE Advanced",
+      "subject": "Chemistry",
+      "chapter": "Organic Chemistry",
+      "topic": "Hydrocarbons",
+      "difficultyLevel": "Hard",
+      "questionType": "INTEGER",
+      "marks": 4,
+      "negativeMarks": 0,
+      "question": "How many structural isomers are possible for C₄H₁₀ (butane)?",
+      "correctAnswer": 2
+    },
+    {
+      "id": 79,
+      "exam": "BITSAT",
+      "subject": "Mathematics",
+      "chapter": "Algebra",
+      "topic": "Quadratic Equations",
+      "difficultyLevel": "Easy",
+      "questionType": "NAT",
+      "marks": 3,
+      "negativeMarks": 1,
+      "question": "The discriminant of the equation 3x² − 5x + 2 = 0 is:",
+      "correctAnswer": 1
+    },
+    {
+      "id": 80,
+      "exam": "BITSAT",
+      "subject": "Chemistry",
+      "chapter": "Physical Chemistry",
+      "topic": "Thermodynamics",
+      "difficultyLevel": "Medium",
+      "questionType": "NAT",
+      "marks": 3,
+      "negativeMarks": 1,
+      "question": "The work done (in J) when 1 mole of an ideal gas expands isothermally and reversibly from 10 L to 20 L at 300 K is approximately: (R = 8.314 J/mol·K, ln 2 = 0.693)",
+      "correctAnswer": 1728
+    },
+    {
+      "id": 81,
+      "exam": "NEET",
+      "subject": "Biology",
+      "chapter": "Human Physiology",
+      "topic": "Digestion",
+      "difficultyLevel": "Hard",
+      "questionType": "ASSERTION_REASON",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Assertion (A): Bile does not contain any digestive enzymes.\nReason (R): Bile emulsifies fats, increasing the surface area for lipase activity.",
+      "options": [
+        "Both A and R are true and R is the correct explanation of A",
+        "Both A and R are true but R is NOT the correct explanation of A",
+        "A is true but R is false",
+        "A is false but R is true"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 82,
+      "exam": "JEE Main",
+      "subject": "Mathematics",
+      "chapter": "Calculus",
+      "topic": "Derivatives",
+      "difficultyLevel": "Medium",
+      "questionType": "ASSERTION_REASON",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Assertion (A): If f'(c) = 0, then x = c is a point of local extremum.\nReason (R): By Rolle's theorem, every differentiable function on [a, b] has at least one c ∈ (a, b) where f'(c) = 0.",
+      "options": [
+        "Both A and R are true and R is the correct explanation of A",
+        "Both A and R are true but R is NOT the correct explanation of A",
+        "A is true but R is false",
+        "A is false but R is true"
+      ],
+      "correctAnswer": 3
+    },
+    {
+      "id": 83,
+      "exam": "BITSAT",
+      "subject": "Physics",
+      "chapter": "Mechanics",
+      "topic": "Rotational Motion",
+      "difficultyLevel": "Medium",
+      "questionType": "ASSERTION_REASON",
+      "marks": 3,
+      "negativeMarks": 1,
+      "question": "Assertion (A): Angular momentum of a planet revolving around the sun is conserved.\nReason (R): Gravitational force on the planet is directed towards the sun (central force), producing zero torque.",
+      "options": [
+        "Both A and R are true and R is the correct explanation of A",
+        "Both A and R are true but R is NOT the correct explanation of A",
+        "A is true but R is false",
+        "A is false but R is true"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 84,
+      "exam": "JEE Advanced",
+      "subject": "Chemistry",
+      "chapter": "Inorganic Chemistry",
+      "topic": "Chemical Bonding",
+      "difficultyLevel": "Hard",
+      "questionType": "ASSERTION_REASON",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Assertion (A): The bond angle in H₂O (104.5°) is less than in NH₃ (107°).\nReason (R): Oxygen in H₂O has two lone pairs while nitrogen in NH₃ has only one, leading to greater lone pair–bond pair repulsion in H₂O.",
+      "options": [
+        "Both A and R are true and R is the correct explanation of A",
+        "Both A and R are true but R is NOT the correct explanation of A",
+        "A is true but R is false",
+        "A is false but R is true"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 85,
+      "exam": "NEET",
+      "subject": "Chemistry",
+      "chapter": "Organic Chemistry",
+      "topic": "Alcohols",
+      "difficultyLevel": "Medium",
+      "questionType": "ASSERTION_REASON",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Assertion (A): Ethanol has a higher boiling point (78°C) than dimethyl ether (−24°C) despite having the same molecular formula C₂H₆O.\nReason (R): Ethanol forms intermolecular hydrogen bonds, whereas dimethyl ether does not.",
+      "options": [
+        "Both A and R are true and R is the correct explanation of A",
+        "Both A and R are true but R is NOT the correct explanation of A",
+        "A is true but R is false",
+        "A is false but R is true"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 86,
+      "exam": "JEE Main",
+      "subject": "Physics",
+      "chapter": "Mechanics",
+      "topic": "Work Energy",
+      "difficultyLevel": "Hard",
+      "questionType": "PARAGRAPH_MCQ",
+      "marks": 4,
+      "negativeMarks": 0,
+      "paragraph": "A particle of mass 2 kg moves under a conservative force. Its potential energy is given by U(x) = (x² − 4x + 3) J, where x is in metres. The particle starts from rest at x = 3 m.",
+      "subQuestions": [
+        {
+          "question": "At x = 2 m, the kinetic energy of the particle is:",
+          "options": [
+            "0 J",
+            "1 J",
+            "2 J",
+            "4 J"
+          ],
+          "correctAnswer": 1
+        },
+        {
+          "question": "The equilibrium position where the net force on the particle is zero is at x =",
+          "options": [
+            "1 m",
+            "2 m",
+            "3 m",
+            "4 m"
+          ],
+          "correctAnswer": 1
+        }
+      ]
+    },
+    {
+      "id": 87,
+      "exam": "JEE Advanced",
+      "subject": "Mathematics",
+      "chapter": "Algebra",
+      "topic": "Sequences",
+      "difficultyLevel": "Hard",
+      "questionType": "PARAGRAPH_MCQ",
+      "marks": 4,
+      "negativeMarks": 0,
+      "paragraph": "Consider a geometric progression (GP) where the first term is a and common ratio is r. The sum of an infinite GP is S∞ = a/(1−r) provided |r| < 1. For a particular GP, S∞ = 4 and the first term a = 1.",
+      "subQuestions": [
+        {
+          "question": "The common ratio r of this GP is:",
+          "options": [
+            "1/2",
+            "3/4",
+            "1/4",
+            "2/3"
+          ],
+          "correctAnswer": 1
+        },
+        {
+          "question": "The sum of the first 4 terms of this GP is:",
+          "options": [
+            "175/64",
+            "1 + 3/4 + 9/16 + 27/64",
+            "Both A and B (same value)",
+            "Neither A nor B"
+          ],
+          "correctAnswer": 2
+        }
+      ]
+    },
+    {
+      "id": 88,
+      "exam": "BITSAT",
+      "subject": "Chemistry",
+      "chapter": "Physical Chemistry",
+      "topic": "Chemical Kinetics",
+      "difficultyLevel": "Hard",
+      "questionType": "PARAGRAPH_MCQ",
+      "marks": 3,
+      "negativeMarks": 1,
+      "paragraph": "A radioactive element has a half-life of 10 years. A sample initially contains 80 g of this element.",
+      "subQuestions": [
+        {
+          "question": "After 30 years, the mass of the remaining sample is:",
+          "options": [
+            "40 g",
+            "20 g",
+            "10 g",
+            "5 g"
+          ],
+          "correctAnswer": 2
+        },
+        {
+          "question": "The time required for 87.5% of the sample to decay is:",
+          "options": [
+            "20 years",
+            "30 years",
+            "35 years",
+            "40 years"
+          ],
+          "correctAnswer": 1
+        }
+      ]
+    },
+    {
+      "id": 89,
+      "exam": "NEET",
+      "subject": "Biology",
+      "chapter": "Genetics",
+      "topic": "Mendelian Genetics",
+      "difficultyLevel": "Hard",
+      "questionType": "PARAGRAPH_MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "paragraph": "In humans, colour blindness (X-linked recessive) is caused by a gene on the X chromosome. A colour-blind father and a carrier mother have children.",
+      "subQuestions": [
+        {
+          "question": "What is the probability that a son born to this couple will be colour blind?",
+          "options": [
+            "25%",
+            "50%",
+            "75%",
+            "100%"
+          ],
+          "correctAnswer": 1
+        },
+        {
+          "question": "What is the probability that a daughter born to this couple will be colour blind?",
+          "options": [
+            "0%",
+            "25%",
+            "50%",
+            "100%"
+          ],
+          "correctAnswer": 2
+        }
+      ]
+    },
+    {
+      "id": 90,
+      "exam": "JEE Main",
+      "subject": "Chemistry",
+      "chapter": "Physical Chemistry",
+      "topic": "Chemical Kinetics",
+      "difficultyLevel": "Hard",
+      "questionType": "MATCH_MATRIX",
+      "marks": 4,
+      "negativeMarks": 0,
+      "question": "Match the order of reaction in List-I with its integrated rate law in List-II:",
+      "matrix": {
+        "List-I": {
+          "A": "Zero order",
+          "B": "First order",
+          "C": "Second order",
+          "D": "Pseudo-first order"
+        },
+        "List-II": {
+          "1": "[A] = [A]₀ − kt",
+          "2": "1/[A] = 1/[A]₀ + kt",
+          "3": "Apparent first order due to excess of one reactant",
+          "4": "ln[A] = ln[A]₀ − kt"
+        }
+      },
+      "choices": [
+        {
+          "A": 1,
+          "B": 4,
+          "C": 2,
+          "D": 3
+        },
+        {
+          "A": 4,
+          "B": 1,
+          "C": 3,
+          "D": 2
+        },
+        {
+          "A": 2,
+          "B": 3,
+          "C": 1,
+          "D": 4
+        },
+        {
+          "A": 1,
+          "B": 2,
+          "C": 4,
+          "D": 3
+        }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 91,
+      "exam": "NEET",
+      "subject": "Biology",
+      "chapter": "Cell Biology",
+      "topic": "Cell Structure",
+      "difficultyLevel": "Hard",
+      "questionType": "MATCH_MATRIX",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Match the cell junction in List-I with its function in List-II:",
+      "matrix": {
+        "List-I": {
+          "A": "Tight junction",
+          "B": "Gap junction",
+          "C": "Desmosome",
+          "D": "Plasmodesmata"
+        },
+        "List-II": {
+          "1": "Communication between plant cells",
+          "2": "Prevents leakage between cells",
+          "3": "Mechanical attachment between cells",
+          "4": "Allows ions and small molecules to pass"
+        }
+      },
+      "choices": [
+        {
+          "A": 2,
+          "B": 4,
+          "C": 3,
+          "D": 1
+        },
+        {
+          "A": 4,
+          "B": 2,
+          "C": 1,
+          "D": 3
+        },
+        {
+          "A": 1,
+          "B": 3,
+          "C": 2,
+          "D": 4
+        },
+        {
+          "A": 3,
+          "B": 1,
+          "C": 4,
+          "D": 2
+        }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 92,
+      "exam": "JEE Advanced",
+      "subject": "Mathematics",
+      "chapter": "Coordinate Geometry",
+      "topic": "Straight Lines",
+      "difficultyLevel": "Hard",
+      "questionType": "MATCH_MATRIX",
+      "marks": 4,
+      "negativeMarks": 0,
+      "question": "Match the condition in List-I with the relationship between the lines in List-II (for lines y = m₁x + c₁ and y = m₂x + c₂):",
+      "matrix": {
+        "List-I": {
+          "A": "m₁ = m₂, c₁ ≠ c₂",
+          "B": "m₁ = m₂, c₁ = c₂",
+          "C": "m₁ × m₂ = −1",
+          "D": "m₁ ≠ m₂"
+        },
+        "List-II": {
+          "1": "Intersecting lines",
+          "2": "Parallel lines",
+          "3": "Coincident lines",
+          "4": "Perpendicular lines"
+        }
+      },
+      "choices": [
+        {
+          "A": 2,
+          "B": 3,
+          "C": 4,
+          "D": 1
+        },
+        {
+          "A": 1,
+          "B": 2,
+          "C": 3,
+          "D": 4
+        },
+        {
+          "A": 4,
+          "B": 1,
+          "C": 2,
+          "D": 3
+        },
+        {
+          "A": 3,
+          "B": 4,
+          "C": 1,
+          "D": 2
+        }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 93,
+      "exam": "JEE Main",
+      "subject": "Physics",
+      "chapter": "Electrodynamics",
+      "topic": "Magnetism",
+      "difficultyLevel": "Medium",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "A proton moving with velocity v enters a uniform magnetic field B perpendicular to its velocity. The radius of circular motion is:",
+      "options": [
+        "mv/eB",
+        "mv/2eB",
+        "2mv/eB",
+        "eB/mv"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 94,
+      "exam": "JEE Main",
+      "subject": "Mathematics",
+      "chapter": "Algebra",
+      "topic": "Quadratic Equations",
+      "difficultyLevel": "Easy",
+      "questionType": "NAT",
+      "marks": 4,
+      "negativeMarks": 0,
+      "question": "If one root of the equation x² − 5x + k = 0 is 2, then the value of k is:",
+      "correctAnswer": 6
+    },
+    {
+      "id": 95,
+      "exam": "NEET",
+      "subject": "Physics",
+      "chapter": "Electrodynamics",
+      "topic": "Current Electricity",
+      "difficultyLevel": "Easy",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Electric power dissipated in a resistor is given by P = V²/R. If the voltage is doubled keeping resistance constant, the power becomes:",
+      "options": [
+        "Same",
+        "Doubled",
+        "4 times",
+        "Half"
+      ],
+      "correctAnswer": 2
+    },
+    {
+      "id": 96,
+      "exam": "NEET",
+      "subject": "Biology",
+      "chapter": "Human Physiology",
+      "topic": "Digestion",
+      "difficultyLevel": "Medium",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "The end products of complete aerobic respiration of one molecule of glucose are:",
+      "options": [
+        "2 ATP, 2CO₂, 2H₂O",
+        "38 ATP, 6CO₂, 6H₂O",
+        "2 pyruvate, 2 NADH, 2 ATP",
+        "36 ATP, 6CO₂, 6H₂O"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 97,
+      "exam": "JEE Advanced",
+      "subject": "Physics",
+      "chapter": "Mechanics",
+      "topic": "Work Energy",
+      "difficultyLevel": "Hard",
+      "questionType": "INTEGER",
+      "marks": 4,
+      "negativeMarks": 0,
+      "question": "A spring of spring constant 100 N/m is compressed by 0.2 m and a block of mass 2 kg is placed against it on a frictionless surface. When released, the velocity (in m/s) of the block when it leaves the spring is:",
+      "correctAnswer": 1
+    },
+    {
+      "id": 98,
+      "exam": "JEE Main",
+      "subject": "Chemistry",
+      "chapter": "Organic Chemistry",
+      "topic": "Hydrocarbons",
+      "difficultyLevel": "Easy",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Which of the following is an electrophile?",
+      "options": [
+        "NH₃",
+        "OH⁻",
+        "BF₃",
+        "CH₃⁻"
+      ],
+      "correctAnswer": 2
+    },
+    {
+      "id": 99,
+      "exam": "JEE Main",
+      "subject": "Mathematics",
+      "chapter": "Coordinate Geometry",
+      "topic": "Straight Lines",
+      "difficultyLevel": "Medium",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "The slope of the line joining A(−2, 3) and B(4, −1) is:",
+      "options": [
+        "-2/3",
+        "2/3",
+        "-3/2",
+        "3/2"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 100,
+      "exam": "NEET",
+      "subject": "Biology",
+      "chapter": "Cell Biology",
+      "topic": "Cell Structure",
+      "difficultyLevel": "Hard",
+      "questionType": "MSQ_PARTIAL",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Which of the following are features of prokaryotic cells?",
+      "options": [
+        "Absence of membrane-bound nucleus",
+        "Presence of ribosomes (70S)",
+        "Presence of mitochondria",
+        "Cell wall made of peptidoglycan (in bacteria)"
+      ],
+      "correctAnswer": [
+        0,
+        1,
+        3
+      ]
+    },
+    {
+      "id": 101,
+      "exam": "JEE Main",
+      "subject": "Physics",
+      "chapter": "Modern Physics",
+      "topic": "Photoelectric Effect",
+      "difficultyLevel": "Easy",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "The work function of a metal is 2 eV. The threshold frequency for photoelectric emission is approximately:",
+      "options": [
+        "4.8 × 10¹⁴ Hz",
+        "9.6 × 10¹⁴ Hz",
+        "3.2 × 10¹⁴ Hz",
+        "1.6 × 10¹⁵ Hz"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 102,
+      "exam": "JEE Main",
+      "subject": "Physics",
+      "chapter": "Waves",
+      "topic": "Sound Waves",
+      "difficultyLevel": "Medium",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Two sources of sound with frequencies 256 Hz and 260 Hz are sounded together. The number of beats heard per second is:",
+      "options": [
+        "2",
+        "4",
+        "8",
+        "516"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 103,
+      "exam": "JEE Main",
+      "subject": "Physics",
+      "chapter": "Electrodynamics",
+      "topic": "Capacitors",
+      "difficultyLevel": "Medium",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "A parallel plate capacitor with air between plates has capacitance C. If a dielectric of constant K = 3 fills the space, the new capacitance is:",
+      "options": [
+        "C/3",
+        "3C",
+        "C + 3",
+        "C√3"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 104,
+      "exam": "JEE Main",
+      "subject": "Mathematics",
+      "chapter": "Vectors",
+      "topic": "Dot Product",
+      "difficultyLevel": "Easy",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "If vectors A = 2i + 3j and B = 4i − j, then A · B equals:",
+      "options": [
+        "5",
+        "8",
+        "11",
+        "−5"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 105,
+      "exam": "JEE Main",
+      "subject": "Mathematics",
+      "chapter": "Probability",
+      "topic": "Basic Probability",
+      "difficultyLevel": "Easy",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "A die is rolled once. The probability of getting a prime number is:",
+      "options": [
+        "1/6",
+        "1/3",
+        "1/2",
+        "2/3"
+      ],
+      "correctAnswer": 2
+    },
+    {
+      "id": 106,
+      "exam": "JEE Main",
+      "subject": "Chemistry",
+      "chapter": "Electrochemistry",
+      "topic": "Electrolysis",
+      "difficultyLevel": "Medium",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "According to Faraday's first law of electrolysis, the mass deposited at the electrode is proportional to:",
+      "options": [
+        "Square of charge passed",
+        "Charge passed",
+        "Voltage applied",
+        "Temperature"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 107,
+      "exam": "JEE Main",
+      "subject": "Chemistry",
+      "chapter": "Physical Chemistry",
+      "topic": "Solutions",
+      "difficultyLevel": "Easy",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Which of the following is a colligative property?",
+      "options": [
+        "Viscosity",
+        "Surface tension",
+        "Osmotic pressure",
+        "Refractive index"
+      ],
+      "correctAnswer": 2
+    },
+    {
+      "id": 108,
+      "exam": "NEET",
+      "subject": "Biology",
+      "chapter": "Plant Physiology",
+      "topic": "Photosynthesis",
+      "difficultyLevel": "Easy",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "The light reactions of photosynthesis occur in the:",
+      "options": [
+        "Stroma",
+        "Cytoplasm",
+        "Thylakoid membrane",
+        "Inner mitochondrial membrane"
+      ],
+      "correctAnswer": 2
+    },
+    {
+      "id": 109,
+      "exam": "NEET",
+      "subject": "Biology",
+      "chapter": "Ecology",
+      "topic": "Ecosystem",
+      "difficultyLevel": "Medium",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "In a food chain, the energy transfer efficiency from one trophic level to the next is approximately:",
+      "options": [
+        "100%",
+        "50%",
+        "10%",
+        "1%"
+      ],
+      "correctAnswer": 2
+    },
+    {
+      "id": 110,
+      "exam": "NEET",
+      "subject": "Biology",
+      "chapter": "Human Physiology",
+      "topic": "Circulation",
+      "difficultyLevel": "Medium",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "The pacemaker of the human heart is:",
+      "options": [
+        "AV node",
+        "SA node",
+        "Bundle of His",
+        "Purkinje fibres"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 111,
+      "exam": "JEE Advanced",
+      "subject": "Physics",
+      "chapter": "Modern Physics",
+      "topic": "Nuclear Physics",
+      "difficultyLevel": "Hard",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 2,
+      "question": "In a nuclear reaction ²³⁵U absorbs a neutron and splits into ⁹⁴Kr, ¹³⁹Ba and x neutrons. The value of x is:",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "correctAnswer": 2
+    },
+    {
+      "id": 112,
+      "exam": "JEE Advanced",
+      "subject": "Mathematics",
+      "chapter": "Calculus",
+      "topic": "Integration",
+      "difficultyLevel": "Hard",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 2,
+      "question": "The value of ∫₀^(π/2) sin²x dx is:",
+      "options": [
+        "π/2",
+        "π/4",
+        "1",
+        "0"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 113,
+      "exam": "BITSAT",
+      "subject": "Physics",
+      "chapter": "Waves",
+      "topic": "Doppler Effect",
+      "difficultyLevel": "Medium",
+      "questionType": "MCQ",
+      "marks": 3,
+      "negativeMarks": 1,
+      "question": "A train approaches a stationary observer with speed 30 m/s blowing a whistle at 1000 Hz (speed of sound = 330 m/s). The observed frequency is approximately:",
+      "options": [
+        "909 Hz",
+        "1100 Hz",
+        "1000 Hz",
+        "1300 Hz"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 114,
+      "exam": "BITSAT",
+      "subject": "Mathematics",
+      "chapter": "Trigonometry",
+      "topic": "Identities",
+      "difficultyLevel": "Easy",
+      "questionType": "MCQ",
+      "marks": 3,
+      "negativeMarks": 1,
+      "question": "The value of sin 30° + cos 60° is:",
+      "options": [
+        "1",
+        "√3",
+        "√2",
+        "2"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 115,
+      "exam": "BITSAT",
+      "subject": "Chemistry",
+      "chapter": "Organic Chemistry",
+      "topic": "Aldehydes and Ketones",
+      "difficultyLevel": "Medium",
+      "questionType": "MCQ",
+      "marks": 3,
+      "negativeMarks": 1,
+      "question": "Which reagent distinguishes between an aldehyde and a ketone?",
+      "options": [
+        "Lucas test",
+        "Tollens' reagent",
+        "Bromine water",
+        "Hinsberg test"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 116,
+      "exam": "NEET",
+      "subject": "Chemistry",
+      "chapter": "Inorganic Chemistry",
+      "topic": "Hydrogen",
+      "difficultyLevel": "Easy",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Heavy water (D₂O) is used as a moderator in nuclear reactors because it:",
+      "options": [
+        "Absorbs neutrons",
+        "Slows down neutrons",
+        "Produces neutrons",
+        "Reflects neutrons"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 117,
+      "exam": "JEE Main",
+      "subject": "Physics",
+      "chapter": "Semiconductor",
+      "topic": "Diode",
+      "difficultyLevel": "Easy",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "In a p-n junction diode, the depletion region is formed due to:",
+      "options": [
+        "Movement of free electrons only",
+        "Movement of holes only",
+        "Diffusion of majority carriers",
+        "Drift of minority carriers"
+      ],
+      "correctAnswer": 2
+    },
+    {
+      "id": 118,
+      "exam": "JEE Main",
+      "subject": "Mathematics",
+      "chapter": "Matrices",
+      "topic": "Determinants",
+      "difficultyLevel": "Medium",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "If A = [[2, 3], [1, 4]], then det(A) is:",
+      "options": [
+        "5",
+        "11",
+        "8",
+        "−5"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 119,
+      "exam": "JEE Advanced",
+      "subject": "Chemistry",
+      "chapter": "Physical Chemistry",
+      "topic": "Electrochemistry",
+      "difficultyLevel": "Hard",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 2,
+      "question": "The standard EMF of a cell with standard electrode potentials E°(cathode) = +0.80 V and E°(anode) = −0.44 V is:",
+      "options": [
+        "0.36 V",
+        "1.24 V",
+        "0.44 V",
+        "−0.36 V"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 120,
+      "exam": "JEE Advanced",
+      "subject": "Mathematics",
+      "chapter": "Vectors",
+      "topic": "Cross Product",
+      "difficultyLevel": "Hard",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 2,
+      "question": "If |A| = 5, |B| = 4 and angle between them is 30°, then |A × B| is:",
+      "options": [
+        "10",
+        "20",
+        "10√3",
+        "20√3"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 121,
+      "exam": "JEE Advanced",
+      "subject": "Physics",
+      "chapter": "Waves",
+      "topic": "Stationary Waves",
+      "difficultyLevel": "Hard",
+      "questionType": "INTEGER",
+      "marks": 4,
+      "negativeMarks": 0,
+      "question": "A string of length 1 m is fixed at both ends. The number of harmonics possible below 1000 Hz if fundamental frequency is 200 Hz is:",
+      "correctAnswer": 5
+    },
+    {
+      "id": 122,
+      "exam": "JEE Advanced",
+      "subject": "Mathematics",
+      "chapter": "Probability",
+      "topic": "Permutation Combination",
+      "difficultyLevel": "Hard",
+      "questionType": "INTEGER",
+      "marks": 4,
+      "negativeMarks": 0,
+      "question": "The number of ways to arrange the letters of the word 'LEVEL' is:",
+      "correctAnswer": 30
+    },
+    {
+      "id": 123,
+      "exam": "JEE Advanced",
+      "subject": "Chemistry",
+      "chapter": "Physical Chemistry",
+      "topic": "Atomic Structure",
+      "difficultyLevel": "Hard",
+      "questionType": "INTEGER",
+      "marks": 4,
+      "negativeMarks": 0,
+      "question": "The number of radial nodes in a 3p orbital is:",
+      "correctAnswer": 1
+    },
+    {
+      "id": 124,
+      "exam": "JEE Advanced",
+      "subject": "Mathematics",
+      "chapter": "Calculus",
+      "topic": "Integration",
+      "difficultyLevel": "Hard",
+      "questionType": "INTEGER",
+      "marks": 4,
+      "negativeMarks": 0,
+      "question": "The area bounded by y = x², the x-axis and the lines x = 0, x = 3 is:",
+      "correctAnswer": 9
+    },
+    {
+      "id": 125,
+      "exam": "JEE Advanced",
+      "subject": "Physics",
+      "chapter": "Modern Physics",
+      "topic": "Nuclear Physics",
+      "difficultyLevel": "Hard",
+      "questionType": "INTEGER",
+      "marks": 4,
+      "negativeMarks": 0,
+      "question": "The half-life of a radioactive element is 2 years. After 6 years, what fraction (as %) of the original amount remains?",
+      "correctAnswer": 13
+    },
+    {
+      "id": 126,
+      "exam": "JEE Advanced",
+      "subject": "Chemistry",
+      "chapter": "Organic Chemistry",
+      "topic": "Isomers",
+      "difficultyLevel": "Medium",
+      "questionType": "INTEGER",
+      "marks": 4,
+      "negativeMarks": 0,
+      "question": "The number of structural isomers of C₃H₈O (propanol) is:",
+      "correctAnswer": 3
+    },
+    {
+      "id": 127,
+      "exam": "BITSAT",
+      "subject": "Mathematics",
+      "chapter": "Probability",
+      "topic": "Permutation Combination",
+      "difficultyLevel": "Medium",
+      "questionType": "INTEGER",
+      "marks": 3,
+      "negativeMarks": 0,
+      "question": "In how many ways can 4 boys be arranged in a row?",
+      "correctAnswer": 24
+    },
+    {
+      "id": 128,
+      "exam": "JEE Advanced",
+      "subject": "Physics",
+      "chapter": "Electrodynamics",
+      "topic": "Capacitors",
+      "difficultyLevel": "Hard",
+      "questionType": "INTEGER",
+      "marks": 4,
+      "negativeMarks": 0,
+      "question": "Two capacitors of 6 µF and 3 µF are connected in series. The equivalent capacitance in µF is:",
+      "correctAnswer": 2
+    },
+    {
+      "id": 129,
+      "exam": "JEE Main",
+      "subject": "Physics",
+      "chapter": "Mechanics",
+      "topic": "Projectile Motion",
+      "difficultyLevel": "Medium",
+      "questionType": "NAT",
+      "marks": 4,
+      "negativeMarks": 0,
+      "question": "A projectile is launched at 45° with speed 20 m/s. The maximum range (in m) is: (g = 10 m/s²)",
+      "correctAnswer": 40
+    },
+    {
+      "id": 130,
+      "exam": "JEE Main",
+      "subject": "Chemistry",
+      "chapter": "Physical Chemistry",
+      "topic": "Mole Concept",
+      "difficultyLevel": "Easy",
+      "questionType": "NAT",
+      "marks": 4,
+      "negativeMarks": 0,
+      "question": "The number of moles in 44 g of CO₂ (molar mass = 44 g/mol) is:",
+      "correctAnswer": 1
+    },
+    {
+      "id": 131,
+      "exam": "JEE Main",
+      "subject": "Mathematics",
+      "chapter": "Trigonometry",
+      "topic": "Inverse Trigonometry",
+      "difficultyLevel": "Medium",
+      "questionType": "NAT",
+      "marks": 4,
+      "negativeMarks": 0,
+      "question": "The value of sin⁻¹(1) in degrees is:",
+      "correctAnswer": 90
+    },
+    {
+      "id": 132,
+      "exam": "BITSAT",
+      "subject": "Physics",
+      "chapter": "Electrodynamics",
+      "topic": "Capacitors",
+      "difficultyLevel": "Easy",
+      "questionType": "NAT",
+      "marks": 3,
+      "negativeMarks": 1,
+      "question": "The energy stored (in mJ) in a capacitor of 4 µF charged to 100 V is: (E = ½CV²)",
+      "correctAnswer": 20
+    },
+    {
+      "id": 133,
+      "exam": "BITSAT",
+      "subject": "Chemistry",
+      "chapter": "Physical Chemistry",
+      "topic": "Mole Concept",
+      "difficultyLevel": "Easy",
+      "questionType": "NAT",
+      "marks": 3,
+      "negativeMarks": 1,
+      "question": "The number of atoms in 1 mole of He (Avogadro's number = 6.022 × 10²³) — answer in units of 10²³, rounded to nearest whole number:",
+      "correctAnswer": 6
+    },
+    {
+      "id": 134,
+      "exam": "JEE Main",
+      "subject": "Physics",
+      "chapter": "Optics",
+      "topic": "Wave Optics",
+      "difficultyLevel": "Hard",
+      "questionType": "NAT",
+      "marks": 4,
+      "negativeMarks": 0,
+      "question": "In Young's double slit experiment, the fringe width is 0.2 mm. If the wavelength of light is 600 nm and screen distance is 1 m, the slit separation (in mm) is:",
+      "correctAnswer": 3
+    },
+    {
+      "id": 135,
+      "exam": "NEET",
+      "subject": "Biology",
+      "chapter": "Plant Physiology",
+      "topic": "Respiration",
+      "difficultyLevel": "Medium",
+      "questionType": "NAT",
+      "marks": 4,
+      "negativeMarks": 0,
+      "question": "The net ATP gain from glycolysis of one glucose molecule is:",
+      "correctAnswer": 2
+    },
+    {
+      "id": 136,
+      "exam": "JEE Advanced",
+      "subject": "Physics",
+      "chapter": "Modern Physics",
+      "topic": "Photoelectric Effect",
+      "difficultyLevel": "Hard",
+      "questionType": "MSQ_PARTIAL",
+      "marks": 4,
+      "negativeMarks": 2,
+      "question": "Which of the following statements about the photoelectric effect are CORRECT?",
+      "options": [
+        "Increasing intensity increases maximum kinetic energy of emitted electrons",
+        "Increasing frequency above threshold increases maximum kinetic energy",
+        "No emission occurs below threshold frequency regardless of intensity",
+        "Einstein explained it using the quantum theory of light"
+      ],
+      "correctAnswer": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": 137,
+      "exam": "JEE Advanced",
+      "subject": "Mathematics",
+      "chapter": "Vectors",
+      "topic": "Properties of Vectors",
+      "difficultyLevel": "Hard",
+      "questionType": "MSQ_PARTIAL",
+      "marks": 4,
+      "negativeMarks": 2,
+      "question": "Which of the following statements about vectors A and B are TRUE if A · B = 0?",
+      "options": [
+        "A and B are perpendicular",
+        "|A × B| = |A||B|",
+        "A and B are parallel",
+        "The angle between them is 90°"
+      ],
+      "correctAnswer": [
+        0,
+        1,
+        3
+      ]
+    },
+    {
+      "id": 138,
+      "exam": "JEE Advanced",
+      "subject": "Chemistry",
+      "chapter": "Organic Chemistry",
+      "topic": "Carbonyl Compounds",
+      "difficultyLevel": "Hard",
+      "questionType": "MSQ_PARTIAL",
+      "marks": 4,
+      "negativeMarks": 2,
+      "question": "Which of the following compounds give a positive Tollens' test?",
+      "options": [
+        "Formaldehyde (HCHO)",
+        "Acetaldehyde (CH₃CHO)",
+        "Acetone (CH₃COCH₃)",
+        "Glucose"
+      ],
+      "correctAnswer": [
+        0,
+        1,
+        3
+      ]
+    },
+    {
+      "id": 139,
+      "exam": "JEE Advanced",
+      "subject": "Physics",
+      "chapter": "Semiconductor",
+      "topic": "Logic Gates",
+      "difficultyLevel": "Medium",
+      "questionType": "MSQ_PARTIAL",
+      "marks": 4,
+      "negativeMarks": 2,
+      "question": "Which of the following logic gates are called universal gates?",
+      "options": [
+        "AND gate",
+        "NAND gate",
+        "NOR gate",
+        "OR gate"
+      ],
+      "correctAnswer": [
+        1,
+        2
+      ]
+    },
+    {
+      "id": 140,
+      "exam": "JEE Advanced",
+      "subject": "Mathematics",
+      "chapter": "Calculus",
+      "topic": "Definite Integrals",
+      "difficultyLevel": "Hard",
+      "questionType": "MSQ_PARTIAL",
+      "marks": 4,
+      "negativeMarks": 2,
+      "question": "Which of the following integrals equal zero?",
+      "options": [
+        "∫₋π^π sin x dx",
+        "∫₋π^π cos x dx",
+        "∫₋1^1 x³ dx",
+        "∫₀^π sin x dx"
+      ],
+      "correctAnswer": [
+        0,
+        2
+      ]
+    },
+    {
+      "id": 141,
+      "exam": "NEET",
+      "subject": "Biology",
+      "chapter": "Ecology",
+      "topic": "Biodiversity",
+      "difficultyLevel": "Medium",
+      "questionType": "MSQ_PARTIAL",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Which of the following are biodiversity hotspots in India?",
+      "options": [
+        "Western Ghats",
+        "Indo-Burma region",
+        "Thar Desert",
+        "Himalaya"
+      ],
+      "correctAnswer": [
+        0,
+        1,
+        3
+      ]
+    },
+    {
+      "id": 142,
+      "exam": "JEE Main",
+      "subject": "Chemistry",
+      "chapter": "Physical Chemistry",
+      "topic": "Chemical Equilibrium",
+      "difficultyLevel": "Medium",
+      "questionType": "MSQ_PARTIAL",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "According to Le Chatelier's principle, which changes will shift the equilibrium N₂ + 3H₂ ⇌ 2NH₃ to the RIGHT?",
+      "options": [
+        "Increasing pressure",
+        "Decreasing temperature (reaction is exothermic)",
+        "Adding a catalyst",
+        "Removing NH₃ from the equilibrium mixture"
+      ],
+      "correctAnswer": [
+        0,
+        1,
+        3
+      ]
+    },
+    {
+      "id": 143,
+      "exam": "JEE Advanced",
+      "subject": "Physics",
+      "chapter": "Optics",
+      "topic": "Wave Optics",
+      "difficultyLevel": "Hard",
+      "questionType": "MSQ_PARTIAL",
+      "marks": 4,
+      "negativeMarks": 2,
+      "question": "In Young's double slit experiment, which changes will DECREASE the fringe width?",
+      "options": [
+        "Increasing the slit separation",
+        "Increasing the distance to the screen",
+        "Decreasing the wavelength of light",
+        "Using a source with smaller wavelength"
+      ],
+      "correctAnswer": [
+        0,
+        2,
+        3
+      ]
+    },
+    {
+      "id": 144,
+      "exam": "NEET",
+      "subject": "Biology",
+      "chapter": "Human Physiology",
+      "topic": "Excretion",
+      "difficultyLevel": "Medium",
+      "questionType": "MSQ_PARTIAL",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Which of the following are functions of the kidney?",
+      "options": [
+        "Regulation of blood osmolarity",
+        "Secretion of erythropoietin",
+        "Secretion of insulin",
+        "Elimination of nitrogenous waste"
+      ],
+      "correctAnswer": [
+        0,
+        1,
+        3
+      ]
+    },
+    {
+      "id": 145,
+      "exam": "JEE Main",
+      "subject": "Mathematics",
+      "chapter": "Probability",
+      "topic": "Conditional Probability",
+      "difficultyLevel": "Hard",
+      "questionType": "MSQ_PARTIAL",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "If P(A) = 0.4, P(B) = 0.5, and A and B are independent, which of the following are TRUE?",
+      "options": [
+        "P(A ∩ B) = 0.2",
+        "P(A ∪ B) = 0.7",
+        "P(A|B) = 0.4",
+        "P(B|A) = 0.5"
+      ],
+      "correctAnswer": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": 146,
+      "exam": "JEE Main",
+      "subject": "Physics",
+      "chapter": "Semiconductor",
+      "topic": "Diode",
+      "difficultyLevel": "Easy",
+      "questionType": "ASSERTION_REASON",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Assertion (A): A p-n junction diode allows current to flow easily in forward bias.\nReason (R): In forward bias, the depletion region width decreases, reducing the barrier potential.",
+      "options": [
+        "Both A and R are true and R is the correct explanation of A",
+        "Both A and R are true but R is NOT the correct explanation of A",
+        "A is true but R is false",
+        "A is false but R is true"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 147,
+      "exam": "NEET",
+      "subject": "Biology",
+      "chapter": "Plant Physiology",
+      "topic": "Photosynthesis",
+      "difficultyLevel": "Medium",
+      "questionType": "ASSERTION_REASON",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Assertion (A): C4 plants are more efficient at photosynthesis in hot, sunny conditions.\nReason (R): C4 plants have a CO₂ concentrating mechanism that suppresses photorespiration.",
+      "options": [
+        "Both A and R are true and R is the correct explanation of A",
+        "Both A and R are true but R is NOT the correct explanation of A",
+        "A is true but R is false",
+        "A is false but R is true"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 148,
+      "exam": "JEE Advanced",
+      "subject": "Mathematics",
+      "chapter": "Calculus",
+      "topic": "Continuity",
+      "difficultyLevel": "Hard",
+      "questionType": "ASSERTION_REASON",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Assertion (A): Every differentiable function is continuous.\nReason (R): Continuity at a point requires the left-hand and right-hand limits to be equal to the function value.",
+      "options": [
+        "Both A and R are true and R is the correct explanation of A",
+        "Both A and R are true but R is NOT the correct explanation of A",
+        "A is true but R is false",
+        "A is false but R is true"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 149,
+      "exam": "JEE Main",
+      "subject": "Chemistry",
+      "chapter": "Organic Chemistry",
+      "topic": "Amines",
+      "difficultyLevel": "Medium",
+      "questionType": "ASSERTION_REASON",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Assertion (A): Primary amines have higher boiling points than corresponding tertiary amines.\nReason (R): Primary amines can form stronger intermolecular hydrogen bonds than tertiary amines.",
+      "options": [
+        "Both A and R are true and R is the correct explanation of A",
+        "Both A and R are true but R is NOT the correct explanation of A",
+        "A is true but R is false",
+        "A is false but R is true"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 150,
+      "exam": "BITSAT",
+      "subject": "Physics",
+      "chapter": "Modern Physics",
+      "topic": "Photoelectric Effect",
+      "difficultyLevel": "Easy",
+      "questionType": "ASSERTION_REASON",
+      "marks": 3,
+      "negativeMarks": 1,
+      "question": "Assertion (A): Photocurrent increases with increasing intensity of incident light.\nReason (R): Higher intensity means more photons per unit time, ejecting more electrons per second.",
+      "options": [
+        "Both A and R are true and R is the correct explanation of A",
+        "Both A and R are true but R is NOT the correct explanation of A",
+        "A is true but R is false",
+        "A is false but R is true"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 151,
+      "exam": "NEET",
+      "subject": "Chemistry",
+      "chapter": "Physical Chemistry",
+      "topic": "Mole Concept",
+      "difficultyLevel": "Easy",
+      "questionType": "ASSERTION_REASON",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Assertion (A): One mole of H₂ and one mole of O₂ have the same number of molecules.\nReason (R): One mole of any substance contains Avogadro's number (6.022 × 10²³) of particles.",
+      "options": [
+        "Both A and R are true and R is the correct explanation of A",
+        "Both A and R are true but R is NOT the correct explanation of A",
+        "A is true but R is false",
+        "A is false but R is true"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 152,
+      "exam": "JEE Advanced",
+      "subject": "Physics",
+      "chapter": "Waves",
+      "topic": "Sound Waves",
+      "difficultyLevel": "Hard",
+      "questionType": "ASSERTION_REASON",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Assertion (A): Sound travels faster in solids than in gases.\nReason (R): The bulk modulus of elasticity is much larger for solids than for gases.",
+      "options": [
+        "Both A and R are true and R is the correct explanation of A",
+        "Both A and R are true but R is NOT the correct explanation of A",
+        "A is true but R is false",
+        "A is false but R is true"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 153,
+      "exam": "JEE Main",
+      "subject": "Mathematics",
+      "chapter": "Matrices",
+      "topic": "Inverse Matrix",
+      "difficultyLevel": "Medium",
+      "questionType": "ASSERTION_REASON",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Assertion (A): A square matrix A is invertible if and only if det(A) ≠ 0.\nReason (R): If det(A) = 0, the matrix is singular and no inverse exists.",
+      "options": [
+        "Both A and R are true and R is the correct explanation of A",
+        "Both A and R are true but R is NOT the correct explanation of A",
+        "A is true but R is false",
+        "A is false but R is true"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 154,
+      "exam": "JEE Main",
+      "subject": "Physics",
+      "chapter": "Electrodynamics",
+      "topic": "Capacitors",
+      "difficultyLevel": "Hard",
+      "questionType": "PARAGRAPH_MCQ",
+      "marks": 4,
+      "negativeMarks": 0,
+      "paragraph": "Two capacitors C₁ = 4 µF and C₂ = 2 µF are connected first in series and then in parallel across a 12 V battery.",
+      "subQuestions": [
+        {
+          "question": "The equivalent capacitance when connected in series is:",
+          "options": [
+            "6 µF",
+            "4/3 µF",
+            "3 µF",
+            "2 µF"
+          ],
+          "correctAnswer": 1
+        },
+        {
+          "question": "The total energy stored when connected in parallel (in µJ) is:",
+          "options": [
+            "432",
+            "216",
+            "108",
+            "864"
+          ],
+          "correctAnswer": 0
+        }
+      ]
+    },
+    {
+      "id": 155,
+      "exam": "NEET",
+      "subject": "Biology",
+      "chapter": "Genetics",
+      "topic": "DNA Replication",
+      "difficultyLevel": "Medium",
+      "questionType": "PARAGRAPH_MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "paragraph": "DNA replication is semi-conservative as demonstrated by Meselson and Stahl. It proceeds in the 5' to 3' direction and requires a template strand, RNA primer, DNA polymerase, and dNTPs.",
+      "subQuestions": [
+        {
+          "question": "The enzyme that removes RNA primers during DNA replication is:",
+          "options": [
+            "DNA Polymerase I",
+            "DNA Polymerase III",
+            "Helicase",
+            "Ligase"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "The strand synthesised discontinuously in short fragments is called the:",
+          "options": [
+            "Leading strand",
+            "Lagging strand",
+            "Template strand",
+            "Antisense strand"
+          ],
+          "correctAnswer": 1
+        }
+      ]
+    },
+    {
+      "id": 156,
+      "exam": "JEE Advanced",
+      "subject": "Chemistry",
+      "chapter": "Physical Chemistry",
+      "topic": "Chemical Equilibrium",
+      "difficultyLevel": "Hard",
+      "questionType": "PARAGRAPH_MCQ",
+      "marks": 4,
+      "negativeMarks": 0,
+      "paragraph": "For the reaction PCl₅ ⇌ PCl₃ + Cl₂ at 523 K, the degree of dissociation is 0.4 and initial moles of PCl₅ = 1. The total pressure is P atm.",
+      "subQuestions": [
+        {
+          "question": "The total number of moles at equilibrium is:",
+          "options": [
+            "1.0",
+            "1.2",
+            "1.4",
+            "0.8"
+          ],
+          "correctAnswer": 2
+        },
+        {
+          "question": "If Kp = 0.33 P atm, what is the value of Kc (using RT = 43.3 L·atm/mol)?",
+          "options": [
+            "7.6 × 10⁻³",
+            "0.33",
+            "3.3",
+            "0.0076"
+          ],
+          "correctAnswer": 0
+        }
+      ]
+    },
+    {
+      "id": 157,
+      "exam": "BITSAT",
+      "subject": "Mathematics",
+      "chapter": "Trigonometry",
+      "topic": "Heights and Distances",
+      "difficultyLevel": "Medium",
+      "questionType": "PARAGRAPH_MCQ",
+      "marks": 3,
+      "negativeMarks": 1,
+      "paragraph": "A tower of height h stands on a horizontal ground. From a point A on the ground, 60 m from the base, the angle of elevation of the top of the tower is 45°.",
+      "subQuestions": [
+        {
+          "question": "The height of the tower (h) in metres is:",
+          "options": [
+            "30 m",
+            "60 m",
+            "60√3 m",
+            "30√3 m"
+          ],
+          "correctAnswer": 1
+        },
+        {
+          "question": "From a point B, 30 m from the base, the angle of elevation of the top is:",
+          "options": [
+            "30°",
+            "45°",
+            "60°",
+            "tan⁻¹(2)"
+          ],
+          "correctAnswer": 3
+        }
+      ]
+    },
+    {
+      "id": 158,
+      "exam": "JEE Main",
+      "subject": "Chemistry",
+      "chapter": "Inorganic Chemistry",
+      "topic": "p-Block Elements",
+      "difficultyLevel": "Hard",
+      "questionType": "PARAGRAPH_MCQ",
+      "marks": 4,
+      "negativeMarks": 0,
+      "paragraph": "Oxoacids of phosphorus include H₃PO₄ (orthophosphoric acid), H₃PO₃ (phosphorous acid), and H₃PO₂ (hypophosphorous acid). The basicity equals the number of ionisable P-OH groups.",
+      "subQuestions": [
+        {
+          "question": "The basicity (number of ionisable H atoms) of H₃PO₃ is:",
+          "options": [
+            "3",
+            "1",
+            "2",
+            "0"
+          ],
+          "correctAnswer": 2
+        },
+        {
+          "question": "H₃PO₂ is a strong reducing agent because it has:",
+          "options": [
+            "Three P-OH bonds",
+            "No P-H bond",
+            "Two P-H bonds",
+            "One P-H bond"
+          ],
+          "correctAnswer": 2
+        }
+      ]
+    },
+    {
+      "id": 159,
+      "exam": "JEE Advanced",
+      "subject": "Mathematics",
+      "chapter": "Probability",
+      "topic": "Bayes Theorem",
+      "difficultyLevel": "Hard",
+      "questionType": "PARAGRAPH_MCQ",
+      "marks": 4,
+      "negativeMarks": 0,
+      "paragraph": "A factory has two machines M1 and M2. M1 produces 60% of items with a 2% defect rate and M2 produces 40% of items with a 3% defect rate. An item is selected at random and found to be defective.",
+      "subQuestions": [
+        {
+          "question": "The probability that the defective item was produced by M1 is:",
+          "options": [
+            "12/24",
+            "12/23",
+            "12/20",
+            "11/24"
+          ],
+          "correctAnswer": 1
+        },
+        {
+          "question": "The overall probability of a randomly selected item being defective is:",
+          "options": [
+            "0.024",
+            "0.025",
+            "0.050",
+            "0.020"
+          ],
+          "correctAnswer": 0
+        }
+      ]
+    },
+    {
+      "id": 160,
+      "exam": "NEET",
+      "subject": "Biology",
+      "chapter": "Ecology",
+      "topic": "Population",
+      "difficultyLevel": "Medium",
+      "questionType": "PARAGRAPH_MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "paragraph": "Population growth can follow exponential (J-shaped) or logistic (S-shaped) curves. The logistic growth equation is dN/dt = rN(K − N)/K where K is the carrying capacity.",
+      "subQuestions": [
+        {
+          "question": "At N = K/2, the population growth rate is:",
+          "options": [
+            "Maximum",
+            "Zero",
+            "Minimum",
+            "Equal to rN"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Which of the following is an example of a density-dependent limiting factor?",
+          "options": [
+            "Flood destroying habitat",
+            "Intraspecific competition for food",
+            "Temperature drop killing organisms",
+            "Volcanic eruption"
+          ],
+          "correctAnswer": 1
+        }
+      ]
+    },
+    {
+      "id": 161,
+      "exam": "JEE Main",
+      "subject": "Physics",
+      "chapter": "Modern Physics",
+      "topic": "Dual Nature",
+      "difficultyLevel": "Medium",
+      "questionType": "MATCH_MATRIX",
+      "marks": 4,
+      "negativeMarks": 0,
+      "question": "Match the scientist in List-I with their contribution in List-II:",
+      "matrix": {
+        "List-I": {
+          "A": "Max Planck",
+          "B": "Einstein",
+          "C": "de Broglie",
+          "D": "Heisenberg"
+        },
+        "List-II": {
+          "1": "Uncertainty principle",
+          "2": "Wave nature of particles",
+          "3": "Photoelectric effect",
+          "4": "Quantum hypothesis (E = hν)"
+        }
+      },
+      "choices": [
+        {
+          "A": 4,
+          "B": 3,
+          "C": 2,
+          "D": 1
+        },
+        {
+          "A": 3,
+          "B": 4,
+          "C": 1,
+          "D": 2
+        },
+        {
+          "A": 2,
+          "B": 1,
+          "C": 4,
+          "D": 3
+        },
+        {
+          "A": 1,
+          "B": 2,
+          "C": 3,
+          "D": 4
+        }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 162,
+      "exam": "JEE Main",
+      "subject": "Chemistry",
+      "chapter": "Inorganic Chemistry",
+      "topic": "Coordination Compounds",
+      "difficultyLevel": "Hard",
+      "questionType": "MATCH_MATRIX",
+      "marks": 4,
+      "negativeMarks": 0,
+      "question": "Match the coordination compound in List-I with its hybridisation in List-II:",
+      "matrix": {
+        "List-I": {
+          "A": "[Ni(CO)₄]",
+          "B": "[PtCl₄]²⁻",
+          "C": "[Fe(CN)₆]³⁻",
+          "D": "[NiCl₄]²⁻"
+        },
+        "List-II": {
+          "1": "d²sp³",
+          "2": "sp³",
+          "3": "dsp²",
+          "4": "sp³ (tetrahedral)"
+        }
+      },
+      "choices": [
+        {
+          "A": 2,
+          "B": 3,
+          "C": 1,
+          "D": 4
+        },
+        {
+          "A": 3,
+          "B": 2,
+          "C": 4,
+          "D": 1
+        },
+        {
+          "A": 1,
+          "B": 4,
+          "C": 2,
+          "D": 3
+        },
+        {
+          "A": 4,
+          "B": 1,
+          "C": 3,
+          "D": 2
+        }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 163,
+      "exam": "NEET",
+      "subject": "Biology",
+      "chapter": "Human Physiology",
+      "topic": "Circulation",
+      "difficultyLevel": "Medium",
+      "questionType": "MATCH_MATRIX",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Match the blood vessel in List-I with its characteristic in List-II:",
+      "matrix": {
+        "List-I": {
+          "A": "Artery",
+          "B": "Vein",
+          "C": "Capillary",
+          "D": "Aorta"
+        },
+        "List-II": {
+          "1": "Largest artery in the body",
+          "2": "Site of gas exchange",
+          "3": "Carries blood away from heart",
+          "4": "Has valves to prevent backflow"
+        }
+      },
+      "choices": [
+        {
+          "A": 3,
+          "B": 4,
+          "C": 2,
+          "D": 1
+        },
+        {
+          "A": 1,
+          "B": 2,
+          "C": 3,
+          "D": 4
+        },
+        {
+          "A": 4,
+          "B": 3,
+          "C": 1,
+          "D": 2
+        },
+        {
+          "A": 2,
+          "B": 1,
+          "C": 4,
+          "D": 3
+        }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 164,
+      "exam": "JEE Advanced",
+      "subject": "Mathematics",
+      "chapter": "Calculus",
+      "topic": "Integration",
+      "difficultyLevel": "Hard",
+      "questionType": "MATCH_MATRIX",
+      "marks": 4,
+      "negativeMarks": 0,
+      "question": "Match the integral in List-I with its value in List-II:",
+      "matrix": {
+        "List-I": {
+          "A": "∫ eˣ dx",
+          "B": "∫ cos x dx",
+          "C": "∫ 1/(1+x²) dx",
+          "D": "∫ xⁿ dx (n ≠ −1)"
+        },
+        "List-II": {
+          "1": "xⁿ⁺¹/(n+1) + C",
+          "2": "tan⁻¹x + C",
+          "3": "sin x + C",
+          "4": "eˣ + C"
+        }
+      },
+      "choices": [
+        {
+          "A": 4,
+          "B": 3,
+          "C": 2,
+          "D": 1
+        },
+        {
+          "A": 3,
+          "B": 4,
+          "C": 1,
+          "D": 2
+        },
+        {
+          "A": 1,
+          "B": 2,
+          "C": 4,
+          "D": 3
+        },
+        {
+          "A": 2,
+          "B": 1,
+          "C": 3,
+          "D": 4
+        }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 165,
+      "exam": "JEE Main",
+      "subject": "Chemistry",
+      "chapter": "Physical Chemistry",
+      "topic": "Thermodynamics",
+      "difficultyLevel": "Medium",
+      "questionType": "MATCH_MATRIX",
+      "marks": 4,
+      "negativeMarks": 0,
+      "question": "Match the thermodynamic process in List-I with its condition in List-II:",
+      "matrix": {
+        "List-I": {
+          "A": "Isothermal",
+          "B": "Adiabatic",
+          "C": "Isobaric",
+          "D": "Isochoric"
+        },
+        "List-II": {
+          "1": "ΔV = 0",
+          "2": "ΔP = 0",
+          "3": "ΔT = 0",
+          "4": "q = 0"
+        }
+      },
+      "choices": [
+        {
+          "A": 3,
+          "B": 4,
+          "C": 2,
+          "D": 1
+        },
+        {
+          "A": 4,
+          "B": 3,
+          "C": 1,
+          "D": 2
+        },
+        {
+          "A": 1,
+          "B": 2,
+          "C": 3,
+          "D": 4
+        },
+        {
+          "A": 2,
+          "B": 1,
+          "C": 4,
+          "D": 3
+        }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 166,
+      "exam": "BITSAT",
+      "subject": "Physics",
+      "chapter": "Electrodynamics",
+      "topic": "Magnetism",
+      "difficultyLevel": "Medium",
+      "questionType": "MATCH_MATRIX",
+      "marks": 3,
+      "negativeMarks": 1,
+      "question": "Match the magnetic material in List-I with its property in List-II:",
+      "matrix": {
+        "List-I": {
+          "A": "Ferromagnetic",
+          "B": "Paramagnetic",
+          "C": "Diamagnetic",
+          "D": "Ferrimagnetic"
+        },
+        "List-II": {
+          "1": "Weakly repelled by magnets",
+          "2": "Has anti-parallel but unequal magnetic moments",
+          "3": "Strongly attracted by magnets",
+          "4": "Weakly attracted by magnets"
+        }
+      },
+      "choices": [
+        {
+          "A": 3,
+          "B": 4,
+          "C": 1,
+          "D": 2
+        },
+        {
+          "A": 1,
+          "B": 2,
+          "C": 3,
+          "D": 4
+        },
+        {
+          "A": 4,
+          "B": 3,
+          "C": 2,
+          "D": 1
+        },
+        {
+          "A": 2,
+          "B": 1,
+          "C": 4,
+          "D": 3
+        }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 167,
+      "exam": "NEET",
+      "subject": "Biology",
+      "chapter": "Plant Physiology",
+      "topic": "Plant Hormones",
+      "difficultyLevel": "Easy",
+      "questionType": "MATCH_MATRIX",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Match the plant hormone in List-I with its primary function in List-II:",
+      "matrix": {
+        "List-I": {
+          "A": "Auxin",
+          "B": "Gibberellin",
+          "C": "Cytokinin",
+          "D": "Abscisic Acid"
+        },
+        "List-II": {
+          "1": "Promotes stomatal closure and dormancy",
+          "2": "Promotes cell elongation and apical dominance",
+          "3": "Promotes stem elongation and seed germination",
+          "4": "Promotes cell division and delays senescence"
+        }
+      },
+      "choices": [
+        {
+          "A": 2,
+          "B": 3,
+          "C": 4,
+          "D": 1
+        },
+        {
+          "A": 1,
+          "B": 4,
+          "C": 2,
+          "D": 3
+        },
+        {
+          "A": 3,
+          "B": 2,
+          "C": 1,
+          "D": 4
+        },
+        {
+          "A": 4,
+          "B": 1,
+          "C": 3,
+          "D": 2
+        }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 168,
+      "exam": "JEE Advanced",
+      "subject": "Chemistry",
+      "chapter": "Organic Chemistry",
+      "topic": "Named Reactions",
+      "difficultyLevel": "Hard",
+      "questionType": "MATCH_MATRIX",
+      "marks": 4,
+      "negativeMarks": 0,
+      "question": "Match the named reaction in List-I with the type of reaction in List-II:",
+      "matrix": {
+        "List-I": {
+          "A": "Aldol Condensation",
+          "B": "Cannizzaro Reaction",
+          "C": "Friedel-Crafts Alkylation",
+          "D": "Reimer-Tiemann Reaction"
+        },
+        "List-II": {
+          "1": "Electrophilic aromatic substitution",
+          "2": "Disproportionation of aldehydes",
+          "3": "Formation of β-hydroxy carbonyl compound",
+          "4": "Formylation of phenol"
+        }
+      },
+      "choices": [
+        {
+          "A": 3,
+          "B": 2,
+          "C": 1,
+          "D": 4
+        },
+        {
+          "A": 1,
+          "B": 4,
+          "C": 3,
+          "D": 2
+        },
+        {
+          "A": 2,
+          "B": 3,
+          "C": 4,
+          "D": 1
+        },
+        {
+          "A": 4,
+          "B": 1,
+          "C": 2,
+          "D": 3
+        }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 169,
+      "exam": "JEE Main",
+      "subject": "Physics",
+      "chapter": "Semiconductor",
+      "topic": "Logic Gates",
+      "difficultyLevel": "Easy",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "The output of a NAND gate is 0 only when:",
+      "options": [
+        "Both inputs are 0",
+        "Both inputs are 1",
+        "One input is 0",
+        "Both inputs differ"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 170,
+      "exam": "JEE Main",
+      "subject": "Mathematics",
+      "chapter": "Matrices",
+      "topic": "Eigenvalues",
+      "difficultyLevel": "Hard",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "The eigenvalues of the matrix [[3, 1], [0, 3]] are:",
+      "options": [
+        "1 and 3",
+        "3 and 3",
+        "0 and 3",
+        "3 and 0"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 171,
+      "exam": "NEET",
+      "subject": "Biology",
+      "chapter": "Ecology",
+      "topic": "Ecosystem",
+      "difficultyLevel": "Easy",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Which of the following is a primary producer in an aquatic ecosystem?",
+      "options": [
+        "Fish",
+        "Zooplankton",
+        "Phytoplankton",
+        "Crabs"
+      ],
+      "correctAnswer": 2
+    },
+    {
+      "id": 172,
+      "exam": "BITSAT",
+      "subject": "Chemistry",
+      "chapter": "Physical Chemistry",
+      "topic": "Chemical Equilibrium",
+      "difficultyLevel": "Medium",
+      "questionType": "MCQ",
+      "marks": 3,
+      "negativeMarks": 1,
+      "question": "For a reaction with Kc = 1 × 10⁻⁵ at 300 K, the reaction at standard conditions is:",
+      "options": [
+        "Strongly product-favoured",
+        "Strongly reactant-favoured",
+        "At equilibrium",
+        "Cannot be determined"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 173,
+      "exam": "JEE Advanced",
+      "subject": "Physics",
+      "chapter": "Electrodynamics",
+      "topic": "Inductance",
+      "difficultyLevel": "Hard",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 2,
+      "question": "The energy stored in an inductor of inductance 2H carrying a current of 3A is:",
+      "options": [
+        "3 J",
+        "6 J",
+        "9 J",
+        "18 J"
+      ],
+      "correctAnswer": 2
+    },
+    {
+      "id": 174,
+      "exam": "JEE Main",
+      "subject": "Chemistry",
+      "chapter": "Organic Chemistry",
+      "topic": "Carboxylic Acids",
+      "difficultyLevel": "Medium",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Which reagent converts a carboxylic acid directly to an amine in one step via rearrangement?",
+      "options": [
+        "LiAlH₄",
+        "NaBH₄",
+        "Curtius rearrangement",
+        "Hofmann bromamide degradation"
+      ],
+      "correctAnswer": 3
+    },
+    {
+      "id": 175,
+      "exam": "JEE Main",
+      "subject": "Mathematics",
+      "chapter": "Trigonometry",
+      "topic": "Equations",
+      "difficultyLevel": "Medium",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "The general solution of sin θ = 1/2 is:",
+      "options": [
+        "θ = nπ + π/6",
+        "θ = nπ + (−1)ⁿ π/6",
+        "θ = 2nπ ± π/6",
+        "θ = nπ/2"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 176,
+      "exam": "NEET",
+      "subject": "Biology",
+      "chapter": "Human Physiology",
+      "topic": "Nervous System",
+      "difficultyLevel": "Medium",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "The neurotransmitter released at the neuromuscular junction is:",
+      "options": [
+        "Dopamine",
+        "Serotonin",
+        "Acetylcholine",
+        "GABA"
+      ],
+      "correctAnswer": 2
+    },
+    {
+      "id": 177,
+      "exam": "JEE Advanced",
+      "subject": "Chemistry",
+      "chapter": "Physical Chemistry",
+      "topic": "Atomic Structure",
+      "difficultyLevel": "Hard",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 2,
+      "question": "The de Broglie wavelength of an electron is inversely proportional to its momentum. If an electron is accelerated through potential V, its wavelength is proportional to:",
+      "options": [
+        "V",
+        "1/V",
+        "√V",
+        "1/√V"
+      ],
+      "correctAnswer": 3
+    },
+    {
+      "id": 178,
+      "exam": "JEE Main",
+      "subject": "Physics",
+      "chapter": "Electrodynamics",
+      "topic": "Electromagnetic Induction",
+      "difficultyLevel": "Medium",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Lenz's law is a consequence of the conservation of:",
+      "options": [
+        "Charge",
+        "Energy",
+        "Mass",
+        "Momentum"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 179,
+      "exam": "NEET",
+      "subject": "Chemistry",
+      "chapter": "Organic Chemistry",
+      "topic": "Biomolecules",
+      "difficultyLevel": "Easy",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "The monomer unit of proteins is:",
+      "options": [
+        "Nucleotide",
+        "Monosaccharide",
+        "Amino acid",
+        "Fatty acid"
+      ],
+      "correctAnswer": 2
+    },
+    {
+      "id": 180,
+      "exam": "BITSAT",
+      "subject": "Mathematics",
+      "chapter": "Vectors",
+      "topic": "Direction Cosines",
+      "difficultyLevel": "Easy",
+      "questionType": "MCQ",
+      "marks": 3,
+      "negativeMarks": 1,
+      "question": "If a vector makes equal angles α with all three coordinate axes, then cos α equals:",
+      "options": [
+        "1/2",
+        "1/√2",
+        "1/√3",
+        "√3"
+      ],
+      "correctAnswer": 2
+    },
+    {
+      "id": 181,
+      "exam": "JEE Main",
+      "subject": "Chemistry",
+      "chapter": "Inorganic Chemistry",
+      "topic": "d-Block Elements",
+      "difficultyLevel": "Medium",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "The highest oxidation state of manganese (Mn) is:",
+      "options": [
+        "+4",
+        "+6",
+        "+7",
+        "+8"
+      ],
+      "correctAnswer": 2
+    },
+    {
+      "id": 182,
+      "exam": "JEE Advanced",
+      "subject": "Mathematics",
+      "chapter": "Probability",
+      "topic": "Binomial Distribution",
+      "difficultyLevel": "Hard",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 2,
+      "question": "In a binomial distribution B(n, p), the mean is 4 and variance is 2. The value of p is:",
+      "options": [
+        "1/2",
+        "1/4",
+        "3/4",
+        "2/3"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 183,
+      "exam": "NEET",
+      "subject": "Biology",
+      "chapter": "Plant Physiology",
+      "topic": "Transport in Plants",
+      "difficultyLevel": "Medium",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Water movement into the root hair cells through osmosis requires the external solution to be:",
+      "options": [
+        "Hypertonic to the cell sap",
+        "Hypotonic to the cell sap",
+        "Isotonic to the cell sap",
+        "Same pH as the cell sap"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 184,
+      "exam": "JEE Main",
+      "subject": "Physics",
+      "chapter": "Optics",
+      "topic": "Wave Optics",
+      "difficultyLevel": "Hard",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "In single slit diffraction, the first minimum occurs when the path difference between the top and bottom of the slit is:",
+      "options": [
+        "λ/2",
+        "λ",
+        "3λ/2",
+        "2λ"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 185,
+      "exam": "JEE Advanced",
+      "subject": "Chemistry",
+      "chapter": "Organic Chemistry",
+      "topic": "Stereochemistry",
+      "difficultyLevel": "Hard",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 2,
+      "question": "Which of the following pairs are enantiomers?",
+      "options": [
+        "R and S configurations of lactic acid",
+        "cis and trans-2-butene",
+        "n-butane and isobutane",
+        "glucose and fructose"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 186,
+      "exam": "BITSAT",
+      "subject": "Physics",
+      "chapter": "Mechanics",
+      "topic": "Gravitation",
+      "difficultyLevel": "Easy",
+      "questionType": "MCQ",
+      "marks": 3,
+      "negativeMarks": 1,
+      "question": "The escape velocity from the Earth's surface is approximately:",
+      "options": [
+        "7.9 km/s",
+        "11.2 km/s",
+        "3.0 km/s",
+        "16.0 km/s"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 187,
+      "exam": "NEET",
+      "subject": "Biology",
+      "chapter": "Genetics",
+      "topic": "Molecular Biology",
+      "difficultyLevel": "Medium",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "The enzyme responsible for transcription (RNA synthesis) in prokaryotes is:",
+      "options": [
+        "RNA Primase",
+        "DNA Polymerase",
+        "RNA Polymerase",
+        "Reverse Transcriptase"
+      ],
+      "correctAnswer": 2
+    },
+    {
+      "id": 188,
+      "exam": "JEE Main",
+      "subject": "Mathematics",
+      "chapter": "Calculus",
+      "topic": "Maxima and Minima",
+      "difficultyLevel": "Medium",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "The function f(x) = x³ − 3x has a local maximum at:",
+      "options": [
+        "x = 1",
+        "x = −1",
+        "x = 0",
+        "x = 3"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 189,
+      "exam": "JEE Advanced",
+      "subject": "Physics",
+      "chapter": "Mechanics",
+      "topic": "Fluid Mechanics",
+      "difficultyLevel": "Hard",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 2,
+      "question": "According to Bernoulli's equation, when the velocity of a fluid increases, its pressure:",
+      "options": [
+        "Increases",
+        "Decreases",
+        "Remains the same",
+        "Becomes zero"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 190,
+      "exam": "JEE Main",
+      "subject": "Chemistry",
+      "chapter": "Physical Chemistry",
+      "topic": "Solid State",
+      "difficultyLevel": "Medium",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "In a face-centred cubic (FCC) unit cell, the number of atoms per unit cell is:",
+      "options": [
+        "1",
+        "2",
+        "4",
+        "8"
+      ],
+      "correctAnswer": 2
+    },
+    {
+      "id": 191,
+      "exam": "NEET",
+      "subject": "Biology",
+      "chapter": "Human Physiology",
+      "topic": "Immune System",
+      "difficultyLevel": "Hard",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Which type of immunity is provided by B-lymphocytes?",
+      "options": [
+        "Cell-mediated immunity",
+        "Humoral immunity",
+        "Innate immunity",
+        "Passive immunity"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 192,
+      "exam": "JEE Advanced",
+      "subject": "Mathematics",
+      "chapter": "Matrices",
+      "topic": "Cayley-Hamilton",
+      "difficultyLevel": "Hard",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 2,
+      "question": "If A is a 2×2 matrix satisfying A² − 5A + 6I = 0, then A⁻¹ equals:",
+      "options": [
+        "(A − 5I)/6",
+        "(5I − A)/6",
+        "(A − 6I)/5",
+        "6I − A"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 193,
+      "exam": "BITSAT",
+      "subject": "Chemistry",
+      "chapter": "Organic Chemistry",
+      "topic": "Polymers",
+      "difficultyLevel": "Easy",
+      "questionType": "MCQ",
+      "marks": 3,
+      "negativeMarks": 1,
+      "question": "Nylon-6,6 is formed by the condensation of:",
+      "options": [
+        "Hexamethylene diamine and adipic acid",
+        "Caprolactam",
+        "Ethylene glycol and terephthalic acid",
+        "Vinyl chloride"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 194,
+      "exam": "JEE Main",
+      "subject": "Physics",
+      "chapter": "Waves",
+      "topic": "Electromagnetic Waves",
+      "difficultyLevel": "Easy",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Electromagnetic waves are produced by:",
+      "options": [
+        "Stationary charges",
+        "Charges moving with constant velocity",
+        "Accelerating charges",
+        "Magnetic monopoles"
+      ],
+      "correctAnswer": 2
+    },
+    {
+      "id": 195,
+      "exam": "NEET",
+      "subject": "Biology",
+      "chapter": "Ecology",
+      "topic": "Pollution",
+      "difficultyLevel": "Easy",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "BOD (Biochemical Oxygen Demand) is used as a measure of:",
+      "options": [
+        "Air pollution",
+        "Water pollution",
+        "Soil pollution",
+        "Noise pollution"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 196,
+      "exam": "JEE Advanced",
+      "subject": "Physics",
+      "chapter": "Electrodynamics",
+      "topic": "AC Circuits",
+      "difficultyLevel": "Hard",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 2,
+      "question": "In an LCR series circuit at resonance, the impedance of the circuit equals:",
+      "options": [
+        "Zero",
+        "R",
+        "XL + XC",
+        "√(R² + (XL-XC)²)"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 197,
+      "exam": "JEE Main",
+      "subject": "Mathematics",
+      "chapter": "Calculus",
+      "topic": "Differential Equations",
+      "difficultyLevel": "Hard",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "The solution of dy/dx = y/x is:",
+      "options": [
+        "y = x + C",
+        "y = Cx",
+        "y = Cx²",
+        "y = C/x"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 198,
+      "exam": "JEE Main",
+      "subject": "Chemistry",
+      "chapter": "Inorganic Chemistry",
+      "topic": "s-Block Elements",
+      "difficultyLevel": "Easy",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "Which of the following alkali metals reacts most vigorously with water?",
+      "options": [
+        "Li",
+        "Na",
+        "K",
+        "Cs"
+      ],
+      "correctAnswer": 3
+    },
+    {
+      "id": 199,
+      "exam": "JEE Advanced",
+      "subject": "Mathematics",
+      "chapter": "Coordinate Geometry",
+      "topic": "Parabola",
+      "difficultyLevel": "Hard",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 2,
+      "question": "The focus of the parabola y² = 8x is at:",
+      "options": [
+        "(0, 2)",
+        "(2, 0)",
+        "(0, −2)",
+        "(−2, 0)"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 200,
+      "exam": "NEET",
+      "subject": "Biology",
+      "chapter": "Human Physiology",
+      "topic": "Reproduction",
+      "difficultyLevel": "Medium",
+      "questionType": "MCQ",
+      "marks": 4,
+      "negativeMarks": 1,
+      "question": "The hormone that triggers ovulation in females is:",
+      "options": [
+        "FSH",
+        "LH surge",
+        "Oestrogen",
+        "Progesterone"
+      ],
+      "correctAnswer": 1
+    }
+  ],
+  "upcomingTests": [
+    {
+      "id": 1,
+      "title": "Physics – Motion in One Dimension",
+      "date": "2026-03-10T10:00:00",
+      "status": "READY"
+    },
+    {
+      "id": 2,
+      "title": "Mathematics – Limits & Derivatives",
+      "date": "2026-03-12T14:30:00",
+      "status": "LOCKED"
+    },
+    {
+      "id": 3,
+      "title": "Chemistry – Chemical Bonding",
+      "date": "2026-03-15T09:00:00",
+      "status": "READY"
+    }
+  ],
+  "testHistory": [
+    {
+      "id": 101,
+      "name": "Physics – Kinematics Practice Test",
+      "date": "2026-02-20T00:00:00",
+      "score": 18,
+      "total": 25,
+      "accuracy": 72
+    },
+    {
+      "id": 102,
+      "name": "Mathematics – Integration Drill",
+      "date": "2026-02-25T00:00:00",
+      "score": 22,
+      "total": 25,
+      "accuracy": 88
+    },
+    {
+      "id": 103,
+      "name": "Chemistry – Periodic Trends",
+      "date": "2026-02-28T00:00:00",
+      "score": 15,
+      "total": 20,
+      "accuracy": 75
+    }
+  ],
+  "practice-questions": [
+    {
+      "id": "q001",
+      "questionText": "What is the time complexity of binary search?",
+      "options": [
+        "O(n)",
+        "O(log n)",
+        "O(n log n)",
+        "O(1)"
+      ],
+      "correctAnswer": "O(log n)",
+      "solution": "Binary search repeatedly halves the search space, so it takes at most log₂(n) comparisons, giving O(log n) time complexity.",
+      "subject": "Computer Science",
+      "chapter": "Algorithms",
+      "topic": "Searching",
+      "type": "MCQ",
+      "difficultyLevel": "Easy",
+      "marks": 4,
+      "negativeMarks": -1
+    },
+    {
+      "id": "q002",
+      "questionText": "Which of the following are sorting algorithms?",
+      "options": [
+        "Merge Sort",
+        "Binary Search",
+        "Quick Sort",
+        "Heap Sort"
+      ],
+      "correctAnswer": "Merge Sort, Quick Sort, Heap Sort",
+      "solution": "Merge Sort, Quick Sort, and Heap Sort are all comparison-based sorting algorithms. Binary Search is a searching algorithm, not a sorting one.",
+      "subject": "Computer Science",
+      "chapter": "Algorithms",
+      "topic": "Sorting",
+      "type": "MSQ",
+      "difficultyLevel": "Easy",
+      "marks": 4,
+      "negativeMarks": -1
+    },
+    {
+      "id": "q003",
+      "questionText": "What is the value of 2^10?",
+      "options": [],
+      "correctAnswer": "1024",
+      "solution": "2^10 = 2 × 2 × 2 × 2 × 2 × 2 × 2 × 2 × 2 × 2 = 1024",
+      "subject": "Mathematics",
+      "chapter": "Number Theory",
+      "topic": "Powers",
+      "type": "NAT",
+      "difficultyLevel": "Easy",
+      "marks": 4,
+      "negativeMarks": 0
+    },
+    {
+      "id": "q004",
+      "questionText": "Which data structures use LIFO (Last In First Out) ordering?",
+      "options": [
+        "Stack",
+        "Queue",
+        "Call Stack",
+        "Deque (used as stack)"
+      ],
+      "correctAnswer": "Stack, Call Stack, Deque (used as stack)",
+      "solution": "Stack and Call Stack strictly follow LIFO. A Deque can be used as a stack (LIFO). A Queue follows FIFO (First In First Out).",
+      "subject": "Computer Science",
+      "chapter": "Data Structures",
+      "topic": "Stack and Queue",
+      "type": "MSQ",
+      "difficultyLevel": "Medium",
+      "marks": 4,
+      "negativeMarks": -1
+    },
+    {
+      "id": "q005",
+      "questionText": "What is the derivative of sin(x)?",
+      "options": [
+        "cos(x)",
+        "-cos(x)",
+        "-sin(x)",
+        "tan(x)"
+      ],
+      "correctAnswer": "cos(x)",
+      "solution": "By standard differentiation rules, d/dx [sin(x)] = cos(x).",
+      "subject": "Mathematics",
+      "chapter": "Calculus",
+      "topic": "Differentiation",
+      "type": "MCQ",
+      "difficultyLevel": "Easy",
+      "marks": 4,
+      "negativeMarks": -1
+    },
+    {
+      "id": "q006",
+      "questionText": "Newton's second law states F = ma. If mass = 5 kg and acceleration = 3 m/s², what is the force in Newtons?",
+      "options": [],
+      "correctAnswer": "15",
+      "solution": "F = ma = 5 × 3 = 15 N",
+      "subject": "Physics",
+      "chapter": "Laws of Motion",
+      "topic": "Newton's Laws",
+      "type": "NAT",
+      "difficultyLevel": "Easy",
+      "marks": 4,
+      "negativeMarks": 0
+    },
+    {
+      "id": "q007",
+      "questionText": "Which of the following are properties of a Binary Search Tree (BST)?",
+      "options": [
+        "Left child is smaller than parent",
+        "Right child is greater than parent",
+        "All nodes have exactly two children",
+        "In-order traversal gives sorted output"
+      ],
+      "correctAnswer": "Left child is smaller than parent, Right child is greater than parent, In-order traversal gives sorted output",
+      "solution": "A BST requires left < parent < right at each node, and in-order traversal visits nodes in ascending order. Nodes do NOT need to have exactly two children.",
+      "subject": "Computer Science",
+      "chapter": "Data Structures",
+      "topic": "Trees",
+      "type": "MSQ",
+      "difficultyLevel": "Medium",
+      "marks": 4,
+      "negativeMarks": -1
+    },
+    {
+      "id": "q008",
+      "questionText": "Which of the following is the correct recurrence relation for Merge Sort?",
+      "options": [
+        "T(n) = T(n-1) + O(n)",
+        "T(n) = 2T(n/2) + O(n)",
+        "T(n) = T(n/2) + O(1)",
+        "T(n) = 2T(n-1) + O(1)"
+      ],
+      "correctAnswer": "T(n) = 2T(n/2) + O(n)",
+      "solution": "Merge Sort divides the array into 2 halves (2T(n/2)) and merges them in O(n) time, giving T(n) = 2T(n/2) + O(n), which resolves to O(n log n).",
+      "subject": "Computer Science",
+      "chapter": "Algorithms",
+      "topic": "Sorting",
+      "type": "MCQ",
+      "difficultyLevel": "Hard",
+      "marks": 4,
+      "negativeMarks": -1
+    },
+    {
+      "id": "q009",
+      "questionText": "What is the integral of 1/x dx?",
+      "options": [
+        "x²/2 + C",
+        "ln|x| + C",
+        "e^x + C",
+        "-1/x² + C"
+      ],
+      "correctAnswer": "ln|x| + C",
+      "solution": "The integral of 1/x is the natural logarithm: ∫(1/x)dx = ln|x| + C",
+      "subject": "Mathematics",
+      "chapter": "Calculus",
+      "topic": "Integration",
+      "type": "MCQ",
+      "difficultyLevel": "Medium",
+      "marks": 4,
+      "negativeMarks": -1
+    },
+    {
+      "id": "q010",
+      "questionText": "A resistor of 10Ω is connected to a 5V battery. What is the current in Amperes?",
+      "options": [],
+      "correctAnswer": "0.5",
+      "solution": "Using Ohm's Law: I = V/R = 5/10 = 0.5 A",
+      "subject": "Physics",
+      "chapter": "Electricity",
+      "topic": "Ohm's Law",
+      "type": "NAT",
+      "difficultyLevel": "Easy",
+      "marks": 4,
+      "negativeMarks": 0
+    },
+    {
+      "id": "q011",
+      "questionText": "Which of the following are valid HTTP methods?",
+      "options": [
+        "GET",
+        "POST",
+        "SEND",
+        "DELETE"
+      ],
+      "correctAnswer": "GET, POST, DELETE",
+      "solution": "GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS are valid HTTP methods. SEND is not a standard HTTP method.",
+      "subject": "Computer Science",
+      "chapter": "Web Technologies",
+      "topic": "HTTP",
+      "type": "MSQ",
+      "difficultyLevel": "Easy",
+      "marks": 4,
+      "negativeMarks": -1
+    },
+    {
+      "id": "q012",
+      "questionText": "What is the electric field inside a hollow charged spherical conductor?",
+      "options": [
+        "Maximum",
+        "Zero",
+        "Equal to surface field",
+        "Infinite"
+      ],
+      "correctAnswer": "Zero",
+      "solution": "By Gauss's Law, the electric field inside a closed conducting shell is zero, as there is no enclosed charge inside the shell.",
+      "subject": "Physics",
+      "chapter": "Electrostatics",
+      "topic": "Gauss's Law",
+      "type": "MCQ",
+      "difficultyLevel": "Medium",
+      "marks": 4,
+      "negativeMarks": -1
+    },
+    {
+      "id": "q013",
+      "questionText": "How many prime numbers are there between 1 and 20?",
+      "options": [],
+      "correctAnswer": "8",
+      "solution": "The prime numbers between 1 and 20 are: 2, 3, 5, 7, 11, 13, 17, 19 — a total of 8 primes.",
+      "subject": "Mathematics",
+      "chapter": "Number Theory",
+      "topic": "Prime Numbers",
+      "type": "NAT",
+      "difficultyLevel": "Easy",
+      "marks": 4,
+      "negativeMarks": 0
+    },
+    {
+      "id": "q014",
+      "questionText": "Which of the following are object-oriented programming principles?",
+      "options": [
+        "Encapsulation",
+        "Polymorphism",
+        "Recursion",
+        "Inheritance"
+      ],
+      "correctAnswer": "Encapsulation, Polymorphism, Inheritance",
+      "solution": "The four pillars of OOP are Encapsulation, Abstraction, Polymorphism, and Inheritance. Recursion is a programming technique, not an OOP principle.",
+      "subject": "Computer Science",
+      "chapter": "Object Oriented Programming",
+      "topic": "OOP Concepts",
+      "type": "MSQ",
+      "difficultyLevel": "Easy",
+      "marks": 4,
+      "negativeMarks": -1
+    },
+    {
+      "id": "q015",
+      "questionText": "In a triangle, if two angles are 60° and 70°, what is the third angle in degrees?",
+      "options": [],
+      "correctAnswer": "50",
+      "solution": "The sum of angles in a triangle is 180°. Third angle = 180 - 60 - 70 = 50°",
+      "subject": "Mathematics",
+      "chapter": "Geometry",
+      "topic": "Triangles",
+      "type": "NAT",
+      "difficultyLevel": "Easy",
+      "marks": 4,
+      "negativeMarks": 0
+    },
+    {
+      "id": "q016",
+      "questionText": "Which traversal of a BST gives nodes in sorted (ascending) order?",
+      "options": [
+        "Pre-order",
+        "Post-order",
+        "In-order",
+        "Level-order"
+      ],
+      "correctAnswer": "In-order",
+      "solution": "In-order traversal visits Left → Root → Right. For a BST, this always yields nodes in ascending sorted order.",
+      "subject": "Computer Science",
+      "chapter": "Data Structures",
+      "topic": "Trees",
+      "type": "MCQ",
+      "difficultyLevel": "Medium",
+      "marks": 4,
+      "negativeMarks": -1
+    },
+    {
+      "id": "q017",
+      "questionText": "Which of the following are thermodynamic processes?",
+      "options": [
+        "Isothermal",
+        "Adiabatic",
+        "Isochoric",
+        "Electromagnetic"
+      ],
+      "correctAnswer": "Isothermal, Adiabatic, Isochoric",
+      "solution": "Isothermal (constant temperature), Adiabatic (no heat exchange), and Isochoric (constant volume) are all thermodynamic processes. Electromagnetic is not a thermodynamic process.",
+      "subject": "Physics",
+      "chapter": "Thermodynamics",
+      "topic": "Thermodynamic Processes",
+      "type": "MSQ",
+      "difficultyLevel": "Medium",
+      "marks": 4,
+      "negativeMarks": -1
+    },
+    {
+      "id": "q018",
+      "questionText": "What is the space complexity of Merge Sort?",
+      "options": [
+        "O(1)",
+        "O(log n)",
+        "O(n)",
+        "O(n²)"
+      ],
+      "correctAnswer": "O(n)",
+      "solution": "Merge Sort requires O(n) auxiliary space for the temporary arrays used during the merge step.",
+      "subject": "Computer Science",
+      "chapter": "Algorithms",
+      "topic": "Sorting",
+      "type": "MCQ",
+      "difficultyLevel": "Hard",
+      "marks": 4,
+      "negativeMarks": -1
+    },
+    {
+      "id": "q019",
+      "questionText": "What is the limit of (sin x)/x as x approaches 0?",
+      "options": [
+        "0",
+        "∞",
+        "1",
+        "Undefined"
+      ],
+      "correctAnswer": "1",
+      "solution": "This is a standard limit: lim(x→0) sin(x)/x = 1. It can be proven using L'Hôpital's Rule or the squeeze theorem.",
+      "subject": "Mathematics",
+      "chapter": "Calculus",
+      "topic": "Limits",
+      "type": "MCQ",
+      "difficultyLevel": "Medium",
+      "marks": 4,
+      "negativeMarks": -1
+    },
+    {
+      "id": "q020",
+      "questionText": "A projectile is launched horizontally at 20 m/s. After 3 seconds, what is the horizontal distance covered in meters? (Ignore air resistance)",
+      "options": [],
+      "correctAnswer": "60",
+      "solution": "Horizontal motion is uniform: distance = speed × time = 20 × 3 = 60 m",
+      "subject": "Physics",
+      "chapter": "Laws of Motion",
+      "topic": "Projectile Motion",
+      "type": "NAT",
+      "difficultyLevel": "Medium",
+      "marks": 4,
+      "negativeMarks": 0
+    }
+  ]
+}

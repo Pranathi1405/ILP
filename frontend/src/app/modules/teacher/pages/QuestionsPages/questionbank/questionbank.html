@@ -1,0 +1,815 @@
+<div class="min-h-screen bg-[#f5f7fb]" style="font-family: 'Nunito', sans-serif;">
+  <div class="w-full px-6 py-6 space-y-4">
+
+    <!-- Bulk Import Banner -->
+    <div class="bg-white border border-dashed border-blue-200 rounded-xl px-5 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-lg bg-blue-50 flex items-center justify-center">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2">
+            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+          </svg>
+        </div>
+        <div>
+          <p class="text-sm font-bold text-gray-800">Bulk Import via JSON</p>
+          <p class="text-xs text-gray-400 font-medium">Upload multiple questions at once using our JSON schema.</p>
+        </div>
+      </div>
+      <label class="flex items-center gap-1.5 border border-gray-200 bg-white hover:bg-gray-50 text-gray-600 text-xs font-bold px-4 py-2 rounded-lg transition-colors cursor-pointer">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="16 16 12 12 8 16"/>
+          <line x1="12" y1="12" x2="12" y2="21"/>
+          <path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/>
+        </svg>
+        Upload JSON
+        <input type="file" accept=".json" hidden />
+      </label>
+    </div>
+
+    <!-- Main Form Card -->
+    <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+
+      <!-- Question Type -->
+      <div class="px-6 pt-5 pb-4 border-b border-gray-50">
+        <p class="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-3">Question Type</p>
+        <div class="flex flex-wrap gap-2">
+          @for (qt of questionTypes; track $index) {
+            <button (click)="selectType(qt.id)"
+              [class]="selectedType === qt.id
+                ? 'flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold border-2 border-blue-600 text-blue-600 bg-blue-50'
+                : 'flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border border-gray-200 text-gray-500 hover:border-gray-300 bg-white'">
+              @if (selectedType === qt.id) {
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>
+              }
+              {{ qt.label }}
+            </button>
+          }
+        </div>
+        @if (selectedType === 'mcq-single') {
+          <p class="mt-2 text-[11px] text-gray-400 font-medium flex items-center gap-1">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            MCQ — only one correct answer can be selected.
+          </p>
+        }
+        @if (selectedType === 'mcq-multi') {
+          <p class="mt-2 text-[11px] text-blue-400 font-medium flex items-center gap-1">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            MSQ — select all options that are correct.
+          </p>
+        }
+        @if (selectedType === 'integer') {
+          <p class="mt-2 text-[11px] text-purple-400 font-medium flex items-center gap-1">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Integer / Numeric — student types a number as the answer.
+          </p>
+        }
+        @if (selectedType === 'matrix') {
+          <p class="mt-2 text-[11px] text-purple-400 font-medium flex items-center gap-1">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Matrix matching — select correct match for each item.
+          </p>
+        }
+        @if (selectedType === 'paragraph') {
+          <p class="mt-2 text-[11px] text-orange-400 font-medium flex items-center gap-1">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Paragraph (Linked) — multiple sub-questions linked to a common passage.
+          </p>
+        }
+      </div>
+
+      <!-- Difficulty Level -->
+      <div class="px-6 py-4 border-b border-gray-50">
+        <p class="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-3">Difficulty Level</p>
+        <div class="grid grid-cols-3 gap-3">
+          @for (d of difficulties; track $index) {
+            <button (click)="selectedDifficulty = d.id"
+              [class]="selectedDifficulty === d.id
+                ? 'flex items-center justify-center gap-1 py-2.5 rounded-lg text-sm font-bold border-2 transition-all ' + getDifficultyActiveClass(d.id)
+                : 'flex items-center justify-center gap-1 py-2.5 rounded-lg text-sm font-semibold border border-gray-200 text-gray-500 hover:bg-gray-50 transition-all bg-white'">
+              <span class="w-2 h-2 rounded-full" [style.background]="d.dot"></span>
+              {{ d.label }}
+            </button>
+          }
+        </div>
+      </div>
+
+      <!-- Ideal Time -->
+      <div class="px-6 py-4 border-b border-gray-50">
+        <p class="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-3">Ideal Time to Complete</p>
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <input type="number" [(ngModel)]="idealMinutes" min="0"
+              class="w-16 text-center text-sm font-bold text-gray-700 border border-gray-200 rounded-lg py-1 bg-[#fafbff] focus:outline-none focus:ring-2 focus:ring-blue-100"/>
+            <span class="text-xs text-gray-500 font-semibold">minutes</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <input type="number" [(ngModel)]="idealSeconds" min="0" max="59"
+              class="w-16 text-center text-sm font-bold text-gray-700 border border-gray-200 rounded-lg py-1 bg-[#fafbff] focus:outline-none focus:ring-2 focus:ring-blue-100"/>
+            <span class="text-xs text-gray-500 font-semibold">seconds</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- COURSE · SUBJECT · MODULE -->
+      <div class="px-6 py-4 border-b border-gray-50">
+        <p class="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-3">Course · Subject · Module</p>
+
+        @if (isLoadingInfo) {
+          <div class="grid grid-cols-3 gap-3">
+            @for (i of [1,2,3]; track $index) {
+              <div class="border border-gray-200 rounded-xl px-4 py-3 animate-pulse space-y-2">
+                <div class="h-2 bg-gray-100 rounded w-16"></div>
+                <div class="h-8 bg-gray-100 rounded"></div>
+              </div>
+            }
+          </div>
+        }
+
+        @if (!isLoadingInfo) {
+          <div class="grid grid-cols-3 gap-3">
+
+            <!-- Course Dropdown -->
+            <div>
+              <p class="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-1.5 flex items-center gap-1">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2">
+                  <path d="M4 19.5A2.5 2.5 0 016.5 17H20"/>
+                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>
+                </svg>
+                Course
+              </p>
+              <div class="relative">
+                <select
+                  [ngModel]="teacherCourse?.id"
+                  (ngModelChange)="onCourseSelect($event)"
+                  class="w-full appearance-none px-3 py-2.5 pr-8 text-sm font-semibold text-gray-700 border border-gray-200 rounded-lg bg-[#fafbff] focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-300 transition-all cursor-pointer">
+                  <option value="" disabled [selected]="!teacherCourse">Select course...</option>
+                  @for (c of courses; track c.course_id) {
+                    <option [value]="c.course_id">{{ c.course_name }}</option>
+                  }
+                </select>
+                <svg class="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400"
+                  width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </div>
+              @if (teacherCourse) {
+                <p class="mt-1 text-[10px] text-green-500 font-semibold flex items-center gap-1">
+                  <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                  {{ teacherCourse.name }}
+                </p>
+              }
+            </div>
+
+            <!-- Subject Dropdown -->
+            <div>
+              <p class="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-1.5 flex items-center gap-1">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2">
+                  <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/>
+                  <path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/>
+                </svg>
+                Subject
+              </p>
+              <div class="relative">
+                <select
+                  [ngModel]="teacherSubject?.id"
+                  (ngModelChange)="onSubjectSelect($event)"
+                  [disabled]="!subjects.length"
+                  class="w-full appearance-none px-3 py-2.5 pr-8 text-sm font-semibold text-gray-700 border border-gray-200 rounded-lg bg-[#fafbff] focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-300 transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed">
+                  <option value="" disabled [selected]="!teacherSubject">
+                    {{ subjects.length ? 'Select subject...' : 'Select course first' }}
+                  </option>
+                  @for (s of subjects; track s.subject_id) {
+                    <option [value]="s.subject_id">{{ s.subject_name }}</option>
+                  }
+                </select>
+                <svg class="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400"
+                  width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </div>
+              @if (teacherSubject) {
+                <p class="mt-1 text-[10px] text-purple-500 font-semibold flex items-center gap-1">
+                  <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                  {{ teacherSubject.name }}
+                </p>
+              }
+            </div>
+
+            <!-- Module Dropdown -->
+            <div>
+              <p class="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-1.5 flex items-center gap-1">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2">
+                  <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+                  <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+                </svg>
+                Module
+              </p>
+              <div class="relative">
+                <select
+                  [ngModel]="teachermodule?.id"
+                  (ngModelChange)="onModuleSelect($event)"
+                  [disabled]="!modules.length"
+                  class="w-full appearance-none px-3 py-2.5 pr-8 text-sm font-semibold text-gray-700 border border-gray-200 rounded-lg bg-[#fafbff] focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-300 transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed">
+                  <option value="" disabled [selected]="!teachermodule">
+                    {{ modules.length ? 'Select module...' : 'Select subject first' }}
+                  </option>
+                  @for (m of modules; track m.module_id) {
+                    <option [value]="m.module_id">{{ m.module_name }}</option>
+                  }
+                </select>
+                <svg class="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400"
+                  width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </div>
+              @if (teachermodule) {
+                <p class="mt-1 text-[10px] text-amber-500 font-semibold flex items-center gap-1">
+                  <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                  {{ teachermodule.name }}
+                </p>
+              }
+            </div>
+
+          </div>
+
+          <!-- Breadcrumb status line -->
+          @if (teacherCourse && teacherSubject && teachermodule) {
+            <div class="mt-3 flex items-center gap-1.5 text-[11px] text-green-500 font-semibold">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              <span class="text-gray-400 font-bold">{{ teacherCourse.name }}</span>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+              <span class="text-gray-400 font-bold">{{ teacherSubject.name }}</span>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+              <span class="text-green-600 font-black">{{ teachermodule.name }}</span>
+              <span class="ml-1 text-[10px] font-bold text-green-600 bg-green-50 border border-green-100 px-2 py-0.5 rounded-full">Ready</span>
+            </div>
+          }
+          @if (!teacherCourse) {
+            <p class="mt-2 text-[11px] text-amber-400 font-semibold flex items-center gap-1">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Start by selecting a course above.
+            </p>
+          }
+          @if (teacherCourse && !teacherSubject) {
+            <p class="mt-2 text-[11px] text-amber-400 font-semibold flex items-center gap-1">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Now select a subject.
+            </p>
+          }
+          @if (teacherCourse && teacherSubject && !teachermodule) {
+            <p class="mt-2 text-[11px] text-amber-400 font-semibold flex items-center gap-1">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Finally, select a module.
+            </p>
+          }
+        }
+      </div>
+
+      <!-- PARAGRAPH / LINKED SECTION -->
+      @if (isParagraph) {
+        <div class="border-b border-gray-50">
+          <div class="px-6 py-4 border-b border-gray-50">
+            <div class="flex items-center justify-between mb-3">
+              <p class="text-[10px] font-black uppercase tracking-widest text-blue-500">Passage / Paragraph</p>
+              <div class="flex items-center gap-1">
+                <button class="w-6 h-6 flex items-center justify-center rounded hover:bg-gray-100 text-gray-500 font-bold text-xs">B</button>
+                <button class="w-6 h-6 flex items-center justify-center rounded hover:bg-gray-100 text-gray-500 italic text-xs">I</button>
+                <button class="w-6 h-6 flex items-center justify-center rounded hover:bg-gray-100 text-gray-500 text-xs">⇌</button>
+                <button class="w-6 h-6 flex items-center justify-center rounded hover:bg-gray-100 text-gray-500 text-xs">Σ</button>
+              </div>
+            </div>
+            <div contenteditable="true" #editor (input)="onContentChange()"
+              class="w-full text-sm text-gray-700 placeholder-gray-300 border border-blue-100 rounded-lg px-3 py-2.5 min-h-[160px] focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-300 bg-[#f8faff] transition-all overflow-auto"
+              data-placeholder="Type or paste the reading passage here... LaTeX supported">
+            </div>
+            <div class="flex items-center justify-between mt-2">
+              <label class="flex items-center gap-1.5 text-xs text-blue-500 font-semibold hover:text-blue-700 cursor-pointer">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="18" height="18" rx="2"/>
+                  <circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+                </svg>
+                Add image to passage
+                <input type="file" accept=".png" hidden (change)="onImageUpload($event)"/>
+              </label>
+              <span class="text-[10px] text-gray-300 font-semibold">{{ getWordCount() }} words</span>
+            </div>
+          </div>
+          <div class="px-6 py-4">
+            <div class="flex items-center gap-3 mb-4">
+              <p class="text-[10px] font-black uppercase tracking-widest text-gray-400">Linked Questions</p>
+              <span class="text-[10px] font-bold text-blue-600 bg-blue-50 border border-blue-100 px-2 py-0.5 rounded-full">
+                {{ linkedQuestions.length }} {{ linkedQuestions.length === 1 ? 'question' : 'questions' }}
+              </span>
+            </div>
+            <div class="space-y-2">
+              @for (lq of linkedQuestions; track $index) {
+                <div class="group flex items-center gap-3 border border-gray-100 rounded-xl px-4 py-3 bg-white hover:border-blue-100 hover:bg-[#fafbff] transition-all cursor-pointer"
+                  (click)="editLinkedQuestion($index)">
+                  <span class="w-8 h-8 rounded-lg bg-gray-50 border border-gray-100 flex items-center justify-center text-xs font-black text-gray-500 shrink-0">
+                    Q{{ $index + 1 }}
+                  </span>
+                  <div class="flex-1 min-w-0">
+                    <p class="text-sm font-semibold text-gray-700 truncate">{{ lq.content || 'Untitled question' }}</p>
+                    <span [class]="'inline-block mt-0.5 text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded ' + getLinkedQTypeBadge(lq.type)">
+                      {{ lq.type }}
+                    </span>
+                  </div>
+                  <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button (click)="editLinkedQuestion($index); $event.stopPropagation()"
+                      class="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-blue-50 text-gray-300 hover:text-blue-500 transition-colors">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
+                        <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                      </svg>
+                    </button>
+                    <button (click)="removeLinkedQuestion($index); $event.stopPropagation()"
+                      class="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-red-50 text-gray-300 hover:text-red-400 transition-colors">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="3 6 5 6 21 6"/>
+                        <path d="M19 6l-1 14H6L5 6"/>
+                        <path d="M10 11v6M14 11v6M9 6V4h6v2"/>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              }
+            </div>
+            <button (click)="addLinkedQuestion()"
+              class="mt-3 w-full flex items-center justify-center gap-2 border border-dashed border-blue-200 rounded-xl py-3 text-xs font-bold text-blue-500 hover:bg-blue-50 hover:border-blue-300 transition-colors">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+              </svg>
+              + Add Linked Question
+            </button>
+          </div>
+        </div>
+      }
+
+      <!-- Question Content -->
+      @if (!isParagraph) {
+        <div class="px-6 py-4 border-b border-gray-50">
+          <div class="flex items-center justify-between mb-3">
+            <p class="text-[10px] font-black uppercase tracking-widest text-gray-400">Question Content</p>
+            <div class="flex items-center gap-1">
+              <button class="w-6 h-6 flex items-center justify-center rounded hover:bg-gray-100 text-gray-500 font-bold text-xs">B</button>
+              <button class="w-6 h-6 flex items-center justify-center rounded hover:bg-gray-100 text-gray-500 italic text-xs">I</button>
+              <button class="w-6 h-6 flex items-center justify-center rounded hover:bg-gray-100 text-gray-500 text-xs">⇌</button>
+              <button class="w-6 h-6 flex items-center justify-center rounded hover:bg-gray-100 text-gray-500 text-xs">Σ</button>
+            </div>
+          </div>
+          <div contenteditable="true" #editor (input)="onContentChange()"
+            class="w-full text-sm text-gray-700 border border-blue-100 rounded-lg px-3 py-2.5 min-h-[160px] focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-300 bg-[#f8faff] transition-all overflow-auto"
+            data-placeholder="Type or paste the question here... LaTeX supported">
+          </div>
+          <div class="flex items-center justify-between mt-2">
+            <label class="flex items-center gap-1.5 text-xs text-blue-500 font-semibold hover:text-blue-700 cursor-pointer">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <polyline points="21 15 16 10 5 21"/>
+              </svg>
+                Add image to question
+              <input type="file" accept="image/*" hidden (change)="onImageUpload($event)" />
+            </label>
+            <span class="text-[10px] text-gray-300 font-semibold">{{ getWordCount() }} words</span>
+          </div>
+        </div>
+      }
+
+      <!-- INTEGER / NUMERIC -->
+      @if (isInteger) {
+        <div class="px-6 py-5 border-b border-gray-50">
+          <p class="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-4">Integer / Numeric Configuration</p>
+          <div class="grid grid-cols-2 gap-4 mb-4">
+            <div>
+              <p class="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-1.5">Correct Answer</p>
+              <input [(ngModel)]="integerCorrectAnswer" placeholder="0.00"
+                class="w-full px-3 py-2 text-sm font-bold text-gray-700 border border-gray-200 rounded-lg bg-[#fafbff] focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-300 transition-all"/>
+            </div>
+            <div>
+              <p class="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-1.5">Unit (Optional)</p>
+              <input [(ngModel)]="integerUnit" placeholder="e.g., m/s, kg"
+                class="w-full px-3 py-2 text-sm text-gray-700 border border-gray-200 rounded-lg bg-[#fafbff] focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-300 transition-all"/>
+            </div>
+          </div>
+          <div class="border border-gray-100 rounded-xl overflow-hidden divide-y divide-gray-100">
+            <div class="flex items-center justify-between px-4 py-3">
+              <div>
+                <p class="text-sm font-bold text-gray-700">Integer only</p>
+                <p class="text-[11px] text-gray-400 font-medium mt-0.5">System will reject non-whole number inputs.</p>
+              </div>
+              <button (click)="integerOnly = !integerOnly"
+                [class]="integerOnly ? 'w-10 h-5 rounded-full bg-blue-500 relative transition-colors flex-shrink-0' : 'w-10 h-5 rounded-full bg-gray-200 relative transition-colors flex-shrink-0'">
+                <span [class]="integerOnly ? 'absolute top-0.5 right-0.5 w-4 h-4 bg-white rounded-full shadow transition-all' : 'absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow transition-all'"></span>
+              </button>
+            </div>
+            <div class="flex items-center justify-between px-4 py-3">
+              <div>
+                <p class="text-sm font-bold text-gray-700">Precision Control</p>
+                <p class="text-[11px] text-gray-400 font-medium mt-0.5">Decimal places allowed (0–4)</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <button (click)="decrementPrecision()" class="w-7 h-7 rounded-lg border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-gray-50 font-bold text-sm transition-colors">−</button>
+                <span class="w-6 text-center text-sm font-bold text-gray-700">{{ precision }}</span>
+                <button (click)="incrementPrecision()" class="w-7 h-7 rounded-lg border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-gray-50 font-bold text-sm transition-colors">+</button>
+              </div>
+            </div>
+            <div>
+              <div class="flex items-center justify-between px-4 py-3">
+                <div>
+                  <p class="text-sm font-bold text-gray-700">Range mode toggle</p>
+                  <p class="text-[11px] text-gray-400 font-medium mt-0.5">Accept range of answers instead of a single value</p>
+                </div>
+                <button (click)="rangeMode = !rangeMode"
+                  [class]="rangeMode ? 'w-10 h-5 rounded-full bg-blue-500 relative transition-colors flex-shrink-0' : 'w-10 h-5 rounded-full bg-gray-200 relative transition-colors flex-shrink-0'">
+                  <span [class]="rangeMode ? 'absolute top-0.5 right-0.5 w-4 h-4 bg-white rounded-full shadow transition-all' : 'absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow transition-all'"></span>
+                </button>
+              </div>
+              @if (rangeMode) {
+                <div class="grid grid-cols-2 gap-4 px-4 pb-4">
+                  <div>
+                    <p class="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-1.5">Min Value</p>
+                    <input [(ngModel)]="rangeMin" placeholder="e.g. 1.95"
+                      class="w-full px-3 py-2 text-sm font-bold text-gray-700 border border-gray-200 rounded-lg bg-[#fafbff] focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-300 transition-all"/>
+                  </div>
+                  <div>
+                    <p class="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-1.5">Max Value</p>
+                    <input [(ngModel)]="rangeMax" placeholder="e.g. 2.05"
+                      class="w-full px-3 py-2 text-sm font-bold text-gray-700 border border-gray-200 rounded-lg bg-[#fafbff] focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-300 transition-all"/>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- MATRIX MATCH -->
+      @if (isMatrixMatch) {
+        <div class="px-6 py-5 border-b border-gray-50">
+          <div class="flex gap-5">
+            <div class="flex-1 border border-gray-100 rounded-xl overflow-hidden">
+              <div class="grid grid-cols-2 divide-x divide-gray-100">
+                <div class="px-4 py-3 bg-gray-50 flex items-center justify-between">
+                  <p class="text-xs font-black text-gray-600">Column A (Items)</p>
+                  <span class="text-[10px] font-bold uppercase tracking-wider text-gray-400 border border-gray-200 px-1.5 py-0.5 rounded">SOURCE</span>
+                </div>
+                <div class="px-4 py-3 bg-gray-50 flex items-center justify-between">
+                  <p class="text-xs font-black text-gray-600">Column B (Matches)</p>
+                  <span class="text-[10px] font-bold uppercase tracking-wider text-blue-500 border border-blue-200 bg-blue-50 px-1.5 py-0.5 rounded">TARGET</span>
+                </div>
+              </div>
+              <div class="divide-y divide-gray-50">
+                <div *ngFor="let item of matrixItems; let i = index" class="grid grid-cols-2 divide-x divide-gray-50">
+                  <div class="flex items-center gap-2 px-4 py-3">
+                    <span class="text-xs font-black text-blue-500 w-5 shrink-0">{{ item.aLabel }}</span>
+                    <input [(ngModel)]="item.aText" placeholder="Enter item..."
+                      class="flex-1 text-sm text-gray-700 placeholder-gray-300 bg-transparent focus:outline-none"/>
+                    <button (click)="removeMatrixItem(i)"
+                      class="w-5 h-5 flex items-center justify-center rounded hover:bg-red-50 text-gray-300 hover:text-red-400 transition-all">
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                      </svg>
+                    </button>
+                  </div>
+                  <div class="flex items-center gap-2 px-4 py-3">
+                    <span class="text-xs font-black text-blue-500 w-5 shrink-0">{{ item.bLabel }}</span>
+                    <input [(ngModel)]="item.bText" placeholder="Enter match..."
+                      class="flex-1 text-sm text-gray-700 placeholder-gray-300 bg-transparent focus:outline-none"/>
+                  </div>
+                </div>
+              </div>
+              <div class="grid grid-cols-2 divide-x divide-gray-100 border-t border-gray-100">
+                <div class="px-4 py-3">
+                  <button (click)="addMatrixItem()" class="flex items-center gap-1.5 text-xs text-blue-600 font-bold hover:text-blue-800">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                      <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                    </svg>
+                    ADD ITEM
+                  </button>
+                </div>
+                <div class="px-4 py-3">
+                  <button (click)="addMatrixMatch()" class="flex items-center gap-1.5 text-xs text-blue-600 font-bold hover:text-blue-800">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                      <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                    </svg>
+                    ADD MATCH
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="w-56 border border-gray-100 rounded-xl overflow-hidden">
+              <div class="px-4 py-3 bg-gray-50 border-b border-gray-100">
+                <p class="text-[10px] font-black uppercase tracking-widest text-gray-500">Mapping Logic</p>
+              </div>
+              <div class="px-3 py-3 space-y-3">
+                <div *ngFor="let item of matrixItems; let i = index" class="flex items-center gap-1.5">
+                  <span class="text-xs font-black text-blue-500 w-5 shrink-0">{{ item.aLabel }}</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="2">
+                    <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                  </svg>
+                  <div class="flex gap-1 flex-wrap">
+                    <button *ngFor="let match of matrixItems; let j = index"
+                      (click)="toggleMatrixMapping(i, match.bLabel)"
+                      [class]="isMatrixMapped(i, match.bLabel)
+                        ? 'w-7 h-7 rounded-full text-[10px] font-black bg-blue-600 text-white border-2 border-blue-600 flex items-center justify-center transition-all'
+                        : 'w-7 h-7 rounded-full text-[10px] font-black bg-white text-gray-400 border border-gray-200 hover:border-blue-300 flex items-center justify-center transition-all'">
+                      {{ match.bLabel }}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- Answer Options (MCQ / MSQ only) -->
+      @if (isMCQ) {
+        <div class="px-6 py-4 border-b border-gray-50">
+          <p class="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-4">
+            Answer Options
+            <span class="normal-case font-semibold text-gray-300 ml-1">({{ isMSQ ? 'select all correct' : 'select one correct' }})</span>
+          </p>
+          <div class="space-y-3">
+            @for (opt of answerOptions; track opt.id) {
+              <div class="group">
+                <div class="flex items-start gap-3">
+
+                  <!-- Correct toggle (checkbox / radio) -->
+                  <button (click)="toggleCorrect(opt.id)"
+                    class="mt-2.5 flex-shrink-0"
+                    [class]="isMSQ
+                      ? (isCorrect(opt.id) ? 'w-4 h-4 rounded flex items-center justify-center bg-blue-600 border-2 border-blue-600' : 'w-4 h-4 rounded flex items-center justify-center bg-white border-2 border-gray-300 hover:border-blue-300')
+                      : (isCorrect(opt.id) ? 'w-4 h-4 rounded-full flex items-center justify-center bg-blue-600 border-2 border-blue-600' : 'w-4 h-4 rounded-full flex items-center justify-center bg-white border-2 border-gray-300 hover:border-blue-300')">
+                    @if (isMSQ && isCorrect(opt.id)) {
+                      <svg width="9" height="9" viewBox="0 0 10 10" fill="none">
+                        <path d="M2 5l2.5 2.5L8 2.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    }
+                    @if (!isMSQ && isCorrect(opt.id)) {
+                      <span class="w-1.5 h-1.5 bg-white rounded-full"></span>
+                    }
+                  </button>
+
+                  <!-- Option card -->
+                  <div (click)="toggleCorrect(opt.id)"
+                    [class]="'flex-1 border rounded-lg overflow-hidden cursor-pointer transition-colors ' + (isCorrect(opt.id) ? 'bg-blue-50 border-blue-200' : 'bg-[#fafbff] border-gray-100 hover:border-gray-200')">
+
+                    <!-- Label + text input row -->
+                    <div class="flex items-center">
+                      <span [class]="'w-8 h-9 flex items-center justify-center text-xs font-black border-r shrink-0 ' + (isCorrect(opt.id) ? 'bg-blue-100 text-blue-700 border-blue-200' : 'bg-blue-50 text-blue-600 border-gray-100')">
+                        {{ opt.label }}
+                      </span>
+                      <input [(ngModel)]="opt.text" (click)="$event.stopPropagation()" placeholder="Enter option text..."
+                        class="flex-1 px-3 py-2 text-sm text-gray-700 placeholder-gray-300 bg-transparent focus:outline-none"/>
+                      @if (isCorrect(opt.id)) {
+                        <span class="px-2 text-blue-600 text-sm font-bold">✔</span>
+                      }
+                    </div>
+
+                    <!-- ── Uploaded image preview (NEW) ── -->
+                    @if (opt.image) {
+                      <div class="px-3 pb-3 pt-1 flex items-start gap-2 border-t border-dashed"
+                        [class]="isCorrect(opt.id) ? 'border-blue-200' : 'border-gray-100'">
+                        <img [src]="opt.image"
+                          class="max-h-28 max-w-[200px] rounded-md border border-gray-200 object-contain shadow-sm"/>
+                        <button
+                          (click)="removeOptionImage(opt.id); $event.stopPropagation()"
+                          class="w-6 h-6 flex items-center justify-center rounded-lg bg-red-50 hover:bg-red-100 text-red-400 transition-colors flex-shrink-0 mt-0.5"
+                          title="Remove image">
+                          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                          </svg>
+                        </button>
+                      </div>
+                    }
+
+                  </div>
+
+                  <!-- Delete option button -->
+                  <button (click)="removeOption($index)"
+                    class="opacity-0 group-hover:opacity-100 mt-1 w-7 h-7 flex items-center justify-center rounded-lg hover:bg-red-50 text-gray-300 hover:text-red-400 transition-all">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="3 6 5 6 21 6"/>
+                      <path d="M19 6l-1 14H6L5 6"/>
+                      <path d="M10 11v6M14 11v6M9 6V4h6v2"/>
+                    </svg>
+                  </button>
+
+                </div>
+
+                <!-- Add image to option link -->
+                <div class="ml-7 mt-1.5">
+                  @if (!opt.image) {
+                    <label class="text-[11px] text-blue-400 hover:text-blue-600 font-semibold flex items-center gap-1 cursor-pointer w-fit">
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+                      </svg>
+                      Add image to option {{ opt.label }}
+                      <input type="file" accept="image/*" hidden (change)="onOptionImageUpload($event, $index)"/>
+                    </label>
+                  }
+                  @if (opt.image) {
+                    <label class="text-[11px] text-amber-400 hover:text-amber-600 font-semibold flex items-center gap-1 cursor-pointer w-fit">
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+                      </svg>
+                      Replace image for option {{ opt.label }}
+                      <input type="file" accept="image/*" hidden (change)="onOptionImageUpload($event, $index)"/>
+                    </label>
+                  }
+                </div>
+
+              </div>
+            }
+          </div>
+          <button (click)="addOption()" class="mt-4 flex items-center gap-1.5 text-xs text-blue-600 font-bold hover:text-blue-800">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+            Add Another Option
+          </button>
+        </div>
+      }
+
+      <!-- Correct Answers pills -->
+      @if (isMCQ) {
+        <div class="px-6 py-4 border-b border-gray-50">
+          <p class="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-3">Correct Answers</p>
+          <div class="flex gap-2 flex-wrap">
+            @for (opt of answerOptions; track $index) {
+              <button (click)="toggleCorrect(opt.id)"
+                [class]="isCorrect(opt.id)
+                  ? 'flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold bg-green-500 border-2 border-green-500 text-white'
+                  : 'flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold bg-white border border-gray-200 text-gray-400 hover:border-gray-300'">
+                @if (isCorrect(opt.id)) {
+                  <span class="flex items-center justify-center w-3.5 h-3.5 rounded-full bg-white">
+                    <svg width="8" height="8" viewBox="0 0 10 10" fill="none">
+                      <path d="M2 5l2.5 2.5L8 2.5" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </span>
+                }
+                @if (!isCorrect(opt.id)) {
+                  <span class="w-3.5 h-3.5 rounded-full border border-gray-300"></span>
+                }
+                Option {{ opt.id }}
+              </button>
+            }
+          </div>
+          @if (correctAnswers.length === 0) {
+            <p class="mt-2 text-[11px] text-red-400 font-semibold">Please select at least one correct answer.</p>
+          }
+          @if (!isMSQ && correctAnswers.length === 1) {
+            <p class="mt-2 text-[11px] text-green-500 font-semibold">✓ Option {{ correctAnswers[0] }} marked as correct.</p>
+          }
+          @if (isMSQ && correctAnswers.length > 0) {
+            <p class="mt-2 text-[11px] text-green-500 font-semibold">✓ {{ correctAnswers.length }} option(s) marked as correct.</p>
+          }
+        </div>
+      }
+
+      <!-- Scoring Logic -->
+      <div class="px-6 py-4 border-b border-gray-50">
+        <p class="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-3">Scoring Logic</p>
+        <div class="flex items-center justify-between flex-wrap gap-3">
+          <div class="flex items-center gap-3">
+            <span class="text-sm font-semibold text-gray-700">Enable partial marking</span>
+            <button (click)="scoringEnabled = !scoringEnabled"
+              [class]="scoringEnabled ? 'w-10 h-5 rounded-full bg-blue-500 relative transition-colors' : 'w-10 h-5 rounded-full bg-gray-200 relative transition-colors'">
+              <span [class]="scoringEnabled ? 'absolute top-0.5 right-0.5 w-4 h-4 bg-white rounded-full shadow transition-all' : 'absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow transition-all'"></span>
+            </button>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="text-center">
+              <p class="text-[10px] text-gray-400 font-semibold mb-1">Marks per correct answer</p>
+              <input [(ngModel)]="positiveMarks"
+                class="w-16 text-center text-sm font-bold text-green-600 border border-gray-200 rounded-lg py-1 bg-green-50 focus:outline-none focus:ring-1 focus:ring-green-300"/>
+            </div>
+            <div class="text-center">
+              <p class="text-[10px] text-gray-400 font-semibold mb-1">Negative marks per wrong</p>
+              <input [(ngModel)]="negativeMarks"
+                class="w-16 text-center text-sm font-bold text-red-500 border border-gray-200 rounded-lg py-1 bg-red-50 focus:outline-none focus:ring-1 focus:ring-red-200"/>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Explanation + Hints -->
+      <div class="px-6 py-4 border-b border-gray-50">
+        <div class="flex gap-5">
+
+          <!-- Explanation -->
+          <div class="flex-1">
+            <p class="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-3">Detailed Explanation</p>
+            <textarea [(ngModel)]="detailedExplanation" rows="5"
+              placeholder="Provide a detailed solution step-by-step..."
+              class="w-full text-sm text-gray-700 placeholder-gray-300 border border-gray-100 rounded-lg px-3 py-2.5 resize-none focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-300 bg-[#fafbff]">
+            </textarea>
+            <div class="flex items-center gap-4 mt-2">
+              <label class="flex items-center gap-1.5 text-xs text-blue-500 font-semibold hover:text-blue-700 cursor-pointer">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="18" height="18" rx="2"/>
+                  <circle cx="8.5" cy="8.5" r="1.5"/>
+                  <polyline points="21 15 16 10 5 21"/>
+                </svg>
+                Add Image
+                <input type="file" accept=".png" hidden/>
+              </label>
+              <label class="flex items-center gap-1.5 text-xs text-blue-500 font-semibold hover:text-blue-700 cursor-pointer">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="16 16 12 12 8 16"/>
+                  <line x1="12" y1="12" x2="12" y2="21"/>
+                  <path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/>
+                </svg>
+                Upload PDF/Explainer
+                <input type="file" accept=".pdf" hidden/>
+              </label>
+            </div>
+          </div>
+
+          <div class="w-px bg-gray-100 self-stretch"></div>
+
+          <!-- Hints -->
+          <div class="flex-1">
+            <div class="flex items-center justify-between mb-3">
+              <p class="text-[10px] font-black uppercase tracking-widest text-gray-400">Hint</p>
+              <span class="text-[10px] font-semibold text-gray-300">{{ hints.length }} / 3</span>
+            </div>
+            <div class="border border-gray-100 rounded-xl bg-[#fafbff] px-4 py-3">
+              <div class="flex items-center gap-2 mb-2">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 18h6"/><path d="M10 22h4"/>
+                  <path d="M2 12a10 10 0 1 1 20 0c0 3-2 5-3 6H5c-1-1-3-3-3-6z"/>
+                </svg>
+                <p class="text-sm font-bold text-gray-700 tracking-wide">HINT</p>
+              </div>
+              <textarea [(ngModel)]="hints[0]" rows="3"
+                placeholder="Provide a helpful nudge for the student..."
+                class="w-full text-sm text-gray-700 placeholder-gray-300 border border-gray-100 rounded-lg px-3 py-2 bg-white resize-none focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-300 mb-2">
+              </textarea>
+              <label class="flex items-center gap-1.5 text-xs text-blue-500 font-semibold hover:text-blue-700 cursor-pointer">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="18" height="18" rx="2"/>
+                  <circle cx="8.5" cy="8.5" r="1.5"/>
+                  <polyline points="21 15 16 10 5 21"/>
+                </svg>
+                Add hint image
+                <input type="file" accept=".png" hidden/>
+              </label>
+            </div>
+            @if (hints.length > 1) {
+              <div class="space-y-3 mt-3">
+                @for (hint of hints; track $index) {
+                  @if ($index > 0) {
+                    <div class="flex items-start gap-2">
+                      <span class="text-[10px] font-black text-blue-400 mt-2.5 w-5 shrink-0">H{{ $index + 1 }}</span>
+                      <textarea [(ngModel)]="hints[$index]" rows="2"
+                        placeholder="Enter hint {{ $index + 1 }}..."
+                        class="flex-1 text-sm text-gray-700 placeholder-gray-300 border border-gray-100 rounded-lg px-3 py-2 bg-[#fafbff] resize-none focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-300">
+                      </textarea>
+                      <button (click)="removeHint($index)"
+                        class="mt-1.5 w-6 h-6 flex items-center justify-center rounded-md hover:bg-red-50 text-gray-300 hover:text-red-400 transition-colors">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                      </button>
+                    </div>
+                  }
+                }
+              </div>
+            }
+            <button (click)="addHint()" [disabled]="hints.length >= 3"
+              class="mt-3 flex items-center gap-1.5 text-xs text-blue-600 font-bold hover:text-blue-800 disabled:opacity-30 disabled:cursor-not-allowed">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+              </svg>
+              ADD ANOTHER HINT
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Footer Actions -->
+      <div class="px-6 py-4 flex items-center justify-end gap-3">
+        <button (click)="reset()"
+          class="px-5 py-2 text-sm font-bold text-gray-500 hover:text-gray-700 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+          Reset
+        </button>
+        <button (click)="saveQuestion()"
+          class="px-6 py-2 text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors flex items-center gap-2">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/>
+            <polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/>
+          </svg>
+          Save Question
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>

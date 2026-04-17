@@ -1,0 +1,165 @@
+<div class="min-h-screen bg-gray-100 p-10">
+  @if (!test()) {
+    <!-- LOADING STATE -->
+    <div class="flex items-center justify-center min-h-[60vh]">
+      <p class="text-gray-400 text-lg animate-pulse">Loading test details…</p>
+    </div>
+  } @else {
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+      <!-- LEFT PANEL -->
+      <div class="lg:col-span-2 bg-white rounded-3xl shadow-lg p-10">
+        <h2 class="text-3xl font-semibold mb-2">Final Instructions</h2>
+        <p class="text-gray-400 mb-10 tracking-widest text-sm">TEST GENERATION SESSION</p>
+
+        <!-- STATS -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+          <div class="bg-gray-50 rounded-2xl p-6 text-center shadow-sm">
+            <p class="text-gray-400 text-xs">TOTAL QUESTIONS</p>
+            <h3 class="text-3xl font-bold mt-2">{{ totalQuestions() }}</h3>
+            <p class="text-gray-400 text-sm">Items</p>
+          </div>
+        </div>
+
+        <!-- GUIDELINES -->
+        <h3 class="text-lg font-semibold mb-6 text-gray-600">GUIDELINES & RULES</h3>
+
+        <div class="space-y-6 text-gray-600">
+          <div class="flex gap-4 items-start">
+            <div
+              class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center shrink-0 font-medium"
+            >
+              1
+            </div>
+            <p>
+              This is a self-paced practice session with <strong>no time limit</strong>. Take your
+              time on each question.
+            </p>
+          </div>
+
+          <div class="flex gap-4 items-start">
+            <div
+              class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center shrink-0 font-medium"
+            >
+              2
+            </div>
+            <p>
+              Each question gives <strong>instant feedback</strong> after you submit your answer.
+              Use the hint button if you're stuck.
+            </p>
+          </div>
+
+          <div class="flex gap-4 items-start">
+            <div
+              class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center shrink-0 font-medium"
+            >
+              3
+            </div>
+            <p>
+              The test contains selected question types as per your configuration: MCQ, MSQ, and/or
+              NAT.
+            </p>
+          </div>
+
+          <div class="flex gap-4 items-start">
+            <div
+              class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center shrink-0 font-medium"
+            >
+              4
+            </div>
+            <p>
+              Navigate between questions freely using the question palette on the right during the
+              exam.
+            </p>
+          </div>
+
+          <div class="flex gap-4 items-start">
+            <div
+              class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center shrink-0 font-medium"
+            >
+              5
+            </div>
+            <p>
+              Your final score is calculated after you submit the test. Unattempted questions
+              receive zero marks.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT PANEL -->
+      <div class="bg-blue-100 rounded-3xl shadow-lg p-8">
+        <h3 class="text-gray-500 text-sm tracking-widest mb-8">SESSION DETAILS</h3>
+
+        <!-- SUBJECT -->
+        <p class="text-xs text-gray-500 mb-3">SUBJECT SELECTED</p>
+        <div class="flex flex-wrap gap-3 mb-8">
+          @if (testConfig()?.title) {
+            <span class="bg-black text-white px-4 py-1 rounded-lg text-sm">
+              {{ testConfig()?.title }}
+            </span>
+          }
+        </div>
+
+        <!-- QUESTIONS BREAKDOWN -->
+        <p class="text-xs text-gray-500 mb-3">QUESTIONS</p>
+        <div class="space-y-3 mb-8">
+          <div class="bg-white rounded-xl px-4 py-3 text-sm flex justify-between">
+            <span class="text-gray-600">Total Questions</span>
+            <span class="font-semibold">{{ testConfig()?.total_questions }}</span>
+          </div>
+          <div class="bg-white rounded-xl px-4 py-3 text-sm flex justify-between">
+            <span class="text-gray-600">Total Marks</span>
+            <span class="font-semibold">{{ testConfig()?.total_marks }}</span>
+          </div>
+          <div class="bg-white rounded-xl px-4 py-3 text-sm flex justify-between">
+            <span class="text-gray-600">Duration</span>
+            <span class="font-semibold text-teal-600">Unlimited ∞</span>
+          </div>
+        </div>
+
+        <hr class="mb-6" />
+
+        <!-- NEGATIVE MARKING -->
+        <p class="text-xs text-gray-500 mb-2">NEGATIVE MARKING</p>
+        <h4
+          class="font-semibold"
+          [class]="testConfig()?.negative_marking ? 'text-red-600' : 'text-green-600'"
+        >
+          {{ testConfig()?.negative_marking ? 'Yes' : 'No' }}
+        </h4>
+      </div>
+    </div>
+
+    <!-- ERROR MESSAGE -->
+    @if (errorMessage()) {
+      <div class="mt-6 p-4 bg-red-100 border border-red-300 rounded-xl text-red-700 text-sm">
+        ❌ {{ errorMessage() }}
+      </div>
+    }
+
+    <!-- START BUTTON -->
+    <div class="mt-12 bg-white rounded-2xl shadow p-6 flex items-center justify-between">
+      <label class="flex items-center gap-3 text-gray-600 cursor-pointer select-none">
+        <input
+          type="checkbox"
+          [checked]="instructionsAccepted()"
+          (change)="toggleAccepted()"
+          class="w-4 h-4"
+        />
+        I have read and understood the instructions.
+      </label>
+
+      <button
+        (click)="startExam()"
+        [disabled]="!instructionsAccepted() || isStarting()"
+        class="bg-teal-500 text-white px-10 py-4 rounded-2xl hover:bg-teal-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition font-medium"
+      >
+        @if (isStarting()) {
+          Starting…
+        } @else {
+          START EXAMINATION
+        }
+      </button>
+    </div>
+  }
+</div>

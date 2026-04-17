@@ -1,0 +1,671 @@
+<div class="px-8 py-6 max-w-3xl">
+  <!-- Breadcrumb -->
+  <nav class="flex items-center gap-2 text-sm text-slate-400 font-semibold mb-4">
+    <span class="hover:text-slate-600 cursor-pointer" (click)="onCancel()">Notifications</span>
+    <span>›</span>
+    <span class="text-slate-700">Send Notification</span>
+  </nav>
+
+  <!-- Page header -->
+  <div class="mb-8">
+    <h1 class="text-2xl lg:text-3xl font-black text-slate-800 leading-tight tracking-tight">
+      Send Notification
+    </h1>
+    <p class="text-sm text-slate-400 font-semibold mt-1">
+      Send immediately to a course or student, or schedule for a future time.
+    </p>
+  </div>
+
+  <!-- ── Mode tabs ─────────────────────────────────────────────────────────── -->
+  <div class="bg-white rounded-xl border border-slate-200 mb-6 overflow-hidden">
+    <div class="grid grid-cols-3 divide-x divide-slate-200">
+      @for (tab of tabs; track tab.key) {
+        <button
+          type="button"
+          (click)="selectTarget(tab.key)"
+          class="flex flex-col items-start px-5 py-4 transition-colors duration-150 text-left"
+          [class]="
+            activeTarget() === tab.key
+              ? 'bg-blue-50 border-b-2 border-blue-600'
+              : 'hover:bg-slate-50 border-b-2 border-transparent'
+          "
+        >
+          <span
+            class="text-sm font-bold tracking-wide"
+            [class]="activeTarget() === tab.key ? 'text-blue-700' : 'text-slate-600'"
+            >{{ tab.label }}</span
+          >
+          <span
+            class="text-[11px] mt-0.5"
+            [class]="activeTarget() === tab.key ? 'text-blue-500' : 'text-slate-400'"
+          >
+            {{ tab.description }}
+          </span>
+        </button>
+      }
+    </div>
+  </div>
+
+  <!-- Global error / success -->
+  @if (errorMessage()) {
+    <div
+      class="mb-5 px-4 py-3 bg-red-50 border border-red-200 rounded-xl text-sm text-red-600 font-semibold"
+    >
+      {{ errorMessage() }}
+    </div>
+  }
+  @if (successBanner()) {
+    <div
+      class="mb-5 px-4 py-3 bg-emerald-50 border border-emerald-200 rounded-xl text-sm text-emerald-700 font-semibold flex items-center gap-2"
+    >
+      <svg
+        class="w-4 h-4 shrink-0"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <polyline points="20 6 9 17 4 12" />
+      </svg>
+      {{ successBanner() }}
+    </div>
+  }
+
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <!-- MODE 1: Send to Course                                                -->
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  @if (activeTarget() === 'course') {
+    <form [formGroup]="courseForm" novalidate class="flex flex-col gap-6">
+      <div class="bg-white rounded-xl border border-slate-200 p-6">
+        <div class="flex items-center gap-2 mb-6">
+          <svg
+            class="w-4 h-4 text-slate-500"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+            <circle cx="9" cy="7" r="4" />
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+          </svg>
+          <h2 class="text-sm font-bold text-slate-700 tracking-wide">Course Details</h2>
+        </div>
+
+        <!-- Course ID -->
+        <div class="mb-5">
+          <label
+            class="block text-[0.68rem] font-bold tracking-widest text-slate-500 uppercase mb-1.5"
+          >
+            Course ID <span class="text-red-400">*</span>
+          </label>
+          <input
+            type="number"
+            formControlName="course_id"
+            placeholder="e.g. 11"
+            class="w-full px-4 py-2.5 rounded-xl border bg-slate-50 text-slate-800 text-sm outline-none placeholder:text-slate-300 transition focus:bg-white"
+            [class.border-slate-200]="
+              !courseHasError('course_id', 'required') && !courseHasError('course_id', 'min')
+            "
+            [class.border-red-400]="
+              courseHasError('course_id', 'required') || courseHasError('course_id', 'min')
+            "
+          />
+          @if (courseHasError('course_id', 'required')) {
+            <p class="text-red-500 text-xs mt-1 pl-1">Course ID is required.</p>
+          }
+        </div>
+
+        <!-- Title -->
+        <div class="mb-5">
+          <label
+            class="block text-[0.68rem] font-bold tracking-widest text-slate-500 uppercase mb-1.5"
+          >
+            Title <span class="text-red-400">*</span>
+          </label>
+          <input
+            type="text"
+            formControlName="title"
+            placeholder="e.g. Assignment Due Tomorrow!"
+            class="w-full px-4 py-2.5 rounded-xl border bg-slate-50 text-slate-800 text-sm outline-none placeholder:text-slate-300 transition focus:bg-white"
+            [class.border-slate-200]="
+              !courseHasError('title', 'required') && !courseHasError('title', 'maxlength')
+            "
+            [class.border-red-400]="
+              courseHasError('title', 'required') || courseHasError('title', 'maxlength')
+            "
+          />
+          @if (courseHasError('title', 'required')) {
+            <p class="text-red-500 text-xs mt-1 pl-1">Title is required.</p>
+          } @else if (courseHasError('title', 'maxlength')) {
+            <p class="text-red-500 text-xs mt-1 pl-1">Title must be 255 characters or fewer.</p>
+          }
+        </div>
+
+        <!-- Message -->
+        <div class="mb-5">
+          <label
+            class="block text-[0.68rem] font-bold tracking-widest text-slate-500 uppercase mb-1.5"
+          >
+            Message <span class="text-red-400">*</span>
+          </label>
+          <textarea
+            formControlName="message"
+            placeholder="Please submit your Module 2 assignment before 6 PM..."
+            rows="5"
+            class="w-full px-4 py-3 rounded-xl border bg-slate-50 text-slate-800 text-sm outline-none placeholder:text-slate-300 transition focus:bg-white resize-none"
+            [class.border-slate-200]="!courseHasError('message', 'required')"
+            [class.border-red-400]="courseHasError('message', 'required')"
+          ></textarea>
+          @if (courseHasError('message', 'required')) {
+            <p class="text-red-500 text-xs mt-1 pl-1">Message is required.</p>
+          }
+        </div>
+
+        <!-- Notification type + include parents -->
+        <div class="grid grid-cols-2 gap-5">
+          <div>
+            <label
+              class="block text-[0.68rem] font-bold tracking-widest text-slate-500 uppercase mb-1.5"
+              >Notification Type</label
+            >
+            <div class="relative">
+              <select
+                formControlName="notification_type"
+                class="w-full px-4 py-2.5 pr-10 rounded-xl border border-slate-200 bg-slate-50 text-slate-800 text-sm outline-none appearance-none cursor-pointer transition focus:bg-white"
+              >
+                @for (t of notificationTypes; track t.value) {
+                  <option [value]="t.value">{{ t.label }}</option>
+                }
+              </select>
+              <svg
+                class="w-4 h-4 pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-slate-400"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+              >
+                <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
+          </div>
+
+          <div class="flex items-end pb-2.5">
+            <label class="flex items-center gap-3 cursor-pointer select-none">
+              <div class="relative">
+                <input type="checkbox" formControlName="include_parents" class="sr-only peer" />
+                <div
+                  class="w-9 h-5 bg-slate-200 peer-checked:bg-blue-600 rounded-full transition-colors"
+                ></div>
+                <div
+                  class="absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform peer-checked:translate-x-4"
+                ></div>
+              </div>
+              <span class="text-sm font-semibold text-slate-600">Also notify parents</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="flex items-center justify-between pt-2 pb-8">
+        <button
+          type="button"
+          (click)="onCancel()"
+          class="text-sm font-bold text-slate-500 hover:text-slate-700 transition-colors"
+        >
+          Cancel &amp; Discard
+        </button>
+        <button
+          type="button"
+          (click)="sendToCourse()"
+          [disabled]="isLoading()"
+          class="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-blue-600 text-white text-xs font-bold tracking-widest uppercase shadow-lg shadow-blue-200 transition hover:bg-blue-700 hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          @if (isLoading()) {
+            <svg class="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              />
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+            </svg>
+          } @else {
+            <svg
+              class="w-4 h-4"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="22 2 11 13" />
+              <polygon points="22 2 15 22 11 13 2 9 22 2" />
+            </svg>
+          }
+          Send to Course
+        </button>
+      </div>
+    </form>
+  }
+
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <!-- MODE 2: Send to Student                                               -->
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  @if (activeTarget() === 'student') {
+    <form [formGroup]="studentForm" novalidate class="flex flex-col gap-6">
+      <div class="bg-white rounded-xl border border-slate-200 p-6">
+        <div class="flex items-center gap-2 mb-6">
+          <svg
+            class="w-4 h-4 text-slate-500"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+          <h2 class="text-sm font-bold text-slate-700 tracking-wide">Student Details</h2>
+        </div>
+
+        <!-- Student ID -->
+        <div class="mb-5">
+          <label
+            class="block text-[0.68rem] font-bold tracking-widest text-slate-500 uppercase mb-1.5"
+          >
+            Student ID <span class="text-red-400">*</span>
+          </label>
+          <input
+            type="number"
+            formControlName="student_id"
+            placeholder="e.g. 45"
+            class="w-full px-4 py-2.5 rounded-xl border bg-slate-50 text-slate-800 text-sm outline-none placeholder:text-slate-300 transition focus:bg-white"
+            [class.border-slate-200]="
+              !studentHasError('student_id', 'required') && !studentHasError('student_id', 'min')
+            "
+            [class.border-red-400]="
+              studentHasError('student_id', 'required') || studentHasError('student_id', 'min')
+            "
+          />
+          @if (studentHasError('student_id', 'required')) {
+            <p class="text-red-500 text-xs mt-1 pl-1">Student ID is required.</p>
+          }
+        </div>
+
+        <!-- Title -->
+        <div class="mb-5">
+          <label
+            class="block text-[0.68rem] font-bold tracking-widest text-slate-500 uppercase mb-1.5"
+          >
+            Title <span class="text-red-400">*</span>
+          </label>
+          <input
+            type="text"
+            formControlName="title"
+            placeholder="e.g. Assignment Reminder"
+            class="w-full px-4 py-2.5 rounded-xl border bg-slate-50 text-slate-800 text-sm outline-none placeholder:text-slate-300 transition focus:bg-white"
+            [class.border-slate-200]="
+              !studentHasError('title', 'required') && !studentHasError('title', 'maxlength')
+            "
+            [class.border-red-400]="
+              studentHasError('title', 'required') || studentHasError('title', 'maxlength')
+            "
+          />
+          @if (studentHasError('title', 'required')) {
+            <p class="text-red-500 text-xs mt-1 pl-1">Title is required.</p>
+          } @else if (studentHasError('title', 'maxlength')) {
+            <p class="text-red-500 text-xs mt-1 pl-1">Title must be 255 characters or fewer.</p>
+          }
+        </div>
+
+        <!-- Message -->
+        <div class="mb-5">
+          <label
+            class="block text-[0.68rem] font-bold tracking-widest text-slate-500 uppercase mb-1.5"
+          >
+            Message <span class="text-red-400">*</span>
+          </label>
+          <textarea
+            formControlName="message"
+            placeholder="Submit your Module 2 assignment by tonight or it will be marked late..."
+            rows="5"
+            class="w-full px-4 py-3 rounded-xl border bg-slate-50 text-slate-800 text-sm outline-none placeholder:text-slate-300 transition focus:bg-white resize-none"
+            [class.border-slate-200]="!studentHasError('message', 'required')"
+            [class.border-red-400]="studentHasError('message', 'required')"
+          ></textarea>
+          @if (studentHasError('message', 'required')) {
+            <p class="text-red-500 text-xs mt-1 pl-1">Message is required.</p>
+          }
+        </div>
+
+        <!-- Notification type + include parents -->
+        <div class="grid grid-cols-2 gap-5">
+          <div>
+            <label
+              class="block text-[0.68rem] font-bold tracking-widest text-slate-500 uppercase mb-1.5"
+              >Notification Type</label
+            >
+            <div class="relative">
+              <select
+                formControlName="notification_type"
+                class="w-full px-4 py-2.5 pr-10 rounded-xl border border-slate-200 bg-slate-50 text-slate-800 text-sm outline-none appearance-none cursor-pointer transition focus:bg-white"
+              >
+                @for (t of notificationTypes; track t.value) {
+                  <option [value]="t.value">{{ t.label }}</option>
+                }
+              </select>
+              <svg
+                class="w-4 h-4 pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-slate-400"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+              >
+                <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
+          </div>
+
+          <div class="flex items-end pb-2.5">
+            <label class="flex items-center gap-3 cursor-pointer select-none">
+              <div class="relative">
+                <input type="checkbox" formControlName="include_parents" class="sr-only peer" />
+                <div
+                  class="w-9 h-5 bg-slate-200 peer-checked:bg-blue-600 rounded-full transition-colors"
+                ></div>
+                <div
+                  class="absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform peer-checked:translate-x-4"
+                ></div>
+              </div>
+              <span class="text-sm font-semibold text-slate-600">Also notify parents</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="flex items-center justify-between pt-2 pb-8">
+        <button
+          type="button"
+          (click)="onCancel()"
+          class="text-sm font-bold text-slate-500 hover:text-slate-700 transition-colors"
+        >
+          Cancel &amp; Discard
+        </button>
+        <button
+          type="button"
+          (click)="sendToStudent()"
+          [disabled]="isLoading()"
+          class="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-blue-600 text-white text-xs font-bold tracking-widest uppercase shadow-lg shadow-blue-200 transition hover:bg-blue-700 hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          @if (isLoading()) {
+            <svg class="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              />
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+            </svg>
+          } @else {
+            <svg
+              class="w-4 h-4"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="22 2 11 13" />
+              <polygon points="22 2 15 22 11 13 2 9 22 2" />
+            </svg>
+          }
+          Send to Student
+        </button>
+      </div>
+    </form>
+  }
+
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <!-- MODE 3: Schedule                                                      -->
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  @if (activeTarget() === 'schedule') {
+    <form [formGroup]="scheduleForm" novalidate class="flex flex-col gap-6">
+      <div class="bg-white rounded-xl border border-slate-200 p-6">
+        <div class="flex items-center gap-2 mb-6">
+          <svg
+            class="w-4 h-4 text-slate-500"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <polyline points="12 6 12 12 16 14" />
+          </svg>
+          <h2 class="text-sm font-bold text-slate-700 tracking-wide">Schedule Notification</h2>
+        </div>
+
+        <!-- Course ID -->
+        <div class="mb-5">
+          <label
+            class="block text-[0.68rem] font-bold tracking-widest text-slate-500 uppercase mb-1.5"
+          >
+            Course ID <span class="text-red-400">*</span>
+          </label>
+          <input
+            type="number"
+            formControlName="course_id"
+            placeholder="e.g. 11"
+            class="w-full px-4 py-2.5 rounded-xl border bg-slate-50 text-slate-800 text-sm outline-none placeholder:text-slate-300 transition focus:bg-white"
+            [class.border-slate-200]="
+              !scheduleHasError('course_id', 'required') && !scheduleHasError('course_id', 'min')
+            "
+            [class.border-red-400]="
+              scheduleHasError('course_id', 'required') || scheduleHasError('course_id', 'min')
+            "
+          />
+          @if (scheduleHasError('course_id', 'required')) {
+            <p class="text-red-500 text-xs mt-1 pl-1">Course ID is required.</p>
+          }
+        </div>
+
+        <!-- Title -->
+        <div class="mb-5">
+          <label
+            class="block text-[0.68rem] font-bold tracking-widest text-slate-500 uppercase mb-1.5"
+          >
+            Title <span class="text-red-400">*</span>
+          </label>
+          <input
+            type="text"
+            formControlName="title"
+            placeholder="e.g. Live Class Reminder"
+            class="w-full px-4 py-2.5 rounded-xl border bg-slate-50 text-slate-800 text-sm outline-none placeholder:text-slate-300 transition focus:bg-white"
+            [class.border-slate-200]="
+              !scheduleHasError('title', 'required') && !scheduleHasError('title', 'maxlength')
+            "
+            [class.border-red-400]="
+              scheduleHasError('title', 'required') || scheduleHasError('title', 'maxlength')
+            "
+          />
+          @if (scheduleHasError('title', 'required')) {
+            <p class="text-red-500 text-xs mt-1 pl-1">Title is required.</p>
+          } @else if (scheduleHasError('title', 'maxlength')) {
+            <p class="text-red-500 text-xs mt-1 pl-1">Title must be 255 characters or fewer.</p>
+          }
+        </div>
+
+        <!-- Message -->
+        <div class="mb-5">
+          <label
+            class="block text-[0.68rem] font-bold tracking-widest text-slate-500 uppercase mb-1.5"
+          >
+            Message <span class="text-red-400">*</span>
+          </label>
+          <textarea
+            formControlName="message"
+            placeholder="Your live class starts in 1 hour. Make sure you have a stable connection..."
+            rows="5"
+            class="w-full px-4 py-3 rounded-xl border bg-slate-50 text-slate-800 text-sm outline-none placeholder:text-slate-300 transition focus:bg-white resize-none"
+            [class.border-slate-200]="!scheduleHasError('message', 'required')"
+            [class.border-red-400]="scheduleHasError('message', 'required')"
+          ></textarea>
+          @if (scheduleHasError('message', 'required')) {
+            <p class="text-red-500 text-xs mt-1 pl-1">Message is required.</p>
+          }
+        </div>
+
+        <!-- Scheduled at: date + time  -->
+        <div>
+          <p class="text-[0.68rem] font-bold tracking-widest text-slate-500 uppercase mb-3">
+            Send At <span class="text-red-400">*</span>
+            <span class="normal-case font-normal text-slate-400 tracking-normal ml-1"
+              >— must be a future time (IST)</span
+            >
+          </p>
+          <div class="grid grid-cols-2 gap-5">
+            <div>
+              <label class="block text-[0.68rem] font-semibold text-slate-500 mb-1">Date</label>
+              <div class="relative">
+                <input
+                  type="date"
+                  formControlName="schedule_date"
+                  class="w-full pl-9 pr-3 py-2.5 rounded-xl border bg-slate-50 text-slate-700 text-sm outline-none transition focus:bg-white"
+                  [class.border-slate-200]="!scheduleHasError('schedule_date', 'required')"
+                  [class.border-red-400]="scheduleHasError('schedule_date', 'required')"
+                />
+                <svg
+                  class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <rect x="3" y="4" width="18" height="18" rx="2" />
+                  <line x1="16" y1="2" x2="16" y2="6" />
+                  <line x1="8" y1="2" x2="8" y2="6" />
+                  <line x1="3" y1="10" x2="21" y2="10" />
+                </svg>
+              </div>
+            </div>
+            <div>
+              <label class="block text-[0.68rem] font-semibold text-slate-500 mb-1">Time</label>
+              <div class="relative">
+                <input
+                  type="time"
+                  formControlName="schedule_time"
+                  class="w-full pl-9 pr-3 py-2.5 rounded-xl border bg-slate-50 text-slate-700 text-sm outline-none transition focus:bg-white"
+                  [class.border-slate-200]="!scheduleHasError('schedule_time', 'required')"
+                  [class.border-red-400]="scheduleHasError('schedule_time', 'required')"
+                />
+                <svg
+                  class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12 6 12 12 16 14" />
+                </svg>
+              </div>
+            </div>
+          </div>
+          @if (
+            !isScheduleFuture() &&
+            scheduleForm.get('schedule_date')?.value &&
+            scheduleForm.get('schedule_time')?.value
+          ) {
+            <p class="text-amber-500 text-xs mt-2 pl-1 font-semibold">
+              ⚠ Selected time is in the past. Choose a future date and time.
+            </p>
+          }
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="flex items-center justify-between pt-2 pb-8">
+        <button
+          type="button"
+          (click)="onCancel()"
+          class="text-sm font-bold text-slate-500 hover:text-slate-700 transition-colors"
+        >
+          Cancel &amp; Discard
+        </button>
+
+        <!-- Schedule button — disabled + tooltip when time is not future -->
+        <div
+          class="relative"
+          (mouseenter)="onScheduleHover(true)"
+          (mouseleave)="onScheduleHover(false)"
+        >
+          <button
+            type="button"
+            (click)="scheduleNotification()"
+            [disabled]="isLoading() || !isScheduleFuture()"
+            class="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-blue-600 text-white text-xs font-bold tracking-widest uppercase shadow-lg shadow-blue-200 transition hover:bg-blue-700 hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            @if (isLoading()) {
+              <svg class="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                />
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+              </svg>
+            } @else {
+              <svg
+                class="w-4 h-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+            }
+            Schedule Notification
+          </button>
+
+          @if (showScheduleWarning()) {
+            <div
+              class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-56 px-3 py-2 bg-slate-800 text-white text-xs font-semibold rounded-lg shadow-lg text-center pointer-events-none z-50"
+            >
+              Set a future date and time to schedule.
+              <div
+                class="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-800"
+              ></div>
+            </div>
+          }
+        </div>
+      </div>
+    </form>
+  }
+</div>

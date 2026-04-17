@@ -1,0 +1,62 @@
+<!-- Author: E.Kaeith Emmanuel -->
+<div class="space-y-4">
+  <p class="text-xs font-semibold uppercase tracking-widest text-teal-500 mb-4">
+    Numerical Answer Type — Enter an integer or decimal
+  </p>
+
+  <!-- Display screen -->
+  <div
+    class="w-full bg-gray-900 rounded-2xl px-6 py-5 flex items-center justify-between shadow-inner"
+  >
+    <span class="text-3xl font-mono font-bold tracking-wider text-white min-w-[2rem]">
+      {{ displayValue || '—' }}
+    </span>
+    <button
+      (click)="backspace()"
+      class="text-gray-400 hover:text-white transition text-xl px-3 py-1 rounded-lg hover:bg-gray-700"
+      title="Backspace"
+    >
+      ⌫
+    </button>
+  </div>
+
+  <!-- Virtual keypad -->
+  <div class="grid grid-cols-3 gap-3 mt-4">
+    @for (d of digits; track d) {
+      <button
+        (click)="pressDigit(d)"
+        class="h-14 rounded-xl bg-gray-100 hover:bg-blue-100 hover:text-blue-700 text-gray-800 font-semibold text-lg transition-all duration-150 active:scale-95 shadow-sm"
+      >
+        {{ d }}
+      </button>
+    }
+
+    <!-- Bottom row -->
+    <button
+      (click)="toggleSign()"
+      class="h-14 rounded-xl bg-gray-100 hover:bg-yellow-100 hover:text-yellow-700 text-gray-700 font-semibold text-lg transition-all duration-150 active:scale-95 shadow-sm"
+      title="Toggle negative"
+    >
+      ±
+    </button>
+
+    <button
+      (click)="pressDigit('.')"
+      class="h-14 rounded-xl bg-gray-100 hover:bg-blue-100 hover:text-blue-700 text-gray-800 font-bold text-xl transition-all duration-150 active:scale-95 shadow-sm"
+    >
+      .
+    </button>
+
+    <button
+      (click)="clear()"
+      class="h-14 rounded-xl bg-red-100 hover:bg-red-200 text-red-600 font-semibold text-sm transition-all duration-150 active:scale-95 shadow-sm"
+    >
+      CLR
+    </button>
+  </div>
+
+  <!-- No negative marking note -->
+  <div class="bg-teal-50 border border-teal-200 rounded-xl px-4 py-2 text-xs text-teal-700 mt-2">
+    ℹ️ No negative marking for NAT questions. Answer must be a number (integer or decimal).
+  </div>
+</div>

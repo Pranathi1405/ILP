@@ -1,0 +1,48 @@
+<!-- Author: E.Kaeith Emmanuel -->
+
+<div class="space-y-3">
+  @for (option of question.options; track option.id) {
+    <button
+      (click)="select(option.id)"
+      class="w-full flex items-center gap-4 px-5 py-4 rounded-lg border-2 text-left transition hover:border-gray-300"
+      [class.border-teal-500]="answer === option.id"
+      [class.bg-teal-50]="answer === option.id"
+      [class.border-gray-200]="answer !== option.id"
+      [class.bg-white]="answer !== option.id"
+    >
+      <!-- Option label bubble -->
+      <span
+        class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shrink-0 transition"
+        [class.bg-teal-500]="answer === option.id"
+        [class.text-white]="answer === option.id"
+        [class.bg-gray-100]="answer !== option.id"
+        [class.text-gray-600]="answer !== option.id"
+      >
+        {{ option.label }}
+      </span>
+
+      <!-- Option text -->
+      <span
+        class="text-[14px] leading-relaxed transition"
+        [class.text-teal-700]="answer === option.id"
+        [class.font-semibold]="answer === option.id"
+        [class.text-gray-700]="answer !== option.id"
+        [innerHTML]="option.text | safeLatex"
+      >
+      </span>
+
+      <!-- Selected checkmark -->
+      @if (answer === option.id) {
+        <svg
+          class="w-5 h-5 text-teal-500 ml-auto shrink-0"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          viewBox="0 0 24 24"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+        </svg>
+      }
+    </button>
+  }
+</div>

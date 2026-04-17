@@ -1,0 +1,55 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "C:\\Users\\NDMATRIX\\Desktop\\Intern-batch-04\\backend\\logs\\.928a6b669a6d6c2f0023e850d612f846762d9a1a-audit.json",
+    "files": [
+        {
+            "date": 1775101308770,
+            "name": "C:\\Users\\NDMATRIX\\Desktop\\Intern-batch-04\\backend\\logs\\combined-2026-04-02.log",
+            "hash": "957443979f495b3083e9191538c2c6c3ec1074cf48051a405e25772f71582bee"
+        },
+        {
+            "date": 1775446934408,
+            "name": "C:\\Users\\NDMATRIX\\Desktop\\Intern-batch-04\\backend\\logs\\combined-2026-04-06.log",
+            "hash": "b5253808378126a9664d996bd79c0460629cc8da5054fe2c1b06bad7b2f9bd46"
+        },
+        {
+            "date": 1775533528899,
+            "name": "C:\\Users\\NDMATRIX\\Desktop\\Intern-batch-04\\backend\\logs\\combined-2026-04-07.log",
+            "hash": "7dbcc19dc407d3dcaf107bc8a5cf00bca798944d10a160c77036dea2ac2219f8"
+        },
+        {
+            "date": 1775619427129,
+            "name": "C:\\Users\\NDMATRIX\\Desktop\\Intern-batch-04\\backend\\logs\\combined-2026-04-08.log",
+            "hash": "c8623df226cd57f74d8be17d1828b6c82512ee3d6e628fd3003bc3dc591df1e3"
+        },
+        {
+            "date": 1775706557395,
+            "name": "C:\\Users\\NDMATRIX\\Desktop\\Intern-batch-04\\backend\\logs\\combined-2026-04-09.log",
+            "hash": "2204444d43e777b51b78237ce5a18cfa5e8e466280287d03caa02b17a44cd28d"
+        },
+        {
+            "date": 1776065353698,
+            "name": "C:\\Users\\NDMATRIX\\Desktop\\Intern-batch-04\\backend\\logs\\combined-2026-04-13.log",
+            "hash": "7c011a7f94171447e3ae71695fc306c786a221e0e47e1392331dfe605f0421f5"
+        },
+        {
+            "date": 1776138104481,
+            "name": "C:\\Users\\NDMATRIX\\Desktop\\Intern-batch-04\\backend\\logs\\combined-2026-04-14.log",
+            "hash": "c1f4bc57037469b2679fc6a991bff49b04f349fc95786f83da1c1e7d213be705"
+        },
+        {
+            "date": 1776226571026,
+            "name": "C:\\Users\\NDMATRIX\\Desktop\\Intern-batch-04\\backend\\logs\\combined-2026-04-15.log",
+            "hash": "8e85bebb4289cf1cd505ee71e0ad06348efefed88c803418f2186ba526bb37bc"
+        },
+        {
+            "date": 1776310741512,
+            "name": "C:\\Users\\NDMATRIX\\Desktop\\Intern-batch-04\\backend\\logs\\combined-2026-04-16.log",
+            "hash": "55448f4ef1807fb3407770cbf1e23a8926bba7c12dff87aaee74cc65a7023d19"
+        }
+    ],
+    "hashType": "sha256"
+}

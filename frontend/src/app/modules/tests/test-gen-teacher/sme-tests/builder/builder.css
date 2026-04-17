@@ -1,0 +1,108 @@
+        .builder-container {
+            padding: 20px;
+            font-family: Inter, sans-serif;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: #eee;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+
+        .progress {
+            height: 100%;
+            background: #2563eb;
+            border-radius: 10px;
+        }
+
+        .layout {
+            display: flex;
+            margin-top: 20px;
+        }
+
+        /* LEFT STEPPER */
+        .stepper {
+            width: 200px;
+
+            div {
+                padding: 12px;
+                border-left: 3px solid #ccc;
+                margin-bottom: 10px;
+            }
+
+            .active {
+                border-color: #2563eb;
+                font-weight: bold;
+            }
+        }
+
+        /* RIGHT CONTENT */
+        .content {
+            flex: 1;
+            padding: 20px;
+        }
+
+        /* INPUTS */
+        input,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        /* BUTTON */
+        button {
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .primary {
+            background: #2563eb;
+            color: white;
+        }
+
+        /* SUBJECT BUTTONS */
+        .subjects button {
+            margin-right: 10px;
+        }
+
+        .subjects .active {
+            background: #2563eb;
+            color: white;
+        }
+
+        /* MODE CARDS */
+        .mode-selection {
+            display: flex;
+            gap: 20px;
+        }
+
+        .card {
+            flex: 1;
+            padding: 20px;
+            border-radius: 12px;
+            background: #f9fafb;
+        }
+
+        /* OPTIONS */
+        .options .option {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        /* ACTIONS */
+        .actions {
+            display: flex;
+            justify-content: space-between;
+        }

@@ -1,0 +1,38 @@
+<div>
+  <h3 class="font-black text-slate-800">{{ dashboardData.studentName }}</h3>
+  <p class="font-white text-slate-500">Real-time Academic Snapshot</p>
+  <div class="space-y-4">
+    <div class="bg-white border border-slate-200 rounded-md shadow-sm p-8 space-y-8">
+      <h6 class="font-black text-slate-700">{{ dashboardData.attendanceText }}</h6>
+      <p class="font-white text-slate-300">{{ dashboardData.classInfo }}</p>
+    </div>
+    <div class="grid grid-cols-2 gap-6">
+      <!-- Recent Test Score -->
+      <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-6">
+        <p class="text-xs text-slate-400">Recent Test Score</p>
+        <h3 class="text-2xl font-bold mt-2">
+          {{ dashboardData.recentScore }} / {{ dashboardData.totalMarks }}
+        </h3>
+        <p class="text-xs text-blue-600 mt-1">Top Performer</p>
+      </div>
+
+      <!-- Monthly Attendance -->
+      <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-6">
+        <p class="text-xs text-slate-400">Monthly Attendance</p>
+        <h3 class="text-2xl font-bold mt-2">{{ dashboardData.attendancePercent }}%</h3>
+        <p class="text-xs text-green-600 mt-1">Good Standing</p>
+      </div>
+    </div>
+
+    <!-- Bottom Section -->
+    <p>Timeline & Recent Activity</p>
+    <div class="grid grid-cols-3 gap-6">
+      <!-- Timeline -->
+      <div
+        class="col-span-2 bg-white border border-slate-200 rounded-xl shadow-sm p-6 h-64 flex items-center justify-center"
+      >
+        <p class="text-slate-400 text-sm">No Recent Activity Detected</p>
+      </div>
+    </div>
+  </div>
+</div>

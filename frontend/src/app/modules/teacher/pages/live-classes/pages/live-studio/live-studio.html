@@ -1,0 +1,22 @@
+<!-- Author: Poojitha -->
+<!-- Live-studio Page  -->
+ 
+<div class="p-6 bg-gray-50 min-h-screen flex flex-col gap-6">
+
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-2xl font-semibold text-gray-800">Live Studio</h1>
+      <p class="text-sm text-gray-500">Manage and broadcast scheduled sessions</p>
+    </div>
+
+    <button routerLink="schedule-class"
+      class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700">
+      + Schedule New Class
+    </button>
+  </div>
+  <!-- Statistics Cards -->
+  <app-stats-cards></app-stats-cards>
+
+  <!-- Sessions List -->
+  <app-session-list></app-session-list>
+</div>

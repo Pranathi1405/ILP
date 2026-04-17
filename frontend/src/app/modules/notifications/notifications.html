@@ -1,0 +1,401 @@
+<div class="min-h-screen bg-[#F8FAFC] px-6 py-8">
+  <!-- ── Header ── -->
+  <div class="flex items-start justify-between mb-6">
+    <div>
+      <h1 class="text-2xl font-black text-slate-800 tracking-tight">Notifications</h1>
+      <p class="text-[0.68rem] font-bold tracking-widest text-slate-400 uppercase mt-0.5">
+        Stay updated with your academic journey
+      </p>
+    </div>
+
+    <button
+      (click)="onMarkAllAsRead()"
+      [disabled]="markAllLoading() || notificationsService.unreadCount() === 0"
+      class="flex items-center gap-2 px-4 py-2 rounded-2xl border border-slate-200 bg-white text-slate-600 text-[0.68rem] font-bold tracking-widest uppercase transition hover:border-slate-400 disabled:opacity-40 disabled:cursor-not-allowed"
+    >
+      @if (markAllLoading()) {
+        <svg class="animate-spin w-3.5 h-3.5" viewBox="0 0 24 24" fill="none">
+          <circle
+            class="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            stroke-width="4"
+          />
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+        </svg>
+      } @else {
+        <svg
+          width="13"
+          height="13"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="20 6 9 17 4 12" />
+        </svg>
+      }
+      Mark all as read
+    </button>
+  </div>
+
+  <!-- ── Filter bar ── -->
+  <div class="flex flex-wrap items-center gap-3 mb-5">
+    <!-- Type tabs -->
+    <div class="flex items-center gap-1.5 flex-wrap">
+      @for (tab of visibleTabs(); track tab.value) {
+        <button
+          (click)="selectTab(tab.value)"
+          class="px-3 py-1.5 rounded-lg text-[0.68rem] font-bold tracking-widest uppercase transition-all"
+          [ngClass]="
+            activeTab() === tab.value
+              ? 'bg-blue-600 text-white shadow-sm'
+              : 'bg-white text-slate-500 border border-slate-200 hover:border-slate-400'
+          "
+        >
+          {{ tab.label }}
+        </button>
+      }
+    </div>
+
+    <!-- Spacer -->
+    <div class="flex-1"></div>
+
+    <!-- Unread toggle -->
+    <button
+      (click)="toggleUnreadOnly()"
+      class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-[0.68rem] font-bold tracking-widest uppercase transition-all border"
+      [ngClass]="
+        unreadOnly()
+          ? 'bg-blue-50 text-blue-600 border-blue-200'
+          : 'bg-white text-slate-500 border-slate-200 hover:border-slate-400'
+      "
+    >
+      <span
+        class="w-2 h-2 rounded-full"
+        [ngClass]="unreadOnly() ? 'bg-blue-500' : 'bg-slate-300'"
+      ></span>
+      Unread only
+      @if (notificationsService.unreadCount() > 0) {
+        <span
+          class="ml-0.5 px-1.5 py-0.5 rounded-full text-[10px] font-black"
+          [ngClass]="unreadOnly() ? 'bg-blue-500 text-white' : 'bg-slate-100 text-slate-600'"
+        >
+          {{ notificationsService.unreadCount() }}
+        </span>
+      }
+    </button>
+  </div>
+
+  <!-- ── Notifications list ── -->
+  <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
+    @if (notificationsService.isLoading()) {
+      <!-- Loading skeleton -->
+      <div class="divide-y divide-slate-100">
+        @for (i of [1, 2, 3, 4]; track i) {
+          <div class="flex items-start gap-4 px-6 py-5 animate-pulse">
+            <div class="w-10 h-10 rounded-xl bg-slate-100 shrink-0"></div>
+            <div class="flex-1 space-y-2">
+              <div class="h-3.5 bg-slate-100 rounded w-48"></div>
+              <div class="h-3 bg-slate-100 rounded w-80"></div>
+            </div>
+            <div class="h-3 bg-slate-100 rounded w-16"></div>
+          </div>
+        }
+      </div>
+    } @else if (notificationsService.error()) {
+      <div class="px-6 py-16 text-center text-red-500 text-sm font-semibold">
+        {{ notificationsService.error() }}
+      </div>
+    } @else if (notificationsService.notifications().length === 0) {
+      <div class="px-6 py-16 text-center">
+        <div
+          class="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center mx-auto mb-3"
+        >
+          <svg
+            class="w-6 h-6 text-slate-300"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+          >
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+            <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+          </svg>
+        </div>
+        <p class="text-slate-400 text-sm font-semibold">No notifications found.</p>
+        <p class="text-slate-300 text-xs mt-1">
+          @if (unreadOnly()) {
+            Try turning off the "Unread only" filter.
+          } @else {
+            You're all caught up!
+          }
+        </p>
+      </div>
+    } @else {
+      <div class="divide-y divide-slate-100">
+        @for (n of notificationsService.notifications(); track n.notification_id) {
+          <div
+            class="flex items-start gap-4 px-6 py-5 transition-colors hover:bg-slate-50 relative"
+            [class.opacity-60]="actionLoading() === n.notification_id"
+          >
+            <!-- Unread indicator bar -->
+            @if (!n.is_read) {
+              <div class="absolute left-0 top-4 bottom-4 w-[3px] bg-blue-500 rounded-r-full"></div>
+            }
+
+            <!-- Type icon -->
+            <div
+              class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 [&_svg]:w-5 [&_svg]:h-5"
+              [ngClass]="getIconStyle(n.notification_type)"
+              [innerHTML]="getIcon(n.notification_type)"
+            ></div>
+
+            <!-- Content -->
+            <div class="flex-1 min-w-0">
+              <p
+                class="text-[13px] leading-snug mb-0.5"
+                [ngClass]="n.is_read ? 'font-semibold text-slate-600' : 'font-bold text-slate-800'"
+              >
+                {{ n.title }}
+              </p>
+              <p class="text-[12px] text-slate-400 leading-relaxed">
+                {{ n.message }}
+              </p>
+
+              <!-- Actions -->
+              <div class="flex items-center gap-4 mt-2">
+                <button
+                  (click)="openModal(n)"
+                  class="text-[0.65rem] font-bold tracking-widest uppercase text-blue-600 hover:text-blue-700 flex items-center gap-1"
+                >
+                  View details
+                  <svg
+                    width="8"
+                    height="8"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polyline points="9 18 15 12 9 6" />
+                  </svg>
+                </button>
+
+                @if (!n.is_read) {
+                  <button
+                    (click)="onMarkAsRead(n.notification_id)"
+                    class="text-[0.65rem] font-bold tracking-widest uppercase text-slate-400 hover:text-slate-600"
+                  >
+                    @if (actionLoading() === n.notification_id) {
+                      <svg class="animate-spin w-3 h-3 inline" viewBox="0 0 24 24" fill="none">
+                        <circle
+                          class="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          stroke-width="4"
+                        />
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                      </svg>
+                    } @else {
+                      Mark read
+                    }
+                  </button>
+                }
+              </div>
+            </div>
+
+            <!-- Time -->
+            <span
+              class="text-[0.65rem] font-semibold tracking-widest uppercase text-slate-400 whitespace-nowrap shrink-0 mt-0.5"
+            >
+              {{ formatTime(n.created_at) }}
+            </span>
+          </div>
+        }
+      </div>
+
+      <!-- ── Pagination ── -->
+      @if (totalPages() > 1) {
+        <div class="flex justify-between items-center px-6 py-4 border-t border-slate-100">
+          <p class="text-[11px] text-slate-500 font-semibold uppercase tracking-wide">
+            Showing {{ startIndex() + 1 }} to {{ endIndex() }} of {{ totalCount() }} notifications
+          </p>
+          <div class="flex items-center gap-1">
+            <button
+              (click)="prevPage()"
+              [disabled]="currentPage() === 1"
+              class="w-8 h-8 flex items-center justify-center rounded-md border border-slate-200 text-slate-400 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+            >
+              ‹
+            </button>
+
+            @for (page of visiblePages(); track $index) {
+              @if (page === '...') {
+                <span class="w-8 h-8 flex items-center justify-center text-slate-400 text-sm"
+                  >…</span
+                >
+              } @else {
+                <button
+                  (click)="goToPage(page)"
+                  class="w-8 h-8 flex items-center justify-center rounded-md text-[12px] font-semibold transition-colors"
+                  [ngClass]="
+                    currentPage() === page
+                      ? 'bg-blue-600 text-white border border-blue-600'
+                      : 'border border-slate-200 text-slate-500 hover:bg-slate-50'
+                  "
+                >
+                  {{ page }}
+                </button>
+              }
+            }
+
+            <button
+              (click)="nextPage()"
+              [disabled]="currentPage() === totalPages()"
+              class="w-8 h-8 flex items-center justify-center rounded-md border border-slate-200 text-slate-400 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+            >
+              ›
+            </button>
+          </div>
+        </div>
+      }
+    }
+  </div>
+</div>
+
+<!-- ── Notification Detail Modal ── -->
+@if (selectedNotification(); as n) {
+  <div
+    class="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4"
+    (click)="closeModal()"
+  >
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md" (click)="$event.stopPropagation()">
+      <!-- Modal header -->
+      <div class="flex items-start gap-4 px-6 pt-6 pb-4 border-b border-slate-100">
+        <div
+          class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 [&_svg]:w-5 [&_svg]:h-5"
+          [ngClass]="getIconStyle(n.notification_type)"
+          [innerHTML]="getIcon(n.notification_type)"
+        ></div>
+        <div class="flex-1 min-w-0">
+          <p class="font-black text-slate-800 text-[15px] leading-snug">{{ n.title }}</p>
+          <p class="text-[0.65rem] font-bold tracking-widest uppercase text-slate-400 mt-0.5">
+            {{ n.notification_type.replace('_', ' ') }} · {{ formatTime(n.created_at) }}
+          </p>
+        </div>
+        <button
+          (click)="closeModal()"
+          class="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-slate-100 text-slate-400 transition shrink-0"
+        >
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+          >
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="px-6 py-5">
+        <p class="text-sm text-slate-600 leading-relaxed">{{ n.message }}</p>
+      </div>
+
+      <!-- Modal actions -->
+      @if (!showDeleteConfirm()) {
+        <div class="flex items-center justify-between px-6 pb-6">
+          <button
+            (click)="openDeleteConfirm()"
+            class="flex items-center gap-2 px-4 py-2 rounded-xl border border-red-200 text-red-500 text-[0.68rem] font-bold tracking-widest uppercase hover:bg-red-50 transition"
+          >
+            <svg width="11" height="13" viewBox="0 0 12 14" fill="none">
+              <path
+                d="M2.25 13.5C1.8375 13.5 1.48438 13.3531 1.19062 13.0594C0.896875 12.7656 0.75 12.4125 0.75 12V2.25H0V0.75H3.75V0H8.25V0.75H12V2.25H11.25V12C11.25 12.4125 11.1031 12.7656 10.8094 13.0594C10.5156 13.3531 10.1625 13.5 9.75 13.5H2.25ZM9.75 2.25H2.25V12H9.75V2.25ZM3.75 10.5H5.25V3.75H3.75V10.5ZM6.75 10.5H8.25V3.75H6.75V10.5Z"
+                fill="currentColor"
+              />
+            </svg>
+            Delete
+          </button>
+
+          @if (!n.is_read) {
+            <button
+              (click)="onMarkAsRead(n.notification_id)"
+              class="px-4 py-2 rounded-xl bg-blue-600 text-white text-[0.68rem] font-bold tracking-widest uppercase hover:bg-blue-700 transition"
+            >
+              Mark as read
+            </button>
+          } @else {
+            <span
+              class="flex items-center gap-1.5 text-[0.68rem] font-bold tracking-widest uppercase text-emerald-500"
+            >
+              <svg
+                width="13"
+                height="13"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+              Read
+            </span>
+          }
+        </div>
+      } @else {
+        <!-- Delete confirm inline -->
+        <div class="px-6 pb-6">
+          <div class="bg-red-50 border border-red-100 rounded-xl p-4 mb-4">
+            <p class="text-sm font-bold text-red-700 mb-0.5">Delete this notification?</p>
+            <p class="text-xs text-red-400">This action cannot be undone.</p>
+          </div>
+          <div class="flex gap-3">
+            <button
+              (click)="cancelDelete()"
+              class="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 text-slate-600 text-[0.68rem] font-bold tracking-widest uppercase hover:border-slate-400 transition"
+            >
+              Cancel
+            </button>
+            <button
+              (click)="confirmDelete()"
+              [disabled]="deleteLoading()"
+              class="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-red-500 text-white text-[0.68rem] font-bold tracking-widest uppercase hover:bg-red-600 transition disabled:opacity-50"
+            >
+              @if (deleteLoading()) {
+                <svg class="animate-spin w-3.5 h-3.5" viewBox="0 0 24 24" fill="none">
+                  <circle
+                    class="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="4"
+                  />
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                </svg>
+              }
+              Delete
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+}

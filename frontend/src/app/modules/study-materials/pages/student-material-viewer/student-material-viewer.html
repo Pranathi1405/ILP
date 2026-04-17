@@ -1,0 +1,150 @@
+<!-- Author: Poojitha -->
+
+<div class="h-screen flex flex-col bg-gray-100">
+
+  <!-- HEADER -->
+  <header class="border-b bg-white px-6 py-4 shadow-sm flex items-center justify-between">
+    <div class="flex items-center gap-3">
+       <!-- Back Button -->
+      <button (click)="goBack()" class="w-9 h-9 rounded-full border flex items-center justify-center hover:bg-gray-100">
+        ←
+      </button>
+      <!-- LEFT SIDEBAR TOGGLE -->
+      <button (click)="toggleLeftSidebar()" class="bg-gray-100 hover:bg-gray-200 px-3 py-2 rounded-md transition"
+        title="Toggle Contents">
+        ☰
+      </button>
+      <h1 class="text-xl font-semibold tracking-tight">
+        {{ moduleName }}
+      </h1>
+    </div>
+
+     <!-- RIGHT SIDE BUTTONS -->
+  <div class="flex items-center gap-2">
+
+    <!-- EXPORT -->
+    <button
+      (click)="exportMaterial()"
+      class="bg-gray-100 hover:bg-gray-200 px-3 py-2 rounded-md transition"
+      title="Download Material">
+      ⬇
+    </button>
+    <!-- NOTES -->
+    <button
+      (click)="toggleRightSidebar()"
+      class="bg-gray-100 hover:bg-gray-200 px-3 py-2 rounded-md transition"
+      title="Toggle Notes">
+      📝
+    </button>
+  </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <div class="flex flex-1 overflow-hidden relative">
+
+    <!-- LEFT SIDEBAR -->
+    @if (showLeftSidebar) {
+    <aside
+      class="w-64 border-r border-gray-200 bg-white flex flex-col transform transition-all duration-300 ease-in-out"
+      [ngClass]="{
+          '-translate-x-full opacity-0': !showLeftSidebar,
+          'translate-x-0 opacity-100': showLeftSidebar
+        }">
+      <!-- SIDEBAR HEADER -->
+      <div class="flex items-center px-4 py-3 border-b border-gray-200">
+        <h2 class="text-sm font-medium uppercase tracking-wide text-gray-700">
+          CONTENTS
+        </h2>
+      </div>
+      <!-- SIDEBAR BODY -->
+      <div class="px-4 py-3 overflow-y-auto flex-1">
+        @for (topic of topics; track topic.id) {
+        <li>
+          <button (click)="selectTopic(topic)" [class.bg-sky-200]="selectedTopic?.id === topic.id"
+            class="w-full text-left px-3 py-2 rounded-md text-sm text-gray-700 hover:bg-sky-100 transition">
+            {{ topic.name }}
+          </button>
+        </li>
+        }
+      </div>
+    </aside>
+    }
+
+    <!-- CENTER VIEWER -->
+    <main class="flex-1 p-6 overflow-y-auto flex justify-center">
+      <div class="bg-white rounded-xl shadow-sm p-8 w-full max-w-5xl min-h-[400px]">
+        @if (selectedTopic) {
+        <h1 class="text-xl font-semibold text-gray-800 mb-3">
+          {{ selectedTopic.name }}
+        </h1>
+        <!-- CONTENT RENDERING -->
+        <div class="prose max-w-none p-2">
+          <!-- FLOATING TOOLBAR -->
+          @if(showToolbar){
+          <div class="absolute z-50 bg-white shadow-md rounded-lg px-3 py-2 flex gap-3 text-sm border"
+            [style.top.px]="toolbarPosition.y" [style.left.px]="toolbarPosition.x">
+            <!-- Highlight Colors -->
+            <button class="w-4 h-4 rounded-full bg-yellow-300 border hover:scale-110"
+              (click)="applyAnnotation('highlight','yellow')">
+            </button>
+            <button class="w-4 h-4 rounded-full bg-green-300 border hover:scale-110"
+              (click)="applyAnnotation('highlight','green')">
+            </button>
+            <button class="w-4 h-4 rounded-full bg-blue-300 border hover:scale-110"
+              (click)="applyAnnotation('highlight','blue')">
+            </button>
+            <button class="w-4 h-4 rounded-full bg-pink-300 border hover:scale-110"
+              (click)="applyAnnotation('highlight','pink')">
+            </button>
+            <!-- Underline -->
+            <button class="font-bold" (click)="applyAnnotation('underline')">
+              U
+            </button>
+            <!-- Dictionary -->
+            <button (click)="lookupDictionary()">
+              📖
+            </button>
+            <!-- Remove -->
+            <button (click)="removeAnnotation()">
+              🗑
+            </button>
+          </div>
+          }
+          <div class="content-area" #contentArea (mouseup)="onTextSelected()" [innerHTML]="chapterContent"></div>
+        </div>
+        } @else {
+        <div class="text-gray-400 text-sm text-center py-20">
+          Select a chapter to view content
+        </div>
+        }
+      </div>
+    </main>
+
+    <!-- RIGHT NOTES PANEL -->
+    @if (showRightSidebar) {
+    <aside
+      class="w-72 border-l border-gray-200 bg-white flex flex-col transform transition-all duration-300 ease-in-out"
+      [ngClass]="{
+          'translate-x-full opacity-0': !showRightSidebar,
+          'translate-x-0 opacity-100': showRightSidebar
+        }">
+      <!-- NOTES HEADER -->
+      <div class="px-4 py-3 border-b border-gray-200">
+        <h2 class="text-sm font-medium uppercase tracking-wide text-gray-700">
+          NOTES
+        </h2>
+      </div>
+      <!-- NOTES BODY -->
+      <div class="p-4">
+        <textarea [(ngModel)]="notesText" (ngModelChange)="autoSaveNotes()"
+          class="w-full h-64 border rounded-lg p-3 text-sm leading-relaxed resize-none focus:outline-none focus:ring"
+          placeholder="Write your notes here..."></textarea>
+        <p class="text-xs text-green-500 mt-2">
+          {{ saveStatus }}
+        </p>
+      </div>
+    </aside>
+    }
+  </div>
+
+</div>

@@ -1,0 +1,37 @@
+<div class="flex items-center justify-between px-8 py-5 bg-[#F8FAFC] border-slate-200">
+  <div>
+    <h1 class="text-lg lg:text-3xl font-black text-slate-800 leading-tight tracking-tight">
+      {{ title }}
+    </h1>
+    <p
+      class="text-[10px] lg:text-sm font-semibold tracking-[0.18em] text-slate-400 mt-0.5 uppercase"
+    >
+      {{ subtitle }}
+    </p>
+  </div>
+
+  <div class="flex items-center gap-3">
+    <app-search-component
+      [placeholder]="placeholder()"
+      [(value)]="searchValue"
+      (valueChange)="onSearch($event)"
+    />
+    <button
+      (click)="onAddNewUser()"
+      class="flex items-center gap-2 px-5 py-2.5 bg-custom_blue text-white text-sm font-semibold rounded-lg transition-colors duration-150 whitespace-nowrap shadow-sm"
+    >
+      <svg
+        class="w-4 h-4 shrink-0"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M12 5v14M5 12h14" />
+      </svg>
+      ADD NEW USER
+    </button>
+  </div>
+</div>

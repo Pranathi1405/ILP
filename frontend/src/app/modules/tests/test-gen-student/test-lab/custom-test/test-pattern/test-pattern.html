@@ -1,0 +1,475 @@
+<!-- Author: E.Kaeith Emmanuel — Test Pattern Page -->
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- TOP NAV BAR                                                -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div
+  class="fixed top-0 left-0 right-0 z-30 bg-[#1a1a2e] h-12 flex items-center justify-between px-5 shadow-md"
+>
+  <div class="flex items-center gap-3">
+    <div class="w-7 h-7 bg-blue-500 rounded flex items-center justify-center shrink-0">
+      <svg
+        class="w-4 h-4 text-white"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15"
+        />
+      </svg>
+    </div>
+    <div>
+      @if (pattern()) {
+        <p class="text-white font-bold text-sm leading-none tracking-wide">
+          {{ pattern()!.exam_name | uppercase }}
+        </p>
+        <p class="text-gray-400 text-[11px] mt-0.5">
+          {{ pattern()!.exam_code }}
+          @if (testType() === 'topic-based') {
+            &nbsp;·&nbsp;Topic Based
+          } @else {
+            &nbsp;·&nbsp;Multi Subject
+          }
+        </p>
+      } @else {
+        <p class="text-white font-bold text-sm leading-none tracking-wide">EXAM PATTERN</p>
+      }
+    </div>
+  </div>
+
+  <button
+    (click)="goBack()"
+    class="flex items-center gap-1.5 text-gray-400 hover:text-white text-xs font-semibold uppercase tracking-widest transition"
+  >
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+    </svg>
+    Back
+  </button>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- PAGE BODY                                                  -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="min-h-screen bg-[#eef1f5] pt-12">
+  <!-- ─── ERROR ── -->
+  @if (loadError()) {
+    <div class="flex items-center justify-center min-h-[calc(100vh-3rem)] px-6">
+      <div class="bg-white rounded-2xl shadow-sm p-10 text-center max-w-md w-full">
+        <div
+          class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4"
+        >
+          <svg
+            class="w-6 h-6 text-red-500"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"
+            />
+          </svg>
+        </div>
+        <p class="text-sm font-bold text-gray-800 mb-2">Failed to Load Pattern</p>
+        <p class="text-xs text-gray-500 mb-6">{{ loadError() }}</p>
+        <button
+          (click)="goBack()"
+          class="bg-black text-white text-xs font-bold px-6 py-2.5 rounded-lg uppercase tracking-widest hover:bg-gray-800 transition"
+        >
+          Go Back
+        </button>
+      </div>
+    </div>
+  }
+
+  <!-- ─── MAIN CONTENT ── -->
+  @if (!loadError() && pattern()) {
+    <div class="max-w-6xl mx-auto px-6 py-8">
+      <!-- ══ EXAM HEADER ══ -->
+      <div class="bg-white rounded-2xl shadow-sm p-6 mb-6">
+        <div class="flex items-start justify-between gap-6 flex-wrap">
+          <!-- Title + test type badge -->
+          <div>
+            <div class="flex items-center gap-3 mb-1">
+              <div class="w-2 h-8 bg-blue-500 rounded-full"></div>
+              <h1 class="text-2xl font-bold text-gray-900">{{ pattern()!.exam_name }}</h1>
+              @if (testType() === 'topic-based') {
+                <span
+                  class="bg-indigo-50 text-indigo-600 text-[10px] font-bold px-2.5 py-1 rounded-lg uppercase tracking-wide"
+                >
+                  Topic Based
+                </span>
+              } @else {
+                <span
+                  class="bg-teal-50 text-teal-600 text-[10px] font-bold px-2.5 py-1 rounded-lg uppercase tracking-wide"
+                >
+                  Multi Subject
+                </span>
+              }
+            </div>
+            <p class="text-xs text-gray-400 uppercase tracking-widest ml-5 pl-0.5">
+              {{ pattern()!.exam_code }} &nbsp;·&nbsp; Showing pattern for selected subject(s)
+            </p>
+          </div>
+
+          <!-- Overview chips — using ADJUSTED values -->
+          <div class="flex flex-wrap items-center gap-3">
+            <div
+              class="bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-center min-w-[80px]"
+            >
+              <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">
+                Questions
+              </p>
+              <p class="text-xl font-bold text-gray-900 tabular-nums">
+                {{ paperTotals().questions }}
+              </p>
+            </div>
+            <div
+              class="bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-center min-w-[80px]"
+            >
+              <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">
+                Max Marks
+              </p>
+              <p class="text-xl font-bold text-gray-900 tabular-nums">{{ paperTotals().marks }}</p>
+            </div>
+            <div
+              class="bg-blue-50 border border-blue-200 rounded-xl px-4 py-2.5 text-center min-w-[80px]"
+            >
+              <p class="text-[10px] font-bold text-blue-400 uppercase tracking-widest mb-1">
+                Duration
+              </p>
+              <p class="text-xl font-bold text-blue-700 tabular-nums">
+                {{ adjustedDuration()
+                }}<span class="text-sm text-blue-400 font-normal ml-0.5">min</span>
+              </p>
+            </div>
+            @if (pattern()!.has_partial_marking) {
+              <div class="bg-teal-50 border border-teal-200 rounded-xl px-4 py-2.5 text-center">
+                <p
+                  class="text-[10px] font-bold text-teal-500 uppercase tracking-widest leading-snug"
+                >
+                  Partial<br />Marking
+                </p>
+              </div>
+            }
+          </div>
+        </div>
+        <!-- @if (filteredSubjects().length < (activePaperRaw()?.subjects?.length ?? 0)) {
+          <div class="mt-4 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 flex items-start gap-2">
+            <svg
+              class="w-4 h-4 text-amber-500 shrink-0 mt-0.5"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            <p class="text-xs text-amber-700 leading-relaxed">
+              Showing pattern for
+              <strong>{{ filteredSubjects().length }}</strong> of
+              {{ activePaperRaw()?.subjects?.length }} subjects. Duration adjusted to
+              <strong>{{ adjustedDuration() }} min</strong> ({{ pattern()!.duration_mins }} min ÷
+              {{ activePaperRaw()?.subjects?.length }} subjects × {{ filteredSubjects().length }}).
+            </p>
+          </div>
+        } -->
+      </div>
+
+      <!-- ══ PAPER TABS (only when total_papers > 1) ══ -->
+      @if (papers().length > 1) {
+        <div class="flex items-center gap-2 mb-5 overflow-x-auto pb-1">
+          @for (paper of papers(); track paper.paper_number) {
+            <button
+              (click)="selectPaper(paper.paper_number)"
+              class="px-5 py-2 rounded-xl text-xs font-bold uppercase tracking-widest whitespace-nowrap transition border-2"
+              [class.bg-[#1a1a2e]]="activePaper() === paper.paper_number"
+              [class.border-[#1a1a2e]]="activePaper() === paper.paper_number"
+              [class.text-white]="activePaper() === paper.paper_number"
+              [class.bg-white]="activePaper() !== paper.paper_number"
+              [class.border-gray-200]="activePaper() !== paper.paper_number"
+              [class.text-gray-500]="activePaper() !== paper.paper_number"
+            >
+              Paper {{ paper.paper_number }}
+            </button>
+          }
+        </div>
+      }
+
+      <!-- ══ FILTERED SUBJECT TABLES ══ -->
+      @if (activePaperRaw()) {
+        <div class="flex flex-col gap-5 mb-6">
+          <!-- No subjects matched warning -->
+          @if (filteredSubjects().length === 0) {
+            <div class="bg-white rounded-2xl shadow-sm p-8 text-center">
+              <p class="text-sm font-bold text-gray-700 mb-1">No matching subjects found</p>
+              <p class="text-xs text-gray-400">
+                The selected subjects don't match this exam's pattern data. Go back and reselect.
+              </p>
+            </div>
+          }
+
+          @for (subject of subjectTotals(); track subject.subject_name) {
+            <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
+              <!-- Subject header -->
+              <div class="bg-[#1a1a2e] px-6 py-3.5 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                  <div class="w-2 h-2 rounded-full bg-teal-400 shrink-0"></div>
+                  <p class="text-white font-bold text-sm uppercase tracking-widest">
+                    {{ subject.subject_name }}
+                  </p>
+                </div>
+                <div class="flex items-center gap-6">
+                  <div class="text-right">
+                    <p class="text-[10px] text-gray-400 uppercase tracking-widest">Questions</p>
+                    <p class="text-base font-bold text-white tabular-nums">
+                      {{ subject.totalQuestions }}
+                    </p>
+                  </div>
+                  <div class="text-right">
+                    <p class="text-[10px] text-gray-400 uppercase tracking-widest">Max Marks</p>
+                    <p class="text-base font-bold text-teal-400 tabular-nums">
+                      {{ subject.totalMarks }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Sections table -->
+              <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                  <thead>
+                    <tr class="bg-gray-50 border-b border-gray-100">
+                      <th
+                        class="text-left px-6 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-widest"
+                      >
+                        Section
+                      </th>
+                      <th
+                        class="text-left px-4 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-widest"
+                      >
+                        Type
+                      </th>
+                      <th
+                        class="text-center px-4 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-widest"
+                      >
+                        Questions
+                      </th>
+                      <th
+                        class="text-center px-4 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-widest"
+                      >
+                        Correct
+                      </th>
+                      <th
+                        class="text-center px-4 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-widest"
+                      >
+                        Incorrect
+                      </th>
+                      @if (pattern()!.has_partial_marking) {
+                        <th
+                          class="text-center px-4 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-widest"
+                        >
+                          Partial
+                        </th>
+                      }
+                      <th
+                        class="text-center px-4 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-widest"
+                      >
+                        Status
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (section of subject.sections; track section.section_id; let last = $last) {
+                      <tr
+                        class="hover:bg-blue-50/40 transition"
+                        [class.border-b]="!last"
+                        [class.border-gray-100]="!last"
+                      >
+                        <td class="px-6 py-4">
+                          <p class="font-semibold text-gray-800 text-[13px]">
+                            {{ section.section_name }}
+                          </p>
+                        </td>
+                        <td class="px-4 py-4">
+                          <span
+                            class="bg-indigo-50 text-indigo-600 text-[10px] font-bold px-2.5 py-1 rounded-lg uppercase tracking-wide whitespace-nowrap"
+                          >
+                            {{ getQuestionTypeLabel(section.question_type) }}
+                          </span>
+                        </td>
+                        <td class="px-4 py-4 text-center">
+                          <span class="text-gray-900 font-bold tabular-nums">{{
+                            section.num_questions
+                          }}</span>
+                        </td>
+                        <td class="px-4 py-4 text-center">
+                          <span class="text-green-600 font-bold">+{{ section.marks_correct }}</span>
+                        </td>
+                        <td class="px-4 py-4 text-center">
+                          <span class="text-red-500 font-bold">
+                            @if (section.marks_incorrect < 0) {
+                              {{ section.marks_incorrect }}
+                            } @else {
+                              −{{ section.marks_incorrect }}
+                            }
+                          </span>
+                        </td>
+                        @if (pattern()!.has_partial_marking) {
+                          <td class="px-4 py-4 text-center">
+                            @if (section.marks_partial != null) {
+                              <span class="text-amber-500 font-bold"
+                                >+{{ section.marks_partial }}</span
+                              >
+                            } @else {
+                              <span class="text-gray-300">—</span>
+                            }
+                          </td>
+                        }
+                        <td class="px-4 py-4 text-center">
+                          @if (section.is_optional) {
+                            <span
+                              class="bg-yellow-50 border border-yellow-300 text-yellow-600 text-[10px] font-bold px-2.5 py-1 rounded-lg uppercase tracking-wide"
+                            >
+                              Optional
+                            </span>
+                          } @else {
+                            <span
+                              class="bg-gray-100 text-gray-400 text-[10px] font-bold px-2.5 py-1 rounded-lg uppercase tracking-wide"
+                            >
+                              Compulsory
+                            </span>
+                          }
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                  <tfoot>
+                    <tr class="bg-gray-50 border-t-2 border-gray-200">
+                      <td
+                        class="px-6 py-3 text-[11px] font-bold text-gray-500 uppercase tracking-widest"
+                        colspan="2"
+                      >
+                        Subject Total
+                      </td>
+                      <td class="px-4 py-3 text-center font-bold text-gray-800 tabular-nums">
+                        {{ subject.totalQuestions }}
+                      </td>
+                      <td
+                        class="px-4 py-3 text-center font-bold text-teal-600 tabular-nums"
+                        colspan="2"
+                      >
+                        {{ subject.totalMarks }} Marks
+                      </td>
+                      @if (pattern()!.has_partial_marking) {
+                        <td></td>
+                      }
+                      <td></td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- ══ GRAND TOTAL BAR ══ -->
+        <div
+          class="bg-[#1a1a2e] rounded-2xl px-6 py-4 flex items-center justify-between mb-6 flex-wrap gap-4"
+        >
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 bg-teal-500/20 rounded-lg flex items-center justify-center">
+              <svg
+                class="w-4 h-4 text-teal-400"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            </div>
+            <div>
+              <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                Paper {{ activePaper() }} — Total
+              </p>
+              <p class="text-white text-sm font-bold mt-0.5">
+                {{ paperTotals().questions }} Questions &nbsp;·&nbsp;
+                <span class="text-teal-400">{{ paperTotals().marks }} Marks</span>
+              </p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <svg
+              class="w-4 h-4 text-gray-400"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <path stroke-linecap="round" d="M12 6v6l4 2" />
+            </svg>
+            <span class="text-gray-300 text-sm font-semibold tabular-nums">
+              {{ adjustedDuration() }} min
+            </span>
+          </div>
+        </div>
+      }
+
+      <!-- ══ CTA ══ -->
+      <div
+        class="bg-white rounded-2xl shadow-sm px-6 py-5 flex items-center justify-between gap-4 flex-wrap"
+      >
+        <div>
+          <p class="text-sm font-bold text-gray-800">Understood the pattern?</p>
+          <p class="text-xs text-gray-400 mt-0.5">
+            Proceed to read the exam instructions before starting.
+          </p>
+        </div>
+        <button
+          (click)="proceedToInstructions()"
+          class="relative overflow-hidden rounded-xl font-bold text-white transition shrink-0"
+          style="min-width: 220px"
+        >
+          <div class="bg-linear-to-br from-blue-500 to-blue-700 px-8 pt-4 pb-7 text-center">
+            <span class="text-base uppercase tracking-wider flex items-center justify-center gap-2">
+              View Instructions
+              <svg
+                class="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+                />
+              </svg>
+            </span>
+          </div>
+          <div
+            class="bg-blue-900 py-1.5 text-center text-[10px] tracking-widest text-blue-300 font-semibold"
+          >
+            {{ paperTotals().questions }} QUESTIONS &nbsp;·&nbsp; {{ adjustedDuration() }} MIN
+          </div>
+        </button>
+      </div>
+    </div>
+  }
+</div>

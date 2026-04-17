@@ -1,0 +1,34 @@
+<section class="bg-gray-50 py-20 px-6 lg:px-20">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-14">
+      <h2 class="text-3xl lg:text-4xl font-bold mb-4">
+        Why <span class="text-cyan-600">Choose Us?</span>
+      </h2>
+      <p class="text-gray-500 max-w-2xl mx-auto text-sm lg:text-base">
+        We offer everything you need to succeed in your academic journey with expert guidance.
+      </p>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+      @for (feature of features; track feature.title) {
+
+        <div
+          class="bg-white border border-gray-200 rounded-2xl p-8 text-center transition duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-blue-200">
+          <div
+            class="w-16 h-16 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-5"
+            [ngClass]="feature.bg">
+            {{ feature.icon }}
+          </div>
+          <h3 class="text-lg font-semibold mb-3">
+            {{ feature.title }}
+          </h3>
+          <p class="text-gray-500 text-sm leading-relaxed">
+            {{ feature.description }}
+          </p>
+
+        </div>
+
+      }
+    </div>
+  </div>
+</section>

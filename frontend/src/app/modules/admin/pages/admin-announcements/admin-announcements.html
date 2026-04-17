@@ -1,0 +1,14 @@
+@if (!isChildRoute) {
+  <app-announcements-navbar />
+  <div class="bg-[#F8FAFC]">
+    <div class="flex justify-between w-xl md:w-full bg-white border-slate-400 rounded-lg px-3 py-3">
+      <app-announcements-tabs [(activeTab)]="activeTab" />
+    </div>
+    <app-announcements-table
+      [filteredAnnouncements]="filteredAnnouncements()"
+      [resetKey]="activeTab()"
+    />
+  </div>
+}
+
+<router-outlet />

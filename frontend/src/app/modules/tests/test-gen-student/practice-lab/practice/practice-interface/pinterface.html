@@ -1,0 +1,288 @@
+<div class="min-h-screen bg-gray-100 flex flex-col">
+  <!-- HEADER -->
+  <header class="flex items-center justify-between px-6 py-4 bg-black text-white">
+    <div>
+      <p class="font-bold tracking-widest text-sm">DEEP PRACTICE SESSION</p>
+      <p class="text-gray-400 text-xs mt-0.5">
+        Question {{ currentIndex + 1 }} of {{ questions.length }}
+      </p>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <!-- TIMER -->
+      <div class="flex items-center gap-2 bg-gray-800 rounded-xl px-4 py-2">
+        <svg class="w-4 h-4 text-gray-300 shrink-0" fill="none" stroke="currentColor" stroke-width="2"
+          viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="10" />
+          <path d="M12 6v6l4 2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+
+        <span class="font-mono text-sm font-semibold tracking-widest min-w-[52px] text-center"
+          [class.text-white]="timerRunning" [class.text-gray-400]="!timerRunning">
+          {{ formattedTime }}
+        </span>
+
+        <button (click)="toggleTimer()" class="text-xs px-2 py-1 rounded-lg transition font-medium text-white"
+          [class.bg-green-500]="!timerRunning" [class.bg-yellow-500]="timerRunning"
+          [title]="timerRunning ? 'Pause timer' : 'Start timer'">
+          {{ timerRunning ? '⏸' : '▶' }}
+        </button>
+
+        <button (click)="resetTimer()"
+          class="text-xs px-2 py-1 rounded-lg bg-gray-600 hover:bg-gray-500 text-white transition" title="Reset timer">
+          ↺
+        </button>
+      </div>
+      <div class="text-xs text-gray-500 mt-1">
+        +{{ currentQuestion?.marks }}
+        @if (test?.negative_marking && currentQuestion?.marks_incorrect) {
+        / {{ currentQuestion?.marks_incorrect }}
+        }
+      </div>
+
+      <span class="text-sm text-gray-300">
+        Accuracy: <strong class="text-white">{{ accuracy }}%</strong>
+      </span>
+
+      <button (click)="submitTest()" [disabled]="isSubmitting"
+        class="bg-red-500 hover:bg-red-600 disabled:bg-red-800 text-white px-4 py-2 rounded-lg text-sm transition">
+        {{ isSubmitting ? 'Submitting…' : 'Exit & Submit' }}
+      </button>
+    </div>
+  </header>
+
+  <div class="flex flex-1 overflow-hidden">
+    <!-- ── MAIN PANEL ───────────────────────────────── -->
+    <div class="flex-1 p-6 overflow-y-auto">
+      @if (isLoading) {
+      <div class="flex items-center justify-center h-64">
+        <p class="text-gray-400 animate-pulse">Loading questions...</p>
+      </div>
+      } @else if (errorMessage) {
+      <div class="mx-auto max-w-2xl rounded-2xl border border-red-200 bg-red-50 p-6 text-center">
+        <p class="text-base font-medium text-red-700">{{ errorMessage }}</p>
+      </div>
+      } @else {
+      <!-- QUESTION META -->
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <span class="inline-block bg-gray-800 text-white text-xs px-3 py-1 rounded-full mr-2">
+            {{ currentQuestionType }}
+          </span>
+          <span class="text-xs text-gray-500">
+            {{ currentQuestion?.difficulty | titlecase }}
+          </span>
+        </div>
+
+        <div class="flex gap-2">
+          @if (!checked[currentIndex]) {
+          <button (click)="revealHint()"
+            class="text-sm px-4 py-1.5 border border-yellow-400 text-yellow-600 rounded-lg hover:bg-yellow-50 transition">
+            💡 Hint
+          </button>
+          }
+
+          @if (checked[currentIndex]) {
+          <button (click)="toggleSolution()"
+            class="text-sm px-4 py-1.5 border border-blue-400 text-blue-600 rounded-lg hover:bg-blue-50 transition">
+            {{ showSolution ? 'Hide Solution' : 'View Solution' }}
+          </button>
+          }
+        </div>
+      </div>
+
+      <!-- PARAGRAPH (if applicable) -->
+      @if (currentQuestion?.paragraph_text) {
+      <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-4 text-sm text-gray-700 leading-relaxed">
+        <div [innerHTML]="currentQuestion?.paragraph_text || '' | safeLatex"></div>
+      </div>
+      }
+
+      <!-- QUESTION TEXT -->
+      <div class="bg-white rounded-2xl p-6 shadow-sm mb-4 text-gray-800 leading-relaxed">
+        <div [innerHTML]="currentQuestion?.question_text || '' | safeLatex"></div>
+
+        @if (currentQuestion?.question_image_url) {
+        <img [src]="currentQuestion?.question_image_url" alt="Question image" class="mt-4 max-w-full rounded-lg" />
+        }
+      </div>
+
+      <!-- HINT -->
+      @if (isHintVisible(currentIndex) && currentQuestion?.hints) {
+      <div class="bg-yellow-50 border border-yellow-300 rounded-xl p-4 mb-4 text-sm text-yellow-800">
+        <strong>Hint:</strong> {{ currentQuestion?.hints }}
+      </div>
+      }
+
+      <!-- ── MCQ OPTIONS ── -->
+      @if (currentQuestionType === 'MCQ') {
+      <div class="space-y-3">
+        @for (option of currentQuestion?.options; track option.option_id) {
+        <div (click)="selectMCQ(option)" class="p-4 border-2 rounded-xl cursor-pointer transition-all"
+          [class]="getMCQOptionClass(option)">
+          @if (option.option_image_url) {
+          <img [src]="option.option_image_url" alt="Option" class="mb-2 max-h-24 rounded" />
+          }
+          <div [innerHTML]="(option.option_text || '') | safeLatex"></div>
+        </div>
+        }
+      </div>
+      }
+
+      <!-- ── MSQ OPTIONS ── -->
+      @if (currentQuestionType === 'MSQ') {
+      <p class="text-xs text-gray-400 mb-2">Select all that apply</p>
+      <div class="space-y-3">
+        @for (option of currentQuestion?.options; track option.option_id) {
+        <div (click)="selectMSQ(option)"
+          class="p-4 border-2 rounded-xl cursor-pointer transition-all flex items-center gap-3"
+          [class]="getMSQOptionClass(option)">
+          <input type="checkbox" [checked]="(msqAnswers[currentIndex] || []).includes(option.option_id)"
+            class="pointer-events-none" readonly />
+          <span [innerHTML]="(option.option_text || '') | safeLatex"></span>
+        </div>
+        }
+      </div>
+      }
+
+      <!-- ── NAT INPUT ── -->
+      @if (currentQuestionType === 'NAT') {
+      <div class="mt-2">
+        <label class="block text-sm text-gray-500 mb-2">Enter your numerical answer:</label>
+        <input type="number" step="any" [value]="natAnswers[currentIndex] || ''"
+          (input)="updateNAT($any($event.target).value)" [disabled]="checked[currentIndex]"
+          class="border-2 rounded-xl p-3 w-full max-w-xs transition-all" [class]="getNATClass()"
+          placeholder="Your answer" />
+        @if (checked[currentIndex] && feedback[currentIndex]?.correctNumerical != null) {
+        <p class="mt-2 text-sm text-green-700">
+          Correct answer: <strong>{{ feedback[currentIndex]?.correctNumerical }}</strong>
+        </p>
+        }
+      </div>
+      }
+
+      <!-- ── SOLUTION ── -->
+      @if (showSolution && checked[currentIndex]) {
+      <div class="mt-6 bg-green-50 border border-green-200 rounded-2xl p-5">
+        <div class="flex items-center gap-2 mb-3">
+          @if (isCorrect(currentIndex)) {
+          <span class="text-green-700 font-semibold">✅ Correct!</span>
+          } @else {
+          <span class="text-sm text-gray-500 ml-auto">
+            Marks:
+            <strong [class.text-green-600]="getMarks(currentIndex) > 0"
+              [class.text-red-600]="getMarks(currentIndex) < 0">
+              {{
+              getMarks(currentIndex) > 0
+              ? '+' + getMarks(currentIndex)
+              : getMarks(currentIndex)
+              }}
+            </strong>
+          </span>
+          }
+        </div>
+        @if (currentQuestion?.explanation) {
+        <p class="text-gray-700 text-sm leading-relaxed">
+          <strong>Explanation:</strong>
+          <span [innerHTML]="currentQuestion?.explanation || '' | safeLatex"></span>
+        </p>
+        }
+      </div>
+      }
+
+      <!-- ── NAVIGATION ── -->
+      <div class="flex justify-between mt-8">
+        <!-- Previous -->
+        <button (click)="previous()" [disabled]="currentIndex === 0"
+          class="px-6 py-3 border border-gray-300 rounded-xl text-sm font-medium disabled:opacity-40 hover:border-gray-400 transition">
+          ← Previous
+        </button>
+
+        <!-- Right-side buttons -->
+        <div class="flex gap-3">
+          <!-- Check Answer — only if not yet checked -->
+          @if (!checked[currentIndex]) {
+          <button (click)="checkAnswer()" [disabled]="!hasAnswer()"
+            class="px-8 py-3 bg-black text-white rounded-xl text-sm font-medium disabled:opacity-40 hover:bg-gray-800 transition">
+            Check Answer
+          </button>
+          }
+
+          <!-- Next — always visible (enabled after checking OR as skip) -->
+          @if (!isLastQuestion) {
+          <button (click)="next()" class="px-8 py-3 rounded-xl text-sm font-medium transition"
+            [class.bg-teal-500]="checked[currentIndex]" [class.hover:bg-teal-600]="checked[currentIndex]"
+            [class.text-white]="checked[currentIndex]" [class.border]="!checked[currentIndex]"
+            [class.border-gray-300]="!checked[currentIndex]" [class.text-gray-500]="!checked[currentIndex]"
+            [class.hover:border-gray-400]="!checked[currentIndex]">
+            Next →
+          </button>
+          } @else {
+          <!-- Last question: show Submit -->
+          <button (click)="submitTest()" [disabled]="isSubmitting"
+            class="px-8 py-3 bg-red-500 text-white rounded-xl text-sm font-medium hover:bg-red-600 disabled:opacity-40 transition">
+            {{ isSubmitting ? 'Submitting…' : 'Submit Test' }}
+          </button>
+          }
+        </div>
+      </div>
+      }
+    </div>
+
+    <!-- ── SIDEBAR ───────────────────────────────────── -->
+    <aside class="w-72 bg-white border-l p-5 overflow-y-auto">
+      <p class="text-xs text-gray-400 tracking-widest mb-4">QUESTION PALETTE</p>
+
+      <div class="grid grid-cols-5 gap-2 mb-6">
+        @for (q of questions; track q.question_id; let i = $index) {
+        <button (click)="goToQuestion(i)" class="aspect-square rounded-lg text-sm font-medium transition-all"
+          [class]="getPaletteClass(i)">
+          {{ i + 1 }}
+        </button>
+        }
+      </div>
+
+      <!-- LEGEND -->
+      <div class="space-y-2 text-xs text-gray-500 mb-6">
+        <div class="flex items-center gap-2">
+          <span class="w-4 h-4 rounded bg-black inline-block"></span> Current
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-4 h-4 rounded bg-green-200 inline-block"></span> Correct
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-4 h-4 rounded bg-red-200 inline-block"></span> Wrong
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-4 h-4 rounded bg-gray-100 border inline-block"></span> Unattempted
+        </div>
+      </div>
+
+      <hr class="mb-4" />
+
+      <!-- LIVE STATS -->
+      <div class="space-y-3">
+        <div class="flex justify-between text-sm">
+          <span class="text-gray-500">Attempted</span>
+          <span class="font-semibold">{{ attemptedCount }} / {{ questions.length }}</span>
+        </div>
+        <div class="flex justify-between text-sm">
+          <span class="text-gray-500">Accuracy</span>
+          <span class="font-semibold text-teal-600">{{ accuracy }}%</span>
+        </div>
+        <div class="flex justify-between text-sm">
+          <span class="text-gray-500">Time Elapsed</span>
+          <span class="font-mono font-semibold" [class.text-teal-600]="timerRunning"
+            [class.text-gray-400]="!timerRunning">
+            {{ formattedTime }}
+          </span>
+        </div>
+      </div>
+
+      <button (click)="submitTest()" [disabled]="isSubmitting"
+        class="mt-6 w-full py-3 bg-red-500 hover:bg-red-600 disabled:bg-gray-300 text-white rounded-xl text-sm font-medium transition">
+        {{ isSubmitting ? 'Submitting…' : 'Submit Test' }}
+      </button>
+    </aside>
+  </div>
+</div>

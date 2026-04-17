@@ -1,0 +1,130 @@
+<!-- Author: Poojitha -->
+<!-- Video-Upload Component for recorded Classes -->
+
+<div class="p-6 bg-[#f7f8fc] min-h-screen">
+
+  <!-- HEADER -->
+  <div class="mb-6">
+    <h1 class="text-2xl font-semibold text-gray-800"><strong>{{ courseName }}</strong></h1>
+
+    <h2 class="mt-2 text-lg font-semibold"><strong>Upload Lecture Video</strong></h2>
+    <p class="text-sm text-gray-500">
+      Add new video content to <strong>{{ moduleName }}</strong>
+    </p>
+  </div>
+
+  <!-- MAIN GRID -->
+  <div class="flex gap-6">
+
+    <!-- LEFT SECTION -->
+    <div class="flex-1">
+      <app-file-upload titleLabel="Video Title" titlePlaceholder="Enter lecture title (e.g., Laws of Motion)"
+        descriptionPlaceholder="Write a short description about this video..."
+        uploadText="Drag and drop your video file" supportedText="Supports MP4, MOV, and AVI. Max file size: 2GB."
+        accept="video/*" [enablePreview]="true" (fileChange)="onFileData($event)"></app-file-upload>
+    </div>
+
+    <!-- RIGHT SECTION -->
+    <div class="w-[300px] space-y-6">
+
+      <!-- THUMBNAIL -->
+      <div class="bg-white p-5 rounded-xl shadow-sm">
+        <p class="text-sm font-medium text-gray-700 mb-2">
+          <strong>Video Thumbnail</strong>
+        </p>
+
+        <div class="border border-gray-200 rounded-lg p-4 text-center bg-gray-50">
+
+          <!-- IMAGE PREVIEW -->
+          @if (thumbnailPreview) {
+          <div class="relative">
+
+            <img [src]="thumbnailPreview" class="w-full h-40 object-contain rounded-md bg-black cursor-pointer"
+              (click)="showImagePreview = true" />
+
+            <!-- REMOVE BUTTON -->
+            <button
+              class="absolute top-2 right-2 bg-black/60 text-white rounded-full w-7 h-7 flex items-center justify-center"
+              (click)="removeThumbnail()">
+              ✕
+            </button>
+
+          </div>
+          }
+
+          <!-- UPLOAD STATE -->
+          @else {
+          <label class="cursor-pointer block py-6">
+
+            <p class="text-xs text-gray-500">Upload cover image</p>
+
+            <input type="file" class="hidden" accept="image/png, image/jpeg" (change)="onThumbnailSelected($event)" />
+          </label>
+          }
+
+        </div>
+
+        <p class="text-xs text-gray-400 mt-2">
+          Recommended: 1280×720 (16:9), PNG or JPG
+        </p>
+      </div>
+
+      <!-- ACCESS -->
+      <div class="bg-white p-5 rounded-xl shadow-sm">
+        <p class="text-sm font-medium text-gray-700 mb-3">
+          <strong>Video Access</strong>
+        </p>
+
+        <div class="space-y-2 text-sm">
+          <label class="flex items-center gap-2">
+            <input type="radio" name="access" [checked]="accessType === 'COURSE'" (change)="accessType = 'COURSE'">
+            <strong>Course Only</strong>
+          </label>
+
+          <p class="text-xs text-gray-400 ml-6">
+            Only enrolled students can view this lecture
+          </p>
+
+          <label class="flex items-center gap-2 mt-2">
+            <input type="radio" name="access" [checked]="accessType === 'FREE'" (change)="accessType = 'FREE'">
+            <strong>Free Preview</strong>
+          </label>
+
+          <p class="text-xs text-gray-400 ml-6">
+            Available to all users for marketing
+          </p>
+        </div>
+
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- FOOTER BUTTONS -->
+  <div class="flex justify-end gap-4 mt-8">
+    <app-footer-actions publishLabel="Publish Video" (cancel)="onCancel()" (saveDraft)="onSaveDraft()"
+      (publish)="onPublish()"></app-footer-actions>
+
+  </div>
+
+</div>
+
+<!--  THUMBNAIL PREVIEW MODAL -->
+@if (showImagePreview) {
+<div class="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+
+  <div class="relative">
+
+    <img [src]="thumbnailPreview" class="max-w-[90vw] max-h-[80vh] rounded-lg" />
+
+    <button class="absolute top-2 right-2 bg-white text-black rounded-full w-8 h-8 flex items-center justify-center"
+      (click)="showImagePreview = false">
+      ✕
+    </button>
+
+  </div>
+
+</div>
+}

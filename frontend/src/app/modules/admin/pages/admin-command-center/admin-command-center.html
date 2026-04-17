@@ -1,0 +1,77 @@
+<section class="min-h-full bg-slate-50 p-6 max-[899px]:p-4">
+  <header class="mb-6">
+    <div>
+      <h1 class="text-lg lg:text-3xl font-black text-slate-800 leading-tight tracking-tight">
+        Command Center
+      </h1>
+      <p
+        class="text-[10px] lg:text-sm font-semibold tracking-[0.18em] text-slate-400 mt-0.5 uppercase"
+      >
+        Platform-wide overview and diagnostics
+      </p>
+    </div>
+  </header>
+
+  @if (isLoading) {
+    <div class="grid gap-4 grid-cols-4 max-[1199px]:grid-cols-2 max-[1120px]:grid-cols-1">
+      @for (_ of [1, 2, 3, 4]; track $index) {
+        <div class="h-[150px] animate-pulse rounded-[28px] bg-white/90"></div>
+      }
+      <div
+        class="col-span-3 h-[390px] animate-pulse rounded-[28px] bg-white/90 max-[1120px]:col-span-1"
+      ></div>
+      <div
+        class="col-span-3 h-[390px] animate-pulse rounded-[28px] bg-white/90 max-[1120px]:col-span-1"
+      ></div>
+      <div
+        class="col-span-3 h-[320px] animate-pulse rounded-[28px] bg-white/90 max-[1120px]:col-span-1"
+      ></div>
+      <div
+        class="col-span-3 h-[320px] animate-pulse rounded-[28px] bg-white/90 max-[1120px]:col-span-1"
+      ></div>
+    </div>
+  } @else if (errorMessage) {
+    <article
+      class="rounded-[28px] border border-slate-200/70 bg-white px-6 py-6 shadow-[0_28px_60px_rgba(15,23,42,0.08)]"
+    >
+      <h2 class="text-xl font-black text-slate-900">Unable to load command center</h2>
+      <p class="mt-2 text-sm font-semibold text-slate-500">{{ errorMessage }}</p>
+    </article>
+  } @else {
+    <div class="grid gap-6">
+      <app-command-center-kpis [cards]="kpiCards" />
+
+      <section class="grid min-h-[50vh] grid-cols-2 gap-6 max-[1120px]:grid-cols-1">
+        <app-command-center-chart-card
+          [title]="'User Growth Trend'"
+          [subtitle]="'Daily active users vs registrations'"
+          [badge]="'Last 7 Days'"
+          [config]="userGrowthChart"
+          [emptyMessage]="'User growth data is not available yet.'"
+        />
+
+        <app-command-center-chart-card
+          [title]="'Revenue Trend'"
+          [subtitle]="'Total vs net revenue across recent periods'"
+          [badge]="revenueBadge"
+          [config]="revenueTrendChart"
+          [emptyMessage]="'Revenue trend data is not available yet.'"
+        />
+      </section>
+
+      <section
+        class="grid min-h-[45vh] grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] gap-6 max-[1120px]:grid-cols-1"
+      >
+        <app-command-center-actions [cards]="actionCards" />
+
+        <app-command-center-chart-card
+          [title]="'Top Course Performance'"
+          [subtitle]="'Top 5 courses by enrollment'"
+          [badge]="'Enrollment Drivers'"
+          [config]="topCoursesChart"
+          [emptyMessage]="'Top course data is not available yet.'"
+        />
+      </section>
+    </div>
+  }
+</section>

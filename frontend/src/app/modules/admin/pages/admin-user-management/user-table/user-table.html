@@ -1,0 +1,337 @@
+<div class="bg-white mt-5 border border-slate-200 rounded-xl">
+  <div class="overflow-x-auto">
+    <table class="w-full min-w-200">
+      <colgroup>
+        <col class="w-[12%] xl:w-[10%]" />
+        <col class="w-[28%] xl:w-[25%] 2xl:w-[22%]" />
+        <col class="w-[16%] xl:w-[18%]" />
+        <col class="w-[18%] xl:w-[20%]" />
+        <col class="w-[16%] xl:w-[17%]" />
+        <col class="w-[10%] xl:w-[10%]" />
+      </colgroup>
+      <thead class="bg-[#F8FAFC]">
+        <tr>
+          @for (key of userOptions; track key) {
+            <th
+              class="px-3 lg:px-4 xl:px-6 py-3 xl:py-4 text-center font-bold text-[10px] lg:text-[11px] xl:text-[12px] leading-[120%] tracking-[2px] uppercase text-[#94A3B8]"
+            >
+              {{ key }}
+            </th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @if (isLoading()) {
+          <tr>
+            <td [colSpan]="userOptions.length" class="px-6 py-16 text-center">
+              <div
+                class="mx-auto w-6 h-6 border-2 border-slate-200 border-t-cyan-500 rounded-full animate-spin"
+              ></div>
+            </td>
+          </tr>
+        } @else if (users().length === 0) {
+          <tr>
+            <td
+              [colSpan]="userOptions.length"
+              class="px-6 py-16 text-center text-slate-400 text-sm"
+            >
+              No users found.
+            </td>
+          </tr>
+        } @else {
+          @for (user of users(); track user.user_id) {
+            <tr class="border-t border-slate-100 hover:bg-slate-50 transition-colors">
+              <!-- User ID -->
+              <td
+                class="px-3 lg:px-4 xl:px-6 py-3 xl:py-4 text-center align-middle font-bold text-[10px] lg:text-[11px] xl:text-[12px] leading-[100%] uppercase text-slate-500"
+              >
+                {{ user.user_id }}
+              </td>
+
+              <!-- Name + Email -->
+              <td class="px-3 lg:px-4 xl:px-6 py-3 xl:py-4 text-center">
+                <div class="flex items-center gap-2 min-w-0">
+                  @if (user.user_type === 'ADMIN') {
+                    <svg
+                      class="shrink-0 w-8 h-8 lg:w-9 lg:h-9 xl:w-10 xl:h-10"
+                      viewBox="0 0 40 40"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <rect width="40" height="40" rx="8" fill="#F1F5F9" />
+                      <path
+                        d="M22.8828 22.5078C22.8828 21.8516 23.3516 21.3828 24.0078 21.3828C24.6172 21.3828 25.1328 21.8516 25.1328 22.5078C25.1328 23.1172 24.6172 23.6328 24.0078 23.6328C23.3516 23.6328 22.8828 23.1172 22.8828 22.5078ZM24.0078 24.4766C23.2578 24.4766 21.8047 24.8516 21.7578 25.5547C22.2734 26.3047 23.0703 26.7266 24.0078 26.7266C24.8984 26.7266 25.7422 26.3047 26.2109 25.5547C26.1641 24.8516 24.7109 24.4766 24.0078 24.4766ZM24.9922 18.1016V13.2734L17.4922 9.99219L9.99219 13.2734V18.1953C9.99219 22.6953 13.1797 26.9609 17.4922 27.9922C18.0547 27.8516 18.5703 27.6641 19.0859 27.4297C20.1641 28.9766 21.9453 30.0078 24.0078 30.0078C27.2891 30.0078 30.0078 27.2891 30.0078 24.0078C30.0078 21.0078 27.8516 18.5703 24.9922 18.1016ZM18.0078 24.0078C18.0078 24.5703 18.0547 25.0859 18.2422 25.6016C17.9609 25.7422 17.7266 25.8359 17.4922 25.9297C14.3047 24.8984 12.0078 21.6641 12.0078 18.1953V14.5859L17.4922 12.1953L22.9766 14.5859V18.1016C20.1641 18.5703 18.0078 21.0078 18.0078 24.0078ZM24.0078 27.9922C21.8047 27.9922 19.9766 26.2109 19.9766 24.0078C19.9766 21.8047 21.8047 19.9766 24.0078 19.9766C26.2109 19.9766 27.9922 21.8047 27.9922 24.0078C27.9922 26.2109 26.2109 27.9922 24.0078 27.9922Z"
+                        fill="#94A3B8"
+                      />
+                    </svg>
+                  } @else {
+                    <svg
+                      class="shrink-0 w-8 h-8 lg:w-9 lg:h-9 xl:w-10 xl:h-10"
+                      viewBox="0 0 40 40"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <rect width="40" height="40" rx="8" fill="#F1F5F9" />
+                      <path
+                        d="M20 14C21.0781 14 22.0156 14.8906 22.0156 16.0156C22.0156 17.0938 21.0781 17.9844 20 17.9844C18.9219 17.9844 17.9844 17.0938 17.9844 16.0156C17.9844 14.8906 18.9219 14 20 14ZM20 23.9844C22.7188 23.9844 25.8125 25.2969 26 26H14C14.2344 25.2969 17.3281 23.9844 20 23.9844ZM20 11.9844C17.7969 11.9844 16.0156 13.8125 16.0156 16.0156C16.0156 18.2188 17.7969 20 20 20C22.2031 20 23.9844 18.2188 23.9844 16.0156C23.9844 13.8125 22.2031 11.9844 20 11.9844ZM20 22.0156C17.3281 22.0156 11.9844 23.3281 11.9844 26V28.0156H28.0156V26C28.0156 23.3281 22.6719 22.0156 20 22.0156Z"
+                        fill="#94A3B8"
+                      />
+                    </svg>
+                  }
+                  <div class="flex flex-col gap-1 min-w-0 text-left">
+                    <p
+                      class="font-bold text-[13px] lg:text-[14px] xl:text-[16px] leading-[100%] text-black truncate"
+                    >
+                      {{ user.name }}
+                    </p>
+                    <p
+                      class="font-light text-[11px] lg:text-[12px] xl:text-[13px] leading-[100%] tracking-wider text-slate-400 truncate"
+                    >
+                      {{ user.email }}
+                    </p>
+                  </div>
+                </div>
+              </td>
+
+              <!-- Role -->
+              <td class="px-3 lg:px-4 xl:px-6 py-3 xl:py-4">
+                <p
+                  class="bg-[#F1F5F9] mx-auto w-fit px-2 lg:px-3 xl:px-4 py-1 xl:py-1.5 text-center border border-slate-200 rounded-md font-bold text-[10px] lg:text-[11px] xl:text-[12px] leading-[100%] uppercase text-slate-500"
+                >
+                  {{ user.user_type }}
+                </p>
+              </td>
+
+              <!-- Join Date -->
+              <td
+                class="px-3 lg:px-4 xl:px-6 py-3 xl:py-4 font-bold text-center text-[12px] lg:text-[13px] xl:text-[14px] leading-[100%] text-[#475569]"
+              >
+                {{ user.created_at | date: 'mediumDate' }}
+              </td>
+
+              <!-- Status -->
+              <td class="px-3 lg:px-4 xl:px-6 py-3 xl:py-4 text-center">
+                <div class="flex text-center">
+                  <!-- Pending badge for unapproved teachers -->
+                  @if (isPendingTeacher(user)) {
+                    <p
+                      class="px-2 py-1 text-center mx-auto w-fit font-semibold text-[11px] xl:text-[12px] leading-[100%] border rounded-md bg-amber-50 border-amber-200 text-amber-600"
+                    >
+                      PENDING
+                    </p>
+                  } @else {
+                    <p
+                      class="px-2 py-1 text-center mx-auto w-fit font-semibold text-[11px] xl:text-[12px] leading-[100%] border-slate-200 rounded-md"
+                      [ngClass]="statusStyles[user.status]"
+                    >
+                      {{ user.status }}
+                    </p>
+                  }
+                </div>
+              </td>
+
+              <!-- Actions -->
+              <td class="px-3 lg:px-4 xl:px-6 py-3 xl:py-4 text-center align-middle">
+                @if (actionLoadingUserId() === user.user_id) {
+                  <div
+                    class="mx-auto w-5 h-5 border-2 border-slate-200 border-t-cyan-500 rounded-full animate-spin"
+                  ></div>
+                } @else {
+                  <button
+                    class="mx-auto flex items-center justify-center w-8 h-8 rounded-md hover:bg-slate-100 transition-colors cursor-pointer"
+                    (click)="toggleActions(user.user_id, $event)"
+                  >
+                    <svg
+                      width="5"
+                      height="17"
+                      viewBox="0 0 5 17"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M2.01562 4.03125C3.09375 4.03125 4.03125 3.09375 4.03125 2.01562C4.03125 0.9375 3.09375 0 2.01562 0C0.9375 0 0 0.9375 0 2.01562C0 3.09375 0.9375 4.03125 2.01562 4.03125ZM2.01562 6C0.9375 6 0 6.9375 0 8.01562C0 9.09375 0.9375 10.0312 2.01562 10.0312C3.09375 10.0312 4.03125 9.09375 4.03125 8.01562C4.03125 6.9375 3.09375 6 2.01562 6ZM2.01562 12C0.9375 12 0 12.9375 0 14.0156C0 15.0938 0.9375 16.0312 2.01562 16.0312C3.09375 16.0312 4.03125 15.0938 4.03125 14.0156C4.03125 12.9375 3.09375 12 2.01562 12Z"
+                        fill="#94A3B8"
+                      />
+                    </svg>
+                  </button>
+
+                  @if (activeActionsUserId() === user.user_id) {
+                    <div
+                      class="flex gap-3 py-4 px-1 flex-col bg-white fixed border border-slate-300 rounded-xl w-40 xl:w-44 z-50 shadow-md"
+                      [style.top.px]="dropdownTop()"
+                      [style.right.px]="dropdownRight()"
+                    >
+                      <!-- View Profile -->
+                      <button
+                        class="flex justify-start pl-3 pb-1 items-center gap-3 cursor-pointer"
+                      >
+                        <svg
+                          width="11"
+                          height="11"
+                          viewBox="0 0 11 11"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M6.45312 3.5L7 4.04688L1.69531 9.32422H1.17578V8.80469L6.45312 3.5ZM8.55859 0C8.39453 0 8.25781 0.0546875 8.14844 0.164062L7.08203 1.23047L9.26953 3.41797L10.3359 2.35156C10.5547 2.13281 10.5547 1.75 10.3359 1.53125L8.96875 0.164062C8.85938 0.0546875 8.69531 0 8.55859 0ZM6.45312 1.85938L0 8.3125V10.5H2.1875L8.64062 4.04688L6.45312 1.85938Z"
+                            fill="#475569"
+                          />
+                        </svg>
+                        <span
+                          class="font-bold text-center text-[12px] xl:text-[13px] leading-[100%] text-[#475569]"
+                          >View Profile</span
+                        >
+                      </button>
+
+                      <div class="mx-3 border-t-2 border-slate-100"></div>
+
+                      <!-- Approve / Reject — only for pending teachers (approval === 0) -->
+                      @if (isPendingTeacher(user)) {
+                        <button
+                          class="flex justify-start pl-3 items-center gap-3 cursor-pointer"
+                          (click)="approveTeacher(user.user_id, $event)"
+                        >
+                          <svg
+                            width="13"
+                            height="13"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="#16a34a"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          >
+                            <path d="M20 6L9 17l-5-5" />
+                          </svg>
+                          <span
+                            class="font-bold text-center text-[12px] xl:text-[13px] leading-[100%] text-green-600"
+                            >Approve</span
+                          >
+                        </button>
+                        <div class="mx-3 border-t-2 border-slate-100"></div>
+                        <button
+                          class="flex justify-start pl-3 items-center gap-3 cursor-pointer"
+                          (click)="rejectTeacher(user.user_id, $event)"
+                        >
+                          <svg
+                            width="12"
+                            height="12"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="#EF4444"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          >
+                            <path d="M18 6L6 18M6 6l12 12" />
+                          </svg>
+                          <span
+                            class="font-bold text-center text-[12px] xl:text-[13px] leading-[100%] text-red-500"
+                            >Reject</span
+                          >
+                        </button>
+                      } @else {
+                        <!-- Suspend / Reinstate for non-pending users -->
+                        @if (user.status === 'ACTIVE') {
+                          <button
+                            class="flex justify-start pl-3 items-center gap-3 cursor-pointer"
+                            (click)="suspendUser(user.user_id, $event)"
+                          >
+                            <svg
+                              width="12"
+                              height="12"
+                              viewBox="0 0 12 12"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M10.8555 8.36719L8.88672 6.39844C9.24219 6.53516 9.59766 6.67188 9.92578 6.83594C10.4727 7.13672 10.8281 7.73828 10.8555 8.36719ZM11.5391 10.7188L10.7188 11.5391L9.1875 10.0352H1.50391V8.39453C1.50391 7.73828 1.85938 7.13672 2.46094 6.86328C3.19922 6.48047 4.12891 6.15234 5.16797 6.01562L0 0.820312L0.820312 0L11.5391 10.7188ZM8.03906 8.85938L6.28906 7.10938C6.23438 7.10938 6.20703 7.10938 6.17969 7.10938C4.78516 7.10938 3.66406 7.54688 2.98047 7.90234C2.78906 7.98438 2.67969 8.17578 2.67969 8.39453V8.85938H8.03906ZM6.17969 1.85938C6.80859 1.85938 7.35547 2.37891 7.35547 3.03516C7.35547 3.52734 7.02734 3.96484 6.58984 4.12891L7.46484 4.97656C8.09375 4.56641 8.50391 3.85547 8.50391 3.03516C8.50391 1.75 7.46484 0.683594 6.17969 0.683594C5.35938 0.683594 4.64844 1.12109 4.23828 1.75L5.08594 2.625C5.25 2.1875 5.6875 1.85938 6.17969 1.85938Z"
+                                fill="#EF4444"
+                              />
+                            </svg>
+                            <span
+                              class="font-bold text-center text-[12px] xl:text-[13px] leading-[100%] text-[#EF4444]"
+                              >Suspend Account</span
+                            >
+                          </button>
+                        } @else {
+                          <button
+                            class="flex justify-start pl-3 items-center gap-3 cursor-pointer"
+                            (click)="reinstateUser(user.user_id, $event)"
+                          >
+                            <svg
+                              width="13"
+                              height="13"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="#16a34a"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            >
+                              <path d="M20 11A8 8 0 1 0 9 20" />
+                              <polyline points="20 16 20 11 15 11" />
+                            </svg>
+                            <span
+                              class="font-bold text-center text-[12px] xl:text-[13px] leading-[100%] text-green-600"
+                              >Reinstate Account</span
+                            >
+                          </button>
+                        }
+                      }
+                    </div>
+                  }
+                }
+              </td>
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  <div
+    class="flex justify-between items-center px-4 xl:px-6 py-3 xl:py-4 border-t border-slate-100"
+  >
+    <p class="text-[11px] xl:text-[13px] text-slate-500 font-semibold uppercase tracking-wide">
+      Showing {{ users().length }} of {{ pagination().total }} Users
+    </p>
+    <div class="flex items-center gap-1">
+      <button
+        (click)="prevPage()"
+        [disabled]="currentPage() === 1"
+        class="w-7 h-7 xl:w-8 xl:h-8 flex items-center justify-center rounded-md border border-slate-200 text-slate-400 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+      >
+        ‹
+      </button>
+      @for (page of visiblePages(); track $index) {
+        @if (page === '...') {
+          <span
+            class="w-7 h-7 xl:w-8 xl:h-8 flex items-center justify-center text-slate-400 text-sm"
+            >…</span
+          >
+        } @else {
+          <button
+            (click)="goToPage(page)"
+            class="w-7 h-7 xl:w-8 xl:h-8 flex items-center justify-center rounded-md text-[12px] xl:text-[13px] font-semibold transition-colors"
+            [class]="
+              currentPage() === page
+                ? 'bg-custom_blue text-white border border-custom_blue'
+                : 'border border-slate-200 text-slate-500 hover:bg-slate-50'
+            "
+          >
+            {{ page }}
+          </button>
+        }
+      }
+      <button
+        (click)="nextPage()"
+        [disabled]="currentPage() === totalPages()"
+        class="w-7 h-7 xl:w-8 xl:h-8 flex items-center justify-center rounded-md border border-slate-200 text-slate-400 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+      >
+        ›
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,116 @@
+<div class="p-4 sm:p-6 bg-gray-50 min-h-screen">
+  <div class="max-w-6xl mx-auto space-y-10">
+
+    <!-- HEADER -->
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div>
+        <h1 class="text-3xl font-semibold text-gray-900 tracking-tight">
+          Practice Lab
+        </h1>
+        <p class="text-sm text-gray-500 mt-1">
+          Create and analyze your custom practice tests
+        </p>
+      </div>
+
+      <button (click)="buildNow()"
+        class="w-full sm:w-auto bg-black text-white px-5 py-2.5 rounded-xl text-sm font-medium hover:bg-gray-800 transition">
+        + New Practice Test
+      </button>
+    </div>
+
+    <!-- CREATE -->
+    <div>
+      <h2 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">
+        Create
+      </h2>
+
+      <div
+        class="rounded-2xl border border-gray-200 bg-white px-5 py-5 sm:px-6 sm:py-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div class="space-y-1">
+          <p class="text-sm font-medium text-gray-900">
+            Build a custom practice test
+          </p>
+          <p class="text-sm text-gray-400">
+            Select subjects, chapters, and difficulty to generate a personalized exam.
+          </p>
+        </div>
+
+        <button (click)="buildNow()"
+          class="w-full sm:w-auto border border-gray-300 text-gray-900 px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-gray-50 transition">
+          Build Now
+        </button>
+      </div>
+    </div>
+
+    <!-- HISTORY -->
+    <div>
+      <div class="flex items-center justify-between gap-4 mb-4">
+        <h2 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">
+          History
+        </h2>
+        <button
+          (click)="viewAllTests()"
+          class="text-sm font-medium text-blue-600 hover:underline whitespace-nowrap"
+        >
+          View All
+        </button>
+      </div>
+
+      @if (isLoading) {
+      <div class="py-10 text-center">
+        <div class="w-6 h-6 border-2 border-gray-200 border-t-black rounded-full animate-spin mx-auto"></div>
+      </div>
+      }
+
+      @else if (errorMessage) {
+      <div class="py-6 text-center space-y-3">
+        <p class="text-sm text-red-500">{{ errorMessage }}</p>
+        <button (click)="loadTopTests()"
+          class="bg-black text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 transition">
+          Retry
+        </button>
+      </div>
+      }
+
+      @else if (topTests.length === 0) {
+      <p class="text-sm text-gray-400">No practice tests yet</p>
+      }
+
+      @else {
+      <div class="divide-y divide-gray-200">
+        @for (test of topTests; track test.attempt_id) {
+        <div class="py-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between group">
+
+          <div class="space-y-1">
+            <p class="text-sm font-medium text-gray-900 group-hover:text-black transition">
+              {{ test.title }}
+            </p>
+
+            <p class="text-xs text-gray-400">
+              {{ formatDate(test.submitted_at) }}
+            </p>
+          </div>
+
+          <div class="flex items-center justify-between sm:justify-end gap-4 sm:gap-6 text-sm">
+            <span class="text-gray-800 font-medium">
+              {{ getScore(test) }}
+            </span>
+            <span [ngClass]="{
+                'text-green-600': test.accuracy_percent >= 80,
+                'text-yellow-600': test.accuracy_percent >= 60 && test.accuracy_percent < 80,
+                'text-red-500': test.accuracy_percent < 60
+              }" class="font-medium">
+              {{ test.accuracy_percent | number: '1.0-0' }}%
+            </span>
+            <button (click)="viewAnalysis(test.attempt_id)"
+              class="text-blue-600 text-sm font-medium hover:underline whitespace-nowrap">
+              View Analysis
+            </button>
+          </div>
+        </div>
+        }
+      </div>
+      }
+    </div>
+  </div>
+</div>

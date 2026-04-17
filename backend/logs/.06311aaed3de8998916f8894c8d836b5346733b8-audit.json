@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 30
+    },
+    "auditLog": "C:\\Users\\ravul\\OneDrive\\Desktop\\ILP\\backend\\logs\\.06311aaed3de8998916f8894c8d836b5346733b8-audit.json",
+    "files": [
+        {
+            "date": 1776352360450,
+            "name": "C:\\Users\\ravul\\OneDrive\\Desktop\\ILP\\backend\\logs\\error-2026-04-16.log",
+            "hash": "ea05417e22f41dff59a819f00c152cee2f82d26d90a080c0fc4d2b38f7a74e6d"
+        }
+    ],
+    "hashType": "sha256"
+}

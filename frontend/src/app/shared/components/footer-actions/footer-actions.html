@@ -1,0 +1,30 @@
+<!-- Author: Poojitha -->
+ <!-- Footer-actions component reusable for video-upload, add-pdf and add-material pages -->
+
+<div class="px-8 mt-6 flex justify-end gap-3">
+
+  <!-- Cancel -->
+  <button
+    type="button"
+    (click)="cancel.emit()"
+    class="px-5 py-2 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200">
+    Cancel
+  </button>
+
+  <!-- Save Draft -->
+  <button
+    type="button"
+    (click)="saveDraft.emit()"
+    class="px-5 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300">
+    Save Draft
+  </button>
+
+  <!-- Publish -->
+  <button
+    type="button"
+    (click)="publish.emit()"
+    class="px-6 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 shadow">
+    {{ publishLabel }}
+  </button>
+
+</div>

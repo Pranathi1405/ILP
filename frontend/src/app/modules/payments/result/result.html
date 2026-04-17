@@ -1,0 +1,331 @@
+<!-- Result Page — full screen -->
+<div
+  class="min-h-screen flex items-center justify-center p-6"
+  [class]="
+    isSuccess()
+      ? 'bg-gradient-to-b from-[#EEF2FF] to-[#F8FAFC]'
+      : isFailed()
+        ? 'bg-gradient-to-b from-[#FFF5F5] to-[#F8FAFC]'
+        : 'bg-gradient-to-b from-[#FFFBEB] to-[#F8FAFC]'
+  "
+>
+  <div class="w-full max-w-lg flex flex-col items-center text-center gap-8">
+    @if (loading()) {
+      <div class="flex flex-col items-center gap-4 py-16">
+        <div
+          class="animate-spin rounded-full h-14 w-14 border-4 border-indigo-200 border-t-indigo-600"
+        ></div>
+        <p class="text-lg font-semibold text-slate-700">Checking payment status…</p>
+        @if (error()) {
+          <p class="text-sm text-red-500 text-center max-w-md">{{ error() }}</p>
+        }
+      </div>
+    } @else if (isSuccess()) {
+      <!-- Icon -->
+      <div class="relative">
+        <div
+          class="w-24 h-24 rounded-full bg-indigo-100 flex items-center justify-center shadow-lg shadow-indigo-100"
+        >
+          <div class="w-16 h-16 rounded-full flex items-center justify-center">
+            <svg
+              width="50"
+              height="50"
+              viewBox="0 0 40 40"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M17.2 29.2L31.3 15.1L28.5 12.3L17.2 23.6L11.5 17.9L8.7 20.7L17.2 29.2ZM20 40C17.2333 40 14.6333 39.475 12.2 38.425C9.76667 37.375 7.65 35.95 5.85 34.15C4.05 32.35 2.625 30.2333 1.575 27.8C0.525 25.3667 0 22.7667 0 20C0 17.2333 0.525 14.6333 1.575 12.2C2.625 9.76667 4.05 7.65 5.85 5.85C7.65 4.05 9.76667 2.625 12.2 1.575C14.6333 0.525 17.2333 0 20 0C22.7667 0 25.3667 0.525 27.8 1.575C30.2333 2.625 32.35 4.05 34.15 5.85C35.95 7.65 37.375 9.76667 38.425 12.2C39.475 14.6333 40 17.2333 40 20C40 22.7667 39.475 25.3667 38.425 27.8C37.375 30.2333 35.95 32.35 34.15 34.15C32.35 35.95 30.2333 37.375 27.8 38.425C25.3667 39.475 22.7667 40 20 40Z"
+                fill="#24389C"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Text -->
+      <div class="flex flex-col gap-2">
+        <h1 class="text-4xl xl:text-5xl font-black text-[#1E3A8A] leading-tight">
+          Payment Successful!
+        </h1>
+        <p class="text-slate-500 font-semibold text-base">Your enrollment has been confirmed.</p>
+      </div>
+
+      <!-- Order ID pill -->
+      <div class="bg-slate-100 border border-slate-200 rounded-full px-6 py-2.5">
+        <span class="text-sm font-black text-slate-700">Order ID: #ORD-{{ orderId() }}</span>
+      </div>
+
+      <!-- Course details card -->
+      @if (session()) {
+        <div
+          class="w-full bg-white border border-slate-200 rounded-2xl overflow-hidden text-left shadow-sm"
+        >
+          <div class="px-5 py-3 bg-slate-50 border-b border-slate-100">
+            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-[2px]"
+              >Course Details</span
+            >
+          </div>
+          <div class="p-5 flex items-center gap-5">
+            @if (session()!.courseThumbnail) {
+              <img
+                [src]="session()!.courseThumbnail"
+                [alt]="session()!.courseTitle"
+                class="w-20 h-16 rounded-xl object-cover border border-slate-200 shrink-0"
+              />
+            } @else {
+              <div
+                class="w-20 h-16 rounded-xl bg-slate-800 border border-slate-700 shrink-0 flex items-center justify-center"
+              >
+                <svg
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#4B5563"
+                  stroke-width="1.5"
+                >
+                  <rect x="2" y="3" width="20" height="14" rx="2" />
+                  <line x1="8" y1="21" x2="16" y2="21" />
+                  <line x1="12" y1="17" x2="12" y2="21" />
+                </svg>
+              </div>
+            }
+            <div>
+              <p class="font-black text-slate-800 text-base leading-snug">
+                {{ session()!.courseTitle }}
+              </p>
+              <p class="text-sm text-slate-400 font-medium mt-1">
+                @if (session()!.planName) {
+                  {{ session()!.planName }} access
+                } @else {
+                  Full access
+                }
+              </p>
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- Actions -->
+      <div class="w-full flex flex-col gap-3">
+        <button
+          type="button"
+          (click)="goToLearning()"
+          class="w-full py-4 rounded-2xl bg-[#1E3A8A] text-white font-black text-base tracking-wide shadow-lg shadow-indigo-100 transition hover:bg-[#1e40af] active:scale-[0.98]"
+        >
+          Start Learning
+        </button>
+        <button
+          type="button"
+          (click)="viewReceipt()"
+          class="w-full py-4 rounded-2xl bg-indigo-100 text-indigo-700 font-black text-base tracking-wide transition hover:bg-indigo-200 active:scale-[0.98]"
+        >
+          View Receipt
+        </button>
+        <button
+          type="button"
+          (click)="backToCourses()"
+          class="flex items-center justify-center gap-2 text-sm text-slate-400 font-semibold hover:text-slate-600 transition py-2"
+        >
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <line x1="19" y1="12" x2="5" y2="12" />
+            <polyline points="12 19 5 12 12 5" />
+          </svg>
+          Back to Courses
+        </button>
+      </div>
+    }
+
+    <!-- ── FAILED STATE ── -->
+    @if (isFailed()) {
+      <!-- Icon -->
+      <div
+        class="w-24 h-24 rounded-full bg-red-100 flex items-center justify-center shadow-lg shadow-red-100"
+      >
+        <div class="w-16 h-16 rounded-full bg-red-500 flex items-center justify-center">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M18 6L6 18M6 6l12 12" stroke="white" stroke-width="3" stroke-linecap="round" />
+          </svg>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <h1 class="text-4xl xl:text-5xl font-black text-red-600 leading-tight">Payment Failed</h1>
+        <p class="text-slate-500 font-semibold text-base">Your payment could not be processed.</p>
+      </div>
+
+      @if (orderId()) {
+        <div class="bg-slate-100 border border-slate-200 rounded-full px-6 py-2.5">
+          <span class="text-sm font-black text-slate-700">Order ID: #ORD-{{ orderId() }}</span>
+        </div>
+      }
+
+      @if (session()) {
+        <div
+          class="w-full bg-white border border-slate-200 rounded-2xl overflow-hidden text-left shadow-sm"
+        >
+          <div class="px-5 py-3 bg-slate-50 border-b border-slate-100">
+            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-[2px]"
+              >Course</span
+            >
+          </div>
+          <div class="p-5 flex items-center gap-4">
+            <div
+              class="w-14 h-11 rounded-xl bg-slate-100 border border-slate-200 shrink-0 flex items-center justify-center"
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#94A3B8"
+                stroke-width="1.5"
+              >
+                <rect x="2" y="3" width="20" height="14" rx="2" />
+              </svg>
+            </div>
+            <div>
+              <p class="font-black text-slate-800 text-sm">{{ session()!.courseTitle }}</p>
+              @if (session()!.planName) {
+                <p class="text-xs text-slate-400 font-medium mt-0.5">{{ session()!.planName }}</p>
+              }
+            </div>
+          </div>
+        </div>
+      }
+
+      <div class="w-full flex flex-col gap-3">
+        <button
+          type="button"
+          (click)="retry()"
+          class="w-full py-4 rounded-2xl bg-red-500 text-white font-black text-base tracking-wide shadow-lg shadow-red-100 transition hover:bg-red-600 active:scale-[0.98]"
+        >
+          Try Again
+        </button>
+        <button
+          type="button"
+          (click)="backToCourses()"
+          class="flex items-center justify-center gap-2 text-sm text-slate-400 font-semibold hover:text-slate-600 transition py-2"
+        >
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <line x1="19" y1="12" x2="5" y2="12" />
+            <polyline points="12 19 5 12 12 5" />
+          </svg>
+          Back to Courses
+        </button>
+      </div>
+    }
+
+    <!-- ── PENDING STATE ── -->
+    @if (isPending()) {
+      <!-- Icon -->
+      <div
+        class="w-24 h-24 rounded-full bg-amber-100 flex items-center justify-center shadow-lg shadow-amber-100"
+      >
+        <div class="w-16 h-16 rounded-full bg-amber-400 flex items-center justify-center">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="10" stroke="white" stroke-width="2.5" />
+            <line
+              x1="12"
+              y1="7"
+              x2="12"
+              y2="12"
+              stroke="white"
+              stroke-width="2.5"
+              stroke-linecap="round"
+            />
+            <line
+              x1="12"
+              y1="15"
+              x2="12.01"
+              y2="15"
+              stroke="white"
+              stroke-width="3"
+              stroke-linecap="round"
+            />
+          </svg>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <h1 class="text-4xl xl:text-5xl font-black text-amber-500 leading-tight">
+          Payment Pending
+        </h1>
+        <p class="text-slate-500 font-semibold text-base">We're still verifying your payment.</p>
+      </div>
+
+      @if (orderId()) {
+        <div class="bg-slate-100 border border-slate-200 rounded-full px-6 py-2.5">
+          <span class="text-sm font-black text-slate-700">Order ID: #ORD-{{ orderId() }}</span>
+        </div>
+      }
+
+      <div class="w-full bg-white border border-slate-200 rounded-2xl p-5 text-left shadow-sm">
+        <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">
+          What happened?
+        </p>
+        <p class="text-sm text-slate-600 leading-relaxed">
+          Your payment is still being verified. This usually takes a few seconds. If you were
+          charged, your enrollment will be activated automatically once confirmed.
+        </p>
+      </div>
+
+      <div class="w-full flex flex-col gap-3">
+        <button
+          type="button"
+          (click)="checkStatus()"
+          class="w-full py-4 rounded-2xl bg-amber-400 text-white font-black text-base tracking-wide shadow-lg shadow-amber-100 transition hover:bg-amber-500 active:scale-[0.98]"
+        >
+          Check Payment Status
+        </button>
+        <button
+          type="button"
+          (click)="backToCourses()"
+          class="flex items-center justify-center gap-2 text-sm text-slate-400 font-semibold hover:text-slate-600 transition py-2"
+        >
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <line x1="19" y1="12" x2="5" y2="12" />
+            <polyline points="12 19 5 12 12 5" />
+          </svg>
+          Back to Courses
+        </button>
+      </div>
+    }
+
+    <!-- Receipt error -->
+    @if (error()) {
+      <p class="text-sm text-red-500 font-semibold text-center">{{ error() }}</p>
+    }
+    @if (receiptError()) {
+      <p class="text-xs text-red-500 font-semibold text-center -mt-4">{{ receiptError() }}</p>
+    }
+  </div>
+</div>

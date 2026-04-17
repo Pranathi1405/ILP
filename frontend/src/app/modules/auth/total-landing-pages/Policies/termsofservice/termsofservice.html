@@ -1,0 +1,74 @@
+<nav
+  class="sticky top-0 z-50 backdrop-blur-xl bg-white/90 border-b border-gray-200 h-[68px] flex items-center justify-between px-12"
+>
+  <a href="#" class="flex items-center gap-2 font-bold text-lg text-blue-600">
+    <img src="/icons/icon.svg" class="h-8" />
+  </a>
+  <div class="flex items-center gap-3">
+    <button
+      class="px-4 py-2 text-sm text-gray-600 rounded-md hover:bg-blue-50 hover:text-black transition rounded-pill"
+      [routerLink]="['/login', 'student']"
+    >
+      Login
+    </button>
+    <button
+      class="px-6 py-2 text-sm font-semibold text-white rounded-full bg-black shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition rounded-pill"
+      routerLink="/signup-selection"
+    >
+      Sign Up
+    </button>
+    <img src="image.png" class="h-8" routerLink="/home" />
+  </div>
+</nav>
+<section class="bg-white min-h-screen px-6 md:px-16 py-10">
+  <!-- Header -->
+  <h1 class="text-3xl font-bold text-blue-600 mb-6">TERMS & CONDITIONS</h1>
+
+  <!-- Content -->
+  <div class="text-base md:text-lg text-gray-700 leading-relaxed space-y-5">
+    <p>
+      These Terms and Conditions ("Terms") govern the use of our website
+      <strong>www.egradtutor.in</strong>, applications, and services provided by
+      <strong>eGate Tutor Academy</strong>.
+    </p>
+
+    <p>
+      By accessing or using our platform, you agree to be legally bound by these Terms. If you do
+      not agree, please do not use our services.
+    </p>
+
+    <p>
+      These Terms constitute an electronic record in accordance with the provisions of the
+      Information Technology Act, 2000 and applicable rules.
+    </p>
+
+    <!-- Section -->
+    <h2 class="text-xl font-semibold mt-6">1. Intellectual Property</h2>
+    <p>
+      All content including software, text, images, videos, graphics, and trademarks are the
+      proprietary property of the entity.
+    </p>
+
+    <h2 class="text-xl font-semibold mt-6">2. Use of Website</h2>
+    <ul class="list-disc pl-6">
+      <li>Modify or copy content without permission</li>
+      <li>Use services for commercial purposes</li>
+      <li>Disrupt platform functionality</li>
+    </ul>
+
+    <h2 class="text-xl font-semibold mt-6">3. Prohibited Activities</h2>
+    <ul class="list-disc pl-6">
+      <li>Uploading harmful software</li>
+      <li>Unauthorized access</li>
+      <li>Impersonation</li>
+    </ul>
+
+    <h2 class="text-xl font-semibold mt-6">4. Account Responsibility</h2>
+    <p>You are responsible for maintaining your account credentials.</p>
+
+    <h2 class="text-xl font-semibold mt-6">5. Limitation of Liability</h2>
+    <p>We are not liable for indirect damages or service interruptions.</p>
+
+    <p class="mt-8 text-sm text-gray-500">By using this website, you agree to these Terms.</p>
+  </div>
+</section>

@@ -1,0 +1,79 @@
+<div class="p-4 sm:p-6 bg-gray-50 min-h-screen">
+  <div class="max-w-6xl mx-auto space-y-10">
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div>
+        <h1 class="text-3xl font-semibold text-gray-900 tracking-tight">
+          Previous Tests
+        </h1>
+        <p class="text-sm text-gray-500 mt-1">
+          Review all your past test results and analysis
+        </p>
+      </div>
+
+      <button (click)="goBack()"
+        class="w-full sm:w-auto border border-gray-300 text-gray-900 px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-gray-50 transition">
+        Back to Test Lab
+      </button>
+    </div>
+
+    <div>
+      <h2 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">
+        History
+      </h2>
+
+      @if (loading) {
+      <div class="py-10 text-center">
+        <div class="w-6 h-6 border-2 border-gray-200 border-t-black rounded-full animate-spin mx-auto"></div>
+      </div>
+      }
+
+      @else if (error) {
+      <div class="py-6 text-center space-y-3">
+        <p class="text-sm text-red-500">{{ error }}</p>
+        <button (click)="loadTests()"
+          class="bg-black text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 transition">
+          Retry
+        </button>
+      </div>
+      }
+
+      @else if (testHistory.length === 0) {
+      <p class="text-sm text-gray-400">No tests yet</p>
+      }
+
+      @else {
+      <div class="divide-y divide-gray-200">
+        @for (test of testHistory; track test.test_id) {
+        <div class="py-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between group">
+          <div class="space-y-1">
+            <p class="text-sm font-medium text-gray-900">
+              {{ test.title }}
+            </p>
+            <p class="text-xs text-gray-400">
+              {{ formatDate(test.created_at) }}
+            </p>
+          </div>
+
+          <div class="flex items-center justify-between sm:justify-end gap-4 sm:gap-6 text-sm">
+            <span class="text-gray-800 font-medium">
+              {{ test.total_score }}/{{ test.total_marks }}
+            </span>
+            <span [ngClass]="{
+                'text-green-600': test.accuracy_percent >= 80,
+                'text-yellow-600': test.accuracy_percent >= 60 && test.accuracy_percent < 80,
+                'text-red-500': test.accuracy_percent < 60
+              }" class="font-medium">
+              {{ test.accuracy_percent }}%
+            </span>
+            <button (click)="viewAnalysis(test)"
+              class="text-blue-600 text-sm font-medium hover:underline whitespace-nowrap">
+              View Analysis
+            </button>
+          </div>
+        </div>
+        }
+      </div>
+      }
+    </div>
+  </div>
+</div>

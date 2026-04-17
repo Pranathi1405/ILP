@@ -1,0 +1,237 @@
+<div class="min-h-screen bg-gray-100 flex flex-col">
+  <!-- ── Navbar ── -->
+  <nav class="bg-white shadow-sm px-8 py-3 flex items-center">
+    <img
+      src="/icons/icon.svg"
+      alt="eGradTutor Logo"
+      routerLink="/home"
+      class="h-10 w-auto object-contain cursor-pointer"
+    />
+  </nav>
+
+  <div class="flex flex-1 items-center justify-center px-4 py-10">
+    <!-- Outer card — two columns like Figma -->
+    <div
+      class="bg-white rounded-3xl shadow-2xl w-full max-w-4xl overflow-hidden flex flex-col md:flex-row min-h-[520px]"
+    >
+      <!-- ══ LEFT PANEL — Form ══ -->
+      <div class="flex-1 p-10 flex flex-col justify-center">
+        <!-- Heading -->
+        <div class="anim-fade-up delay-1 text-center mb-2">
+          <h2 class="text-2xl font-bold text-gray-800">Choose Your Role</h2>
+          <p class="text-sm text-gray-400 mt-1">
+            Select your account type to continue with registration.
+          </p>
+        </div>
+
+        <!-- Role Cards -->
+        <div class="grid grid-cols-3 gap-4 mt-8">
+          <!-- Student -->
+          <div
+            (click)="selectRole('student')"
+            [ngClass]="
+              selectedRole === 'student'
+                ? 'border-cyan-500 bg-cyan-50 shadow-lg scale-105'
+                : 'border-gray-200 bg-gray-50 hover:border-cyan-400 hover:shadow-md hover:-translate-y-1'
+            "
+            class="anim-fade-up delay-2 rounded-2xl p-5 text-center cursor-pointer border-2 transition-all duration-250 flex flex-col items-center justify-center gap-2"
+          >
+            <div class="w-12 h-12 rounded-full bg-cyan-100 flex items-center justify-center">
+              <svg
+                class="w-6 h-6 text-cyan-600"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                viewBox="0 0 24 24"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5z" />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 14l6.16-3.422A12.083 12.083 0 0121 13c0 3.866-3.582 7-8 7s-8-3.134-8-7a12.083 12.083 0 012.84-1.422L12 14z"
+                />
+              </svg>
+            </div>
+            <h4 class="font-semibold text-sm text-gray-800">Student</h4>
+            <p class="text-xs text-gray-400 leading-snug">
+              Access learning materials and track your progress.
+            </p>
+          </div>
+
+          <!-- Parent -->
+          <div
+            (click)="selectRole('parent')"
+            [ngClass]="
+              selectedRole === 'parent'
+                ? 'border-cyan-500 bg-cyan-50 shadow-lg scale-105'
+                : 'border-gray-200 bg-gray-50 hover:border-cyan-400 hover:shadow-md hover:-translate-y-1'
+            "
+            class="anim-fade-up delay-3 rounded-2xl p-5 text-center cursor-pointer border-2 transition-all duration-250 flex flex-col items-center justify-center gap-2"
+          >
+            <div class="w-12 h-12 rounded-full bg-cyan-100 flex items-center justify-center">
+              <svg
+                class="w-6 h-6 text-cyan-600"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M17 20h5v-2a4 4 0 00-5-3.87M9 20H4v-2a4 4 0 015-3.87m6-4.13a4 4 0 11-8 0 4 4 0 018 0zm6 0a3 3 0 11-6 0 3 3 0 016 0zM3 10a3 3 0 116 0 3 3 0 01-6 0z"
+                />
+              </svg>
+            </div>
+            <h4 class="font-semibold text-sm text-gray-800">Parent</h4>
+            <p class="text-xs text-gray-400 leading-snug">
+              Monitor performance and support student growth.
+            </p>
+          </div>
+
+          <!-- Admin -->
+          <div
+            (click)="selectRole('teacher')"
+            [ngClass]="
+              selectedRole === 'teacher'
+                ? 'border-cyan-500 bg-cyan-50 shadow-lg scale-105'
+                : 'border-gray-200 bg-gray-50 hover:border-cyan-400 hover:shadow-md hover:-translate-y-1'
+            "
+            class="anim-fade-up delay-4 rounded-2xl p-5 text-center cursor-pointer border-2 transition-all duration-250 flex flex-col items-center justify-center gap-2"
+          >
+            <div class="w-12 h-12 rounded-full bg-cyan-100 flex items-center justify-center">
+              <svg
+                class="w-6 h-6 text-cyan-600"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+              </svg>
+            </div>
+            <h4 class="font-semibold text-sm text-gray-800">Teacher</h4>
+            <p class="text-xs text-gray-400 leading-snug">
+              Manage users, courses, and platform settings.
+            </p>
+          </div>
+        </div>
+
+        <!-- Continue Button -->
+        <div class="anim-fade-up delay-5 mt-8">
+          <button
+            (click)="continue()"
+            class="btn-ripple w-full py-3 rounded-full bg-linear-to-r from-cyan-500 to-cyan-600 text-white font-semibold shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
+          >
+            Continue
+          </button>
+        </div>
+
+        <!-- Login link -->
+        <p class="anim-fade-up delay-6 text-sm text-center text-gray-400 mt-5">
+          Already have an account?
+          <span
+            routerLink="/login"
+            class="text-cyan-600 font-medium cursor-pointer hover:underline transition"
+          >
+            Login
+          </span>
+        </p>
+      </div>
+      <!-- end left panel -->
+      <div
+        class="hidden md:flex w-72 lg:w-80 flex-col items-center justify-center bg-linear-to-br from-cyan-500 via-teal-500 to-blue-600 relative overflow-hidden p-8 anim-fade-right"
+      >
+        <!-- Background decorative circles -->
+        <div
+          class="absolute top-0 right-0 w-48 h-48 rounded-full bg-white/10 -translate-y-1/3 translate-x-1/3"
+        ></div>
+        <div
+          class="absolute bottom-0 left-0 w-36 h-36 rounded-full bg-white/10 translate-y-1/3 -translate-x-1/3"
+        ></div>
+        <div
+          class="absolute top-1/2 left-1/2 w-56 h-56 rounded-full bg-white/5 -translate-x-1/2 -translate-y-1/2"
+        ></div>
+
+        <!-- Logo on right panel -->
+
+        <!-- Illustration placeholder — replace src with your actual illustration -->
+        <div class="relative z-10 anim-float mb-6">
+          <!-- If you have an illustration image, replace this SVG with:
+               <img src="your-illustration.png" class="w-48 h-auto" alt="Learning" />
+          -->
+          <svg
+            viewBox="0 0 200 180"
+            class="w-52 h-auto drop-shadow-2xl"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <!-- Monitor -->
+            <rect
+              x="30"
+              y="30"
+              width="140"
+              height="95"
+              rx="10"
+              fill="white"
+              fill-opacity="0.2"
+              stroke="white"
+              stroke-opacity="0.5"
+              stroke-width="2"
+            />
+            <rect x="40" y="40" width="120" height="75" rx="6" fill="white" fill-opacity="0.15" />
+            <!-- Screen content lines -->
+            <rect x="50" y="52" width="60" height="6" rx="3" fill="white" fill-opacity="0.6" />
+            <rect x="50" y="64" width="90" height="4" rx="2" fill="white" fill-opacity="0.4" />
+            <rect x="50" y="74" width="80" height="4" rx="2" fill="white" fill-opacity="0.4" />
+            <rect x="50" y="84" width="70" height="4" rx="2" fill="white" fill-opacity="0.4" />
+            <!-- Chart bar -->
+            <rect x="120" y="68" width="10" height="20" rx="3" fill="white" fill-opacity="0.5" />
+            <rect x="134" y="58" width="10" height="30" rx="3" fill="white" fill-opacity="0.7" />
+            <rect x="148" y="64" width="10" height="24" rx="3" fill="white" fill-opacity="0.5" />
+            <!-- Monitor stand -->
+            <rect x="90" y="125" width="20" height="12" rx="2" fill="white" fill-opacity="0.3" />
+            <rect x="75" y="136" width="50" height="6" rx="3" fill="white" fill-opacity="0.3" />
+            <!-- Person sitting -->
+            <circle cx="60" cy="158" r="10" fill="white" fill-opacity="0.5" />
+            <rect x="52" y="168" width="16" height="18" rx="4" fill="white" fill-opacity="0.4" />
+            <!-- Person 2 -->
+            <circle cx="140" cy="155" r="10" fill="white" fill-opacity="0.5" />
+            <rect x="132" y="165" width="16" height="18" rx="4" fill="white" fill-opacity="0.4" />
+            <!-- Book -->
+            <rect x="95" y="155" width="22" height="16" rx="3" fill="white" fill-opacity="0.55" />
+            <line
+              x1="106"
+              y1="155"
+              x2="106"
+              y2="171"
+              stroke="white"
+              stroke-opacity="0.4"
+              stroke-width="1.5"
+            />
+            <!-- Stars / sparkles -->
+            <circle cx="170" cy="35" r="3" fill="white" fill-opacity="0.6" />
+            <circle cx="28" cy="110" r="3" fill="white" fill-opacity="0.6" />
+            <circle cx="155" cy="148" r="2" fill="white" fill-opacity="0.5" />
+          </svg>
+        </div>
+
+        <!-- Tagline -->
+        <div class="relative z-10 text-center">
+          <p class="text-white font-semibold text-base leading-snug">
+            Learning online is easier<br />than ever before with LMS!
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

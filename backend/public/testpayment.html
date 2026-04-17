@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Test Payment</title>
+</head>
+<body>
+  <h2>Razorpay Test Payment</h2>
+  <button onclick="pay()">Pay Now</button>
+
+  <!-- Razorpay Checkout Script -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+  <script>
+    async function pay() {
+      try {
+        const TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzUsInJvbGUiOiJzdHVkZW50IiwiaWF0IjoxNzc1NzA5NzA0LCJleHAiOjE3NzU3OTYxMDR9.FslYzYt4IT2gXZsuQekoiPFy648_o69b2i2Jfo1oLWw"; // 🔐 replace if needed
+        console.log("Sending request...");
+
+        const response = await fetch("http://localhost:3000/api/payments/create-order", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${TOKEN}`
+          },
+          body: JSON.stringify({
+            course_id: 65,   // ✅ FIXED
+            plan_id: 1       // ✅ FIXED
+          })
+        });
+
+        console.log("STATUS:", response.status);
+
+        const text = await response.text();
+        console.log("RAW RESPONSE:", text);
+
+        const data = JSON.parse(text);
+
+        if (!data || !data.data) {
+          alert("Failed to create order");
+          return;
+        }
+
+        const order = data.data;
+
+        console.log("Order Data:", order);
+
+        // 💳 Razorpay Checkout Options
+        const options = {
+          key: order.razorpay_key_id || "rzp_test_x3lel82AZIsRl6", // fallback
+          amount: order.amount,
+          currency: order.currency,
+          name: "Test Company",
+          description: "Course Payment",
+          order_id: order.gateway_order_id, // ✅ IMPORTANT FIX
+
+          handler: function (response) {
+            console.log("✅ Payment Success:", response);
+            alert("Payment Successful! Check console.");
+          },
+
+          prefill: {
+            name: "Test User",
+            email: "test@example.com",
+            contact: "9999999999"
+          },
+
+          theme: {
+            color: "#3399cc"
+          }
+        };
+
+        const rzp = new Razorpay(options);
+        rzp.open();
+
+      } catch (error) {
+        console.error("❌ Error:", error);
+        alert("Something went wrong");
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<div class="flex items-center gap-1 p-1 bg-slate-100 rounded-xl w-fit">
+  @for (tab of tabs; track tab.key) {
+    <button
+      (click)="select(tab.key)"
+      class="px-4 py-1.5 rounded-lg text-xs font-semibold tracking-wide transition-all duration-150"
+      [class.bg-white]="activeTab() === tab.key"
+      [class.text-slate-800]="activeTab() === tab.key"
+      [class.shadow-sm]="activeTab() === tab.key"
+      [class.text-slate-400]="activeTab() !== tab.key"
+      [class.hover:text-slate-600]="activeTab() !== tab.key"
+    >
+      {{ tab.label }}
+    </button>
+  }
+</div>

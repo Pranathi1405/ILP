@@ -1,0 +1,8 @@
+@reference "../../../../styles.css";
+
+.selected-option {
+  background-color: #eef4ff; /* light blue background like figma */
+  color: #1a5ff8; /* blue text */
+  border-radius: 8px;
+  @apply text-custom_blue bg-white rounded-2xl border border-white/80 shadow-glassy;
+}

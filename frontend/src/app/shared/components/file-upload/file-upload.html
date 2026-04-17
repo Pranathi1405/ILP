@@ -1,0 +1,130 @@
+<!-- Author: Poojitha -->
+<!-- File Upload Component used for video upload and pdf upload-->
+
+<div class="space-y-6">
+
+  <!-- TITLE + DESCRIPTION -->
+  <div class="bg-white p-5 rounded-xl shadow-sm">
+
+    <div class="mb-4">
+      <label class="text-sm font-medium text-gray-700">
+        <strong>{{ titleLabel }}</strong>
+      </label>
+      <input type="text" [placeholder]="titlePlaceholder"
+        class="w-full mt-1 px-4 py-2 border border-gray-200 rounded-md"
+        (input)="onTitleChange($any($event.target).value)">
+    </div>
+
+    <div>
+      <label class="text-sm font-medium text-gray-700">
+        <strong>Description</strong>
+      </label>
+      <textarea rows="4" [placeholder]="descriptionPlaceholder"
+        class="w-full mt-1 px-4 py-2 border border-gray-200 rounded-md"
+        (input)="onDescriptionChange($any($event.target).value)"></textarea>
+    </div>
+
+  </div>
+
+  <!-- UPLOAD BOX -->
+  <div class="bg-white p-6 rounded-xl shadow-sm">
+
+    <div class="border-2 border-dashed border-blue-300 rounded-xl p-8 text-center">
+
+      <p class="font-medium text-gray-800">
+        <strong>{{ uploadText }}</strong>
+      </p>
+
+      <p class="text-sm text-gray-500 mt-1">
+        {{ supportedText }}
+      </p>
+
+      <!-- BUTTON -->
+      <label class="mt-4 inline-block px-4 py-2 bg-blue-600 text-white rounded-md cursor-pointer">
+        <strong>{{ buttonText }}</strong>
+        <input type="file" class="hidden" [accept]="accept" (change)="onFileSelected($event)">
+      </label>
+
+      <!-- PROGRESS -->
+      @if (selectedFile()) {
+      <div class="mt-6">
+
+        <div class="flex justify-between text-sm text-gray-500">
+          <span>{{ fileName() }}</span>
+          <span class="text-blue-600 text-xs">
+            <strong>{{ uploadProgress() }}%</strong>
+          </span>
+          <!-- REMOVE BUTTON -->
+          <button class="text-red-500 hover:text-red-700 text-lg font-bold" (click)="removeFile()" title="Remove file">
+            ✕
+          </button>
+        </div>
+
+        <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+          <div class="bg-blue-600 h-2 rounded-full" [style.width.%]="uploadProgress()"></div>
+        </div>
+
+      </div>
+      }
+
+      <!--  PREVIEW BUTTON -->
+      @if (enablePreview && selectedFile()) {
+      <div class="mt-4">
+
+        <!-- VIDEO -->
+        @if (fileType() === 'video') {
+        <button
+    class="px-4 py-2 border border-gray-300 text-gray-700 bg-white rounded-md hover:bg-gray-100 transition"
+    (click)="showPreview.set(true)"
+  >
+          ▶ Preview Video
+        </button>
+        }
+
+        <!-- PDF -->
+        @if (fileType() === 'pdf') {
+        <button
+  class="px-4 py-2 border border-gray-300 text-gray-700 bg-white rounded-md hover:bg-gray-100 transition"
+  (click)="showPreview.set(true)"
+>
+  📄 View PDF
+</button>
+
+        }
+
+      </div>
+      }
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ✅ PREVIEW MODAL -->
+@if (showPreview()) {
+<div class="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+
+  <div class="bg-white p-4 rounded-lg w-[700px] max-h-[80vh] overflow-auto">
+
+    <!-- VIDEO PLAYER -->
+    @if (fileType() === 'video') {
+    <video controls class="w-full rounded-md">
+      <source [src]="previewUrl()" type="video/mp4">
+    </video>
+    }
+
+    <!-- PDF VIEWER -->
+    @if (fileType() === 'pdf') {
+    <iframe [src]="safePreviewUrl()" class="w-full h-[500px] rounded-md"></iframe>
+    }
+
+    <!-- CLOSE BUTTON -->
+    <button class="mt-4 px-4 py-2 bg-gray-700 text-white rounded-md" (click)="showPreview.set(false)">
+      Close
+    </button>
+
+  </div>
+
+</div>
+}

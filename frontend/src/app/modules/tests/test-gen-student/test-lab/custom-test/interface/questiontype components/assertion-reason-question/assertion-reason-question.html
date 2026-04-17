@@ -1,0 +1,74 @@
+<!-- Author: E.Kaeith Emmanuel | ASSERTION_REASON -->
+<div class="space-y-5">
+  <p
+    class="text-[11px] font-bold uppercase tracking-widest text-amber-600 mb-5 flex items-center gap-2"
+  >
+    <span class="inline-block w-2 h-2 rounded-full bg-amber-500"></span>
+    Assertion – Reason Type
+  </p>
+
+  <!-- Assertion block -->
+  <div class="rounded-2xl border-l-4 border-blue-500 bg-blue-50 px-5 py-4">
+    <p class="text-[11px] font-bold uppercase tracking-wide text-blue-500 mb-2">Assertion (A)</p>
+    <p class="text-gray-800 text-[15px] leading-relaxed" [innerHTML]="assertion | safeLatex"></p>
+  </div>
+
+  <!-- Reason block -->
+  @if (reason) {
+    <div class="rounded-2xl border-l-4 border-emerald-500 bg-emerald-50 px-5 py-4">
+      <p class="text-[11px] font-bold uppercase tracking-wide text-emerald-600 mb-2">Reason (R)</p>
+      <p class="text-gray-800 text-[15px] leading-relaxed" [innerHTML]="reason | safeLatex"></p>
+    </div>
+  }
+
+  <p class="text-[13px] text-gray-500 italic">
+    Select the correct statement from the options below:
+  </p>
+
+  <!-- Options -->
+  <div class="space-y-3">
+    @for (opt of question.options; track opt.id) {
+      <button
+        type="button"
+        (click)="select($index)"
+        class="w-full flex items-start gap-4 px-5 py-4 rounded-2xl border-2 text-left transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+        [class.border-amber-500]="isSelected($index)"
+        [class.bg-amber-50]="isSelected($index)"
+        [class.shadow-md]="isSelected($index)"
+        [class.border-gray-200]="!isSelected($index)"
+        [class.bg-white]="!isSelected($index)"
+      >
+        <span
+          class="shrink-0 w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold mt-0.5 transition-all duration-200"
+          [class.bg-amber-500]="isSelected($index)"
+          [class.text-white]="isSelected($index)"
+          [class.bg-gray-100]="!isSelected($index)"
+          [class.text-gray-500]="!isSelected($index)"
+        >
+          {{ opt.label }}
+        </span>
+
+        <span
+          class="text-[15px] leading-snug flex-1 transition-colors duration-200"
+          [class.text-amber-900]="isSelected($index)"
+          [class.font-medium]="isSelected($index)"
+          [class.text-gray-700]="!isSelected($index)"
+          [innerHTML]="opt.text | safeLatex"
+        >
+        </span>
+
+        @if (isSelected($index)) {
+          <svg
+            class="w-5 h-5 text-amber-500 shrink-0 mt-0.5"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            viewBox="0 0 24 24"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+        }
+      </button>
+    }
+  </div>
+</div>

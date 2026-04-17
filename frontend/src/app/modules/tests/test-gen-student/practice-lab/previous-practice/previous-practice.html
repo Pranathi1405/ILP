@@ -1,0 +1,110 @@
+<div class="w-full min-h-screen bg-gray-100 px-6 md:px-10 py-6">
+  <!-- HEADER -->
+  <div class="w-full bg-white rounded-2xl shadow-sm p-6 mb-6">
+    <h1 class="text-2xl font-bold text-gray-800">
+      {{ data?.title }}
+    </h1>
+
+    <div class="flex flex-wrap gap-6 mt-3 text-sm text-gray-600">
+      <span
+        >Score: <b>{{ data?.total_score }}/{{ data?.total_marks }}</b></span
+      >
+      <span
+        >Accuracy: <b>{{ data?.accuracy_percent | number: '1.0-0' }}%</b></span
+      >
+      <span
+        >Total Questions: <b>{{ data?.total_questions }}</b></span
+      >
+    </div>
+  </div>
+
+  <!-- QUESTIONS -->
+  <div class="w-full flex flex-col gap-5">
+    @for (ans of data?.answers; track ans.question_id; let i = $index) {
+      <div class="w-full bg-white rounded-2xl shadow-sm p-6">
+        <!-- QUESTION HEADER -->
+        <div class="flex justify-between items-start mb-4">
+          <h3 class="font-semibold text-gray-800">
+            Q{{ i + 1 }}.
+            <span
+              [innerHTML]="(ans.question_text || ans.question_text_snapshot || 'Question text unavailable') | safeLatex"></span>
+          </h3>
+
+          <span
+            class="text-xs font-bold px-3 py-1 rounded-full"
+            [ngClass]="{
+              'bg-green-100 text-green-600': ans.is_correct == 1,
+              'bg-red-100 text-red-600': ans.is_correct == 0,
+            }"
+          >
+            {{ ans.is_correct ? 'Correct' : 'Incorrect' }}
+          </span>
+        </div>
+
+        <!-- MCQ OPTIONS -->
+        @if (ans.question_type !== 'numerical') {
+          <div class="grid gap-3">
+            @for (opt of ans.all_options; track opt.option_id) {
+              <div
+                class="border rounded-lg px-4 py-3 text-sm flex justify-between items-center"
+                [ngClass]="{
+                  'border-green-500 bg-green-50': opt.is_correct,
+                  'border-blue-500 bg-blue-50':
+                    opt.option_id === ans.selected_option_id && !opt.is_correct,
+                  'border-gray-200': !opt.is_correct && opt.option_id !== ans.selected_option_id,
+                }"
+              >
+                <span [innerHTML]="(opt.option_text || '') | safeLatex"></span>
+
+                <span
+                  class="text-xs font-semibold"
+                  [ngClass]="{
+                    'text-green-600': opt.is_correct,
+                    'text-blue-600': opt.option_id === ans.selected_option_id && !opt.is_correct,
+                  }"
+                >
+                  @if (opt.is_correct) {
+                    ✓ Correct
+                  } @else if (opt.option_id === ans.selected_option_id) {
+                    Your Answer
+                  }
+                </span>
+              </div>
+            }
+          </div>
+        } @else {
+          <!-- NUMERICAL -->
+          <div class="text-sm space-y-2">
+            <p>
+              Your Answer:
+              <span class="font-semibold text-blue-600">
+                <span [innerHTML]="((ans.numerical_answer || 'Not Answered') + '') | safeLatex"></span>
+              </span>
+            </p>
+
+            <p>
+              Correct Answer:
+              <span class="font-semibold text-green-600">
+                <span [innerHTML]="((ans.correct_numerical || '') + '') | safeLatex"></span>
+              </span>
+            </p>
+          </div>
+        }
+
+        <!-- MARKS -->
+        <div class="mt-4 text-xs text-gray-500">
+          Marks Obtained:
+          <span class="font-semibold text-gray-700">
+            {{ ans.marks_obtained }}
+          </span>
+        </div>
+
+        <!-- EXPLANATION -->
+        <div class="mt-3 text-sm text-gray-600">
+          <b>Explanation:</b>
+          <span [innerHTML]="parseExplanation(ans.explanation) | safeLatex"></span>
+        </div>
+      </div>
+    }
+  </div>
+</div>

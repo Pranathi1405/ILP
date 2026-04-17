@@ -1,0 +1,107 @@
+@if(showterms){
+<div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+
+  <div class="bg-white rounded-xl shadow-xl w-[95%] md:w-[750px] max-h-[85vh] flex flex-col">
+
+    <!-- HEADER -->
+    <div class="flex justify-between items-center border-b px-6 py-4">
+      <h2 class="text-lg font-semibold text-gray-800">
+        Student Terms & Conditions
+      </h2>
+
+      <button
+        (click)="closeTerms()"
+        class="text-gray-500 hover:text-red-500 text-xl font-bold">
+        ×
+      </button>
+    </div>
+
+    <!-- BODY -->
+    <div class="overflow-y-auto px-6 py-4 text-sm text-gray-700 space-y-4">
+
+      <p>
+        We at <b>www.egradtutor.in</b> value the trust placed in us by you
+        (“subscriber”). In order to honor that trust, we follow ethical
+        standards in collecting, using and protecting any information
+        provided by you.
+      </p>
+
+      <h3 class="font-semibold text-gray-800">1. Information Collection</h3>
+      <p>
+        When you register on our platform, we may collect the following
+        information:
+      </p>
+
+      <ul class="list-disc ml-5 space-y-1">
+        <li>Name</li>
+        <li>Email Address</li>
+        <li>Phone Number</li>
+        <li>Location</li>
+        <li>Educational Interests</li>
+      </ul>
+
+      <h3 class="font-semibold text-gray-800">2. Usage of Information</h3>
+      <p>
+        The collected information helps us improve our services,
+        personalize your learning experience, and communicate
+        important updates regarding courses or platform features.
+      </p>
+
+      <h3 class="font-semibold text-gray-800">3. Data Security</h3>
+      <p>
+        We implement reasonable security practices to protect your
+        personal data and ensure it is not misused or accessed
+        without authorization.
+      </p>
+
+      <h3 class="font-semibold text-gray-800">4. Cookies</h3>
+      <p>
+        Our website may use cookies to improve user experience and
+        track preferences. Disabling cookies may affect certain
+        features of the platform.
+      </p>
+
+      <h3 class="font-semibold text-gray-800">5. Refund Policy</h3>
+      <p>
+        Once a course is purchased or subscribed, the payment
+        cannot be cancelled or refunded. All enrollments are final.
+      </p>
+
+      <h3 class="font-semibold text-gray-800">6. Policy Updates</h3>
+      <p>
+        We may update these Terms & Conditions from time to time.
+        Continued use of the platform will be considered acceptance
+        of the updated policy.
+      </p>
+
+      <h3 class="font-semibold text-gray-800">7. Contact</h3>
+      <p>
+        For any queries or grievances regarding these policies,
+        you may contact us at:
+      </p>
+
+      <p class="font-semibold">info@egradtutor.in</p>
+
+    </div>
+
+    <!-- FOOTER -->
+    <div class="border-t px-6 py-4 flex justify-end gap-3">
+
+      <button
+        (click)="closeTerms()"
+        class="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300">
+        Cancel
+      </button>
+
+      <button
+        (click)="acceptTerms()"
+        class="px-4 py-2 bg-cyan-500 text-white rounded-md hover:bg-cyan-600">
+        Accept
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+}

@@ -1,0 +1,139 @@
+<div class="p-4 sm:p-6 bg-gray-50 min-h-screen">
+  <div class="max-w-6xl mx-auto space-y-10">
+
+    <!-- HEADER -->
+    <div class="flex items-center justify-between">
+      <div>
+        <h1 class="text-3xl font-semibold text-gray-900 tracking-tight">
+          Test Lab
+        </h1>
+        <p class="text-sm text-gray-500 mt-1">
+          Build, attempt, and analyze tests
+        </p>
+      </div>
+
+      <!-- PRIMARY ACTION -->
+      <button (click)="buildNow()"
+        class="bg-black text-white px-5 py-2.5 rounded-xl text-sm font-medium hover:bg-gray-800 transition">
+        + New Test
+      </button>
+    </div>
+
+    <!-- UPCOMING -->
+    <div>
+      <h2 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">
+        Upcoming
+      </h2>
+
+      @if (smeLoading) {
+      <div class="py-10 text-center">
+        <div class="w-6 h-6 border-2 border-gray-200 border-t-black rounded-full animate-spin mx-auto"></div>
+      </div>
+      }
+
+      @else if (upcomingSmeTests.length === 0) {
+      <p class="text-sm text-gray-400">No scheduled tests</p>
+      }
+
+      @else {
+      <div class="divide-y divide-gray-200">
+
+        @for (test of upcomingSmeTests; track test.test_id) {
+        <div class="py-4 flex items-center justify-between group">
+
+          <!-- LEFT -->
+          <div class="space-y-1">
+            <p class="text-sm font-medium text-gray-900 group-hover:text-black transition">
+              {{ test.title }}
+            </p>
+
+            <p class="text-xs text-gray-400">
+              {{ formatSchedule(test.scheduled_start) }} ·
+              {{ formatDuration(test.duration_minutes) }}
+            </p>
+          </div>
+
+          <!-- RIGHT ACTION -->
+          <div>
+            @if (test._status === 'ready') {
+            <button (click)="startSmeTest(test)" class="text-blue-600 text-sm font-medium hover:underline">
+              Start →
+            </button>
+            }
+
+            @else if (test._status === 'submitted') {
+            <button (click)="viewAnalysis(test)" class="text-gray-600 text-sm hover:underline">
+              View Result
+            </button>
+            }
+
+            @else {
+            <span class="text-gray-400 text-sm">Locked</span>
+            }
+          </div>
+
+        </div>
+        }
+
+      </div>
+      }
+    </div>
+    <!-- HISTORY -->
+    <div>
+      <div class="flex items-center justify-between gap-4 mb-4">
+        <h2 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">
+          History
+        </h2>
+        <button
+          (click)="viewAllTests()"
+          class="text-sm font-medium text-blue-600 hover:underline whitespace-nowrap"
+        >
+          View All
+        </button>
+      </div>
+      @if (loading) {
+      <div class="py-10 text-center">
+        <div class="w-6 h-6 border-2 border-gray-200 border-t-black rounded-full animate-spin mx-auto"></div>
+      </div>
+      }
+      @else if (testHistory.length === 0) {
+      <p class="text-sm text-gray-400">No tests yet</p>
+      }
+      @else {
+      <div class="divide-y divide-gray-200">
+        @for (test of testHistory; track test.test_id) {
+        <div class="py-4 flex items-center justify-between group">
+
+          <!-- LEFT -->
+          <div class="space-y-1">
+            <p class="text-sm font-medium text-gray-900">
+              {{ test.title }}
+            </p>
+
+            <p class="text-xs text-gray-400">
+              {{ formatDate(test.created_at) }}
+            </p>
+          </div>
+          <!-- RIGHT STATS -->
+          <div class="flex items-center gap-6 text-sm">
+            <span class="text-gray-800 font-medium">
+              {{ test.total_score }}/{{ test.total_marks }}
+            </span>
+            <span [ngClass]="{
+                'text-green-600': test.accuracy_percent >= 80,
+                'text-yellow-600': test.accuracy_percent >= 60 && test.accuracy_percent < 80,
+                'text-red-500': test.accuracy_percent < 60
+              }" class="font-medium">
+              {{ test.accuracy_percent }}%
+            </span>
+            <button (click)="viewAnalysis(test)" class="text-blue-600 hover:underline">
+              View
+            </button>
+          </div>
+        </div>
+        }
+      </div>
+      }
+    </div>
+  </div>
+</div>
