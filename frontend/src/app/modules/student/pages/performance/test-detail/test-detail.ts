@@ -106,7 +106,7 @@ export class TestDetailComponent implements OnInit {
 
     // Offsets: each segment starts where the previous ends (SVG stroke-dashoffset = negative start)
     this.correctOffset = 0;
-    this.wrongOffset = -(this.correctDash);
+    this.wrongOffset = -this.correctDash;
     this.notAttemptedOffset = -(this.correctDash + this.wrongDash);
 
     // Comparison analytics — use scorePercent as student score

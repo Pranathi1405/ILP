@@ -76,7 +76,10 @@ export class StudentOverviewComponent implements OnInit {
   ngOnInit(): void {
     this.loadDashboardStats();
     this.loadCourses();
-     
+    this.rosterLoading = false;
+    this.allStudents = [];
+    this.leaderboardLoading = false;
+    this.leaderboard = [];
   }
 
   // ── Load total students from teacher dashboard API ─────────

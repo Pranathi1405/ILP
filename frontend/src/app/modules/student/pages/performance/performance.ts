@@ -1,15 +1,18 @@
 import { Component, OnInit, OnDestroy, inject, ChangeDetectorRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgClass } from '@angular/common';
 import { Router } from '@angular/router';
 
 import { StudentPerformanceService } from '../../../../core/services/student/student-performance.services';
-
-import { RecentTestRow, ChartBarItem } from '../../../../core/services/student/student-performance.data';
+import {
+  RecentTestRow,
+  ChartBarItem,
+  recentTestsMock,
+} from '../../../../core/services/student/student-performance.data';
 
 @Component({
   selector: 'app-student-performance',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NgClass],
   templateUrl: './performance.html',
 })
 export class StudentPerformanceComponent implements OnInit, OnDestroy {
@@ -70,6 +73,11 @@ export class StudentPerformanceComponent implements OnInit, OnDestroy {
     document.removeEventListener('click', this.clickListener);
   }
 
+  /** Normalises status regardless of API casing/spacing */
+  isAttempted(status: string | undefined): boolean {
+    return (status ?? '').trim().toUpperCase() === 'ATTEMPTED';
+  }
+
   loadOverview(): void {
     this.performanceService.getOverview().subscribe({
       next: (data) => {
@@ -99,7 +107,7 @@ export class StudentPerformanceComponent implements OnInit, OnDestroy {
     this.performanceService.getScoreTrend().subscribe({
       next: (data) => {
         this.chartData = data ?? [];
-        this.chartMax = data && data.length ? Math.max(...data.map((d) => d.value), 100) : 100;
+        this.chartMax = data?.length ? Math.max(...data.map((d) => d.value), 100) : 100;
         this.cdr.detectChanges();
       },
     });
@@ -109,8 +117,24 @@ export class StudentPerformanceComponent implements OnInit, OnDestroy {
     const month = this.selectedMonth || undefined;
     this.performanceService.getTests(1, 3, this.selectedSubject, month).subscribe({
       next: ({ tests, total }) => {
-        this.recentTests = tests;
-        this.totalTests = total;
+        console.log('[Performance] getTests raw response — total:', total, 'tests:', tests);
+
+        // If API returned no rows, fall back to mock so UI is visible during dev
+        if (tests.length === 0) {
+          console.warn('[Performance] No tests from API — using mock data for UI preview');
+          this.recentTests = recentTestsMock;
+          this.totalTests = recentTestsMock.length;
+        } else {
+          this.recentTests = tests;
+          this.totalTests = total;
+        }
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('[Performance] getTests error:', err);
+        // Fall back to mock on error too
+        this.recentTests = recentTestsMock;
+        this.totalTests = recentTestsMock.length;
         this.cdr.detectChanges();
       },
     });
@@ -122,7 +146,9 @@ export class StudentPerformanceComponent implements OnInit, OnDestroy {
   }
 
   get selectedSubjectLabel(): string {
-    return this.subjectOptions.find((s) => s.value === this.selectedSubject)?.label ?? 'All Subjects';
+    return (
+      this.subjectOptions.find((s) => s.value === this.selectedSubject)?.label ?? 'All Subjects'
+    );
   }
 
   get selectedMonthLabel(): string {
@@ -142,8 +168,11 @@ export class StudentPerformanceComponent implements OnInit, OnDestroy {
   }
 
   viewTestDetail(test: RecentTestRow): void {
+    console.log('[Performance] viewTestDetail clicked — test:', test);
     if (test?.attempt_id) {
       this.router.navigate(['/student/performance/test-detail', test.attempt_id]);
+    } else {
+      console.warn('[Performance] No attempt_id on test — cannot navigate:', test);
     }
   }
 

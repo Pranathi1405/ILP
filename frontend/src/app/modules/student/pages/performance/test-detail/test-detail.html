@@ -1,304 +1,365 @@
-<!-- test-detail.html — Page 2: Test Review (matches Figma "Student Performance/internal") -->
-
+<!-- test-detail.html — Page 2 
 <div class="min-h-screen bg-gray-50 p-6">
-
   <!-- Loading -->
-  <div *ngIf="loading" class="flex items-center justify-center py-32">
-    <div class="flex flex-col items-center gap-3">
-      <div class="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-      <p class="text-sm text-gray-500">Loading test details...</p>
-    </div>
+<div *ngIf="loading" class="flex items-center justify-center py-32">
+  <div class="flex flex-col items-center gap-3">
+    <div
+      class="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"
+    ></div>
+    <p class="text-sm text-gray-500">Loading test details...</p>
   </div>
+</div>
 
-  <!-- Error -->
-  <div *ngIf="!loading && error" class="flex flex-col items-center justify-center py-32 gap-3">
-    <svg class="w-12 h-12 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <circle cx="12" cy="12" r="10" stroke-width="2"/>
-      <line x1="15" y1="9" x2="9" y2="15" stroke-width="2"/>
-      <line x1="9" y1="9" x2="15" y2="15" stroke-width="2"/>
+<!-- Error -->
+<div *ngIf="!loading && error" class="flex flex-col items-center justify-center py-32 gap-3">
+  <svg class="w-12 h-12 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="10" stroke-width="2" />
+    <line x1="15" y1="9" x2="9" y2="15" stroke-width="2" />
+    <line x1="9" y1="9" x2="15" y2="15" stroke-width="2" />
+  </svg>
+  <p class="text-red-500 font-medium">{{ error }}</p>
+  <button
+    (click)="loadTestDetail()"
+    class="mt-2 text-sm text-blue-600 underline hover:text-blue-800"
+  >
+    Retry
+  </button>
+  <button (click)="goBack()" class="text-sm text-gray-500 underline hover:text-gray-700">
+    ← Back to All Tests
+  </button>
+</div>
+
+<!-- Content -->
+<div *ngIf="!loading && !error && testDetail">
+  <!-- Back link -->
+  <button
+    (click)="goBack()"
+    class="flex items-center gap-1.5 text-sm text-gray-500 hover:text-blue-600 transition mb-4"
+  >
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <polyline points="15 18 9 12 15 6" stroke-width="2" />
     </svg>
-    <p class="text-red-500 font-medium">{{ error }}</p>
-    <button (click)="loadTestDetail()"
-            class="mt-2 text-sm text-blue-600 underline hover:text-blue-800">Retry</button>
-    <button (click)="goBack()"
-            class="text-sm text-gray-500 underline hover:text-gray-700">← Back to All Tests</button>
+    Back to All Tests
+  </button>
+
+  <!-- Test Title -->
+  <div class="mb-5">
+    <h1 class="text-xl font-bold text-gray-900">{{ testDetail.testName }}</h1>
+    <p
+      *ngIf="testDetail.subject || testDetail.unit || testDetail.date"
+      class="text-xs text-gray-500 mt-1"
+    >
+      <ng-container *ngIf="testDetail.date">
+        Assessment held on {{ testDetail.date | date: 'MMMM d, yyyy' }}
+      </ng-container>
+      <ng-container *ngIf="testDetail.unit">. Unit: {{ testDetail.unit }}</ng-container>
+    </p>
   </div>
 
-  <!-- Content -->
-  <div *ngIf="!loading && !error && testDetail">
-
-    <!-- Back link -->
-    <button (click)="goBack()"
-            class="flex items-center gap-1.5 text-sm text-gray-500 hover:text-blue-600 transition mb-4">
-      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <polyline points="15 18 9 12 15 6" stroke-width="2"/>
-      </svg>
-      Back to All Tests
-    </button>
-
-    <!-- Test Title -->
-    <div class="mb-5">
-      <h1 class="text-xl font-bold text-gray-900">{{ testDetail.testName }}</h1>
-      <p *ngIf="testDetail.subject || testDetail.unit || testDetail.date" class="text-xs text-gray-500 mt-1">
-        <ng-container *ngIf="testDetail.date">
-          Assessment held on {{ testDetail.date | date:'MMMM d, yyyy' }}
-        </ng-container>
-        <ng-container *ngIf="testDetail.unit">. Unit: {{ testDetail.unit }}</ng-container>
-      </p>
-    </div>
-
-    <!-- Stats Bar -->
-    <div class="grid grid-cols-5 gap-3 mb-6">
-      <!-- Total Questions -->
-      <div class="bg-white rounded-xl border border-gray-200 p-4">
-        <p class="text-xs text-gray-400 uppercase tracking-wider mb-1">Total Questions</p>
-        <div class="flex items-baseline gap-1">
-          <span class="text-2xl font-bold text-gray-900">{{ testDetail.totalQuestions }}</span>
-          <span class="text-xs text-gray-400">Qs</span>
-        </div>
-      </div>
-
-      <!-- Attempted -->
-      <div class="bg-white rounded-xl border border-gray-200 p-4">
-        <p class="text-xs text-gray-400 uppercase tracking-wider mb-1">Attempted Questions</p>
-        <div class="flex items-baseline gap-1">
-          <span class="text-2xl font-bold text-gray-900">{{ testDetail.attemptedQuestions }}</span>
-          <span class="text-xs text-gray-400">/ {{ testDetail.totalQuestions }}</span>
-        </div>
-      </div>
-
-      <!-- Score -->
-      <div class="bg-white rounded-xl border border-blue-500 border-2 p-4">
-        <p class="text-xs text-gray-400 uppercase tracking-wider mb-1">Score</p>
-        <div class="flex items-baseline gap-1">
-          <span class="text-2xl font-bold text-blue-600">{{ scorePercent }}%</span>
-        </div>
-        <p class="text-xs text-green-500 font-medium mt-1">+2% avg</p>
-      </div>
-
-      <!-- Time Allotted -->
-      <div class="bg-white rounded-xl border border-gray-200 p-4">
-        <p class="text-xs text-gray-400 uppercase tracking-wider mb-1">Actual Time Allotted</p>
-        <div class="flex items-baseline gap-1">
-          <span class="text-2xl font-bold text-gray-900">{{ testDetail.timeAllotted / 60 | number:'1.0-0' }}</span>
-          <span class="text-xs text-gray-400">mins</span>
-        </div>
-      </div>
-
-      <!-- Time Spent -->
-      <div class="bg-white rounded-xl border border-gray-200 p-4">
-        <p class="text-xs text-gray-400 uppercase tracking-wider mb-1">Time Spent</p>
-        <p class="text-2xl font-bold text-gray-900">{{ formatTime(testDetail.timeSpent) }}</p>
+  <!-- Stats Bar -->
+  <div class="grid grid-cols-5 gap-3 mb-6">
+    <!-- Total Questions -->
+    <div class="bg-white rounded-xl border border-gray-200 p-4">
+      <p class="text-xs text-gray-400 uppercase tracking-wider mb-1">Total Questions</p>
+      <div class="flex items-baseline gap-1">
+        <span class="text-2xl font-bold text-gray-900">{{ testDetail.totalQuestions }}</span>
+        <span class="text-xs text-gray-400">Qs</span>
       </div>
     </div>
 
-    <!-- Donut Chart + Comparison Analytics -->
-    <div class="bg-white rounded-xl border border-gray-200 p-6 mb-6 grid grid-cols-2 gap-8">
-
-      <!-- Donut Chart -->
-      <div>
-        <h2 class="text-sm font-semibold text-gray-700 mb-4">Test Response Breakdown</h2>
-        <div class="flex items-center gap-8">
-          <!-- SVG Donut -->
-          <div class="relative flex-shrink-0">
-            <svg width="140" height="140" viewBox="0 0 100 100">
-              <!-- Background ring -->
-              <circle cx="50" cy="50" r="45" fill="none" stroke="#f3f4f6" stroke-width="10"/>
-
-              <!-- Not Attempted (gray) — rendered first so it's at the back -->
-              <circle cx="50" cy="50" r="45" fill="none"
-                      stroke="#9ca3af" stroke-width="10"
-                      [attr.stroke-dasharray]="notAttemptedDash + ' ' + totalCircumference"
-[attr.stroke-dashoffset]="notAttemptedOffset"
-                      transform="rotate(-90 50 50)"/>
-
-              <!-- Wrong (red) -->
-              <circle cx="50" cy="50" r="45" fill="none"
-                      stroke="#ef4444" stroke-width="10"
-                      [attr.stroke-dasharray]="wrongDash + ' ' + totalCircumference"
-                     [attr.stroke-dashoffset]="wrongOffset"
-                      transform="rotate(-90 50 50)"/>
-
-              <!-- Correct (green) — on top -->
-              <circle cx="50" cy="50" r="45" fill="none"
-                      stroke="#22c55e" stroke-width="10"
-                      [attr.stroke-dasharray]="correctDash + ' ' + totalCircumference"
-                      [attr.stroke-dashoffset]="correctOffset"
-                      transform="rotate(-90 50 50)"/>
-
-              <!-- Centre label -->
-              <text x="50" y="46" text-anchor="middle" font-size="13" font-weight="bold" fill="#111827">
-                {{ scorePercent }}%
-              </text>
-              <text x="50" y="58" text-anchor="middle" font-size="6" fill="#6b7280">Score</text>
-            </svg>
-          </div>
-
-          <!-- Legend -->
-          <div class="space-y-3">
-            <div class="flex items-center justify-between gap-12">
-              <div class="flex items-center gap-2">
-                <span class="w-3 h-3 rounded-full bg-green-500 flex-shrink-0"></span>
-                <span class="text-sm text-gray-600">Correct</span>
-              </div>
-              <span class="text-sm font-bold text-gray-900">{{ testDetail.pieChart.correct }}</span>
-            </div>
-            <div class="flex items-center justify-between gap-12">
-              <div class="flex items-center gap-2">
-                <span class="w-3 h-3 rounded-full bg-red-500 flex-shrink-0"></span>
-                <span class="text-sm text-gray-600">Wrong</span>
-              </div>
-              <span class="text-sm font-bold text-gray-900">{{ testDetail.pieChart.wrong }}</span>
-            </div>
-            <div class="flex items-center justify-between gap-12">
-              <div class="flex items-center gap-2">
-                <span class="w-3 h-3 rounded-full bg-gray-400 flex-shrink-0"></span>
-                <span class="text-sm text-gray-600">Not Attempted</span>
-              </div>
-              <span class="text-sm font-bold text-gray-900">{{ testDetail.pieChart.notAttempted }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Comparison Analytics -->
-      <div>
-        <h2 class="text-sm font-semibold text-gray-700 mb-4">Comparison Analytics</h2>
-
-        <!-- Student vs Class Average -->
-        <div class="mb-4">
-          <div class="flex justify-between text-xs text-gray-500 mb-1">
-            <span>Student vs Class Average</span>
-            <span class="font-medium text-gray-700">{{ scorePercent }}% vs {{ classAvg }}%</span>
-          </div>
-          <div class="relative h-2 bg-gray-100 rounded-full overflow-hidden">
-            <div class="absolute left-0 top-0 h-full bg-blue-500 rounded-full transition-all"
-                 [style.width.%]="studentVsClassPercent"></div>
-          </div>
-          <div class="relative h-2 bg-gray-100 rounded-full overflow-hidden mt-1">
-            <div class="absolute left-0 top-0 h-full bg-blue-300 rounded-full transition-all"
-                 [style.width.%]="classAvgPercent"></div>
-          </div>
-        </div>
-
-        <!-- Student vs Topper -->
-        <div>
-          <div class="flex justify-between text-xs text-gray-500 mb-1">
-            <span>Student vs Topper</span>
-            <span class="font-medium text-gray-700">{{ scorePercent }}% vs {{ topperScore }}%</span>
-          </div>
-          <div class="relative h-2 bg-gray-100 rounded-full overflow-hidden">
-            <div class="absolute left-0 top-0 h-full bg-blue-500 rounded-full transition-all"
-                 [style.width.%]="studentVsTopperPercent"></div>
-          </div>
-          <div class="relative h-2 bg-gray-100 rounded-full overflow-hidden mt-1">
-            <div class="absolute left-0 top-0 h-full bg-blue-300 rounded-full transition-all"
-                 [style.width.%]="topperAvgPercent"></div>
-          </div>
-        </div>
+    <!-- Attempted -->
+    <div class="bg-white rounded-xl border border-gray-200 p-4">
+      <p class="text-xs text-gray-400 uppercase tracking-wider mb-1">Attempted Questions</p>
+      <div class="flex items-baseline gap-1">
+        <span class="text-2xl font-bold text-gray-900">{{ testDetail.attemptedQuestions }}</span>
+        <span class="text-xs text-gray-400">/ {{ testDetail.totalQuestions }}</span>
       </div>
     </div>
 
-    <!-- Questions Table -->
-    <div class="bg-white rounded-xl border border-gray-200 p-6">
-      <div class="flex items-center justify-between mb-4">
-        <h2 class="text-sm font-semibold text-gray-700">Question &amp; Options</h2>
-        <div class="text-xs text-gray-400 uppercase tracking-wider">Status &amp; Insights</div>
+    <!-- Score -->
+    <div class="bg-white rounded-xl border border-blue-500 border-2 p-4">
+      <p class="text-xs text-gray-400 uppercase tracking-wider mb-1">Score</p>
+      <div class="flex items-baseline gap-1">
+        <span class="text-2xl font-bold text-blue-600">{{ scorePercent }}%</span>
       </div>
+      <p class="text-xs text-green-500 font-medium mt-1">+2% avg</p>
+    </div>
 
-      <div class="space-y-4">
-        <div *ngFor="let q of paginatedQuestions"
-             class="border border-gray-100 rounded-xl p-4 hover:border-gray-200 transition">
-
-          <!-- Question header row -->
-          <div class="flex items-start justify-between gap-4 mb-3">
-            <div class="flex-1">
-              <p class="text-xs text-gray-400 mb-1">Q{{ q.sNo }} · {{ q.topic }}</p>
-              <p class="text-sm font-medium text-gray-900 leading-snug">{{ q.questionText }}</p>
-            </div>
-
-            <!-- Status badge + Time -->
-            <div class="flex flex-col items-end gap-1 flex-shrink-0">
-              <span *ngIf="q.status === 'correct'"
-                    class="px-2 py-0.5 text-xs font-bold rounded bg-green-50 text-green-600 border border-green-200">
-                CORRECT
-              </span>
-              <span *ngIf="q.status === 'wrong'"
-                    class="px-2 py-0.5 text-xs font-bold rounded bg-red-50 text-red-600 border border-red-200">
-                WRONG
-              </span>
-              <span *ngIf="q.status === 'not_attempted'"
-                    class="px-2 py-0.5 text-xs font-bold rounded bg-gray-100 text-gray-500 border border-gray-200">
-                SKIPPED
-              </span>
-
-              <div class="text-xs text-gray-400 mt-1">
-                <span class="font-medium text-gray-600">{{ formatSeconds(q.timeTaken) }}</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Answers row -->
-          <div class="grid grid-cols-2 gap-3 mt-2">
-            <div class="bg-gray-50 rounded-lg p-3">
-              <p class="text-xs text-gray-400 mb-1">Your Answer</p>
-              <p class="text-sm font-medium"
-                 [class.text-green-600]="q.status === 'correct'"
-                 [class.text-red-500]="q.status === 'wrong'"
-                 [class.text-gray-500]="q.status === 'not_attempted'">
-                {{ q.markedAnswer || '—' }}
-              </p>
-            </div>
-            <div class="bg-green-50 rounded-lg p-3">
-              <p class="text-xs text-gray-400 mb-1">Correct Answer</p>
-              <p class="text-sm font-medium text-green-700">{{ q.correctAnswer || '—' }}</p>
-            </div>
-          </div>
-
-          <!-- Marks row -->
-          <div class="flex items-center gap-4 mt-3 pt-3 border-t border-gray-100">
-            <div class="flex items-center gap-1.5 text-xs">
-              <span class="text-gray-400">Marks Awarded:</span>
-              <span class="font-semibold text-green-600">+{{ q.marksAwarded }}</span>
-            </div>
-            <div *ngIf="q.marksDeducted > 0" class="flex items-center gap-1.5 text-xs">
-              <span class="text-gray-400">Deducted:</span>
-              <span class="font-semibold text-red-500">-{{ q.marksDeducted }}</span>
-            </div>
-          </div>
-        </div>
+    <!-- Time Allotted -->
+    <div class="bg-white rounded-xl border border-gray-200 p-4">
+      <p class="text-xs text-gray-400 uppercase tracking-wider mb-1">Actual Time Allotted</p>
+      <div class="flex items-baseline gap-1">
+        <span class="text-2xl font-bold text-gray-900">{{
+          testDetail.timeAllotted / 60 | number: '1.0-0'
+        }}</span>
+        <span class="text-xs text-gray-400">mins</span>
       </div>
+    </div>
 
-      <!-- Pagination -->
-      <div *ngIf="!showAll && pageNumbers.length > 1" class="flex items-center justify-between mt-6 pt-4 border-t border-gray-100">
-        <div class="flex items-center gap-1">
-          <button *ngFor="let page of pageNumbers"
-                  (click)="goToPage(page)"
-                  class="w-8 h-8 text-sm rounded-md transition font-medium"
-                  [class.bg-blue-500]="currentPage === page"
-                  [class.text-white]="currentPage === page"
-                  [class.text-gray-600]="currentPage !== page"
-                  [class.hover:bg-gray-100]="currentPage !== page">
-            {{ page }}
-          </button>
-        </div>
+    <!-- Time Spent -->
+    <div class="bg-white rounded-xl border border-gray-200 p-4">
+      <p class="text-xs text-gray-400 uppercase tracking-wider mb-1">Time Spent</p>
+      <p class="text-2xl font-bold text-gray-900">{{ formatTime(testDetail.timeSpent) }}</p>
+    </div>
+  </div>
 
-        <button (click)="toggleShowAll()"
-                class="text-sm text-blue-600 font-medium hover:underline flex items-center gap-1">
-          View All {{ testDetail.questions.length }} Questions
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <polyline points="9 18 15 12 9 6" stroke-width="2"/>
+  <!-- Donut Chart + Comparison Analytics -->
+  <div class="bg-white rounded-xl border border-gray-200 p-6 mb-6 grid grid-cols-2 gap-8">
+    <!-- Donut Chart -->
+    <div>
+      <h2 class="text-sm font-semibold text-gray-700 mb-4">Test Response Breakdown</h2>
+      <div class="flex items-center gap-8">
+        <!-- SVG Donut -->
+        <div class="relative flex-shrink-0">
+          <svg width="140" height="140" viewBox="0 0 100 100">
+            <!-- Background ring -->
+            <circle cx="50" cy="50" r="45" fill="none" stroke="#f3f4f6" stroke-width="10" />
+
+            <!-- Not Attempted (gray) — rendered first so it's at the back -->
+            <circle
+              cx="50"
+              cy="50"
+              r="45"
+              fill="none"
+              stroke="#9ca3af"
+              stroke-width="10"
+              [attr.stroke-dasharray]="notAttemptedDash + ' ' + totalCircumference"
+              [attr.stroke-dashoffset]="notAttemptedOffset"
+              transform="rotate(-90 50 50)"
+            />
+
+            <!-- Wrong (red) -->
+            <circle
+              cx="50"
+              cy="50"
+              r="45"
+              fill="none"
+              stroke="#ef4444"
+              stroke-width="10"
+              [attr.stroke-dasharray]="wrongDash + ' ' + totalCircumference"
+              [attr.stroke-dashoffset]="wrongOffset"
+              transform="rotate(-90 50 50)"
+            />
+
+            <!-- Correct (green) — on top -->
+            <circle
+              cx="50"
+              cy="50"
+              r="45"
+              fill="none"
+              stroke="#22c55e"
+              stroke-width="10"
+              [attr.stroke-dasharray]="correctDash + ' ' + totalCircumference"
+              [attr.stroke-dashoffset]="correctOffset"
+              transform="rotate(-90 50 50)"
+            />
+
+            <!-- Centre label -->
+            <text
+              x="50"
+              y="46"
+              text-anchor="middle"
+              font-size="13"
+              font-weight="bold"
+              fill="#111827"
+            >
+              {{ scorePercent }}%
+            </text>
+            <text x="50" y="58" text-anchor="middle" font-size="6" fill="#6b7280">Score</text>
           </svg>
-        </button>
-      </div>
+        </div>
 
-      <div *ngIf="showAll" class="mt-4 flex justify-start">
-        <button (click)="toggleShowAll()"
-                class="text-sm text-gray-500 hover:text-blue-600 hover:underline">
-          Show less
-        </button>
+        <!-- Legend -->
+        <div class="space-y-3">
+          <div class="flex items-center justify-between gap-12">
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-green-500 flex-shrink-0"></span>
+              <span class="text-sm text-gray-600">Correct</span>
+            </div>
+            <span class="text-sm font-bold text-gray-900">{{ testDetail.pieChart.correct }}</span>
+          </div>
+          <div class="flex items-center justify-between gap-12">
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-red-500 flex-shrink-0"></span>
+              <span class="text-sm text-gray-600">Wrong</span>
+            </div>
+            <span class="text-sm font-bold text-gray-900">{{ testDetail.pieChart.wrong }}</span>
+          </div>
+          <div class="flex items-center justify-between gap-12">
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-gray-400 flex-shrink-0"></span>
+              <span class="text-sm text-gray-600">Not Attempted</span>
+            </div>
+            <span class="text-sm font-bold text-gray-900">{{
+              testDetail.pieChart.notAttempted
+            }}</span>
+          </div>
+        </div>
       </div>
     </div>
 
+    <!-- Comparison Analytics -->
+    <div>
+      <h2 class="text-sm font-semibold text-gray-700 mb-4">Comparison Analytics</h2>
+
+      <!-- Student vs Class Average -->
+      <div class="mb-4">
+        <div class="flex justify-between text-xs text-gray-500 mb-1">
+          <span>Student vs Class Average</span>
+          <span class="font-medium text-gray-700">{{ scorePercent }}% vs {{ classAvg }}%</span>
+        </div>
+        <div class="relative h-2 bg-gray-100 rounded-full overflow-hidden">
+          <div
+            class="absolute left-0 top-0 h-full bg-blue-500 rounded-full transition-all"
+            [style.width.%]="studentVsClassPercent"
+          ></div>
+        </div>
+        <div class="relative h-2 bg-gray-100 rounded-full overflow-hidden mt-1">
+          <div
+            class="absolute left-0 top-0 h-full bg-blue-300 rounded-full transition-all"
+            [style.width.%]="classAvgPercent"
+          ></div>
+        </div>
+      </div>
+
+      <!-- Student vs Topper -->
+      <div>
+        <div class="flex justify-between text-xs text-gray-500 mb-1">
+          <span>Student vs Topper</span>
+          <span class="font-medium text-gray-700">{{ scorePercent }}% vs {{ topperScore }}%</span>
+        </div>
+        <div class="relative h-2 bg-gray-100 rounded-full overflow-hidden">
+          <div
+            class="absolute left-0 top-0 h-full bg-blue-500 rounded-full transition-all"
+            [style.width.%]="studentVsTopperPercent"
+          ></div>
+        </div>
+        <div class="relative h-2 bg-gray-100 rounded-full overflow-hidden mt-1">
+          <div
+            class="absolute left-0 top-0 h-full bg-blue-300 rounded-full transition-all"
+            [style.width.%]="topperAvgPercent"
+          ></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Questions Table -->
+  <div class="bg-white rounded-xl border border-gray-200 p-6">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-sm font-semibold text-gray-700">Question &amp; Options</h2>
+      <div class="text-xs text-gray-400 uppercase tracking-wider">Status &amp; Insights</div>
+    </div>
+
+    <div class="space-y-4">
+      <div
+        *ngFor="let q of paginatedQuestions"
+        class="border border-gray-100 rounded-xl p-4 hover:border-gray-200 transition"
+      >
+        <!-- Question header row -->
+        <div class="flex items-start justify-between gap-4 mb-3">
+          <div class="flex-1">
+            <p class="text-xs text-gray-400 mb-1">Q{{ q.sNo }} · {{ q.topic }}</p>
+            <p class="text-sm font-medium text-gray-900 leading-snug">{{ q.questionText }}</p>
+          </div>
+
+          <!-- Status badge + Time -->
+          <div class="flex flex-col items-end gap-1 flex-shrink-0">
+            <span
+              *ngIf="q.status === 'correct'"
+              class="px-2 py-0.5 text-xs font-bold rounded bg-green-50 text-green-600 border border-green-200"
+            >
+              CORRECT
+            </span>
+            <span
+              *ngIf="q.status === 'wrong'"
+              class="px-2 py-0.5 text-xs font-bold rounded bg-red-50 text-red-600 border border-red-200"
+            >
+              WRONG
+            </span>
+            <span
+              *ngIf="q.status === 'not_attempted'"
+              class="px-2 py-0.5 text-xs font-bold rounded bg-gray-100 text-gray-500 border border-gray-200"
+            >
+              SKIPPED
+            </span>
+
+            <div class="text-xs text-gray-400 mt-1">
+              <span class="font-medium text-gray-600">{{ formatSeconds(q.timeTaken) }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Answers row -->
+        <div class="grid grid-cols-2 gap-3 mt-2">
+          <div class="bg-gray-50 rounded-lg p-3">
+            <p class="text-xs text-gray-400 mb-1">Your Answer</p>
+            <p
+              class="text-sm font-medium"
+              [class.text-green-600]="q.status === 'correct'"
+              [class.text-red-500]="q.status === 'wrong'"
+              [class.text-gray-500]="q.status === 'not_attempted'"
+            >
+              {{ q.markedAnswer || '—' }}
+            </p>
+          </div>
+          <div class="bg-green-50 rounded-lg p-3">
+            <p class="text-xs text-gray-400 mb-1">Correct Answer</p>
+            <p class="text-sm font-medium text-green-700">{{ q.correctAnswer || '—' }}</p>
+          </div>
+        </div>
+
+        <!-- Marks row -->
+        <div class="flex items-center gap-4 mt-3 pt-3 border-t border-gray-100">
+          <div class="flex items-center gap-1.5 text-xs">
+            <span class="text-gray-400">Marks Awarded:</span>
+            <span class="font-semibold text-green-600">+{{ q.marksAwarded }}</span>
+          </div>
+          <div *ngIf="q.marksDeducted > 0" class="flex items-center gap-1.5 text-xs">
+            <span class="text-gray-400">Deducted:</span>
+            <span class="font-semibold text-red-500">-{{ q.marksDeducted }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <div
+      *ngIf="!showAll && pageNumbers.length > 1"
+      class="flex items-center justify-between mt-6 pt-4 border-t border-gray-100"
+    >
+      <div class="flex items-center gap-1">
+        <button
+          *ngFor="let page of pageNumbers"
+          (click)="goToPage(page)"
+          class="w-8 h-8 text-sm rounded-md transition font-medium"
+          [class.bg-blue-500]="currentPage === page"
+          [class.text-white]="currentPage === page"
+          [class.text-gray-600]="currentPage !== page"
+          [class.hover:bg-gray-100]="currentPage !== page"
+        >
+          {{ page }}
+        </button>
+      </div>
+
+      <button
+        (click)="toggleShowAll()"
+        class="text-sm text-blue-600 font-medium hover:underline flex items-center gap-1"
+      >
+        View All {{ testDetail.questions.length }} Questions
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <polyline points="9 18 15 12 9 6" stroke-width="2" />
+        </svg>
+      </button>
+    </div>
+
+    <div *ngIf="showAll" class="mt-4 flex justify-start">
+      <button
+        (click)="toggleShowAll()"
+        class="text-sm text-gray-500 hover:text-blue-600 hover:underline"
+      >
+        Show less
+      </button>
+    </div>
   </div>
 </div>

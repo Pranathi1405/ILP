@@ -84,7 +84,9 @@ export class TestHistoryComponent implements OnInit {
   }
 
   get selectedSubjectLabel(): string {
-    return this.subjectOptions.find((s) => s.value === this.selectedSubject)?.label ?? 'All Subjects';
+    return (
+      this.subjectOptions.find((s) => s.value === this.selectedSubject)?.label ?? 'All Subjects'
+    );
   }
 
   get selectedMonthLabel(): string {
@@ -128,6 +130,6 @@ export class TestHistoryComponent implements OnInit {
     this.router.navigate(['/student/performance']);
   }
   get displayedUpTo(): number {
-  return Math.min(this.currentPage * this.pageSize, this.total);
-}
+    return Math.min(this.currentPage * this.pageSize, this.total);
+  }
 }

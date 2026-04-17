@@ -34,7 +34,7 @@ export const Student: Routes = [
               import('../courses/pages/my-courses/my-courses').then((m) => m.MyCourses),
           },
           {
-            path:'course-player/:subjectId',
+            path: 'course-player/:subjectId',
             loadComponent: () =>
               import('../courses/pages/course-player/course-player').then((m) => m.CoursePlayer),
           },

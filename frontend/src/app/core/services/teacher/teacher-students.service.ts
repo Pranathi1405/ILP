@@ -13,27 +13,22 @@ import {
   providedIn: 'root',
 })
 export class TeacherStudentsService {
+  private baseUrl = 'http://localhost:3000'; // ← ADD THIS
   constructor(private http: HttpClient) {}
-
-  // total students count
-  getDashboardStats(): Observable<DashboardStatsResponse> {
-    return this.http.get<DashboardStatsResponse>('/analytics/teacher/dashboard');
+  getDashboardStats() {
+    return this.http.get<DashboardStatsResponse>(`${this.baseUrl}/analytics/teacher/dashboard`);
   }
-
-  // course dropdown
-  getCourseAnalytics(): Observable<CourseAnalyticsResponse> {
-    return this.http.get<CourseAnalyticsResponse>('/analytics/teacher/courses');
+  getCourseAnalytics() {
+    return this.http.get<CourseAnalyticsResponse>(`${this.baseUrl}/analytics/teacher/courses`);
   }
-
-  // student roster
-  getStudentsByCourse(courseId: number): Observable<StudentsResponse> {
-    return this.http.get<StudentsResponse>(`/analytics/teacher/courses/${courseId}/students`);
+  getStudentsByCourse(courseId: number) {
+    return this.http.get<StudentsResponse>(
+      `${this.baseUrl}/analytics/teacher/courses/${courseId}/students`,
+    );
   }
-
-  // leaderboard top students
-  getLeaderboard(courseId: number, limit = 3): Observable<LeaderboardResponse> {
+  getLeaderboard(courseId: number, limit = 3) {
     return this.http.get<LeaderboardResponse>(
-      `/analytics/teacher/courses/${courseId}/leaderboard?limit=${limit}`,
+      `${this.baseUrl}/analytics/teacher/courses/${courseId}/leaderboard?limit=${limit}`,
     );
   }
 
