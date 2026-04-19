@@ -13,11 +13,31 @@ export const PARENT_ROUTES: Routes = [
     data: { userType: 'parent' },
     children: [
       {
+        // Matches localhost:4200/parent
         path: '',
+        pathMatch: 'full',
         loadComponent: () =>
           import(/* webpackChunkName: "parent-dashboard" */ './pages/dashboard/dashboard').then(
             (m) => m.Dashboard,
           ),
+      },
+      {
+        // Matches localhost:4200/parent/dashboard (sidebar routerLink alias)
+        path: 'dashboard',
+        loadComponent: () =>
+          import(/* webpackChunkName: "parent-dashboard" */ './pages/dashboard/dashboard').then(
+            (m) => m.Dashboard,
+          ),
+      },
+      {
+        path: 'performance',
+        loadComponent: () =>
+          import('./pages/performance/performance').then((m) => m.PerformanceComponent),
+      },
+      {
+        path: 'performance/test/:testId',
+        loadComponent: () =>
+          import('./pages/performance/performance').then((m) => m.PerformanceComponent),
       },
       {
         path: 'notifications',
@@ -32,16 +52,6 @@ export const PARENT_ROUTES: Routes = [
           import('../../shared/components/settings/settings').then(
             (m) => m.SharedSettingsComponent,
           ),
-      },
-      {
-        path: 'performance',
-        loadComponent: () =>
-          import('./pages/performance/performance').then((m) => m.ParentPerformanceComponent),
-      },
-      {
-        path: '',
-        redirectTo: 'dashboard',
-        pathMatch: 'full',
       },
     ],
   },

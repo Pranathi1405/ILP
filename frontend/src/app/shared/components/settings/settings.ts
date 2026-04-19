@@ -114,7 +114,7 @@ export class SharedSettingsComponent implements OnInit {
   preferences: NotificationPreference[] = [];
   prefsLoading = false;
   prefsError = '';
-  prefsSavingIndex: number | null = null;
+ prefsSaving = new Set<number>();
 
   // CHILDREN
   children: LinkedChild[] = [];
@@ -240,18 +240,32 @@ export class SharedSettingsComponent implements OnInit {
     });
   }
   togglePreference(index: number, field: 'in_app_enabled' | 'push_enabled') {
-    const pref = this.preferences[index];
-    (pref as any)[field] = !(pref as any)[field];
+  // Prevent double-tap while saving
+  if (this.prefsSaving.has(index)) return;
 
-    this.prefsSavingIndex = index;
+  const pref = this.preferences[index];
+  const previousValue = (pref as any)[field];
 
-    this.service
-      .updateNotificationPreference(pref.notification_type, pref.in_app_enabled, pref.push_enabled)
-      .subscribe({
-        next: () => (this.prefsSavingIndex = null),
-        error: () => (this.prefsSavingIndex = null),
-      });
-  }
+  // Optimistic update
+  (pref as any)[field] = !previousValue;
+  this.prefsSaving.add(index);
+  this.cdr.detectChanges();
+
+  this.service
+    .updateNotificationPreference(pref.notification_type, pref.in_app_enabled, pref.push_enabled)
+    .subscribe({
+      next: () => {
+        this.prefsSaving.delete(index);
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        // Revert on failure
+        (pref as any)[field] = previousValue;
+        this.prefsSaving.delete(index);
+        this.cdr.detectChanges();
+      },
+    });
+}
 
   // ================= CHILD =================
   loadChildren() {

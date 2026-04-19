@@ -82,17 +82,15 @@ export class SharedSettingsService {
     );
   }
 
-  updateNotificationPreference(
-    notification_type: string,
-    in_app_enabled: boolean,
-    push_enabled: boolean,
-  ): Observable<any> {
-    return this.api.post<any>('notifications/preferences', {
-      notification_type,
-      in_app_enabled,
-      push_enabled,
-    });
-  }
+updateNotificationPreference(
+  notification_type: string,
+  in_app_enabled: boolean,
+  push_enabled: boolean,
+): Observable<any> {
+  return this.api.put<any>('notifications/preferences', {
+    preferences: [{ notification_type, in_app_enabled, push_enabled }]  // ← array wrapper
+  });
+}
 
   getChildren(): Observable<LinkedChild[]> {
     return this.api.get<any>('analytics/parent/students').pipe(

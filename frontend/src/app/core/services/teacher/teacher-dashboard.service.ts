@@ -38,17 +38,27 @@ export class TeacherDashboardService {
    */
   getDashboardViewModel(): Observable<TeacherDashboardViewModel> {
     // --- API 1: Dashboard stats (doubts, assignments, rating) ---
-    const stats$ = this.api
-      .get<{ success: boolean; data: TeacherDashboardStats }>('analytics/teacher/dashboard')
-      .pipe(
-        timeout(8000),
-        map((res) => res.data),
-        catchError(() => {
-          // MOCK: fallback on timeout or server error
-          console.warn('Teacher dashboard stats API failed — using mock');
-          return of(teacherStatsMock);
-        }),
-      );
+    const stats$ = forkJoin({
+  dashboard: this.api
+    .get<{ success: boolean; data: any }>('analytics/teacher/dashboard')
+    .pipe(
+      timeout(8000),
+      catchError(() => of({ data: teacherStatsMock }))
+    ),
+
+  pending: this.api
+    .get<{ success: boolean; count: number }>('doubts/pending-count')
+    .pipe(
+      timeout(8000),
+      catchError(() => of({ count: teacherStatsMock.doubts_pending }))
+    ),
+}).pipe(
+  map((res) => ({
+    doubts_pending: res.pending?.count ?? 0,
+    assignments_to_grade: res.dashboard?.data?.assignments_to_grade ?? 0,
+    average_class_rating: res.dashboard?.data?.average_class_rating ?? 0,
+  }))
+);
 
     // --- API 2: Teacher's course list ---
     const courses$ = this.api

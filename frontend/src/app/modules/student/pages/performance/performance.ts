@@ -58,6 +58,7 @@ export class StudentPerformanceComponent implements OnInit, OnDestroy {
     this.loadScoreTrend();
     this.loadRecentTests();
 
+    
     this.clickListener = (event: Event) => {
       const target = event.target as HTMLElement;
       if (!target.closest('.relative')) {

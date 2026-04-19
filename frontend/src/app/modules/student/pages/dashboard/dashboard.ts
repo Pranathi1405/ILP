@@ -46,7 +46,7 @@ export class StudentDashboardComponent implements OnInit {
   // MOCK: resume video
   video = this.dashboardService.getResumeVideo();
   // MOCK: upcoming test
-  upcomingTest = this.dashboardService.getUpcomingTest();
+ upcomingTest: any = null;
   // MOCK: recent activity
   recentActivity = this.dashboardService.getRecentActivity();
 
@@ -61,7 +61,7 @@ export class StudentDashboardComponent implements OnInit {
     this.loadLiveNow(); // Fetch current live class
     this.loadAttendance();
     this.loadLeaderboard();
-
+    this.loadUpcomingTest();
     // Auto refresh LIVE class every 5 seconds
     // this.refreshSub = interval(5000).subscribe(() => {
     //   this.loadLiveNow();
@@ -72,20 +72,44 @@ export class StudentDashboardComponent implements OnInit {
   //     this.refreshSub.unsubscribe(); // Prevent memory leak
   //   }
   // }
+  loadUpcomingTest(): void {
+  this.dashboardService.getUpcomingTest().subscribe({
+    next: (data) => {
+      this.upcomingTest = data;
+      this.cdr.detectChanges();
+    },
+    error: (err) => {
+      console.error('Upcoming test load failed:', err);
+      this.upcomingTest = null;
+    },
+  });
+}
   loadLeaderboard(): void {
-    this.isLeaderboardLoading = true;
-    this.dashboardService.getGlobalLeaderboard().subscribe({
-      next: (data) => {
-        this.leaderboardData = data?.student_rank && data?.leaderboard_list?.length ? data : null;
-        this.isLeaderboardLoading = false;
-        this.cdr.detectChanges();
-      },
-      error: () => {
+  this.isLeaderboardLoading = true;
+  this.dashboardService.getGlobalLeaderboard().subscribe({
+    next: (data) => {
+      if (data?.student_rank && data?.leaderboard_list?.length) {
+        // Deduplicate by rank_position + first_name + last_name
+        const seen = new Set<string>();
+        const deduped = data.leaderboard_list.filter((entry: any) => {
+          const key = `${entry.rank_position}_${entry.first_name}_${entry.last_name}`;
+          if (seen.has(key)) return false;
+          seen.add(key);
+          return true;
+        });
+        this.leaderboardData = { ...data, leaderboard_list: deduped };
+      } else {
         this.leaderboardData = null;
-        this.isLeaderboardLoading = false;
-      },
-    });
-  }
+      }
+      this.isLeaderboardLoading = false;
+      this.cdr.detectChanges();
+    },
+    error: () => {
+      this.leaderboardData = null;
+      this.isLeaderboardLoading = false;
+    },
+  });
+}
   loadStats(): void {
     this.isLoading = true;
 

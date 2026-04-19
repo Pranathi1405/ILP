@@ -230,93 +230,52 @@
         </div>
       </div>
     </div>
+ 
+<div
+  *ngFor="let pref of preferences; let i = index"
+  class="flex items-center justify-between rounded-xl px-4 py-3 hover:bg-slate-50 transition"
+>
+  <div>
+    <p class="font-medium text-slate-800 text-sm">
+      {{ prefLabels[pref.notification_type]?.title || pref.notification_type }}
+    </p>
+    <p class="text-xs text-slate-500">
+      {{ prefLabels[pref.notification_type]?.subtitle || '' }}
+    </p>
+  </div>
 
-    <!-- ── NOTIFICATIONS ── -->
-    <div class="space-y-4">
-      <h2 class="text-xl font-semibold text-slate-800">Notifications</h2>
-      <p class="text-sm text-slate-500">Choose which updates you want to receive.</p>
+  <div class="flex items-center gap-8 pr-1">
+    <span *ngIf="prefsSaving.has(i)" class="text-xs text-slate-400 mr-2 animate-pulse">
+      saving...
+    </span>
 
-      <div *ngIf="prefsLoading" class="flex justify-center py-8">
-        <div
-          class="w-6 h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"
-        ></div>
-      </div>
-
-      <div *ngIf="prefsError && !prefsLoading" class="text-red-500 text-sm text-center py-4">
-        {{ prefsError }}
-        <button (click)="loadPreferences()" class="ml-2 text-blue-600 underline text-sm">
-          Retry
-        </button>
-      </div>
-
+    <!-- IN-APP toggle -->
+    <button
+      (click)="togglePreference(i, 'in_app_enabled')"
+      [disabled]="prefsSaving.has(i)"
+      class="w-12 h-6 flex items-center rounded-full p-1 transition disabled:opacity-60"
+      [ngClass]="pref.in_app_enabled ? 'bg-blue-600' : 'bg-slate-300'"
+    >
       <div
-        *ngIf="!prefsLoading && !prefsError"
-        class="w-full bg-white rounded-2xl shadow p-6 space-y-2"
-      >
-        <!-- Header -->
-        <div class="flex items-center justify-between px-4 pb-2 border-b border-slate-100">
-          <span class="text-xs text-slate-400 font-semibold uppercase tracking-wide"
-            >Notification Type</span
-          >
-          <div class="flex gap-8 pr-1">
-            <span class="text-xs text-slate-800 font-semibold w-12 text-center">IN-APP</span>
-            <span class="text-xs text-slate-800 font-semibold w-12 text-center">PUSH</span>
-          </div>
-        </div>
+        class="bg-white w-4 h-4 rounded-full shadow transform transition"
+        [ngClass]="pref.in_app_enabled ? 'translate-x-6' : ''"
+      ></div>
+    </button>
 
-        <!-- Preference rows — filtered by role automatically -->
-        <div
-          *ngFor="let pref of preferences; let i = index"
-          class="flex items-center justify-between rounded-xl px-4 py-3 hover:bg-slate-50 transition"
-        >
-          <div>
-            <p class="font-medium text-slate-800 text-sm">
-              {{ prefLabels[pref.notification_type]?.title || pref.notification_type }}
-            </p>
-            <p class="text-xs text-slate-500">
-              {{ prefLabels[pref.notification_type]?.subtitle || '' }}
-            </p>
-          </div>
-
-          <div class="flex items-center gap-8 pr-1">
-            <span *ngIf="prefsSavingIndex === i" class="text-xs text-slate-400 mr-2 animate-pulse"
-              >saving...</span
-            >
-
-            <!-- IN-APP toggle -->
-            <button
-              (click)="togglePreference(i, 'in_app_enabled')"
-              [disabled]="prefsSavingIndex === i"
-              class="w-12 h-6 flex items-center rounded-full p-1 transition disabled:opacity-60"
-              [ngClass]="pref.in_app_enabled ? 'bg-blue-600' : 'bg-slate-300'"
-            >
-              <div
-                class="bg-white w-4 h-4 rounded-full shadow transform transition"
-                [ngClass]="pref.in_app_enabled ? 'translate-x-6' : ''"
-              ></div>
-            </button>
-
-            <!-- PUSH toggle -->
-            <button
-              (click)="togglePreference(i, 'push_enabled')"
-              [disabled]="prefsSavingIndex === i"
-              class="w-12 h-6 flex items-center rounded-full p-1 transition disabled:opacity-60"
-              [ngClass]="pref.push_enabled ? 'bg-blue-600' : 'bg-slate-300'"
-            >
-              <div
-                class="bg-white w-4 h-4 rounded-full shadow transform transition"
-                [ngClass]="pref.push_enabled ? 'translate-x-6' : ''"
-              ></div>
-            </button>
-          </div>
-        </div>
-
-        <div *ngIf="preferences.length === 0" class="text-center text-slate-400 text-sm py-4">
-          No notification preferences found.
-        </div>
-      </div>
-    </div>
-
+    <!-- PUSH toggle -->
+    <button
+      (click)="togglePreference(i, 'push_enabled')"
+      [disabled]="prefsSaving.has(i)"
+      class="w-12 h-6 flex items-center rounded-full p-1 transition disabled:opacity-60"
+      [ngClass]="pref.push_enabled ? 'bg-blue-600' : 'bg-slate-300'"
+    >
+      <div
+        class="bg-white w-4 h-4 rounded-full shadow transform transition"
+        [ngClass]="pref.push_enabled ? 'translate-x-6' : ''"
+      ></div>
+    </button>
+  </div>
+</div>
     <!-- ── HELP & SUPPORT ── -->
     <div>
       <h3 class="text-slate-800 font-semibold mb-1">Help & Support</h3>
@@ -326,7 +285,7 @@
     <div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-6">
       <div class="flex items-center gap-2 mb-4">
         <!-- SVG ICON PLACEHOLDER -->
-        <!-- <svg>...</svg> -->
+    
         <p class="text-sm font-medium text-slate-700">Report an Issue</p>
       </div>
 

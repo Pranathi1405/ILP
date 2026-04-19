@@ -77,13 +77,28 @@ export class StudentDashboardService {
     };
   }
 
-  // MOCK: Returns upcoming test — no API yet
-  getUpcomingTest() {
-    return {
-      name: studentDashboardMock.upcoming_scheduled_test,
-      starts_in: studentDashboardMock.test_starts_in,
-    };
-  }
+ // ── REAL API: Upcoming Scheduled Test ─────────────────────
+getUpcomingTest(): Observable<any> {
+  return this.api.get<any>('sme-tests/full').pipe(
+    map((res) => {
+      const tests = res?.data || [];
+
+      if (!tests.length) return null;
+
+      // Find first upcoming/active test
+      const upcoming =
+        tests.find((t: any) => t.timing_status === 'upcoming') ||
+        tests.find((t: any) => t.timing_status === 'active') ||
+        tests[0];
+
+      return upcoming;
+    }),
+    catchError((err) => {
+      console.error('Upcoming test fetch failed:', err);
+      return of(null);
+    }),
+  );
+}
 
   // MOCK: Returns recent activity — no API yet
   getRecentActivity() {

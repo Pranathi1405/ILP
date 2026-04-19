@@ -147,8 +147,14 @@
               Upcoming Scheduled Test
             </div>
             <div class="mt-4">
-              <h3 class="font-semibold text-lg">{{ upcomingTest.name }}</h3>
-              <p class="text-sm text-slate-500 mt-1">Starts in: {{ upcomingTest.starts_in }}</p>
+              <h3 class="font-semibold text-lg">
+  {{ upcomingTest?.title || 'No Test Available' }}
+</h3>
+
+<p class="text-sm text-slate-500 mt-1">
+  Starts:
+  {{ upcomingTest?.scheduled_start | date:'dd MMM yyyy hh:mm a' }}
+</p>
               <button class="mt-4 bg-teal-400 text-black px-30 py-2 rounded-[26px]">
                 Go To Test
               </button>
